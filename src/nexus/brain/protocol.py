@@ -21,6 +21,8 @@ class Protocol:
         self.description = deepcopy(description)
         if description.get("format") != "nexus-protocol-1":
             raise ValueError("Unsupported protocol format")
+        if description.get('dataset', brain.graph.snapshot) != brain.graph.snapshot:
+            raise ValueError('Protocol belongs to another neural dataset')
         self.duration = ticks(description["duration_ms"])
         if not 0 < self.duration <= 6000000:
             raise ValueError("Protocol duration must be between 0.1 ms and 10 minutes")

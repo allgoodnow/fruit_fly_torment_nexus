@@ -7,16 +7,14 @@ import traceback
 from nexus.worker import put_latest
 
 
-def simulate_brain(directory, commands, frames, events):
+def simulate_brain(directory, commands, frames, events, *, allow_experimental=False):
     try:
         from .runtime import Brain, Connectome
         from .telemetry import NeuralTelemetry
         from .protocol import Protocol
-        from .targets import MN9, SUGAR
-        brain = Brain(Connectome.load(directory))
-        if brain.graph.snapshot != "630":
-            raise ValueError("This neural panel requires the v630 reference pack")
-        brain.resolve(SUGAR + [MN9])
+        from .targets import readout_ids
+        brain = Brain(Connectome.load(directory, allow_experimental=allow_experimental))
+        brain.resolve(readout_ids('mn9', brain.graph))
         # Compile before enabling controls, then restore the initial state.
         brain.advance(.0001)
         brain.reset()

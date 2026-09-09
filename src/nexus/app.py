@@ -16,6 +16,8 @@ import time
 def main():
     mp.freeze_support()
     parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset", choices=["male-cns", "flywire-v630"], default="male-cns", help="Neural dataset; MaleCNS uses experimental LIF parameters")
+    parser.add_argument("--male-cns-smoke-test", type=Path, help="Check MaleCNS controls, anatomy and shared-clock body")
     parser.add_argument("--smoke-test", type=Path, help="Run UI acceptance checks and write report/screenshot here")
     parser.add_argument("--brain-smoke-test", type=Path, help="Also exercise the real brain and timed sequence")
     parser.add_argument('--coupled-smoke-test', type=Path, help='Exercise shared-clock neural steering')
@@ -27,6 +29,11 @@ def main():
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
     args = parser.parse_args()
+    if args.male_cns_smoke_test:
+        args.dataset = 'male-cns'
+        args.response_smoke_test = args.male_cns_smoke_test
+    if args.dataset == 'male-cns' and (args.food_demo or args.food_smoke_test):
+        parser.error('The food feedback demo currently requires --dataset flywire-v630')
     if args.brain_smoke_test:
         args.smoke_test = args.brain_smoke_test
     if args.coupled_smoke_test:
@@ -51,11 +58,16 @@ def main():
     import pyqtgraph as pg
     from nexus.worker import simulate
     from nexus.coupled import simulate_coupled
-    from nexus.brain.panel import BrainPanel, default_pack
+    from nexus.brain.panel import BrainPanel
+    from nexus.brain.config import default_pack, model_config
     from nexus.brain.view import BrainView
     from nexus.food_panel import FoodPanel
     from nexus.intervention_panel import InterventionPanel
 
+    try:
+        config = model_config(default_pack(args.dataset))
+    except (OSError, ValueError, KeyError) as error:
+        parser.error(f'Cannot load {args.dataset}: {error}')
     app = QApplication(sys.argv[:1])
     app.setStyle('Fusion')
     palette = QPalette()
@@ -127,9 +139,9 @@ def main():
             self.frames = self.ctx.Queue(maxsize=2)
             self.events = self.ctx.Queue()
             target = simulate_coupled if coupled else simulate
-            worker_args = (str(default_pack()), self.commands, self.frames, self.events) if coupled else (self.commands, self.frames, self.events)
+            worker_args = (str(config.directory), self.commands, self.frames, self.events) if coupled else (self.commands, self.frames, self.events)
             self.process = self.ctx.Process(target=target, args=worker_args,
-                                            kwargs={'autonomous': not args.smoke_test or bool(args.behavior_smoke_test)} if coupled else {},
+                                            kwargs={'autonomous': not args.smoke_test or bool(args.behavior_smoke_test), 'allow_experimental': config.experimental} if coupled else {},
                                             name="Nexus simulation")
             self.seq = 0
             self.records = deque(maxlen=2000)
@@ -153,6 +165,7 @@ def main():
             outer.addWidget(title)
             badge = QLabel('RESEARCH PROTOTYPE  ·  Neural steering with a shared clock  ·  Experimental decoder + engineered gait' if coupled else
                            "RESEARCH PROTOTYPE  ·  3D fly + whole-brain neural lab  ·  Body and brain run independently")
+            badge.setText(config.title+"  ·  "+badge.text())
             outer.addWidget(badge)
             split = QSplitter(Qt.Orientation.Horizontal)
             outer.addWidget(split, 1)
@@ -177,7 +190,7 @@ def main():
             body_layout.addWidget(self.behavior_status)
             body_layout.addWidget(QLabel('Drag to orbit · Scroll to zoom\nCamera follows the fly'))
             scenes.addWidget(body_scene)
-            self.brain_view = BrainView(default_pack())
+            self.brain_view = BrainView(config.directory)
             scenes.addWidget(self.brain_view)
             scenes.setSizes([520, 520])
             scene_layout.addWidget(scenes, 1)
@@ -240,7 +253,7 @@ def main():
             self.release.clicked.connect(lambda: self.send("release"))
             form.addRow(self.release)
             controls.addWidget(motor)
-            self.food_panel = FoodPanel(self.send) if coupled else None
+            self.food_panel = FoodPanel(self.send, available=config.food_available) if coupled else None
             if self.food_panel:
                 controls.addWidget(self.food_panel)
             camera_button = QPushButton("Reset camera")
@@ -255,6 +268,8 @@ def main():
                              'Baseline walking and leg rhythms are engineered. Contact with food drives the reference taste cells through a pooled proxy.\n\n'
                              'Run, Pause, Step and Reset affect both models.' if coupled else
                              "Open the Brain tab for neural controls.\n\nThe walking body still uses its engineered controller. Neural output is not mapped to movement yet.")
+            if coupled and not config.food_available:
+                pending.setText('DNa02 activity changes left/right walking drive. Baseline walking and leg rhythms are engineered.\n\nMaleCNS includes the VNC, but its neurons are not yet mapped directly to leg muscles. Food feedback awaits a sugar-cell mapping.\n\nRun, Pause, Step and Reset affect both models.')
             pending.setWordWrap(True)
             brain_layout.addWidget(pending)
             controls.addWidget(brain)
@@ -279,7 +294,7 @@ def main():
             body_scroll.setWidget(side)
             self.tabs.addTab(body_scroll,"Body")
             sink = (lambda kind, value: self.send('brain', {'kind': kind, 'value': value})) if coupled else None
-            self.brain_panel = BrainPanel(data_dir, command_sink=sink)
+            self.brain_panel = BrainPanel(data_dir, command_sink=sink, config=config)
             self.brain_panel.snapshot.connect(self.brain_snapshot)
             self.brain_panel.session_event.connect(self.log.append)
             brain_scroll = QScrollArea()
@@ -474,7 +489,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.8.0", "started_at": self.started_at,
+            return {"version": "0.9.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -491,7 +506,7 @@ def main():
 
         def smoke(self):
             """Exercise our app's public command interface and inspect rendered state."""
-            if self.failed or self.brain_panel.failed or time.monotonic()-self.smoke_clock > 120:
+            if self.failed or self.brain_panel.failed or time.monotonic()-self.smoke_clock > (360 if config.experimental else 120):
                 self.smoke_finish(False)
                 return
             if args.coupled_smoke_test:
@@ -906,6 +921,14 @@ def main():
                 return
             if self.smoke_stage == 0:
                 self.send('food_config', {'enabled': False})
+                if config.experimental:
+                    if (t['dataset'] != 'male-cns:v1.0' or t['neurons'] != 166700
+                            or self.brain_view.anatomy.manifest['snapshot'] != t['dataset']
+                            or self.brain_view.anatomy.valid.sum() != 140638
+                            or t['environment']['enabled'] or t['environment']['feedback_available']):
+                        self.smoke_finish(False)
+                        return
+                    self.smoke_checks.append('MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled')
                 self.tabs.setCurrentIndex(2)
                 for spin, value in zip(panel.durations, [100, 500, 200]):
                     spin.setValue(value)
@@ -915,11 +938,17 @@ def main():
             elif self.smoke_stage == 1:
                 self.response_peak = self.response_escape = self.response_offset = 0.
                 self.response_temperature = None
+                self.response_max_active = 0
+                self.response_active_capture = False
                 name = self.response_cases[self.response_index]
                 panel.buttons[name].click()
                 self.smoke_stage = 2
             elif self.smoke_stage == 2:
                 effects = t['motor_effects']
+                self.response_max_active = max(self.response_max_active, self.brain_view.active_count)
+                if config.experimental and self.brain_view.active_count and not self.response_active_capture:
+                    self.grab().save(str(data_dir / (self.response_cases[self.response_index]+'-active.png')))
+                    self.response_active_capture = True
                 self.response_peak = max(self.response_peak, effects['disruption'])
                 self.response_escape = max(self.response_escape, effects['escape'])
                 self.response_offset = max(self.response_offset, self.telemetry['motor_offset_rms_rad'])
@@ -940,6 +969,9 @@ def main():
                     if name == 'heat_overload':
                         success &= self.response_temperature == 100
                 if not success:
+                    self.smoke_finish(False)
+                    return
+                if config.experimental and not self.response_max_active:
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append(name+' button runs, releases on schedule, and reports measured responses')

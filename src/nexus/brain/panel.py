@@ -12,22 +12,19 @@ from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QPushButton, QComboBox, QSpinBox, QPlainTextEdit, QFileDialog,
     QGroupBox, QFormLayout, QCheckBox)
 
-from .targets import SUGAR, MN9
+from .config import default_pack, model_config
 from .worker import simulate_brain
-from .motor import DNA02, DNA02_LEFT, DNA02_RIGHT
 
 
-def default_pack():
-    base = Path(sys._MEIPASS) if getattr(sys, "frozen", False) else Path(__file__).resolve().parents[3]
-    return base / "data/brain-v630"
 
 
 class BrainPanel(QWidget):
     snapshot = Signal(object)
     session_event = Signal(str)
 
-    def __init__(self, data_dir, command_sink=None):
+    def __init__(self, data_dir, command_sink=None, *, config=None):
         super().__init__()
+        self.config = config or model_config(default_pack())
         self.command_sink = command_sink
         self.data_dir = data_dir
         self.process = None
@@ -38,8 +35,7 @@ class BrainPanel(QWidget):
         self.records = deque(maxlen=2000)
         self.intervention_seen = set()
         layout = QVBoxLayout(self)
-        note = QLabel("Whole-brain model · v630\nShared clock · experimental DNa02 steering" if command_sink else
-                      "Whole-brain model · v630\nBrain and body currently run independently.")
+        note = QLabel(self.config.title+"\n"+("Shared clock · experimental DNa02 steering" if command_sink else "Brain and body currently run independently."))
         note.setWordWrap(True)
         layout.addWidget(note)
         self.load_button = QPushButton("Load brain")
@@ -75,14 +71,14 @@ class BrainPanel(QWidget):
         selection = QGroupBox("Neural input")
         form = QFormLayout(selection)
         self.preset = QComboBox()
-        self.preset.addItems(["Sugar sensory cells (21)","MN9 readout cell","Custom neuron IDs"])
+        self.preset.addItems([self.config.first_label, "MN9 readout cells (2)" if self.config.experimental else "MN9 readout cell", "Custom neuron IDs"])
         self.preset.addItems(['DNa02 left · steering', 'DNa02 right · steering', 'DNa02 both · steering'])
         if command_sink:
             self.preset.setCurrentIndex(3)
         self.preset.currentIndexChanged.connect(self.select_targets)
         form.addRow(self.preset)
         self.ids = QPlainTextEdit()
-        self.ids.setPlaceholderText("Decimal FlyWire IDs, separated by commas or spaces")
+        self.ids.setPlaceholderText("Decimal neuron IDs for the selected dataset")
         self.ids.setMaximumHeight(65)
         self.ids.hide()
         form.addRow(self.ids)
@@ -166,11 +162,12 @@ class BrainPanel(QWidget):
 
     def targets(self):
         if self.preset.currentIndex()==0:
-            return SUGAR
+            return list(self.config.first_ids)
         if self.preset.currentIndex()==1:
-            return [MN9]
+            return list(self.config.mn9_ids)
         if self.preset.currentIndex() in (3, 4, 5):
-            return {3: [DNA02_LEFT], 4: [DNA02_RIGHT], 5: DNA02}[self.preset.currentIndex()]
+            return list({3: self.config.left_ids, 4: self.config.right_ids,
+                         5: self.config.left_ids+self.config.right_ids}[self.preset.currentIndex()])
         return [s for s in re.split(r"[\s,]+", self.ids.toPlainText().strip()) if s]
 
     def stimulate(self):
@@ -182,7 +179,7 @@ class BrainPanel(QWidget):
     def protocol(self):
         pre, pulse, post = [spin.value() for spin in self.durations]
         description = {"format":"nexus-protocol-1","name":"Baseline / stimulation / recovery",
-                "duration_ms":pre+pulse+post,"events":[
+                "dataset": self.config.snapshot, "duration_ms":pre+pulse+post,"events":[
                     {"at_ms":0,"action":"release"},
                     {"at_ms":pre,"action":"stimulate","ids":self.targets(),"rate_hz":self.rate.value()},
                     {"at_ms":pre+pulse,"action":"release"}]}
@@ -197,19 +194,18 @@ class BrainPanel(QWidget):
             return
         if self.process is not None:
             return
-        directory = default_pack()
+        directory = self.config.directory
         if not (directory / "manifest.json").is_file():
-            chosen = QFileDialog.getExistingDirectory(self,"Select prepared brain pack")
-            if not chosen:
-                return
-            directory = Path(chosen)
+            self.fail(f"Prepared pack is missing: {directory}")
+            return
         ctx = mp.get_context("spawn")
         self.commands,self.frames,self.events = ctx.Queue(maxsize=256),ctx.Queue(maxsize=2),ctx.Queue()
-        self.process = ctx.Process(target=simulate_brain,args=(str(directory),self.commands,self.frames,self.events),name="Nexus brain")
+        self.process = ctx.Process(target=simulate_brain,args=(str(directory),self.commands,self.frames,self.events),
+                                   kwargs={"allow_experimental": self.config.experimental}, name="Nexus brain")
         self.process.start()
         self.load_button.setEnabled(False)
         self.status.setText("Loading connectivity and preparing runtime…")
-        self.session_event.emit('BRAIN · loading v630 connectivity')
+        self.session_event.emit('BRAIN · loading '+self.config.title)
 
     def send(self, kind, value=None):
         if not self.ready or self.failed:
@@ -290,9 +286,10 @@ class BrainPanel(QWidget):
         self.run_button.setText(("Pause both" if t['running'] else "Run both") if self.command_sink else
                                ("Pause brain" if t['running'] else "Run brain"))
         self.run_button.blockSignals(False)
+        mn9_label = "MN9 mean voltage" if len(self.config.mn9_ids) > 1 else "MN9 voltage"
         self.metrics.setText(f"Brain time: {t['sim_time']:.3f} s · {t['realtime_factor']:.2f}×\n"
             f"{t['neurons']:,} neurons · {t['edges']:,} edges\n"
-            f"Spikes: {t['total_spikes']:,} · MN9: {t['mn9_spikes']}\nMN9 voltage: {t['mn9_mv']:.2f} mV\n"
+            f"Spikes: {t['total_spikes']:,} · MN9: {t['mn9_spikes']}\n{mn9_label}: {t['mn9_mv']:.2f} mV\n"
             f"Population rate: {t['population_hz_per_neuron']:.3f} Hz/neuron")
         if self.bridge and 'motor_bridge' in t:
             m = t['motor_bridge']
@@ -310,7 +307,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"0.8.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"0.9.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

@@ -13,8 +13,11 @@ class Anatomy:
         directory = Path(directory)
         self.manifest = json.loads((directory / 'anatomy-manifest.json').read_text())
         path = directory / 'anatomy.npz'
-        if self.manifest['snapshot'] != '630' or hashlib.sha256(path.read_bytes()).hexdigest() != self.manifest['sha256']:
+        if self.manifest['snapshot'] not in ('630', 'male-cns:v1.0') or hashlib.sha256(path.read_bytes()).hexdigest() != self.manifest['sha256']:
             raise ValueError('Anatomy snapshot or checksum mismatch')
+        runtime_manifest = directory/'manifest.json'
+        if runtime_manifest.exists() and json.loads(runtime_manifest.read_text())['snapshot'] != self.manifest['snapshot']:
+            raise ValueError('Anatomy belongs to another dataset')
         with np.load(path, allow_pickle=False) as data:
             self.ids = data['ids']
             raw = data['positions_um']
@@ -24,7 +27,7 @@ class Anatomy:
         self.neuron_order_sha256 = hashlib.sha256(self.ids.astype('<i8').tobytes()).hexdigest()
         if raw.shape != (len(self.ids), 3) or self.valid.shape != self.ids.shape or self.valid.dtype != bool:
             raise ValueError('Invalid anatomy shape')
-        if not np.isfinite(raw[self.valid]).all():
+        if not self.valid.any() or not np.isfinite(raw[self.valid]).all():
             raise ValueError('Invalid mapped coordinates')
         self.lookup = {int(root): i for i, root in enumerate(self.ids)}
         # Rigid display transform: (x, z, -y), then centre. Units remain um.

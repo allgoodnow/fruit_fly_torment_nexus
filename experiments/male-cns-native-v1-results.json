@@ -1,0 +1,120 @@
+{
+  "format": "nexus-male-cns-native-acceptance-1",
+  "version": "0.9.0",
+  "success": true,
+  "default_dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "positioned_cell_anchors": 140638,
+  "unlocated_cells": 26062,
+  "unit_tests": {
+    "passed": 65,
+    "command": "NUMBA_CACHE_DIR=\"$PWD/.runtime/numba\" MPLCONFIGDIR=\"$PWD/.runtime/matplotlib\" .venv/bin/python -m pytest -q"
+  },
+  "acceptance": [
+    {
+      "run": "male_cns_native_acceptance",
+      "dataset": "male-cns:v1.0",
+      "checks": [
+        "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+        "defensive button runs, releases on schedule, and reports measured responses",
+        "aversion button runs, releases on schedule, and reports measured responses",
+        "heat button runs, releases on schedule, and reports measured responses",
+        "seizure button runs, releases on schedule, and reports measured responses",
+        "heat_overload button runs, releases on schedule, and reports measured responses",
+        "threat and heat inputs coexist while paused",
+        "release clears scenario inputs and overlays without advancing time",
+        "motor proxy ablation can be controlled from the native experiments tab"
+      ],
+      "report_sha256": "57ae4c4f4c241fee821802439715bcca25c1953b3ff0bc745c04b0dc4b003218"
+    },
+    {
+      "run": "male_cns_behavior_acceptance",
+      "dataset": "male-cns:v1.0",
+      "checks": [
+        "normal startup begins free ground behavior",
+        "free behavior explores, turns, and rests while both clocks advance",
+        "pause preserves the brain, body, and behavior clocks",
+        "measured threat-pathway activity interrupts resting",
+        "normal behavior resumes after neural response subsides without reset",
+        "prepared experiment releases on schedule and continues free behavior",
+        "reset restarts behavior timing and preserves the free-behavior toggle"
+      ],
+      "report_sha256": "bbdb886598f527e7e7d5bc2018d40775e454b7af0d4977074bb4a7a1968868d3"
+    },
+    {
+      "run": "v09_legacy_brain_acceptance",
+      "dataset": "630",
+      "checks": [
+        "physics advances and renders",
+        "pause preserves simulated time",
+        "single-step advances exactly 10ms",
+        "camera redraws while paused",
+        "reset reinitializes state",
+        "full brain loads without C++ compiler",
+        "sequence applies at exact neural times",
+        "real neural spikes and MN9 readout recorded",
+        "manual stimulus and release work while paused",
+        "brain reset clears time and activity",
+        "3D body and brain advance concurrently and pause",
+        "anatomical OpenGL brain shows real recent spikes and clears on reset",
+        "brain camera orbits while paused without advancing activity"
+      ],
+      "report_sha256": "78bc054eaf48de8658ebb509408af103283de4a341786576d13346e5b11c0935"
+    },
+    {
+      "run": "male_cns_packaged_acceptance",
+      "dataset": "male-cns:v1.0",
+      "checks": [
+        "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+        "defensive button runs, releases on schedule, and reports measured responses",
+        "aversion button runs, releases on schedule, and reports measured responses",
+        "heat button runs, releases on schedule, and reports measured responses",
+        "seizure button runs, releases on schedule, and reports measured responses",
+        "heat_overload button runs, releases on schedule, and reports measured responses",
+        "threat and heat inputs coexist while paused",
+        "release clears scenario inputs and overlays without advancing time",
+        "motor proxy ablation can be controlled from the native experiments tab"
+      ],
+      "report_sha256": "e542cd4760518763155b00fe7b139c8edd31078c071bf3efd083938e6b2b7e45"
+    }
+  ],
+  "runtime_manifest_sha256": "360cf2cdc8f4257d3045bd9b34c9b31b58418d38b1547ee9ddf4dbc7294d0004",
+  "anatomy_manifest_sha256": "1b01b91a803585b682d70e202252f4f88f0c1e2e1c1271811b4496b9a0382604",
+  "source_hashes": {
+    "packaging/nexus.spec": "a53d66dc697a02d3861fc5a0c8a13321fa36b719292d725df48ec8c2ca06bee1",
+    "scripts/prepare_male_cns_anatomy.py": "ed52abdebf8347f51bf760b226b55ad3a2c20f927c2162e02e66c708f8ced238",
+    "src/nexus/__init__.py": "90ec27b3d259c57401b43a1488ed7466ba02dc33c5f59926e4c8fa807e53d27f",
+    "src/nexus/app.py": "091ec6fa98a3f6144a643a46281ad26f6457fde795953f1badfb26c080fd30ce",
+    "src/nexus/behavior.py": "21ee9b89ae04da38c5439c2c509d83ddf9af7b00fd17a9109b1b357796b57f19",
+    "src/nexus/body.py": "c4789899e9d25d66896acacad04df899c7a6dd2631de7c46673be7908a1a17fc",
+    "src/nexus/brain/__init__.py": "ee25de15b269320235a58611b267819a138fc04179299535905b2caf7ae5ba7b",
+    "src/nexus/brain/anatomy.py": "f54aa37e86328be6556f7b5a68a3f29dd2aa0398730d99600bf513af0bbc312e",
+    "src/nexus/brain/circuits.py": "3c0d55881ef3d455487dfad6d44254f0f20de68fd89d173dffab69d7b70ca2c3",
+    "src/nexus/brain/config.py": "4e4e6d1c0bc94236b39076b872fdadad18d04e7729e7590385289f6d2740ad9a",
+    "src/nexus/brain/motor.py": "999169bce017f8b511cddf3e322908ddde9d6be82724d0a1495c29263f54fd9a",
+    "src/nexus/brain/motor_effects.py": "a32d765adcd3c821436bc4b53c890e1657179aa19dee98d64b061ea897705b17",
+    "src/nexus/brain/panel.py": "e7a79c123fdaeed4e207cd0e632208ec05476dd7f6180822ecb626e8d54cf8d8",
+    "src/nexus/brain/protocol.py": "b0f42ff2d8af2189774f91eba9ed62c33958049e66b7e6d5e97d7a22448a6875",
+    "src/nexus/brain/runtime.py": "133d19b1bff3befc5af5b6a8d53ba664b94ecabd2fdae7b7073816539acc7c52",
+    "src/nexus/brain/scenarios.py": "8dd1a782dae5ec14b87381c8033a2356fe285c11d6880a37ff0bd5c6ed877550",
+    "src/nexus/brain/targets.py": "285e67aac681f4bbf97403a2e66a4956448d663598a46d0bd3fc905079f7b007",
+    "src/nexus/brain/telemetry.py": "e69e1b4c2224f265af8819aa4101f21c95956fae36347332bc8801e31c0d8bc7",
+    "src/nexus/brain/view.py": "f7f0a0a61b596c55376c7f91bbc695a4f6b7457f29439732337d0f3a65f951b9",
+    "src/nexus/brain/worker.py": "d9b15bb9296bfaec4d81c379b3f8d0fb9e18179c8881782f068607f8aad64f62",
+    "src/nexus/coupled.py": "cc76dce3e41f0174561f8157c648d344bb553618586ae8bde3ac5fe6da6c853d",
+    "src/nexus/datasets/__init__.py": "d61ba66c6a31a9ec1d84ac9ae3b71628ba493b0f0fe3fa08a81283c813682aeb",
+    "src/nexus/datasets/male_cns.py": "950e3c7457c438ae5f5dc4c80e68e2c217bccec9b955a09558e842f6067e8bdd",
+    "src/nexus/datasets/male_cns_runtime.py": "101fe9759f2f5d417c82a25307157f9cf4f498b5757282ee0e4dfc14c89ccd97",
+    "src/nexus/environment.py": "84a97e0b15fb356bf1d864095865315786038b72246c28b3f68ffcf46677781e",
+    "src/nexus/food_panel.py": "910bc561a4777f8713273eee5c626032216ccb69d3fb1f232a961cc03c7f204a",
+    "src/nexus/intervention_panel.py": "e2f2ad0d1d61bf310b549fe54efdc3317fdd6dc3c1d95e179da7e5d64ea808f9",
+    "src/nexus/worker.py": "2e29b83ef4e2baf2e712b9fc929ff38f50734966daca0a2f2a1bc68fd9d1fe1c"
+  },
+  "limitations": [
+    "Experimental LIF sign/weight assumptions are not biologically calibrated for MaleCNS",
+    "GNG121 aversion-candidate input is not a validated peripheral nociception or felt-pain model",
+    "Motor readouts drive an authored gait; VNC neurons are not directly connected to body muscles",
+    "Food geometry is present but MaleCNS taste feedback is unavailable pending sugar-cell mapping",
+    "Brain and body share simulated time; CPU execution is slower than real time"
+  ]
+}

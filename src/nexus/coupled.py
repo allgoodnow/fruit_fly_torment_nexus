@@ -217,23 +217,22 @@ class CoupledSession:
         return {'telemetry': body, 'brain': neural}
 
 
-def simulate_coupled(directory, commands, frames, events, *, render=True, autonomous=True):
+def simulate_coupled(directory, commands, frames, events, *, render=True, autonomous=True, allow_experimental=False):
     body = None
     try:
         from .body import FlyBody
         from .brain.runtime import Brain, Connectome
-        from .brain.targets import SUGAR, MN9
+        from .brain.targets import readout_ids
         from .environment import FoodEnvironment
-        brain = Brain(Connectome.load(directory))
-        if brain.graph.snapshot != '630':
-            raise ValueError('Coupled steering currently requires the v630 pack')
-        brain.resolve(SUGAR+[MN9])
+        brain = Brain(Connectome.load(directory, allow_experimental=allow_experimental))
+        brain.resolve(readout_ids('mn9', brain.graph))
+        sugar = readout_ids('sugar', brain.graph) if brain.graph.snapshot == '630' else []
         brain.advance(.0001)
         brain.reset()
         body = FlyBody(render=render)
-        session = CoupledSession(brain, body, environment=FoodEnvironment(), autonomous=autonomous)
+        session = CoupledSession(brain, body, environment=FoodEnvironment(targets=sugar), autonomous=autonomous)
         seen, recent = set(), deque()
-        events.put({'kind': 'ready', 'coupled': True})
+        events.put({'kind': 'ready', 'coupled': True, 'dataset': brain.graph.snapshot})
         dirty, last_publish = True, 0
         completion_logged = None
         while True:

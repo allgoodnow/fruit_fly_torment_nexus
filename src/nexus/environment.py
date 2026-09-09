@@ -6,10 +6,12 @@ from .brain.targets import SUGAR
 
 
 class FoodEnvironment:
-    def __init__(self, *, center=(5., 0.), radius=2.5, present=True, enabled=True, rate_hz=200):
+    def __init__(self, *, center=(5., 0.), radius=2.5, present=True, enabled=True, rate_hz=200, targets=None):
+        self.targets = tuple(SUGAR if targets is None else targets)
+        self.feedback_available = bool(self.targets)
         self.center = list(center)
         self.radius = radius
-        self.present, self.enabled, self.rate_hz = present, enabled, rate_hz
+        self.present, self.enabled, self.rate_hz = present, enabled and self.feedback_available, rate_hz
         self.events = deque(maxlen=500)
         self.reset()
 
@@ -22,6 +24,8 @@ class FoodEnvironment:
     def configure(self, value, time):
         if not isinstance(value, dict) or set(value)-{'center_mm', 'radius_mm', 'present', 'enabled', 'rate_hz'}:
             raise ValueError('Invalid food settings')
+        if value.get('enabled') and not self.feedback_available:
+            raise ValueError('Taste feedback is unavailable: MaleCNS sugar-cell mapping is unresolved')
         center = list(value.get('center_mm', self.center))
         radius = float(value.get('radius_mm', self.radius))
         rate = float(value.get('rate_hz', self.rate_hz))
@@ -47,11 +51,11 @@ class FoodEnvironment:
         if (contact, active) != (self.contact, self.active):
             self.events.append({'kind': 'food_contact', 'time': brain.time, 'contact': contact, 'active': active})
         self.contact, self.active = contact, active
-        brain.set_sensory_input(SUGAR if active else [], self.rate_hz if active else 0)
+        brain.set_sensory_input(self.targets if active else [], self.rate_hz if active else 0)
 
     def snapshot(self):
         return {'center_mm': self.center.copy(), 'radius_mm': self.radius, 'present': self.present,
-                'enabled': self.enabled, 'rate_hz': self.rate_hz, 'contact': self.contact,
+                'enabled': self.enabled, 'feedback_available': self.feedback_available, 'rate_hz': self.rate_hz, 'contact': self.contact,
                 'active': self.active, 'contact_feet': sorted({c['foot'] for c in self.contacts}),
                 'contact_points': self.contacts, 'active_seconds': self.active_seconds,
-                'mapping': 'pooled foot-contact proxy to reference sugar cohort', 'events': list(self.events)}
+                'mapping': 'pooled foot-contact proxy to reference sugar cohort' if self.feedback_available else 'MaleCNS sugar-cell mapping unresolved', 'events': list(self.events)}

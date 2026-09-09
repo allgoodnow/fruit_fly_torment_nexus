@@ -1,4 +1,4 @@
-"""Native OpenGL view of actual v630 cell anchors and simulated spike activity."""
+"""Native OpenGL view of specimen-matched cell anchors and simulated spike activity."""
 import numpy as np
 from PySide6.QtGui import QVector3D
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
@@ -14,7 +14,8 @@ class BrainView(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         row = QHBoxLayout()
-        row.addWidget(QLabel('BRAIN / FLYWIRE v630'), 1)
+        self.heading = QLabel('NEURAL ANATOMY')
+        row.addWidget(self.heading, 1)
         home = QPushButton('Home')
         fit = QPushButton('Fit all')
         row.addWidget(home)
@@ -42,6 +43,7 @@ class BrainView(QWidget):
             fit.setEnabled(False)
             return
         a = self.anatomy
+        self.heading.setText('BRAIN + VNC / MALECNS v1.0' if a.manifest['snapshot'] == 'male-cns:v1.0' else 'BRAIN / FLYWIRE v630')
         self.cloud = GLScatterPlotItem(pos=a.positions[a.valid], color=(.22, .24, .25, .12), size=1.25, pxMode=True, glOptions='translucent')
         self.gl.addItem(self.cloud)
         self.targets = GLScatterPlotItem(pos=np.empty((0, 3)), color=(0, 0, 0, .9), size=9, glOptions='translucent')
@@ -58,7 +60,9 @@ class BrainView(QWidget):
         self.caption.setText(f'{a.valid.sum():,} positioned cells · {(~a.valid).sum()} unlocated\nBrain not loaded · no simulated activity yet')
 
     def home(self):
-        self.gl.setCameraPosition(pos=QVector3D(0, 0, 0), distance=self.anatomy.span * 1.15, elevation=8, azimuth=-90)
+        male = self.anatomy.manifest['snapshot'] == 'male-cns:v1.0'
+        self.gl.setCameraPosition(pos=QVector3D(0, 0, 0), distance=self.anatomy.span*(1.5 if male else 1.15),
+                                  elevation=60 if male else 8, azimuth=90 if male else -90)
 
     def fit_all(self):
         points = self.anatomy.positions[self.anatomy.valid]
@@ -69,7 +73,8 @@ class BrainView(QWidget):
     def update_snapshot(self, packet):
         if self.anatomy is None:
             return
-        if packet['neuron_order_sha256'] != self.anatomy.neuron_order_sha256:
+        if (packet.get('dataset', self.anatomy.manifest['snapshot']) != self.anatomy.manifest['snapshot']
+                or packet['neuron_order_sha256'] != self.anatomy.neuron_order_sha256):
             self.spikes.setData(pos=np.empty((0, 3)))
             self.targets.setData(pos=np.empty((0, 3)))
             self.active_count = self.unlocated_active = 0
@@ -89,4 +94,5 @@ class BrainView(QWidget):
     def diagnostics(self):
         return {'loaded': self.anatomy is not None, 'mapped': int(self.anatomy.valid.sum()) if self.anatomy else 0,
                 'active_count': self.active_count, 'unlocated_active': self.unlocated_active, 'tick': self.tick,
-                'representation': 'v630 cell anchors, not neuron morphology', 'fade_sim_ms': 150}
+                'dataset': self.anatomy.manifest['snapshot'] if self.anatomy else None,
+                'representation': self.anatomy.manifest.get('representation', 'v630 cell anchors, not neuron morphology') if self.anatomy else None, 'fade_sim_ms': 150}

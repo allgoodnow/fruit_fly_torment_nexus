@@ -3,14 +3,15 @@ from PySide6.QtWidgets import QGroupBox, QFormLayout, QHBoxLayout, QCheckBox, QS
 
 
 class FoodPanel(QGroupBox):
-    def __init__(self, send):
+    def __init__(self, send, *, available=True):
         super().__init__('Food and sensory feedback')
         form = QFormLayout(self)
         row = QHBoxLayout()
         self.present = QCheckBox('Food present')
         self.feedback = QCheckBox('Taste feedback')
         self.present.setChecked(True)
-        self.feedback.setChecked(True)
+        self.feedback.setChecked(available)
+        self.feedback.setEnabled(available)
         self.present.toggled.connect(lambda value: send('food_config', {'present': value}))
         self.feedback.toggled.connect(lambda value: send('food_config', {'enabled': value}))
         row.addWidget(self.present)
@@ -21,6 +22,7 @@ class FoodPanel(QGroupBox):
         self.rate.setValue(200)
         self.rate.setSuffix(' Hz')
         self.rate.valueChanged.connect(lambda value: send('food_config', {'rate_hz': value}))
+        self.rate.setEnabled(available)
         form.addRow('Model taste input', self.rate)
         self.radius = QDoubleSpinBox()
         self.radius.setRange(.25, 20)
@@ -41,8 +43,9 @@ class FoodPanel(QGroupBox):
         form.addRow(self.location)
         demo = QPushButton('Reset + run food demo')
         demo.clicked.connect(lambda: send('food_demo'))
+        demo.setEnabled(available)
         form.addRow(demo)
-        note = QLabel('Foot contact drives a pooled taste-input proxy.\nManual inputs and food inputs remain separate.')
+        note = QLabel('Foot contact drives a pooled taste-input proxy.\nManual inputs and food inputs remain separate.' if available else 'Food remains physical. Taste feedback is unavailable\nuntil MaleCNS sugar cells are mapped.')
         note.setWordWrap(True)
         form.addRow(note)
 

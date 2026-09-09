@@ -1,0 +1,7 @@
+MaleCNS v1.0 connectome and cell annotations
+FlyEM (HHMI Janelia), University of Cambridge, MRC Laboratory of Molecular Biology, and Google Research.
+Source: https://male-cns.janelia.org/download/
+License: Creative Commons Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/
+
+Modifications by this project: selected classified neurons; assembled a sparse graph; assigned explicitly experimental synaptic signs and LIF weights; converted selected cell anchors from 8 nm coordinates to micrometres. These changes are not endorsed by the data creators.
