@@ -93,6 +93,7 @@ class FlyBody:
         self.path.clear()
         self.origin = self.position().copy()
         self.motor_offset_rms = 0.
+        self.rest_angles = None
 
     def position(self):
         return self.sim.mj_data.xpos[self.thorax_id].copy()
@@ -115,7 +116,7 @@ class FlyBody:
         raise ValueError('Choose food placement ahead or under')
 
     def advance(self, seconds: float, *, drive: float = 1.0, turn: float = 0.0,
-                wander: bool = True, escape: float = 0., disruption: float = 0.):
+                wander: bool = True, escape: float = 0., disruption: float = 0., resting: bool = False):
         if not all(math.isfinite(float(v)) and 0 <= v <= 1 for v in (escape, disruption)):
             raise ValueError('Motor effects must be finite levels between zero and one')
         count = max(1, round(seconds / self.sim.timestep))
@@ -126,7 +127,13 @@ class FlyBody:
             steering = (0.22 * math.sin(self.time * 0.8) + 0.1 * math.sin(self.time * 2.1)) if wander else turn
             signal = np.clip([drive + steering, drive - steering], 0.0, 1.5)
             obs = HybridControllerObservation.from_sim(self.sim, self.fly.name)
-            action = self.controller.step(signal, obs)
+            if resting and not (escape or disruption):
+                if self.rest_angles is None:
+                    self.rest_angles = self.steps.default_pose_by_dof_order(self.dofs).copy()
+                action = LocomotionAction(joint_angles=self.rest_angles, adhesion_onoff=np.ones(6, dtype=bool))
+            else:
+                self.rest_angles = None
+                action = self.controller.step(signal, obs)
             if escape or disruption:
                 # Authored muscle-command disturbance driven by neural readouts.
                 # No pose teleport, injected body force, or thermal tissue model.

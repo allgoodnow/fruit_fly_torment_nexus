@@ -10,10 +10,11 @@ from .brain.motor_effects import MotorEffects
 from .brain.protocol import Protocol
 from .brain.telemetry import NeuralTelemetry
 from .worker import put_latest
+from .behavior import GroundBehavior
 
 
 class CoupledSession:
-    def __init__(self, brain, body, *, coupling_ticks=100, environment=None):
+    def __init__(self, brain, body, *, coupling_ticks=100, environment=None, autonomous=False):
         if not isinstance(coupling_ticks, int) or not 1 <= coupling_ticks <= 100:
             raise ValueError('Coupling interval must be 1–100 neural ticks')
         if brain.step != 0 or body.time != 0:
@@ -22,10 +23,13 @@ class CoupledSession:
         self.environment = environment
         self.decoder = SteeringDecoder(brain)
         self.motor_effects = MotorEffects(brain)
+        self.behavior = GroundBehavior(enabled=autonomous)
+        self.resume_after_protocol = autonomous
         self.coupling_ticks = coupling_ticks
         self.baseline = 1.
         self.running = False
         self.protocol = None
+        self.completed_protocol = None
         self.generation = 0
         self.monitor = NeuralTelemetry(brain)
         self.sync_environment()
@@ -54,8 +58,10 @@ class CoupledSession:
             self.body.reset()
             self.decoder.reset()
             self.motor_effects.reset()
+            self.behavior.reset()
             self.monitor.reset(self.brain)
             self.running, self.protocol = False, None
+            self.completed_protocol = None
             self.generation += 1
             if self.environment is not None:
                 self.environment.reset()
@@ -88,6 +94,10 @@ class CoupledSession:
             self.motor_effects.enabled = bool(value)
         elif kind == 'motor_effects_enabled':
             self.motor_effects.enabled = bool(value)
+        elif kind == 'autonomous':
+            self.behavior.enabled = bool(value)
+        elif kind == 'resume_after_protocol':
+            self.resume_after_protocol = bool(value)
         elif kind == 'drive':
             drive = float(value)
             if not math.isfinite(drive):
@@ -106,6 +116,7 @@ class CoupledSession:
             self.environment.configure({'center_mm': [5., 0.], 'radius_mm': 2.5,
                                         'present': True, 'enabled': True, 'rate_hz': 200}, self.brain.time)
             self.baseline = 1.
+            self.behavior.enabled = False
             self.command('reset')
             self.body.reset_camera()
             self.body.orbit(zoom=math.log(10/7))
@@ -121,8 +132,11 @@ class CoupledSession:
         end = self.brain.step + ticks
         while self.brain.step < end:
             if self.protocol and self.protocol.completed:
-                self.running = False
-                break
+                if self.running and self.resume_after_protocol and self.behavior.enabled:
+                    self.protocol = None
+                else:
+                    self.running = False
+                    break
             step = min(self.coupling_ticks, end-self.brain.step)
             before = self.brain.step
             before_counts = self.brain.counts.copy()
@@ -131,6 +145,10 @@ class CoupledSession:
                 # applied to the same interval in the brain and motor decoder.
                 self.protocol.advance(self.brain, 0)
                 if self.protocol.completed:
+                    self.completed_protocol = self.protocol
+                    if self.running and self.resume_after_protocol and self.behavior.enabled:
+                        self.protocol = None
+                        continue
                     self.running = False
                     break
                 if self.protocol.cursor < len(self.protocol.commands):
@@ -147,11 +165,17 @@ class CoupledSession:
             counts = self.brain.counts-before_counts
             self.decoder.observe(counts[self.decoder.indices], elapsed, gains)
             self.motor_effects.observe(counts, elapsed, self.brain.output_gain, self.brain.inputs)
-            output = self.decoder.output(self.baseline)
             effects = self.motor_effects.output()
+            interrupted = (effects['escape'] > .05 or effects['disruption'] > .05 or
+                           (self.decoder.enabled and max(self.decoder.rates) > 10.))
+            self.behavior.advance(elapsed, interrupted)
+            behavior = self.behavior.output(self.baseline)
+            output = self.motor_output(behavior)
             extra = {'escape': effects['escape'], 'disruption': effects['disruption']}
             if not any(extra.values()):
                 extra = {}  # Preserve the original body adapter interface at baseline.
+            if behavior['resting']:
+                extra = {'resting': True}
             self.body.advance(elapsed, drive=output['drive'], turn=output['turn'], wander=False, **extra)
             if abs(self.body.time-self.brain.time) > 1e-9:
                 raise RuntimeError('Body and brain clocks diverged')
@@ -159,7 +183,16 @@ class CoupledSession:
         if self.protocol:
             self.protocol.advance(self.brain, 0)
             if self.protocol.completed:
-                self.running = False
+                self.completed_protocol = self.protocol
+                self.running = self.running and self.resume_after_protocol and self.behavior.enabled
+
+    def motor_output(self, behavior):
+        motor = self.decoder.output(behavior['drive'])
+        motor['neural_turn'] = motor['turn']
+        motor['turn'] += behavior['turn']
+        motor['left_drive'] += behavior['turn']
+        motor['right_drive'] -= behavior['turn']
+        return motor
 
     def snapshot(self):
         neural = self.monitor.snapshot(self.brain, self.running, self.generation, self.protocol,
@@ -167,9 +200,12 @@ class CoupledSession:
         neural['shared_clock'] = True
         food = self.environment.snapshot() if self.environment is not None else None
         neural['environment'] = food
-        motor = self.decoder.output(self.baseline)
+        behavior = self.behavior.output(self.baseline)
+        motor = self.motor_output(behavior)
         neural['motor_bridge'] = motor
         neural['motor_effects'] = self.motor_effects.output()
+        neural['ground_behavior'] = self.behavior.output(self.baseline)
+        neural['resume_after_protocol'] = self.resume_after_protocol
         body = self.body.telemetry()
         body.update(running=self.running, wander=False, drive=self.baseline, turn=motor['turn'],
                     generation=self.generation, realtime_factor=neural['realtime_factor'],
@@ -177,10 +213,11 @@ class CoupledSession:
                     motor_bridge=motor, brain_time=self.brain.time, coupling_ms=self.coupling_ticks*.1,
                     environment=food)
         body['motor_effects'] = neural['motor_effects']
+        body['ground_behavior'] = neural['ground_behavior']
         return {'telemetry': body, 'brain': neural}
 
 
-def simulate_coupled(directory, commands, frames, events, *, render=True):
+def simulate_coupled(directory, commands, frames, events, *, render=True, autonomous=True):
     body = None
     try:
         from .body import FlyBody
@@ -194,7 +231,7 @@ def simulate_coupled(directory, commands, frames, events, *, render=True):
         brain.advance(.0001)
         brain.reset()
         body = FlyBody(render=render)
-        session = CoupledSession(brain, body, environment=FoodEnvironment())
+        session = CoupledSession(brain, body, environment=FoodEnvironment(), autonomous=autonomous)
         seen, recent = set(), deque()
         events.put({'kind': 'ready', 'coupled': True})
         dirty, last_publish = True, 0
@@ -232,9 +269,10 @@ def simulate_coupled(directory, commands, frames, events, *, render=True):
             if session.running and not stepped:
                 session.advance()
                 dirty = True
-            if session.protocol and session.protocol.completed and completion_logged is not session.protocol:
-                completion_logged = session.protocol
-                events.put({'kind': 'protocol_complete', 'sim_time': brain.time, 'coupled': True})
+            if session.completed_protocol and completion_logged is not session.completed_protocol:
+                completion_logged = session.completed_protocol
+                events.put({'kind': 'protocol_complete',
+                            'sim_time': (completion_logged.origin+completion_logged.duration)*.0001, 'coupled': True})
             now = time.perf_counter()
             if dirty and (now-last_publish >= .05 or not session.running):
                 packet = session.snapshot()

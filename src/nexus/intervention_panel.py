@@ -69,6 +69,11 @@ class InterventionPanel(QWidget):
         self.motor_enabled.setVisible(coupled)
         self.motor_enabled.toggled.connect(lambda value: brain_panel.send('motor_effects_enabled', value))
         controls.addWidget(self.motor_enabled)
+        self.resume = QCheckBox('Resume free behavior after experiment')
+        self.resume.setChecked(coupled)
+        self.resume.setVisible(coupled)
+        self.resume.toggled.connect(lambda value: brain_panel.send('resume_after_protocol', value))
+        controls.addWidget(self.resume)
         self.pause = QPushButton('Pause')
         self.pause.clicked.connect(lambda: brain_panel.send('running', False))
         controls.addWidget(self.pause)
@@ -99,6 +104,9 @@ class InterventionPanel(QWidget):
         self.motor_enabled.blockSignals(True)
         self.motor_enabled.setChecked(effects.get('enabled', False))
         self.motor_enabled.blockSignals(False)
+        self.resume.blockSignals(True)
+        self.resume.setChecked(packet.get('resume_after_protocol', False))
+        self.resume.blockSignals(False)
         circuits = ', '.join(packet['circuit_inputs']) or 'none'
         temperature = packet['nominal_temperature_c']
         self.status.setText(f"{'Running' if packet['running'] else 'Paused'} · {packet['sim_time']:.3f} s\n"

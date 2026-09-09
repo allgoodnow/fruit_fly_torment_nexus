@@ -1,0 +1,163 @@
+{
+  "format": "nexus-ground-behavior-assay-1",
+  "version": "0.8.0",
+  "success": true,
+  "duration_s": 4.0,
+  "seed": 73100,
+  "food_feedback": false,
+  "controller": "Authored seeded exploration, turning, and rest; independent of brain RNG.",
+  "interrupt_rule": "Measured GF escape > 0.05, distributed disruption > 0.05, or enabled DNa02 rate > 10 Hz pauses the behavior schedule.",
+  "release_rule": "Remove named inputs and overlays; preserve neural dynamics, body pose, and behavior schedule. Resume when measured responses subside.",
+  "checks": [
+    "upright free exploration and rest",
+    "shared clocks",
+    "no reset at protocol end",
+    "neural interruption",
+    "motor bridge ablation preserves spikes and restores free trajectory"
+  ],
+  "source_sha256": {
+    "src/nexus/behavior.py": "21ee9b89ae04da38c5439c2c509d83ddf9af7b00fd17a9109b1b357796b57f19",
+    "src/nexus/body.py": "c4789899e9d25d66896acacad04df899c7a6dd2631de7c46673be7908a1a17fc",
+    "src/nexus/coupled.py": "74f035f45fc0e2016c826a7be743dd562533df6289b9bae74d8d48e57adc54e2",
+    "scripts/probe_ground_behavior.py": "b432af6c0b7444e48d46debdf89a6b438fec7078f4ae17f7f9bec204c13327df"
+  },
+  "trials": [
+    {
+      "case": "free",
+      "states": [
+        "exploring",
+        "resting",
+        "turning"
+      ],
+      "spikes": 0,
+      "minimum_upright": 0.987167150489532,
+      "final_position_mm": [
+        31.351710199061454,
+        -24.99996279662038,
+        1.1589935946455228
+      ],
+      "transitions": [
+        {
+          "time": 0.01,
+          "state": "exploring"
+        },
+        {
+          "time": 1.2,
+          "state": "turning"
+        },
+        {
+          "time": 1.57,
+          "state": "resting"
+        },
+        {
+          "time": 2.08,
+          "state": "exploring"
+        },
+        {
+          "time": 3.41,
+          "state": "turning"
+        },
+        {
+          "time": 3.98,
+          "state": "resting"
+        }
+      ],
+      "minimum_thorax_height_mm": 0.799006637560754
+    },
+    {
+      "case": "threat",
+      "states": [
+        "exploring",
+        "interrupted",
+        "resting",
+        "turning"
+      ],
+      "spikes": 20178,
+      "minimum_upright": 0.84809137928943,
+      "final_position_mm": [
+        38.31423695069358,
+        -21.873778508984262,
+        1.0498756346483755
+      ],
+      "transitions": [
+        {
+          "time": 0.01,
+          "state": "exploring"
+        },
+        {
+          "time": 1.2,
+          "state": "turning"
+        },
+        {
+          "time": 1.57,
+          "state": "resting"
+        },
+        {
+          "time": 1.76,
+          "state": "interrupted"
+        },
+        {
+          "time": 2.17,
+          "state": "resting"
+        },
+        {
+          "time": 2.49,
+          "state": "exploring"
+        },
+        {
+          "time": 3.82,
+          "state": "turning"
+        }
+      ],
+      "minimum_thorax_height_mm": 0.7664517337775756
+    },
+    {
+      "case": "bridge_blocked",
+      "states": [
+        "exploring",
+        "resting",
+        "turning"
+      ],
+      "spikes": 20178,
+      "minimum_upright": 0.987167150489532,
+      "final_position_mm": [
+        31.351710199061454,
+        -24.99996279662038,
+        1.1589935946455228
+      ],
+      "transitions": [
+        {
+          "time": 0.01,
+          "state": "exploring"
+        },
+        {
+          "time": 1.2,
+          "state": "turning"
+        },
+        {
+          "time": 1.57,
+          "state": "resting"
+        },
+        {
+          "time": 2.08,
+          "state": "exploring"
+        },
+        {
+          "time": 3.41,
+          "state": "turning"
+        },
+        {
+          "time": 3.98,
+          "state": "resting"
+        }
+      ],
+      "minimum_thorax_height_mm": 0.799006637560754
+    }
+  ],
+  "limits": [
+    "Ground locomotion only; no flight integration.",
+    "Authored normal behavior, not a validated natural behavior distribution or spontaneous connectome policy.",
+    "No automatic pose reset or self-righting after an intervention.",
+    "Three four-second fixed-seed trials do not establish long-duration stability."
+  ]
+}

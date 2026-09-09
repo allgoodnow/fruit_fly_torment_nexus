@@ -22,6 +22,7 @@ def main():
     parser.add_argument('--food-smoke-test', type=Path, help='Exercise contact-driven taste feedback')
     parser.add_argument('--perturbation-smoke-test', type=Path, help='Exercise reversible inhibition controls')
     parser.add_argument('--response-smoke-test', type=Path, help='Exercise threat, heat, and motor experiment controls')
+    parser.add_argument('--behavior-smoke-test', type=Path, help='Exercise free ground behavior and neural interruption')
     parser.add_argument('--food-demo', action='store_true', help='Start a food crossing with no manual neural input')
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
@@ -36,7 +37,9 @@ def main():
         args.smoke_test = args.perturbation_smoke_test
     if args.response_smoke_test:
         args.smoke_test = args.response_smoke_test
-    coupled = bool(args.food_smoke_test or args.food_demo or args.coupled_smoke_test or args.perturbation_smoke_test or args.response_smoke_test) or not (args.independent or args.smoke_test)
+    if args.behavior_smoke_test:
+        args.smoke_test = args.behavior_smoke_test
+    coupled = bool(args.food_smoke_test or args.food_demo or args.coupled_smoke_test or args.perturbation_smoke_test or args.response_smoke_test or args.behavior_smoke_test) or not (args.independent or args.smoke_test)
 
     from PySide6.QtCore import QStandardPaths, QTimer, Qt, Signal
     from PySide6.QtGui import QImage, QPainter, QPixmap, QPalette, QColor
@@ -126,6 +129,7 @@ def main():
             target = simulate_coupled if coupled else simulate
             worker_args = (str(default_pack()), self.commands, self.frames, self.events) if coupled else (self.commands, self.frames, self.events)
             self.process = self.ctx.Process(target=target, args=worker_args,
+                                            kwargs={'autonomous': not args.smoke_test or bool(args.behavior_smoke_test)} if coupled else {},
                                             name="Nexus simulation")
             self.seq = 0
             self.records = deque(maxlen=2000)
@@ -168,6 +172,9 @@ def main():
             self.food_status = QLabel('Food feedback loading…' if coupled else 'Independent body mode')
             self.food_status.setWordWrap(True)
             body_layout.addWidget(self.food_status)
+            self.behavior_status = QLabel('Ground behavior loading…' if coupled else '')
+            self.behavior_status.setWordWrap(True)
+            body_layout.addWidget(self.behavior_status)
             body_layout.addWidget(QLabel('Drag to orbit · Scroll to zoom\nCamera follows the fly'))
             scenes.addWidget(body_scene)
             self.brain_view = BrainView(default_pack())
@@ -210,12 +217,14 @@ def main():
             controls.addWidget(self.reset_button)
             motor = QGroupBox("Motor controller")
             form = QFormLayout(motor)
-            self.wander = QCheckBox("Automatic steering")
+            self.wander = QCheckBox("Free ground behavior" if coupled else "Automatic steering")
             self.wander.setChecked(True)
-            self.wander.toggled.connect(lambda checked: self.send("wander", checked))
+            self.wander.toggled.connect(lambda checked: self.send('autonomous' if coupled else 'wander', checked))
             form.addRow(self.wander)
             if coupled:
-                self.wander.hide()
+                note = QLabel('Explore, turn, and rest. Authored behavior;\nneural responses take priority.')
+                note.setWordWrap(True)
+                form.addRow(note)
             self.drive = QSlider(Qt.Orientation.Horizontal)
             self.drive.setRange(0, 130)
             self.drive.setValue(100)
@@ -377,6 +386,8 @@ def main():
                     for widget in self.interactive:
                         widget.setEnabled(True)
                     self.log.append('Body + brain loaded. Shared clock ready.' if coupled else "Body loaded. Ready to run.")
+                    if coupled and (not args.smoke_test or args.behavior_smoke_test) and not (args.run_demo or args.food_demo):
+                        self.send('running', True)
                 elif event["kind"] == "error":
                     self.fail(event["message"])
                 elif event['kind'] == 'protocol_complete':
@@ -417,7 +428,13 @@ def main():
                     self.viewport.update()
                     self.frame_count += 1
                 self.status.setText("Running" if t["running"] else "Paused — model state preserved")
-                for widget, value in ((self.run_button, t["running"]), (self.wander, t["wander"])):
+                behavior = t.get('ground_behavior')
+                if behavior:
+                    self.behavior_status.setText(f"Ground behavior: {behavior['state']} · authored controller")
+                    old_behavior = previous.get('ground_behavior', {})
+                    if behavior['state'] != old_behavior.get('state') or t['generation'] != previous.get('generation'):
+                        self.log.append(f"BODY {t['sim_time']:.3f}s · {behavior['state']}")
+                for widget, value in ((self.run_button, t["running"]), (self.wander, behavior['enabled'] if behavior else t["wander"])):
                     widget.blockSignals(True)
                     widget.setChecked(value)
                     widget.blockSignals(False)
@@ -457,7 +474,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.7.0", "started_at": self.started_at,
+            return {"version": "0.8.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -488,6 +505,9 @@ def main():
                 return
             if args.response_smoke_test:
                 self.response_smoke()
+                return
+            if args.behavior_smoke_test:
+                self.behavior_smoke()
                 return
             if self.smoke_stage >= 7:
                 self.brain_smoke()
@@ -804,6 +824,77 @@ def main():
                 success = t['sim_time'] == 0 and t['total_spikes'] == 0 and t['inhibition_gain'] == 1
                 if success:
                     self.smoke_checks.append('reset clears both clocks, spike counts, and the overlay')
+                self.smoke_finish(success)
+
+        def behavior_smoke(self):
+            t = self.brain_panel.telemetry
+            if not self.brain_panel.ready or not t or not self.frame_count:
+                return
+            b = t['ground_behavior']
+            if abs(t['sim_time']-self.telemetry['sim_time']) > 1e-9:
+                self.smoke_finish(False)
+                return
+            if self.smoke_stage == 0:
+                self.tabs.setCurrentIndex(0)
+                self.send('food_config', {'enabled': False})
+                if not t['running']:
+                    return
+                if not b['enabled']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('normal startup begins free ground behavior')
+                self.behavior_seen = set()
+                self.smoke_stage = 1
+            elif self.smoke_stage == 1:
+                self.behavior_seen.add(b['state'])
+                if b['state'] == 'resting':
+                    if not {'exploring', 'turning', 'resting'} <= self.behavior_seen:
+                        self.smoke_finish(False)
+                        return
+                    self.smoke_checks.append('free behavior explores, turns, and rests while both clocks advance')
+                    self.send('running', False)
+                    self.smoke_stage = 2
+            elif self.smoke_stage == 2 and not t['running']:
+                self.behavior_pause = (t['sim_time'], b['behavior_time'])
+                self.behavior_pause_wall = time.monotonic()
+                self.grab().save(str(data_dir / 'resting-app.png'))
+                self.smoke_stage = 3
+            elif self.smoke_stage == 3 and time.monotonic()-self.behavior_pause_wall > .3:
+                if (t['sim_time'], b['behavior_time']) != self.behavior_pause:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('pause preserves the brain, body, and behavior clocks')
+                self.brain_panel.send('circuit', {'name': 'looming', 'rate_hz': 200})
+                self.send('running', True)
+                self.smoke_stage = 4
+            elif self.smoke_stage == 4 and b['state'] == 'interrupted' and t['motor_effects']['escape'] > .1:
+                self.smoke_checks.append('measured threat-pathway activity interrupts resting')
+                self.grab().save(str(data_dir / 'interrupted-app.png'))
+                self.brain_panel.send('release')
+                self.smoke_stage = 5
+            elif self.smoke_stage == 5 and not t['circuit_inputs'] and b['cycles'] >= 1 and b['state'] != 'interrupted':
+                self.smoke_checks.append('normal behavior resumes after neural response subsides without reset')
+                self.intervention_panel.resume.setChecked(True)
+                for spin, value in zip(self.intervention_panel.durations, [100, 200, 200]):
+                    spin.setValue(value)
+                self.behavior_protocol_origin = t['sim_time']
+                self.intervention_panel.buttons['defensive'].click()
+                self.smoke_stage = 6
+            elif self.smoke_stage == 6 and t['sim_time'] > self.behavior_protocol_origin+.7 and not t.get('protocol'):
+                if not t['running'] or t['circuit_inputs'] or t['generation'] != 0:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('prepared experiment releases on schedule and continues free behavior')
+                self.send('running', False)
+                self.smoke_stage = 7
+            elif self.smoke_stage == 7 and not t['running']:
+                self.wander.setChecked(False)
+                self.send('reset')
+                self.smoke_stage = 8
+            elif self.smoke_stage == 8 and t['generation'] == 1:
+                success = t['sim_time'] == 0 and b['behavior_time'] == 0 and not b['enabled'] and not t['running']
+                if success:
+                    self.smoke_checks.append('reset restarts behavior timing and preserves the free-behavior toggle')
                 self.smoke_finish(success)
 
         def response_smoke(self):
