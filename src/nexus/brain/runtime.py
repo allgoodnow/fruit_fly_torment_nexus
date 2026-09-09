@@ -96,6 +96,8 @@ class Connectome:
     posts: np.ndarray
     weights: np.ndarray
     snapshot: str = "synthetic-test"
+    model: dict | None = None
+    circuits: dict | None = None
 
     @classmethod
     def from_edges(cls, ids, pre, post, weights, snapshot="synthetic-test"):
@@ -113,11 +115,26 @@ class Connectome:
         return cls(ids, offsets, post[order], weights[order], snapshot)
 
     @classmethod
-    def load(cls, directory):
+    def load(cls, directory, *, allow_experimental=False):
         directory = Path(directory)
         manifest = json.loads((directory / "manifest.json").read_text())
         if manifest.get("format") != "nexus-connectome-1":
             raise ValueError("Unsupported brain pack")
+        experimental = manifest.get('experimental', False) or manifest.get('snapshot') == 'male-cns:v1.0'
+        if experimental and not allow_experimental:
+            raise ValueError('Experimental brain pack requires explicit opt-in')
+        circuits = None
+        if manifest.get('snapshot') == 'male-cns:v1.0':
+            if not manifest.get('experimental') or not isinstance(manifest.get('model'), dict):
+                raise ValueError('MaleCNS requires an explicit experimental model policy')
+            if manifest.get('circuit_registry') != 'circuits.json':
+                raise ValueError('MaleCNS requires a pack-bound circuit registry')
+            path = directory/'circuits.json'
+            if hashlib.sha256(path.read_bytes()).hexdigest() != manifest['files'].get('circuits.json'):
+                raise ValueError('Circuit registry checksum mismatch')
+            circuits = json.loads(path.read_text())
+            if circuits.get('snapshot') != manifest['snapshot'] or circuits.get('format') != 'nexus-intervention-circuits-1':
+                raise ValueError('Circuit registry dataset mismatch')
         for name in ("ids.npy", "offsets.npy", "posts.npy", "weights.npy"):
             with (directory / name).open("rb") as stream:
                 if hashlib.file_digest(stream, "sha256").hexdigest() != manifest["files"].get(name):
@@ -135,7 +152,15 @@ class Connectome:
             raise ValueError("Invalid neuron IDs or weights")
         if len(posts) and (posts.min() < 0 or posts.max() >= len(ids)):
             raise ValueError("Invalid postsynaptic index")
-        return cls(*arrays, snapshot=manifest["snapshot"])
+        if circuits is not None:
+            known = set(ids.tolist())
+            targets = [group['ids'] for group in circuits['circuits'].values()]
+            targets.extend(circuits['readouts'].values())
+            for group in targets:
+                parsed = [int(i) for i in group]
+                if not parsed or len(set(parsed)) != len(parsed) or not set(parsed) <= known:
+                    raise ValueError('Circuit registry contains missing or duplicated neuron IDs')
+        return cls(*arrays, snapshot=manifest["snapshot"], model=manifest.get('model'), circuits=circuits)
 
 
 class Brain:
@@ -230,11 +255,20 @@ class Brain:
         self.events.append({'kind': 'sensory_input' if len(targets) else 'sensory_release',
                             'time': self.time, 'ids': [str(self.graph.ids[i]) for i in targets], 'rate_hz': rate})
 
-    def validate_circuit(self, name, rate_hz):
+    def circuit_ids(self, name):
         from .circuits import circuit_ids
-        if name not in ('looming', 'warmth', 'aversion_proxy') or self.graph.snapshot != '630':
-            raise ValueError('Named input requires a supported v630 circuit')
-        targets = self.resolve(circuit_ids(name))
+        if self.graph.snapshot == '630':
+            return circuit_ids(name)
+        if self.graph.snapshot == 'male-cns:v1.0' and self.graph.circuits is not None:
+            entries = self.graph.circuits['circuits']
+            if name in entries:
+                return list(entries[name]['ids'])
+        raise ValueError(f'No mapped circuit {name!r} for dataset {self.graph.snapshot}')
+
+    def validate_circuit(self, name, rate_hz):
+        if name not in ('looming', 'warmth', 'aversion_proxy'):
+            raise ValueError('Unknown named input circuit')
+        targets = self.resolve(self.circuit_ids(name))
         rate = float(rate_hz)
         if isinstance(rate_hz, bool) or not math.isfinite(rate) or not 0 <= rate <= 1000:
             raise ValueError('Circuit input rate must be in [0, 1000] Hz')

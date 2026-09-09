@@ -9,7 +9,7 @@ from nexus.environment import FoodEnvironment
 
 
 def brain():
-    return Brain(Connectome.from_edges(np.array(SUGAR+DNA02, dtype=np.int64), [], [], []))
+    return Brain(Connectome.from_edges(np.array(SUGAR+DNA02, dtype=np.int64), [], [], [], snapshot='630'))
 
 
 class Body:

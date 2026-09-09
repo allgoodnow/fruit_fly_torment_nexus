@@ -1,0 +1,843 @@
+{
+  "format": "nexus-male-cns-runtime-assay-1",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "edges": 25582938,
+  "model": {
+    "id": "male-cns-fast-transmitter-lif-v1",
+    "experimental": true,
+    "validation": "Unfitted MaleCNS adaptation; numerical checks are not biological validation.",
+    "nt_signs": {
+      "acetylcholine": 1,
+      "gaba": -1,
+      "glutamate": -1,
+      "histamine": 0,
+      "dopamine": 0,
+      "octopamine": 0,
+      "serotonin": 0,
+      "unclear": 0,
+      "missing": 0
+    },
+    "sign_assumptions": "One sign per presynaptic cell. Glutamate assumed inhibitory; receptor-specific effects unresolved. Histamine and monoamine effects omitted, not biologically absent.",
+    "weight_per_contact_mv": 0.275,
+    "dynamics": "Shiu-style LIF: dt 0.1 ms, membrane 20 ms, current 5 ms, delay 1.8 ms, refractory 2.2 ms; directly driven cells have zero refractory.",
+    "parameter_source": "https://doi.org/10.1038/s41586-024-07763-9",
+    "limitation": "No calibrated MaleCNS/VNC dynamics, plasticity, receptor kinetics, nociception validation, or subjective-state model.",
+    "transmitter_coverage": {
+      "acetylcholine": {
+        "cells": 103720,
+        "outgoing_edges": 14745137,
+        "assigned_sign": 1
+      },
+      "dopamine": {
+        "cells": 392,
+        "outgoing_edges": 241694,
+        "assigned_sign": 0
+      },
+      "gaba": {
+        "cells": 22069,
+        "outgoing_edges": 4925557,
+        "assigned_sign": -1
+      },
+      "glutamate": {
+        "cells": 29302,
+        "outgoing_edges": 4798718,
+        "assigned_sign": -1
+      },
+      "histamine": {
+        "cells": 7891,
+        "outgoing_edges": 89723,
+        "assigned_sign": 0
+      },
+      "missing": {
+        "cells": 178,
+        "outgoing_edges": 0,
+        "assigned_sign": 0
+      },
+      "octopamine": {
+        "cells": 101,
+        "outgoing_edges": 148519,
+        "assigned_sign": 0
+      },
+      "serotonin": {
+        "cells": 48,
+        "outgoing_edges": 45328,
+        "assigned_sign": 0
+      },
+      "unclear": {
+        "cells": 2999,
+        "outgoing_edges": 588262,
+        "assigned_sign": 0
+      }
+    }
+  },
+  "pack_manifest_sha256": "360cf2cdc8f4257d3045bd9b34c9b31b58418d38b1547ee9ddf4dbc7294d0004",
+  "source_hashes": {
+    "scripts/probe_male_cns_runtime.py": "24382e49e6b31664f95b0daed493e861797f18e1af8700ed0e0928193a8fea55",
+    "src/nexus/brain/runtime.py": "133d19b1bff3befc5af5b6a8d53ba664b94ecabd2fdae7b7073816539acc7c52",
+    "src/nexus/datasets/male_cns_runtime.py": "101fe9759f2f5d417c82a25307157f9cf4f498b5757282ee0e4dfc14c89ccd97"
+  },
+  "load_seconds": 0.24614100899998448,
+  "max_rss_mib": 1336.54296875,
+  "numerical_reference": {
+    "scope": "source-derived induced subgraph; not full-network Brian comparison",
+    "neurons": 105,
+    "edges": 2228,
+    "duration_ms": 40,
+    "identical_spikes": 336,
+    "max_voltage_error_mv": 2.1032064978498966e-12
+  },
+  "trials": [
+    {
+      "condition": "baseline",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "c928cf815ad15752df05c801c58a5ac59bd7f11aa060516e04f52d3a114c36e0",
+      "total_spikes": 0,
+      "stimulus_spikes": 0,
+      "direct_stimulus_spikes": 0,
+      "candidate_stimulus_spikes": 0,
+      "stimulus_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333",
+      "active_cells": 0,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.0,
+        "downstream_hz_per_neuron": 0.0,
+        "recruitment_fraction": 0.0,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 0,
+          "voltage_mv": -52.0
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -52.0
+        }
+      ],
+      "advance_wall_seconds": 0.679383821000556,
+      "advance_realtime_factor": 0.4415766032788032,
+      "median_chunk_wall_ms": 22.647236000011617,
+      "p95_chunk_wall_ms": 22.837081100260548
+    },
+    {
+      "condition": "warmth",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "a9d65aafd64a806ce4370e5cd9b8e8cafdc21e5fd99d7cd641e8bd49bb7b9844",
+      "total_spikes": 113423,
+      "stimulus_spikes": 89721,
+      "direct_stimulus_spikes": 448,
+      "candidate_stimulus_spikes": 0,
+      "stimulus_counts_sha256": "76b0ee3aff9f225d1dbba659460edf36a7ce2864725a21359ab8616c8081bec0",
+      "active_cells": 8339,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 0.9962841126230895,
+        "turn": -0.0037158873769105316,
+        "left_drive": 0.9925682252461789,
+        "right_drive": 1.0,
+        "left_hz": 2.1233642153774426,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.16300504823339523,
+        "downstream_hz_per_neuron": 2.893465602027788,
+        "recruitment_fraction": 0.024935590998012288,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 11,
+          "voltage_mv": -49.082750568487
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -51.292071616968656
+        }
+      ],
+      "advance_wall_seconds": 0.9067690270003368,
+      "advance_realtime_factor": 0.33084500139183576,
+      "median_chunk_wall_ms": 32.31560799986255,
+      "p95_chunk_wall_ms": 33.15300129975185
+    },
+    {
+      "condition": "looming",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "f1fc782edba61e9b22a425ec0b0d7cab01ff8604fb87b5d4beb3ffeba7f52251",
+      "total_spikes": 55641,
+      "stimulus_spikes": 52550,
+      "direct_stimulus_spikes": 11184,
+      "candidate_stimulus_spikes": 0,
+      "stimulus_counts_sha256": "93e2d2f7ccc1aed12341d06b4538881cd147f4bedd536b86035b3286d3bd3060",
+      "active_cells": 5736,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 288.9682287896062,
+        "escape": 1.0,
+        "disruption": 0.009545213406294113,
+        "downstream_hz_per_neuron": 1.2669760096502316,
+        "recruitment_fraction": 0.011251049157838072,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 0,
+          "voltage_mv": -92.59398893070954
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -55.72575770451558
+        }
+      ],
+      "advance_wall_seconds": 0.7804843910016643,
+      "advance_realtime_factor": 0.384376681274796,
+      "median_chunk_wall_ms": 27.163205500073673,
+      "p95_chunk_wall_ms": 28.30336954989434
+    },
+    {
+      "condition": "aversion",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "d23f2f8ab9cb8bb1b9bda839a351536759db1277042e1ab29ece72eb028e40b0",
+      "total_spikes": 97,
+      "stimulus_spikes": 97,
+      "direct_stimulus_spikes": 97,
+      "candidate_stimulus_spikes": 97,
+      "stimulus_counts_sha256": "3f86ae62f02c03a719cb48c13b3eecda9d4b815ed6eea6dee8e4ed798b8a6326",
+      "active_cells": 2,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.0,
+        "downstream_hz_per_neuron": 0.0,
+        "recruitment_fraction": 0.0,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 0,
+          "voltage_mv": -52.0
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -52.0
+        }
+      ],
+      "advance_wall_seconds": 0.67703495600108,
+      "advance_realtime_factor": 0.4431085830072287,
+      "median_chunk_wall_ms": 22.50953250040766,
+      "p95_chunk_wall_ms": 22.83053245027986
+    },
+    {
+      "condition": "heat_overload",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "a9d65aafd64a806ce4370e5cd9b8e8cafdc21e5fd99d7cd641e8bd49bb7b9844",
+      "total_spikes": 981114,
+      "stimulus_spikes": 940696,
+      "direct_stimulus_spikes": 525,
+      "candidate_stimulus_spikes": 82,
+      "stimulus_counts_sha256": "31eb18dcf0724cd46dff9912fc911d9253658ae6513db5ab9f2110326563fd5e",
+      "active_cells": 49958,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 0.30000000000000004,
+        "turn": 0.0,
+        "left_drive": 0.30000000000000004,
+        "right_drive": 0.30000000000000004,
+        "left_hz": 280.36267668724673,
+        "right_hz": 284.6946005876734,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 293.43790833637706,
+        "escape": 1.0,
+        "disruption": 0.9644040375207094,
+        "downstream_hz_per_neuron": 32.191025265902866,
+        "recruitment_fraction": 0.22873638827240095,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 45,
+          "voltage_mv": -49.786861496337735
+        },
+        {
+          "id": "16949",
+          "spikes": 16,
+          "voltage_mv": -49.9018349694447
+        }
+      ],
+      "advance_wall_seconds": 2.6259139550002146,
+      "advance_realtime_factor": 0.11424593689703572,
+      "median_chunk_wall_ms": 124.20562999977847,
+      "p95_chunk_wall_ms": 133.28659785001946
+    },
+    {
+      "condition": "steering_left",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "87102a1f992c69005f726ce8c29787321adccdcddf14e76034f996480790eb4b",
+      "total_spikes": 8023,
+      "stimulus_spikes": 7500,
+      "direct_stimulus_spikes": 39,
+      "candidate_stimulus_spikes": 0,
+      "stimulus_counts_sha256": "f556f5c468033d07764893370d19cbc27a458c5431c1e35f68f6e1f2748d5281",
+      "active_cells": 2534,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 0.6818529361998785,
+        "turn": -0.3181470638001215,
+        "left_drive": 0.36370587239975705,
+        "right_drive": 1.0,
+        "left_hz": 181.798322171498,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 4.072476147288963,
+        "escape": 0.02714984098192642,
+        "disruption": 0.0,
+        "downstream_hz_per_neuron": 0.26333265501656,
+        "recruitment_fraction": 0.0024594417941053155,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 0,
+          "voltage_mv": -54.19869846150621
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -52.20157397791452
+        }
+      ],
+      "advance_wall_seconds": 0.6940020190004361,
+      "advance_realtime_factor": 0.4322753994751872,
+      "median_chunk_wall_ms": 22.949224000512913,
+      "p95_chunk_wall_ms": 24.390386150344057
+    },
+    {
+      "condition": "steering_right",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "18d4f9efdfe170f189235ef92d02daec76db9d989b0079776aaf58b9b2f88143",
+      "total_spikes": 6417,
+      "stimulus_spikes": 4870,
+      "direct_stimulus_spikes": 38,
+      "candidate_stimulus_spikes": 0,
+      "stimulus_counts_sha256": "a701502db31e3bd86caf829bf54e4b7aebe0d14e19a87c537cb2ce8e07dba84e",
+      "active_cells": 2495,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 0.6954876293692247,
+        "turn": 0.3045123706307753,
+        "left_drive": 1.0,
+        "right_drive": 0.3909752587384494,
+        "left_hz": 0.0,
+        "right_hz": 174.0070689318716,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.0,
+        "downstream_hz_per_neuron": 0.19307791776213254,
+        "recruitment_fraction": 0.0017952262186675032,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 0,
+          "voltage_mv": -54.07992900720109
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -52.090821785199886
+        }
+      ],
+      "advance_wall_seconds": 0.6905757769964112,
+      "advance_realtime_factor": 0.434420102750808,
+      "median_chunk_wall_ms": 22.865471999921283,
+      "p95_chunk_wall_ms": 24.19502984998871
+    },
+    {
+      "condition": "warmth_aversion",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "ca11b01790d06a0979cd06570835cb512674432bd9e1b426aadb2dec9515f8a0",
+      "total_spikes": 112965,
+      "stimulus_spikes": 88829,
+      "direct_stimulus_spikes": 526,
+      "candidate_stimulus_spikes": 93,
+      "stimulus_counts_sha256": "e43a9876bbe865b639bed20c275191e80fa19d10fb95887c6812df8cd8329a4e",
+      "active_cells": 8286,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 0.9962841126230895,
+        "turn": -0.0037158873769105316,
+        "left_drive": 0.9925682252461789,
+        "right_drive": 1.0,
+        "left_hz": 2.1233642153774426,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.15933361472827182,
+        "downstream_hz_per_neuron": 2.8384801441148304,
+        "recruitment_fraction": 0.024407169149611416,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 9,
+          "voltage_mv": -52.04331840447155
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -51.778482173508955
+        }
+      ],
+      "advance_wall_seconds": 0.9014228909982194,
+      "advance_realtime_factor": 0.3328071685286197,
+      "median_chunk_wall_ms": 32.1556220005732,
+      "p95_chunk_wall_ms": 32.85404114926677
+    },
+    {
+      "condition": "warmth_aversion_blocked",
+      "seed": 73100,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "ca11b01790d06a0979cd06570835cb512674432bd9e1b426aadb2dec9515f8a0",
+      "total_spikes": 112884,
+      "stimulus_spikes": 88746,
+      "direct_stimulus_spikes": 525,
+      "candidate_stimulus_spikes": 93,
+      "stimulus_counts_sha256": "9a8ab286d069217973e62889f8a6cdb0060c0b5ab739a27fb5703a1b11c16671",
+      "active_cells": 8351,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.15955191604188737,
+        "downstream_hz_per_neuron": 2.8408663673299754,
+        "recruitment_fraction": 0.02452638245309833,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 9,
+          "voltage_mv": -51.96730573996709
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -51.89674694508318
+        }
+      ],
+      "advance_wall_seconds": 0.9047215050004525,
+      "advance_realtime_factor": 0.3315937538147167,
+      "median_chunk_wall_ms": 32.25093600030959,
+      "p95_chunk_wall_ms": 33.10542014996827
+    },
+    {
+      "condition": "warmth_aversion",
+      "seed": 73101,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "8abdc8760744df207935381574f4d3fad0cc87f5d2c23c74b0349b68d87bf5ff",
+      "total_spikes": 114200,
+      "stimulus_spikes": 90311,
+      "direct_stimulus_spikes": 530,
+      "candidate_stimulus_spikes": 87,
+      "stimulus_counts_sha256": "5d410fcd122460b65069001b9bf73cda4b09b0a85412a77fe91dd4fcdab7c832",
+      "active_cells": 8248,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.16090675764662388,
+        "downstream_hz_per_neuron": 2.860417383627521,
+        "recruitment_fraction": 0.02460814531122246,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 10,
+          "voltage_mv": -52.005764414457786
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -51.96713941960455
+        }
+      ],
+      "advance_wall_seconds": 0.9087148379994687,
+      "advance_realtime_factor": 0.3301365703023498,
+      "median_chunk_wall_ms": 32.162224499643344,
+      "p95_chunk_wall_ms": 33.20650669970746
+    },
+    {
+      "condition": "warmth_aversion_blocked",
+      "seed": 73101,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "8abdc8760744df207935381574f4d3fad0cc87f5d2c23c74b0349b68d87bf5ff",
+      "total_spikes": 115369,
+      "stimulus_spikes": 90963,
+      "direct_stimulus_spikes": 529,
+      "candidate_stimulus_spikes": 87,
+      "stimulus_counts_sha256": "d6e9da6a85d381f6ac623932dceea2354c01e0a70dfe4b465d00582a55690f10",
+      "active_cells": 8344,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.1633538838425942,
+        "downstream_hz_per_neuron": 2.9053562632328127,
+        "recruitment_fraction": 0.025034288639003286,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 8,
+          "voltage_mv": -52.0
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -51.92219753966791
+        }
+      ],
+      "advance_wall_seconds": 0.9076902620008696,
+      "advance_realtime_factor": 0.3305092194541056,
+      "median_chunk_wall_ms": 32.26196749983501,
+      "p95_chunk_wall_ms": 32.78819210040638
+    },
+    {
+      "condition": "warmth_aversion",
+      "seed": 73102,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "b39a0ae99129701cc98fc84c071ec34801886b9648e0a98030064bca97844356",
+      "total_spikes": 112513,
+      "stimulus_spikes": 87664,
+      "direct_stimulus_spikes": 500,
+      "candidate_stimulus_spikes": 78,
+      "stimulus_counts_sha256": "818e132da4d65ea727d9b8cc49a87e2831c9a3d2d221cdb71795e54b88e29986",
+      "active_cells": 8414,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.15375777382970213,
+        "downstream_hz_per_neuron": 2.846953116737922,
+        "recruitment_fraction": 0.024484365175373793,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 11,
+          "voltage_mv": -51.988850084687236
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -51.63550698992982
+        }
+      ],
+      "advance_wall_seconds": 0.9041628730019511,
+      "advance_realtime_factor": 0.33179862716985575,
+      "median_chunk_wall_ms": 32.2505704998548,
+      "p95_chunk_wall_ms": 32.99137885028358
+    },
+    {
+      "condition": "warmth_aversion_blocked",
+      "seed": 73102,
+      "simulated_seconds": 0.3,
+      "sampled_input_sha256": "b39a0ae99129701cc98fc84c071ec34801886b9648e0a98030064bca97844356",
+      "total_spikes": 113019,
+      "stimulus_spikes": 88724,
+      "direct_stimulus_spikes": 501,
+      "candidate_stimulus_spikes": 78,
+      "stimulus_counts_sha256": "7c5e4fc3a80a11365e739b37cce1add0e5e7270771a166d769bd2d47d909e2b2",
+      "active_cells": 8339,
+      "release_preserved_state": true,
+      "finite_state": true,
+      "stimulus_end_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "stimulus_end_motor_proxy": {
+        "enabled": true,
+        "escape_hz": 0.0,
+        "escape": 0.0,
+        "disruption": 0.1593575738787704,
+        "downstream_hz_per_neuron": 2.836749289836843,
+        "recruitment_fraction": 0.02440442516464384,
+        "decoder": "GF startle / distributed-activity motor disruption v1",
+        "motor_mapping": "authored; no VNC or validated convulsion model"
+      },
+      "mn9_cells": [
+        {
+          "id": "10331",
+          "spikes": 10,
+          "voltage_mv": -52.21309408242073
+        },
+        {
+          "id": "16949",
+          "spikes": 0,
+          "voltage_mv": -51.52200877714931
+        }
+      ],
+      "advance_wall_seconds": 0.9064476569983526,
+      "advance_realtime_factor": 0.33096229846677755,
+      "median_chunk_wall_ms": 32.34902600024725,
+      "p95_chunk_wall_ms": 33.05793884974264
+    }
+  ],
+  "aversion_output_ablation": [
+    {
+      "seed": 73100,
+      "matched_external_input_sha256": "ca11b01790d06a0979cd06570835cb512674432bd9e1b426aadb2dec9515f8a0",
+      "direct_spikes_active_blocked": [
+        526,
+        525
+      ],
+      "candidate_spikes_active_blocked": [
+        93,
+        93
+      ],
+      "total_stimulus_spike_difference_active_minus_blocked": 83,
+      "population_counts_differ": true
+    },
+    {
+      "seed": 73101,
+      "matched_external_input_sha256": "8abdc8760744df207935381574f4d3fad0cc87f5d2c23c74b0349b68d87bf5ff",
+      "direct_spikes_active_blocked": [
+        530,
+        529
+      ],
+      "candidate_spikes_active_blocked": [
+        87,
+        87
+      ],
+      "total_stimulus_spike_difference_active_minus_blocked": -652,
+      "population_counts_differ": true
+    },
+    {
+      "seed": 73102,
+      "matched_external_input_sha256": "b39a0ae99129701cc98fc84c071ec34801886b9648e0a98030064bca97844356",
+      "direct_spikes_active_blocked": [
+        500,
+        501
+      ],
+      "candidate_spikes_active_blocked": [
+        78,
+        78
+      ],
+      "total_stimulus_spike_difference_active_minus_blocked": -1060,
+      "population_counts_differ": true
+    }
+  ],
+  "glutamate_positive_sensitivity": {
+    "condition": "warmth",
+    "seed": 73100,
+    "simulated_seconds": 0.3,
+    "sampled_input_sha256": "a9d65aafd64a806ce4370e5cd9b8e8cafdc21e5fd99d7cd641e8bd49bb7b9844",
+    "total_spikes": 1244631,
+    "stimulus_spikes": 950890,
+    "direct_stimulus_spikes": 452,
+    "candidate_stimulus_spikes": 64,
+    "stimulus_counts_sha256": "d540e22445b4808955eef7f0ff12409640639d01e502cca299570b55f598d881",
+    "active_cells": 65341,
+    "release_preserved_state": true,
+    "finite_state": true,
+    "stimulus_end_steering": {
+      "drive": 0.30000000000000004,
+      "turn": 0.0,
+      "left_drive": 0.30000000000000004,
+      "right_drive": 0.30000000000000004,
+      "left_hz": 282.2514999078603,
+      "right_hz": 280.7363524886857,
+      "enabled": true,
+      "decoder": "DNa02 ipsilateral attenuation v1"
+    },
+    "stimulus_end_motor_proxy": {
+      "enabled": true,
+      "escape_hz": 260.01821544367306,
+      "escape": 1.0,
+      "disruption": 0.9609492381116089,
+      "downstream_hz_per_neuron": 33.926385737705615,
+      "recruitment_fraction": 0.2517768172862706,
+      "decoder": "GF startle / distributed-activity motor disruption v1",
+      "motor_mapping": "authored; no VNC or validated convulsion model"
+    },
+    "mn9_cells": [
+      {
+        "id": "10331",
+        "spikes": 12,
+        "voltage_mv": -47.85415113227841
+      },
+      {
+        "id": "16949",
+        "spikes": 0,
+        "voltage_mv": -54.132811622662274
+      }
+    ],
+    "advance_wall_seconds": 3.5080113749963857,
+    "advance_realtime_factor": 0.08551853683778579,
+    "median_chunk_wall_ms": 123.12149599983968,
+    "p95_chunk_wall_ms": 126.05055480003102
+  },
+  "limitations": [
+    "Experimental sign and dynamical assumptions; no biological MaleCNS calibration",
+    "Aversion candidate output test does not validate nociception or felt pain",
+    "No coupled 3D body or GUI migration in this assay",
+    "Timing measures neural advance only; rendering and body physics excluded"
+  ]
+}

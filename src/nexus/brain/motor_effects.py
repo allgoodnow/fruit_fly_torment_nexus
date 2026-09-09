@@ -6,12 +6,11 @@ The disruption waveform is an engineering extension, not a reconstructed VNC.
 import math
 import numpy as np
 
-from .circuits import circuit_ids
 
 
 class MotorEffects:
     def __init__(self, brain):
-        self.gf = np.array([brain.lookup[int(root)] for root in circuit_ids('giant_fiber')
+        self.gf = np.array([brain.lookup[int(root)] for root in brain.circuit_ids('giant_fiber')
                             if int(root) in brain.lookup], dtype=np.int32)
         self.reset()
 

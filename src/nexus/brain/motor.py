@@ -10,7 +10,14 @@ DNA02 = [DNA02_LEFT, DNA02_RIGHT]
 
 class SteeringDecoder:
     def __init__(self, brain):
-        self.indices = brain.resolve(DNA02)
+        if brain.graph.snapshot == '630':
+            targets = DNA02
+        else:
+            from .targets import readout_ids
+            targets = readout_ids('steering_left', brain.graph)+readout_ids('steering_right', brain.graph)
+        if len(targets) != 2:
+            raise ValueError('Steering requires one mapped neuron per side')
+        self.indices = brain.resolve(targets)
         self.reset()
 
     def reset(self):
