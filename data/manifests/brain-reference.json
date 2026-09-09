@@ -1,0 +1,61 @@
+{
+  "source": "https://github.com/philshiu/Drosophila_brain_model",
+  "commit": "91bdd1e7dcf193f3e7ca5a8933497fcef63b7960",
+  "retrieved": "2026-09-08",
+  "code_license": "MIT",
+  "dataset_redistribution": "Reference repository license recorded; separate dataset terms still to verify before packaging brain data.",
+  "snapshots": [
+    {
+      "snapshot": "630",
+      "neurons": 127400,
+      "connection_rows": 14687178,
+      "summed_connectivity_contacts": 52793639,
+      "positive_weight_rows": 8800532,
+      "negative_weight_rows": 5886646,
+      "zero_weight_rows": 0,
+      "checks": [
+        "unique neuron IDs",
+        "indices in bounds",
+        "indices match FlyWire IDs",
+        "nonnegative contact counts",
+        "signed weights match source columns"
+      ],
+      "files": {
+        "2023_03_23_completeness_630_final.csv": {
+          "sha256": "e6b71e17671a9bdb05f55e4bc6774640a1418cb7a05125e0fc994ad40f9bfdfb",
+          "bytes": 3057611
+        },
+        "2023_03_23_connectivity_630_final.parquet": {
+          "sha256": "94db8c650533bc36ffa3223f2e62325d5648b8d6bd31c3a4e1c804628c7557b3",
+          "bytes": 86630944
+        }
+      }
+    },
+    {
+      "snapshot": "783",
+      "neurons": 138639,
+      "connection_rows": 15091983,
+      "summed_connectivity_contacts": 54492922,
+      "positive_weight_rows": 9059302,
+      "negative_weight_rows": 6032681,
+      "zero_weight_rows": 0,
+      "checks": [
+        "unique neuron IDs",
+        "indices in bounds",
+        "indices match FlyWire IDs",
+        "nonnegative contact counts",
+        "signed weights match source columns"
+      ],
+      "files": {
+        "Completeness_783.csv": {
+          "sha256": "bbb847a4cc2caaa7a16349722d220c087317b946d148d4d592d94d250617a311",
+          "bytes": 3327347
+        },
+        "Connectivity_783.parquet": {
+          "sha256": "efeb23fb99098e9c390f6869969b2a121a2ee92c833cfc45ecb2c1d8e1af0347",
+          "bytes": 100804642
+        }
+      }
+    }
+  ]
+}
