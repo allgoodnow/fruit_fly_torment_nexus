@@ -1,0 +1,100 @@
+{
+  "format": "nexus-nociception-native-validation-1",
+  "version": "0.10.0",
+  "created_at": "2026-09-09T21:06:28.047423+00:00",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "edges": 25582938,
+  "positioned_cells": 140638,
+  "candidate_count": 24,
+  "unit_tests": {
+    "passed": 71,
+    "seconds": 9.28
+  },
+  "acceptance": {
+    "native": {
+      "path": "runs/nociception_native_acceptance/acceptance.json",
+      "sha256": "82fda64c6401cea3b2ad5deadc95aa2290e78139501693a515ffaf2b5095319c",
+      "checks": [
+        "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+        "defensive button runs, releases on schedule, and reports measured responses",
+        "aversion button runs, releases on schedule, and reports measured responses",
+        "heat button runs, releases on schedule, and reports measured responses",
+        "seizure button runs, releases on schedule, and reports measured responses",
+        "heat_overload button runs, releases on schedule, and reports measured responses",
+        "threat and heat inputs coexist while paused",
+        "release clears scenario inputs and overlays without advancing time",
+        "motor proxy ablation can be controlled from the native experiments tab"
+      ],
+      "rendered_frames": 410
+    },
+    "packaged": {
+      "path": "runs/nociception_packaged_acceptance/acceptance.json",
+      "sha256": "3ed0c70f37a81492ad23c48d8f2c67da7569448fcd6c1729d031c22c82471646",
+      "checks": [
+        "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+        "defensive button runs, releases on schedule, and reports measured responses",
+        "aversion button runs, releases on schedule, and reports measured responses",
+        "heat button runs, releases on schedule, and reports measured responses",
+        "seizure button runs, releases on schedule, and reports measured responses",
+        "heat_overload button runs, releases on schedule, and reports measured responses",
+        "threat and heat inputs coexist while paused",
+        "release clears scenario inputs and overlays without advancing time",
+        "motor proxy ablation can be controlled from the native experiments tab"
+      ],
+      "rendered_frames": 410
+    }
+  },
+  "gui": {
+    "layout_unchanged": true,
+    "colors_unchanged": true,
+    "controls_unchanged": true,
+    "change": "Existing pain candidate description and stimulus target selection updated."
+  },
+  "neural_assay": {
+    "seeds": [
+      73100,
+      73101,
+      73102
+    ],
+    "trials": 9,
+    "observations": [
+      "Identical external input streams in paired conditions",
+      "Source output blockade suppresses all non-source spikes during stimulation",
+      "Ascending relay output blockade suppresses GNG121 candidate spikes in all three seeds; total network spikes increase"
+    ]
+  },
+  "body_assay": {
+    "trials": 3,
+    "max_position_difference_mm": 0.08223355413946123,
+    "observations": [
+      "Blocking the motor bridge preserves exact neural counts",
+      "Source blockade and motor blockade yield identical body trajectories",
+      "Finite body state and shared clocks throughout"
+    ]
+  },
+  "source_hashes": {
+    "src/nexus/brain/runtime.py": "1e2864bd7781a062abf3a125d01bd332543a70f60d1853e58deada75a6b15211",
+    "src/nexus/brain/config.py": "f297cd2eb38a0cb6e06b006953918f6bf2714534089344b2b5cdd6d98ca65c59",
+    "src/nexus/brain/scenarios.py": "cc38e142083d121a4a55f8dafeae23bcd757fbb80e6c17030c22e032b5356c84",
+    "src/nexus/intervention_panel.py": "5d136f5bccae4b171afbef8b5c87489ae099d703c5ce5ca71027e99e0c411b92",
+    "src/nexus/datasets/nociception.py": "e0595c34f6c1283b057b9e8be0f492884d1907df049e27a00694483cd1994eed",
+    "experiments/nociception-cohort-v1.json": "10006e91a92bf20a2c1ed13f63ea5fd07bada83ec93e564dc270f0f46def5fb3",
+    "experiments/nociception-input-v1.json": "6c3d87af223a12b4808f026c1692ee2ce452c4ed50bdd025052f2f94dee8e0fb",
+    "experiments/nociception-v1-results.json": "cb5b22d1672cdb580b7526fd19dfa02186e50ed9e0d2f3dc0316eaa753a280a0",
+    "experiments/nociception-body-v1-results.json": "c2609af04b68adb9b440cf962f5c52bdb5a07528c6ca73dcb503b8c74b7ae942",
+    "data/brain-male-cns-v1.0-lif/manifest.json": "5da5a8821f56f456ffac846957c346cecd8050b8d98e0ea69358556bc3db1adf",
+    "data/brain-male-cns-v1.0-lif/circuits-d5721f0747ee6559.json": "d5721f0747ee6559f7250898fa04216d46dd63373ff21ab833516823946dc295"
+  },
+  "limitations": [
+    "MANC v1.2.1 and MaleCNS v1.0 are different specimens; crosswalk errors remain possible",
+    "Current broad class labels include chemosensory and unknown_sensory; these labels alone do not establish nociception",
+    "Four excluded source cells match unclassified segments and are not added to the 166700-neuron runtime",
+    "SS01159, SS51024 and IS35283 ascending driver assignments remain unresolved",
+    "Optogenetic-like input rates are authored; no calibrated thermal or mechanical transduction",
+    "Nociceptive function in this specimen and subjective pain remain unvalidated",
+    "The measured movement change is small and passes through an authored motor decoder",
+    "Earlier assay hashes identify the pack and source revisions at assay time; this release adds the named cohort without changing connectivity or neuron dynamics"
+  ]
+}

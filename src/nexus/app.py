@@ -489,7 +489,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.9.0", "started_at": self.started_at,
+            return {"version": "0.10.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -961,7 +961,7 @@ def main():
                 if name == 'defensive':
                     success &= self.response_escape > .1 and self.response_offset > .02
                 elif name == 'aversion':
-                    success &= t['total_spikes'] > 0 and any(e.get('circuit') == 'aversion_proxy' for e in t['interventions'])
+                    success &= t['total_spikes'] > 0 and any(e.get('circuit') == config.pain_circuit for e in t['interventions'])
                 elif name == 'heat':
                     success &= self.response_temperature == 40 and t['total_spikes'] > 1000
                 else:

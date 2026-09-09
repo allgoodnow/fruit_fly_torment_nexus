@@ -65,7 +65,7 @@ def build_registry(neurons):
             'unavailable_inputs': {'sugar': 'No validated MaleCNS sugar-cell mapping yet.'}}
 
 
-def prepare_runtime(structural, raw, output):
+def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
     import pandas as pd
     from nexus.brain.runtime import Connectome
     structural, raw, output = Path(structural), Path(raw), Path(output)
@@ -92,6 +92,9 @@ def prepare_runtime(structural, raw, output):
         raise ValueError('Invalid structural adjacency')
     signs, labels = transmitter_signs(ids, pd.read_feather(raw/FILES['neurotransmitters']))
     registry = build_registry(neurons)
+    if nociception_cohort is not None:
+        from .nociception import attach_cohort
+        registry = attach_cohort(registry, nociception_cohort, ids, records[FILES['annotations']]['sha256'])
     output.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(tempfile.mkdtemp(prefix=output.name+'.partial-', dir=output.parent))
     try:

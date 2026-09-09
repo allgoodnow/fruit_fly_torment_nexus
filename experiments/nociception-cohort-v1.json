@@ -1,0 +1,3920 @@
+{
+  "format": "nexus-nociception-cohort-1",
+  "dataset": "male-cns:v1.0",
+  "source_reference": {
+    "repository": "https://github.com/jesmjones/nociceptive_pathways_paper",
+    "commit": "39a75c0f3c5e7ce2facf56666a0a5908f3bf11e7",
+    "paper": "https://doi.org/10.1101/2025.10.28.684868",
+    "source_dataset": "manc:v1.2.1",
+    "license": "Apache-2.0",
+    "notebooks": [
+      {
+        "file": "code/figure4.ipynb",
+        "sha256": "3d6feb5de41eb0d7424a6218b9c8a4afe68412a757c4fcb1b90385670e229e21",
+        "cell_index": 1,
+        "variable": "md_4_neurons"
+      },
+      {
+        "file": "code/figure_s5.ipynb",
+        "sha256": "f46bb594f10d9c300445962d26147437ef610df1a605ddda1dc2e8ce37e5c9a0",
+        "cell_index": 1,
+        "variable": "md_4_neurons"
+      }
+    ]
+  },
+  "annotation_source": {
+    "file": "body-annotations-male-cns-v1.0-minconf-0.5.feather",
+    "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather",
+    "bytes": 14483314,
+    "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2"
+  },
+  "structural_manifest_sha256": "f6336ee6f95a82c011e9f8155841401126b1d997f2ed2dfafbd07474953a108d",
+  "selection": "Exact mancBodyid matches; require a single match, runtime membership, vnc_sensory superclass and abdomen subclass. No type-name expansion.",
+  "status_counts": {
+    "ambiguous_match": 1,
+    "eligible_candidate": 24,
+    "missing_match": 1,
+    "outside_classified_runtime": 4
+  },
+  "source_count": 30,
+  "selected_count": 24,
+  "ids": [
+    "801695",
+    "804024",
+    "804202",
+    "805314",
+    "805493",
+    "805534",
+    "805587",
+    "805594",
+    "806067",
+    "806527",
+    "809260",
+    "810474",
+    "811993",
+    "812018",
+    "813922",
+    "814579",
+    "902929",
+    "903750",
+    "905881",
+    "906519",
+    "908138",
+    "909515",
+    "910127",
+    "1050213678"
+  ],
+  "mapping": [
+    {
+      "manc_body_id": 15263,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 806527,
+          "mancBodyid": 15263.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbNT"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 18951,
+      "status": "ambiguous_match",
+      "matches": [
+        {
+          "bodyId": 804528,
+          "mancBodyid": 18951.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN3"
+        },
+        {
+          "bodyId": 848690,
+          "mancBodyid": 18951.0,
+          "type": null,
+          "mancType": null,
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN3"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 21105,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 810474,
+          "mancBodyid": 21105.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN3"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 21209,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 804024,
+          "mancBodyid": 21209.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 21219,
+      "status": "outside_classified_runtime",
+      "matches": [
+        {
+          "bodyId": 826225,
+          "mancBodyid": 21219.0,
+          "type": null,
+          "mancType": null,
+          "class": null,
+          "subclass": null,
+          "superclass": null,
+          "status": "Orphan",
+          "entryNerve": null
+        }
+      ]
+    },
+    {
+      "manc_body_id": 21773,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 805587,
+          "mancBodyid": 21773.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 21976,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 804202,
+          "mancBodyid": 21976.0,
+          "type": "SNxx11",
+          "mancType": "SNxx11",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbNT"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22045,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 805314,
+          "mancBodyid": 22045.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22090,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 908138,
+          "mancBodyid": 22090.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22123,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 805493,
+          "mancBodyid": 22123.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22217,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 906519,
+          "mancBodyid": 22217.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN2"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22228,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 902929,
+          "mancBodyid": 22228.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22247,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 809260,
+          "mancBodyid": 22247.0,
+          "type": "SNxx19",
+          "mancType": "SNxx19",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22411,
+      "status": "outside_classified_runtime",
+      "matches": [
+        {
+          "bodyId": 821603,
+          "mancBodyid": 22411.0,
+          "type": null,
+          "mancType": null,
+          "class": null,
+          "subclass": null,
+          "superclass": null,
+          "status": "Orphan",
+          "entryNerve": null
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22543,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 806067,
+          "mancBodyid": 22543.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN3"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22613,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 805534,
+          "mancBodyid": 22613.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbNT"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22719,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 811993,
+          "mancBodyid": 22719.0,
+          "type": "SNxx02",
+          "mancType": "SNxx02",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbNT"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 22995,
+      "status": "missing_match",
+      "matches": []
+    },
+    {
+      "manc_body_id": 23476,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 910127,
+          "mancBodyid": 23476.0,
+          "type": "SNxx03",
+          "mancType": "SNxx03",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 23532,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 905881,
+          "mancBodyid": 23532.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN2"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 23783,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 903750,
+          "mancBodyid": 23783.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 24165,
+      "status": "outside_classified_runtime",
+      "matches": [
+        {
+          "bodyId": 825390,
+          "mancBodyid": 24165.0,
+          "type": null,
+          "mancType": null,
+          "class": null,
+          "subclass": null,
+          "superclass": null,
+          "status": "Orphan",
+          "entryNerve": null
+        }
+      ]
+    },
+    {
+      "manc_body_id": 24180,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 909515,
+          "mancBodyid": 24180.0,
+          "type": "SNxx19",
+          "mancType": "SNxx19",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 25494,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 801695,
+          "mancBodyid": 25494.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN2"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 25636,
+      "status": "outside_classified_runtime",
+      "matches": [
+        {
+          "bodyId": 819770,
+          "mancBodyid": 25636.0,
+          "type": null,
+          "mancType": null,
+          "class": null,
+          "subclass": null,
+          "superclass": null,
+          "status": "Orphan",
+          "entryNerve": null
+        }
+      ]
+    },
+    {
+      "manc_body_id": 26664,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 812018,
+          "mancBodyid": 26664.0,
+          "type": "SNxx03",
+          "mancType": "SNxx03",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 101527,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 805594,
+          "mancBodyid": 101527.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 152738,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 813922,
+          "mancBodyid": 152738.0,
+          "type": "SNxx04",
+          "mancType": "SNxx04",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 154741,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 814579,
+          "mancBodyid": 154741.0,
+          "type": "SNxx03",
+          "mancType": "SNxx03",
+          "class": "unknown_sensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN4"
+        }
+      ]
+    },
+    {
+      "manc_body_id": 163802,
+      "status": "eligible_candidate",
+      "matches": [
+        {
+          "bodyId": 1050213678,
+          "mancBodyid": 163802.0,
+          "type": "SNch01",
+          "mancType": "SNch01",
+          "class": "chemosensory",
+          "subclass": "abdomen",
+          "superclass": "vnc_sensory",
+          "status": "Traced",
+          "entryNerve": "AbN2"
+        }
+      ]
+    }
+  ],
+  "target_ids": {
+    "aversion_candidate": [
+      "10941",
+      "11357"
+    ],
+    "escape": [
+      "10001",
+      "10010"
+    ],
+    "walking": [
+      "10045",
+      "10056"
+    ]
+  },
+  "path_contact_threshold": 4,
+  "ascending_relay_ids": [
+    "11604",
+    "12457",
+    "12868",
+    "13181",
+    "13580",
+    "14026",
+    "14994",
+    "15443",
+    "16510",
+    "17158",
+    "18325",
+    "19197",
+    "19217",
+    "19709",
+    "20065",
+    "21195",
+    "24246",
+    "26241",
+    "26471",
+    "29334",
+    "29665",
+    "32085",
+    "32193",
+    "32651",
+    "37979",
+    "39026",
+    "41337",
+    "41594",
+    "42529",
+    "42580",
+    "44445",
+    "46086",
+    "46515",
+    "48555",
+    "48575",
+    "50028",
+    "52104",
+    "52112",
+    "53588",
+    "54230",
+    "54774",
+    "56710",
+    "56906",
+    "58725",
+    "66518",
+    "80727",
+    "82508",
+    "85538",
+    "86590",
+    "90390",
+    "98875",
+    "100113",
+    "109626",
+    "124689",
+    "136369",
+    "140146",
+    "152496",
+    "165035",
+    "165664",
+    "172264",
+    "215209",
+    "321015",
+    "435098",
+    "511867",
+    "512119",
+    "512519",
+    "512555",
+    "512825",
+    "513169",
+    "513405",
+    "514484",
+    "515447",
+    "515775",
+    "516367",
+    "516615",
+    "522310",
+    "524518",
+    "526592",
+    "556077",
+    "801206",
+    "808335",
+    "915422",
+    "932790"
+  ],
+  "sensory_to_ascending_edges": [
+    {
+      "pre": 801695,
+      "post": 512555,
+      "contacts": 154
+    },
+    {
+      "pre": 801695,
+      "post": 11604,
+      "contacts": 83
+    },
+    {
+      "pre": 801695,
+      "post": 18325,
+      "contacts": 72
+    },
+    {
+      "pre": 801695,
+      "post": 14026,
+      "contacts": 61
+    },
+    {
+      "pre": 801695,
+      "post": 513169,
+      "contacts": 53
+    },
+    {
+      "pre": 801695,
+      "post": 32085,
+      "contacts": 42
+    },
+    {
+      "pre": 801695,
+      "post": 80727,
+      "contacts": 40
+    },
+    {
+      "pre": 801695,
+      "post": 511867,
+      "contacts": 35
+    },
+    {
+      "pre": 801695,
+      "post": 19197,
+      "contacts": 15
+    },
+    {
+      "pre": 801695,
+      "post": 29334,
+      "contacts": 14
+    },
+    {
+      "pre": 801695,
+      "post": 516615,
+      "contacts": 14
+    },
+    {
+      "pre": 801695,
+      "post": 41594,
+      "contacts": 13
+    },
+    {
+      "pre": 801695,
+      "post": 86590,
+      "contacts": 8
+    },
+    {
+      "pre": 801695,
+      "post": 46086,
+      "contacts": 7
+    },
+    {
+      "pre": 801695,
+      "post": 56710,
+      "contacts": 6
+    },
+    {
+      "pre": 801695,
+      "post": 24246,
+      "contacts": 6
+    },
+    {
+      "pre": 801695,
+      "post": 37979,
+      "contacts": 4
+    },
+    {
+      "pre": 804024,
+      "post": 512555,
+      "contacts": 185
+    },
+    {
+      "pre": 804024,
+      "post": 14026,
+      "contacts": 129
+    },
+    {
+      "pre": 804024,
+      "post": 11604,
+      "contacts": 92
+    },
+    {
+      "pre": 804024,
+      "post": 32085,
+      "contacts": 76
+    },
+    {
+      "pre": 804024,
+      "post": 80727,
+      "contacts": 44
+    },
+    {
+      "pre": 804024,
+      "post": 19197,
+      "contacts": 34
+    },
+    {
+      "pre": 804024,
+      "post": 513169,
+      "contacts": 33
+    },
+    {
+      "pre": 804024,
+      "post": 512119,
+      "contacts": 32
+    },
+    {
+      "pre": 804024,
+      "post": 514484,
+      "contacts": 24
+    },
+    {
+      "pre": 804024,
+      "post": 20065,
+      "contacts": 20
+    },
+    {
+      "pre": 804024,
+      "post": 56710,
+      "contacts": 13
+    },
+    {
+      "pre": 804024,
+      "post": 18325,
+      "contacts": 12
+    },
+    {
+      "pre": 804024,
+      "post": 37979,
+      "contacts": 11
+    },
+    {
+      "pre": 804024,
+      "post": 124689,
+      "contacts": 9
+    },
+    {
+      "pre": 804202,
+      "post": 26471,
+      "contacts": 7
+    },
+    {
+      "pre": 804202,
+      "post": 26241,
+      "contacts": 5
+    },
+    {
+      "pre": 804202,
+      "post": 13580,
+      "contacts": 4
+    },
+    {
+      "pre": 805314,
+      "post": 18325,
+      "contacts": 161
+    },
+    {
+      "pre": 805314,
+      "post": 11604,
+      "contacts": 144
+    },
+    {
+      "pre": 805314,
+      "post": 14026,
+      "contacts": 127
+    },
+    {
+      "pre": 805314,
+      "post": 29334,
+      "contacts": 118
+    },
+    {
+      "pre": 805314,
+      "post": 515447,
+      "contacts": 62
+    },
+    {
+      "pre": 805314,
+      "post": 19197,
+      "contacts": 44
+    },
+    {
+      "pre": 805314,
+      "post": 20065,
+      "contacts": 44
+    },
+    {
+      "pre": 805314,
+      "post": 56710,
+      "contacts": 41
+    },
+    {
+      "pre": 805314,
+      "post": 513169,
+      "contacts": 28
+    },
+    {
+      "pre": 805314,
+      "post": 512119,
+      "contacts": 26
+    },
+    {
+      "pre": 805314,
+      "post": 80727,
+      "contacts": 15
+    },
+    {
+      "pre": 805314,
+      "post": 514484,
+      "contacts": 10
+    },
+    {
+      "pre": 805314,
+      "post": 32193,
+      "contacts": 7
+    },
+    {
+      "pre": 805314,
+      "post": 808335,
+      "contacts": 6
+    },
+    {
+      "pre": 805493,
+      "post": 18325,
+      "contacts": 156
+    },
+    {
+      "pre": 805493,
+      "post": 515447,
+      "contacts": 153
+    },
+    {
+      "pre": 805493,
+      "post": 11604,
+      "contacts": 106
+    },
+    {
+      "pre": 805493,
+      "post": 14026,
+      "contacts": 78
+    },
+    {
+      "pre": 805493,
+      "post": 29334,
+      "contacts": 74
+    },
+    {
+      "pre": 805493,
+      "post": 513169,
+      "contacts": 61
+    },
+    {
+      "pre": 805493,
+      "post": 514484,
+      "contacts": 44
+    },
+    {
+      "pre": 805493,
+      "post": 19197,
+      "contacts": 32
+    },
+    {
+      "pre": 805493,
+      "post": 20065,
+      "contacts": 30
+    },
+    {
+      "pre": 805493,
+      "post": 512119,
+      "contacts": 16
+    },
+    {
+      "pre": 805493,
+      "post": 512555,
+      "contacts": 15
+    },
+    {
+      "pre": 805493,
+      "post": 808335,
+      "contacts": 6
+    },
+    {
+      "pre": 805534,
+      "post": 18325,
+      "contacts": 238
+    },
+    {
+      "pre": 805534,
+      "post": 515447,
+      "contacts": 223
+    },
+    {
+      "pre": 805534,
+      "post": 11604,
+      "contacts": 163
+    },
+    {
+      "pre": 805534,
+      "post": 14026,
+      "contacts": 151
+    },
+    {
+      "pre": 805534,
+      "post": 514484,
+      "contacts": 146
+    },
+    {
+      "pre": 805534,
+      "post": 19197,
+      "contacts": 121
+    },
+    {
+      "pre": 805534,
+      "post": 513169,
+      "contacts": 95
+    },
+    {
+      "pre": 805534,
+      "post": 29334,
+      "contacts": 67
+    },
+    {
+      "pre": 805534,
+      "post": 512555,
+      "contacts": 57
+    },
+    {
+      "pre": 805534,
+      "post": 20065,
+      "contacts": 34
+    },
+    {
+      "pre": 805534,
+      "post": 512119,
+      "contacts": 22
+    },
+    {
+      "pre": 805534,
+      "post": 808335,
+      "contacts": 14
+    },
+    {
+      "pre": 805534,
+      "post": 32085,
+      "contacts": 6
+    },
+    {
+      "pre": 805534,
+      "post": 46515,
+      "contacts": 4
+    },
+    {
+      "pre": 805587,
+      "post": 18325,
+      "contacts": 229
+    },
+    {
+      "pre": 805587,
+      "post": 11604,
+      "contacts": 171
+    },
+    {
+      "pre": 805587,
+      "post": 14026,
+      "contacts": 139
+    },
+    {
+      "pre": 805587,
+      "post": 29334,
+      "contacts": 137
+    },
+    {
+      "pre": 805587,
+      "post": 56710,
+      "contacts": 99
+    },
+    {
+      "pre": 805587,
+      "post": 20065,
+      "contacts": 50
+    },
+    {
+      "pre": 805587,
+      "post": 80727,
+      "contacts": 50
+    },
+    {
+      "pre": 805587,
+      "post": 515447,
+      "contacts": 34
+    },
+    {
+      "pre": 805587,
+      "post": 19197,
+      "contacts": 30
+    },
+    {
+      "pre": 805587,
+      "post": 513169,
+      "contacts": 16
+    },
+    {
+      "pre": 805587,
+      "post": 932790,
+      "contacts": 14
+    },
+    {
+      "pre": 805587,
+      "post": 512119,
+      "contacts": 10
+    },
+    {
+      "pre": 805587,
+      "post": 13181,
+      "contacts": 7
+    },
+    {
+      "pre": 805587,
+      "post": 808335,
+      "contacts": 4
+    },
+    {
+      "pre": 805587,
+      "post": 14994,
+      "contacts": 4
+    },
+    {
+      "pre": 805594,
+      "post": 512555,
+      "contacts": 175
+    },
+    {
+      "pre": 805594,
+      "post": 14026,
+      "contacts": 115
+    },
+    {
+      "pre": 805594,
+      "post": 11604,
+      "contacts": 92
+    },
+    {
+      "pre": 805594,
+      "post": 80727,
+      "contacts": 65
+    },
+    {
+      "pre": 805594,
+      "post": 32085,
+      "contacts": 62
+    },
+    {
+      "pre": 805594,
+      "post": 20065,
+      "contacts": 59
+    },
+    {
+      "pre": 805594,
+      "post": 19197,
+      "contacts": 47
+    },
+    {
+      "pre": 805594,
+      "post": 513169,
+      "contacts": 43
+    },
+    {
+      "pre": 805594,
+      "post": 512119,
+      "contacts": 35
+    },
+    {
+      "pre": 805594,
+      "post": 37979,
+      "contacts": 23
+    },
+    {
+      "pre": 805594,
+      "post": 124689,
+      "contacts": 23
+    },
+    {
+      "pre": 805594,
+      "post": 514484,
+      "contacts": 20
+    },
+    {
+      "pre": 805594,
+      "post": 18325,
+      "contacts": 13
+    },
+    {
+      "pre": 805594,
+      "post": 56710,
+      "contacts": 11
+    },
+    {
+      "pre": 805594,
+      "post": 515447,
+      "contacts": 6
+    },
+    {
+      "pre": 805594,
+      "post": 801206,
+      "contacts": 5
+    },
+    {
+      "pre": 806067,
+      "post": 14026,
+      "contacts": 145
+    },
+    {
+      "pre": 806067,
+      "post": 512555,
+      "contacts": 118
+    },
+    {
+      "pre": 806067,
+      "post": 80727,
+      "contacts": 101
+    },
+    {
+      "pre": 806067,
+      "post": 11604,
+      "contacts": 86
+    },
+    {
+      "pre": 806067,
+      "post": 56710,
+      "contacts": 71
+    },
+    {
+      "pre": 806067,
+      "post": 513169,
+      "contacts": 45
+    },
+    {
+      "pre": 806067,
+      "post": 124689,
+      "contacts": 38
+    },
+    {
+      "pre": 806067,
+      "post": 32085,
+      "contacts": 38
+    },
+    {
+      "pre": 806067,
+      "post": 801206,
+      "contacts": 27
+    },
+    {
+      "pre": 806067,
+      "post": 37979,
+      "contacts": 25
+    },
+    {
+      "pre": 806067,
+      "post": 20065,
+      "contacts": 22
+    },
+    {
+      "pre": 806067,
+      "post": 511867,
+      "contacts": 6
+    },
+    {
+      "pre": 806067,
+      "post": 42580,
+      "contacts": 6
+    },
+    {
+      "pre": 806067,
+      "post": 915422,
+      "contacts": 4
+    },
+    {
+      "pre": 806527,
+      "post": 512555,
+      "contacts": 173
+    },
+    {
+      "pre": 806527,
+      "post": 18325,
+      "contacts": 154
+    },
+    {
+      "pre": 806527,
+      "post": 514484,
+      "contacts": 137
+    },
+    {
+      "pre": 806527,
+      "post": 515447,
+      "contacts": 130
+    },
+    {
+      "pre": 806527,
+      "post": 11604,
+      "contacts": 84
+    },
+    {
+      "pre": 806527,
+      "post": 19197,
+      "contacts": 64
+    },
+    {
+      "pre": 806527,
+      "post": 513169,
+      "contacts": 55
+    },
+    {
+      "pre": 806527,
+      "post": 14026,
+      "contacts": 49
+    },
+    {
+      "pre": 806527,
+      "post": 32085,
+      "contacts": 49
+    },
+    {
+      "pre": 806527,
+      "post": 29334,
+      "contacts": 37
+    },
+    {
+      "pre": 806527,
+      "post": 37979,
+      "contacts": 26
+    },
+    {
+      "pre": 806527,
+      "post": 808335,
+      "contacts": 22
+    },
+    {
+      "pre": 806527,
+      "post": 512119,
+      "contacts": 18
+    },
+    {
+      "pre": 806527,
+      "post": 512825,
+      "contacts": 12
+    },
+    {
+      "pre": 806527,
+      "post": 20065,
+      "contacts": 11
+    },
+    {
+      "pre": 806527,
+      "post": 215209,
+      "contacts": 8
+    },
+    {
+      "pre": 806527,
+      "post": 152496,
+      "contacts": 7
+    },
+    {
+      "pre": 806527,
+      "post": 48575,
+      "contacts": 7
+    },
+    {
+      "pre": 809260,
+      "post": 165664,
+      "contacts": 51
+    },
+    {
+      "pre": 809260,
+      "post": 54774,
+      "contacts": 33
+    },
+    {
+      "pre": 809260,
+      "post": 11604,
+      "contacts": 28
+    },
+    {
+      "pre": 809260,
+      "post": 20065,
+      "contacts": 27
+    },
+    {
+      "pre": 809260,
+      "post": 14026,
+      "contacts": 26
+    },
+    {
+      "pre": 809260,
+      "post": 165035,
+      "contacts": 17
+    },
+    {
+      "pre": 809260,
+      "post": 515447,
+      "contacts": 16
+    },
+    {
+      "pre": 809260,
+      "post": 82508,
+      "contacts": 15
+    },
+    {
+      "pre": 809260,
+      "post": 136369,
+      "contacts": 14
+    },
+    {
+      "pre": 809260,
+      "post": 109626,
+      "contacts": 12
+    },
+    {
+      "pre": 809260,
+      "post": 512119,
+      "contacts": 9
+    },
+    {
+      "pre": 809260,
+      "post": 29334,
+      "contacts": 8
+    },
+    {
+      "pre": 809260,
+      "post": 516367,
+      "contacts": 5
+    },
+    {
+      "pre": 809260,
+      "post": 140146,
+      "contacts": 4
+    },
+    {
+      "pre": 810474,
+      "post": 512555,
+      "contacts": 92
+    },
+    {
+      "pre": 810474,
+      "post": 14026,
+      "contacts": 49
+    },
+    {
+      "pre": 810474,
+      "post": 513169,
+      "contacts": 34
+    },
+    {
+      "pre": 810474,
+      "post": 18325,
+      "contacts": 33
+    },
+    {
+      "pre": 810474,
+      "post": 11604,
+      "contacts": 27
+    },
+    {
+      "pre": 810474,
+      "post": 80727,
+      "contacts": 24
+    },
+    {
+      "pre": 810474,
+      "post": 32085,
+      "contacts": 22
+    },
+    {
+      "pre": 810474,
+      "post": 124689,
+      "contacts": 15
+    },
+    {
+      "pre": 810474,
+      "post": 20065,
+      "contacts": 13
+    },
+    {
+      "pre": 810474,
+      "post": 29334,
+      "contacts": 10
+    },
+    {
+      "pre": 810474,
+      "post": 56710,
+      "contacts": 7
+    },
+    {
+      "pre": 810474,
+      "post": 12868,
+      "contacts": 6
+    },
+    {
+      "pre": 810474,
+      "post": 19197,
+      "contacts": 5
+    },
+    {
+      "pre": 810474,
+      "post": 511867,
+      "contacts": 5
+    },
+    {
+      "pre": 810474,
+      "post": 13181,
+      "contacts": 4
+    },
+    {
+      "pre": 811993,
+      "post": 52112,
+      "contacts": 11
+    },
+    {
+      "pre": 811993,
+      "post": 512119,
+      "contacts": 9
+    },
+    {
+      "pre": 811993,
+      "post": 512519,
+      "contacts": 7
+    },
+    {
+      "pre": 811993,
+      "post": 12457,
+      "contacts": 6
+    },
+    {
+      "pre": 811993,
+      "post": 13580,
+      "contacts": 6
+    },
+    {
+      "pre": 811993,
+      "post": 524518,
+      "contacts": 6
+    },
+    {
+      "pre": 811993,
+      "post": 15443,
+      "contacts": 4
+    },
+    {
+      "pre": 812018,
+      "post": 58725,
+      "contacts": 18
+    },
+    {
+      "pre": 812018,
+      "post": 524518,
+      "contacts": 17
+    },
+    {
+      "pre": 812018,
+      "post": 522310,
+      "contacts": 7
+    },
+    {
+      "pre": 812018,
+      "post": 14994,
+      "contacts": 6
+    },
+    {
+      "pre": 812018,
+      "post": 13181,
+      "contacts": 6
+    },
+    {
+      "pre": 812018,
+      "post": 56710,
+      "contacts": 5
+    },
+    {
+      "pre": 812018,
+      "post": 20065,
+      "contacts": 4
+    },
+    {
+      "pre": 812018,
+      "post": 512519,
+      "contacts": 4
+    },
+    {
+      "pre": 812018,
+      "post": 12457,
+      "contacts": 4
+    },
+    {
+      "pre": 812018,
+      "post": 13580,
+      "contacts": 4
+    },
+    {
+      "pre": 813922,
+      "post": 52104,
+      "contacts": 22
+    },
+    {
+      "pre": 813922,
+      "post": 66518,
+      "contacts": 13
+    },
+    {
+      "pre": 813922,
+      "post": 56906,
+      "contacts": 11
+    },
+    {
+      "pre": 813922,
+      "post": 58725,
+      "contacts": 9
+    },
+    {
+      "pre": 813922,
+      "post": 512119,
+      "contacts": 5
+    },
+    {
+      "pre": 813922,
+      "post": 435098,
+      "contacts": 4
+    },
+    {
+      "pre": 813922,
+      "post": 321015,
+      "contacts": 4
+    },
+    {
+      "pre": 814579,
+      "post": 524518,
+      "contacts": 25
+    },
+    {
+      "pre": 814579,
+      "post": 58725,
+      "contacts": 12
+    },
+    {
+      "pre": 814579,
+      "post": 14994,
+      "contacts": 10
+    },
+    {
+      "pre": 814579,
+      "post": 13181,
+      "contacts": 8
+    },
+    {
+      "pre": 814579,
+      "post": 522310,
+      "contacts": 6
+    },
+    {
+      "pre": 814579,
+      "post": 512119,
+      "contacts": 6
+    },
+    {
+      "pre": 814579,
+      "post": 16510,
+      "contacts": 5
+    },
+    {
+      "pre": 814579,
+      "post": 53588,
+      "contacts": 4
+    },
+    {
+      "pre": 814579,
+      "post": 90390,
+      "contacts": 4
+    },
+    {
+      "pre": 814579,
+      "post": 321015,
+      "contacts": 4
+    },
+    {
+      "pre": 902929,
+      "post": 512555,
+      "contacts": 176
+    },
+    {
+      "pre": 902929,
+      "post": 14026,
+      "contacts": 139
+    },
+    {
+      "pre": 902929,
+      "post": 11604,
+      "contacts": 112
+    },
+    {
+      "pre": 902929,
+      "post": 80727,
+      "contacts": 107
+    },
+    {
+      "pre": 902929,
+      "post": 32085,
+      "contacts": 96
+    },
+    {
+      "pre": 902929,
+      "post": 19197,
+      "contacts": 51
+    },
+    {
+      "pre": 902929,
+      "post": 56710,
+      "contacts": 46
+    },
+    {
+      "pre": 902929,
+      "post": 513169,
+      "contacts": 31
+    },
+    {
+      "pre": 902929,
+      "post": 20065,
+      "contacts": 27
+    },
+    {
+      "pre": 902929,
+      "post": 37979,
+      "contacts": 22
+    },
+    {
+      "pre": 902929,
+      "post": 124689,
+      "contacts": 8
+    },
+    {
+      "pre": 902929,
+      "post": 512119,
+      "contacts": 8
+    },
+    {
+      "pre": 902929,
+      "post": 801206,
+      "contacts": 6
+    },
+    {
+      "pre": 902929,
+      "post": 42580,
+      "contacts": 5
+    },
+    {
+      "pre": 902929,
+      "post": 18325,
+      "contacts": 5
+    },
+    {
+      "pre": 903750,
+      "post": 18325,
+      "contacts": 193
+    },
+    {
+      "pre": 903750,
+      "post": 29334,
+      "contacts": 80
+    },
+    {
+      "pre": 903750,
+      "post": 11604,
+      "contacts": 66
+    },
+    {
+      "pre": 903750,
+      "post": 14026,
+      "contacts": 57
+    },
+    {
+      "pre": 903750,
+      "post": 13181,
+      "contacts": 37
+    },
+    {
+      "pre": 903750,
+      "post": 556077,
+      "contacts": 32
+    },
+    {
+      "pre": 903750,
+      "post": 512555,
+      "contacts": 31
+    },
+    {
+      "pre": 903750,
+      "post": 808335,
+      "contacts": 19
+    },
+    {
+      "pre": 903750,
+      "post": 19197,
+      "contacts": 15
+    },
+    {
+      "pre": 903750,
+      "post": 32085,
+      "contacts": 12
+    },
+    {
+      "pre": 903750,
+      "post": 80727,
+      "contacts": 12
+    },
+    {
+      "pre": 903750,
+      "post": 513169,
+      "contacts": 11
+    },
+    {
+      "pre": 903750,
+      "post": 12868,
+      "contacts": 9
+    },
+    {
+      "pre": 903750,
+      "post": 41594,
+      "contacts": 9
+    },
+    {
+      "pre": 903750,
+      "post": 512119,
+      "contacts": 7
+    },
+    {
+      "pre": 903750,
+      "post": 100113,
+      "contacts": 7
+    },
+    {
+      "pre": 903750,
+      "post": 56710,
+      "contacts": 4
+    },
+    {
+      "pre": 903750,
+      "post": 17158,
+      "contacts": 4
+    },
+    {
+      "pre": 903750,
+      "post": 515447,
+      "contacts": 4
+    },
+    {
+      "pre": 905881,
+      "post": 18325,
+      "contacts": 161
+    },
+    {
+      "pre": 905881,
+      "post": 14026,
+      "contacts": 145
+    },
+    {
+      "pre": 905881,
+      "post": 11604,
+      "contacts": 120
+    },
+    {
+      "pre": 905881,
+      "post": 19197,
+      "contacts": 81
+    },
+    {
+      "pre": 905881,
+      "post": 29334,
+      "contacts": 78
+    },
+    {
+      "pre": 905881,
+      "post": 56710,
+      "contacts": 76
+    },
+    {
+      "pre": 905881,
+      "post": 80727,
+      "contacts": 55
+    },
+    {
+      "pre": 905881,
+      "post": 98875,
+      "contacts": 18
+    },
+    {
+      "pre": 905881,
+      "post": 32193,
+      "contacts": 17
+    },
+    {
+      "pre": 905881,
+      "post": 512119,
+      "contacts": 16
+    },
+    {
+      "pre": 905881,
+      "post": 13181,
+      "contacts": 12
+    },
+    {
+      "pre": 905881,
+      "post": 44445,
+      "contacts": 12
+    },
+    {
+      "pre": 905881,
+      "post": 86590,
+      "contacts": 11
+    },
+    {
+      "pre": 905881,
+      "post": 932790,
+      "contacts": 9
+    },
+    {
+      "pre": 905881,
+      "post": 39026,
+      "contacts": 7
+    },
+    {
+      "pre": 905881,
+      "post": 19709,
+      "contacts": 6
+    },
+    {
+      "pre": 905881,
+      "post": 41594,
+      "contacts": 5
+    },
+    {
+      "pre": 905881,
+      "post": 46086,
+      "contacts": 4
+    },
+    {
+      "pre": 906519,
+      "post": 512555,
+      "contacts": 196
+    },
+    {
+      "pre": 906519,
+      "post": 11604,
+      "contacts": 152
+    },
+    {
+      "pre": 906519,
+      "post": 14026,
+      "contacts": 135
+    },
+    {
+      "pre": 906519,
+      "post": 513169,
+      "contacts": 85
+    },
+    {
+      "pre": 906519,
+      "post": 80727,
+      "contacts": 80
+    },
+    {
+      "pre": 906519,
+      "post": 32085,
+      "contacts": 70
+    },
+    {
+      "pre": 906519,
+      "post": 56710,
+      "contacts": 23
+    },
+    {
+      "pre": 906519,
+      "post": 19217,
+      "contacts": 11
+    },
+    {
+      "pre": 906519,
+      "post": 39026,
+      "contacts": 10
+    },
+    {
+      "pre": 906519,
+      "post": 511867,
+      "contacts": 9
+    },
+    {
+      "pre": 906519,
+      "post": 41337,
+      "contacts": 8
+    },
+    {
+      "pre": 906519,
+      "post": 50028,
+      "contacts": 7
+    },
+    {
+      "pre": 906519,
+      "post": 801206,
+      "contacts": 6
+    },
+    {
+      "pre": 906519,
+      "post": 18325,
+      "contacts": 6
+    },
+    {
+      "pre": 906519,
+      "post": 46086,
+      "contacts": 6
+    },
+    {
+      "pre": 906519,
+      "post": 20065,
+      "contacts": 5
+    },
+    {
+      "pre": 906519,
+      "post": 172264,
+      "contacts": 5
+    },
+    {
+      "pre": 906519,
+      "post": 19709,
+      "contacts": 5
+    },
+    {
+      "pre": 906519,
+      "post": 21195,
+      "contacts": 4
+    },
+    {
+      "pre": 906519,
+      "post": 526592,
+      "contacts": 4
+    },
+    {
+      "pre": 906519,
+      "post": 513405,
+      "contacts": 4
+    },
+    {
+      "pre": 906519,
+      "post": 42529,
+      "contacts": 4
+    },
+    {
+      "pre": 906519,
+      "post": 29665,
+      "contacts": 4
+    },
+    {
+      "pre": 908138,
+      "post": 18325,
+      "contacts": 196
+    },
+    {
+      "pre": 908138,
+      "post": 14026,
+      "contacts": 155
+    },
+    {
+      "pre": 908138,
+      "post": 11604,
+      "contacts": 154
+    },
+    {
+      "pre": 908138,
+      "post": 29334,
+      "contacts": 127
+    },
+    {
+      "pre": 908138,
+      "post": 56710,
+      "contacts": 70
+    },
+    {
+      "pre": 908138,
+      "post": 515447,
+      "contacts": 64
+    },
+    {
+      "pre": 908138,
+      "post": 20065,
+      "contacts": 41
+    },
+    {
+      "pre": 908138,
+      "post": 513169,
+      "contacts": 41
+    },
+    {
+      "pre": 908138,
+      "post": 19197,
+      "contacts": 40
+    },
+    {
+      "pre": 908138,
+      "post": 512119,
+      "contacts": 36
+    },
+    {
+      "pre": 908138,
+      "post": 80727,
+      "contacts": 35
+    },
+    {
+      "pre": 908138,
+      "post": 808335,
+      "contacts": 12
+    },
+    {
+      "pre": 908138,
+      "post": 514484,
+      "contacts": 8
+    },
+    {
+      "pre": 908138,
+      "post": 13181,
+      "contacts": 6
+    },
+    {
+      "pre": 909515,
+      "post": 165035,
+      "contacts": 74
+    },
+    {
+      "pre": 909515,
+      "post": 54774,
+      "contacts": 67
+    },
+    {
+      "pre": 909515,
+      "post": 32651,
+      "contacts": 38
+    },
+    {
+      "pre": 909515,
+      "post": 11604,
+      "contacts": 24
+    },
+    {
+      "pre": 909515,
+      "post": 165664,
+      "contacts": 19
+    },
+    {
+      "pre": 909515,
+      "post": 14026,
+      "contacts": 17
+    },
+    {
+      "pre": 909515,
+      "post": 20065,
+      "contacts": 16
+    },
+    {
+      "pre": 909515,
+      "post": 556077,
+      "contacts": 15
+    },
+    {
+      "pre": 909515,
+      "post": 515775,
+      "contacts": 10
+    },
+    {
+      "pre": 909515,
+      "post": 512119,
+      "contacts": 9
+    },
+    {
+      "pre": 909515,
+      "post": 19197,
+      "contacts": 5
+    },
+    {
+      "pre": 909515,
+      "post": 109626,
+      "contacts": 4
+    },
+    {
+      "pre": 909515,
+      "post": 513169,
+      "contacts": 4
+    },
+    {
+      "pre": 909515,
+      "post": 435098,
+      "contacts": 4
+    },
+    {
+      "pre": 910127,
+      "post": 524518,
+      "contacts": 37
+    },
+    {
+      "pre": 910127,
+      "post": 58725,
+      "contacts": 32
+    },
+    {
+      "pre": 910127,
+      "post": 512519,
+      "contacts": 10
+    },
+    {
+      "pre": 910127,
+      "post": 56710,
+      "contacts": 9
+    },
+    {
+      "pre": 910127,
+      "post": 32193,
+      "contacts": 8
+    },
+    {
+      "pre": 910127,
+      "post": 13181,
+      "contacts": 8
+    },
+    {
+      "pre": 910127,
+      "post": 56906,
+      "contacts": 7
+    },
+    {
+      "pre": 910127,
+      "post": 14994,
+      "contacts": 6
+    },
+    {
+      "pre": 910127,
+      "post": 20065,
+      "contacts": 4
+    },
+    {
+      "pre": 1050213678,
+      "post": 18325,
+      "contacts": 109
+    },
+    {
+      "pre": 1050213678,
+      "post": 11604,
+      "contacts": 87
+    },
+    {
+      "pre": 1050213678,
+      "post": 14026,
+      "contacts": 79
+    },
+    {
+      "pre": 1050213678,
+      "post": 512555,
+      "contacts": 77
+    },
+    {
+      "pre": 1050213678,
+      "post": 19197,
+      "contacts": 60
+    },
+    {
+      "pre": 1050213678,
+      "post": 80727,
+      "contacts": 43
+    },
+    {
+      "pre": 1050213678,
+      "post": 29334,
+      "contacts": 40
+    },
+    {
+      "pre": 1050213678,
+      "post": 41594,
+      "contacts": 39
+    },
+    {
+      "pre": 1050213678,
+      "post": 32085,
+      "contacts": 29
+    },
+    {
+      "pre": 1050213678,
+      "post": 513169,
+      "contacts": 24
+    },
+    {
+      "pre": 1050213678,
+      "post": 56710,
+      "contacts": 20
+    },
+    {
+      "pre": 1050213678,
+      "post": 511867,
+      "contacts": 10
+    },
+    {
+      "pre": 1050213678,
+      "post": 86590,
+      "contacts": 10
+    },
+    {
+      "pre": 1050213678,
+      "post": 21195,
+      "contacts": 9
+    },
+    {
+      "pre": 1050213678,
+      "post": 54230,
+      "contacts": 8
+    },
+    {
+      "pre": 1050213678,
+      "post": 19709,
+      "contacts": 7
+    },
+    {
+      "pre": 1050213678,
+      "post": 13181,
+      "contacts": 6
+    },
+    {
+      "pre": 1050213678,
+      "post": 85538,
+      "contacts": 5
+    },
+    {
+      "pre": 1050213678,
+      "post": 32193,
+      "contacts": 5
+    },
+    {
+      "pre": 1050213678,
+      "post": 39026,
+      "contacts": 5
+    },
+    {
+      "pre": 1050213678,
+      "post": 48555,
+      "contacts": 5
+    }
+  ],
+  "two_edge_paths": [
+    {
+      "source": 801695,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 15,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 801695,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 15,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 801695,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 14,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 801695,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 14,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 801695,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 42,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 801695,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 42,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 801695,
+      "ascending": 41594,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 13,
+      "ascending_to_target_contacts": 54
+    },
+    {
+      "source": 801695,
+      "ascending": 41594,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 13,
+      "ascending_to_target_contacts": 98
+    },
+    {
+      "source": 801695,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 40,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 801695,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 40,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 801695,
+      "ascending": 511867,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 35,
+      "ascending_to_target_contacts": 48
+    },
+    {
+      "source": 801695,
+      "ascending": 511867,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 35,
+      "ascending_to_target_contacts": 68
+    },
+    {
+      "source": 801695,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 53,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 801695,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 53,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 801695,
+      "ascending": 516615,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 14,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 801695,
+      "ascending": 516615,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 14,
+      "ascending_to_target_contacts": 17
+    },
+    {
+      "source": 804024,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 34,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 804024,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 34,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 804024,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 76,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 804024,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 76,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 804024,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 44,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 804024,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 44,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 804024,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 33,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 804024,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 33,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 805314,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 44,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805314,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 44,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805314,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 118,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805314,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 118,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805314,
+      "ascending": 32193,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 7,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 805314,
+      "ascending": 32193,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 7,
+      "ascending_to_target_contacts": 18
+    },
+    {
+      "source": 805314,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 15,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 805314,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 15,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805314,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 28,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 805314,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 28,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 805314,
+      "ascending": 808335,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805493,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 32,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805493,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 32,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805493,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 74,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805493,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 74,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805493,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 61,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 805493,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 61,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 805493,
+      "ascending": 808335,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805534,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 121,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805534,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 121,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805534,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 67,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805534,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 67,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805534,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 805534,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805534,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 95,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 805534,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 95,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 805534,
+      "ascending": 808335,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 14,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805587,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 30,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805587,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 30,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805587,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 137,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805587,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 137,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805587,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 50,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 805587,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 50,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805587,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 16,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 805587,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 16,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 805587,
+      "ascending": 808335,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805594,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 47,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 805594,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 47,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 805594,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 62,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 805594,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 62,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805594,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 65,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 805594,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 65,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805594,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 43,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 805594,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 43,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 805594,
+      "ascending": 801206,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 805594,
+      "ascending": 801206,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 806067,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 38,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 806067,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 38,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 806067,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 101,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 806067,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 101,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 806067,
+      "ascending": 511867,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 48
+    },
+    {
+      "source": 806067,
+      "ascending": 511867,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 68
+    },
+    {
+      "source": 806067,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 45,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 806067,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 45,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 806067,
+      "ascending": 801206,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 27,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 806067,
+      "ascending": 801206,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 27,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 806527,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 64,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 806527,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 64,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 806527,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 37,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 806527,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 37,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 806527,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 49,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 806527,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 49,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 806527,
+      "ascending": 152496,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 7,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 806527,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 55,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 806527,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 55,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 806527,
+      "ascending": 808335,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 22,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 809260,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 8,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 809260,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 8,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 809260,
+      "ascending": 516367,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 809260,
+      "ascending": 516367,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 810474,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 810474,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 810474,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 10,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 810474,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 10,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 810474,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 22,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 810474,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 22,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 810474,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 24,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 810474,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 24,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 810474,
+      "ascending": 511867,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 48
+    },
+    {
+      "source": 810474,
+      "ascending": 511867,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 68
+    },
+    {
+      "source": 810474,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 34,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 810474,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 34,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 811993,
+      "ascending": 512519,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 7,
+      "ascending_to_target_contacts": 6
+    },
+    {
+      "source": 812018,
+      "ascending": 512519,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 6
+    },
+    {
+      "source": 813922,
+      "ascending": 321015,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 813922,
+      "ascending": 435098,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 814579,
+      "ascending": 321015,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 902929,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 51,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 902929,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 51,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 902929,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 96,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 902929,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 96,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 902929,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 107,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 902929,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 107,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 902929,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 31,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 902929,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 31,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 902929,
+      "ascending": 801206,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 902929,
+      "ascending": 801206,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 903750,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 15,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 903750,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 15,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 903750,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 80,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 903750,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 80,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 903750,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 12,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 903750,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 12,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 903750,
+      "ascending": 41594,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 9,
+      "ascending_to_target_contacts": 54
+    },
+    {
+      "source": 903750,
+      "ascending": 41594,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 9,
+      "ascending_to_target_contacts": 98
+    },
+    {
+      "source": 903750,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 12,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 903750,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 12,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 903750,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 11,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 903750,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 11,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 903750,
+      "ascending": 808335,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 19,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 905881,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 81,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 905881,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 81,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 905881,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 78,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 905881,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 78,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 905881,
+      "ascending": 32193,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 17,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 905881,
+      "ascending": 32193,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 17,
+      "ascending_to_target_contacts": 18
+    },
+    {
+      "source": 905881,
+      "ascending": 41594,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 54
+    },
+    {
+      "source": 905881,
+      "ascending": 41594,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 98
+    },
+    {
+      "source": 905881,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 55,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 905881,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 55,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 906519,
+      "ascending": 19217,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 11,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 906519,
+      "ascending": 21195,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 906519,
+      "ascending": 29665,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 12
+    },
+    {
+      "source": 906519,
+      "ascending": 29665,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 23
+    },
+    {
+      "source": 906519,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 70,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 906519,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 70,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 906519,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 80,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 906519,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 80,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 906519,
+      "ascending": 511867,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 9,
+      "ascending_to_target_contacts": 48
+    },
+    {
+      "source": 906519,
+      "ascending": 511867,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 9,
+      "ascending_to_target_contacts": 68
+    },
+    {
+      "source": 906519,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 85,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 906519,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 85,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 906519,
+      "ascending": 801206,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 906519,
+      "ascending": 801206,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 6,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 908138,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 40,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 908138,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 40,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 908138,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 127,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 908138,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 127,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 908138,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 35,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 908138,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 35,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 908138,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 41,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 908138,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 41,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 908138,
+      "ascending": 808335,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 12,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 909515,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 909515,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 909515,
+      "ascending": 435098,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 909515,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 909515,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 4,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 910127,
+      "ascending": 32193,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 8,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 910127,
+      "ascending": 32193,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 8,
+      "ascending_to_target_contacts": 18
+    },
+    {
+      "source": 910127,
+      "ascending": 512519,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 10,
+      "ascending_to_target_contacts": 6
+    },
+    {
+      "source": 1050213678,
+      "ascending": 19197,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 60,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 1050213678,
+      "ascending": 19197,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 60,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 1050213678,
+      "ascending": 21195,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 9,
+      "ascending_to_target_contacts": 5
+    },
+    {
+      "source": 1050213678,
+      "ascending": 29334,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 40,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 1050213678,
+      "ascending": 29334,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 40,
+      "ascending_to_target_contacts": 7
+    },
+    {
+      "source": 1050213678,
+      "ascending": 32085,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 29,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 1050213678,
+      "ascending": 32085,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 29,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 1050213678,
+      "ascending": 32193,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 1050213678,
+      "ascending": 32193,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 18
+    },
+    {
+      "source": 1050213678,
+      "ascending": 41594,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 39,
+      "ascending_to_target_contacts": 54
+    },
+    {
+      "source": 1050213678,
+      "ascending": 41594,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 39,
+      "ascending_to_target_contacts": 98
+    },
+    {
+      "source": 1050213678,
+      "ascending": 48555,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 11
+    },
+    {
+      "source": 1050213678,
+      "ascending": 48555,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 5,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 1050213678,
+      "ascending": 80727,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 43,
+      "ascending_to_target_contacts": 4
+    },
+    {
+      "source": 1050213678,
+      "ascending": 80727,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 43,
+      "ascending_to_target_contacts": 9
+    },
+    {
+      "source": 1050213678,
+      "ascending": 511867,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 10,
+      "ascending_to_target_contacts": 48
+    },
+    {
+      "source": 1050213678,
+      "ascending": 511867,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 10,
+      "ascending_to_target_contacts": 68
+    },
+    {
+      "source": 1050213678,
+      "ascending": 513169,
+      "target": 10941,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 24,
+      "ascending_to_target_contacts": 14
+    },
+    {
+      "source": 1050213678,
+      "ascending": 513169,
+      "target": 11357,
+      "target_group": "aversion_candidate",
+      "sensory_to_ascending_contacts": 24,
+      "ascending_to_target_contacts": 8
+    },
+    {
+      "source": 906519,
+      "ascending": 19217,
+      "target": 10045,
+      "target_group": "walking",
+      "sensory_to_ascending_contacts": 11,
+      "ascending_to_target_contacts": 6
+    }
+  ],
+  "path_counts": {
+    "aversion_candidate": 194,
+    "escape": 0,
+    "walking": 1
+  },
+  "interpretation": "Published md homolog candidates; curated structural correspondence supports investigation, not proof of nociceptive function in this specimen or subjective pain.",
+  "limitations": [
+    "MANC v1.2.1 and MaleCNS v1.0 are different specimens; crosswalk errors remain possible",
+    "Current broad class labels include chemosensory and unknown_sensory; these labels alone do not establish nociception",
+    "Four excluded source cells match unclassified segments and are not added to the 166700-neuron runtime",
+    "SS01159, SS51024 and IS35283 ascending driver assignments remain unresolved",
+    "Optogenetic-like input rates are authored; no calibrated thermal or mechanical transduction"
+  ]
+}

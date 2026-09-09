@@ -1,0 +1,47 @@
+{
+  "format": "nexus-protocol-1",
+  "dataset": "male-cns:v1.0",
+  "name": "Abdominal md homolog candidates / experimental nociception input",
+  "duration_ms": 700,
+  "events": [
+    {
+      "at_ms": 0,
+      "action": "release"
+    },
+    {
+      "at_ms": 100,
+      "action": "stimulate",
+      "ids": [
+        "801695",
+        "804024",
+        "804202",
+        "805314",
+        "805493",
+        "805534",
+        "805587",
+        "805594",
+        "806067",
+        "806527",
+        "809260",
+        "810474",
+        "811993",
+        "812018",
+        "813922",
+        "814579",
+        "902929",
+        "903750",
+        "905881",
+        "906519",
+        "908138",
+        "909515",
+        "910127",
+        "1050213678"
+      ],
+      "rate_hz": 100
+    },
+    {
+      "at_ms": 400,
+      "action": "release"
+    }
+  ]
+}

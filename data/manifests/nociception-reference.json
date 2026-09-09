@@ -1,0 +1,21 @@
+{
+  "repository": "https://github.com/jesmjones/nociceptive_pathways_paper",
+  "commit": "39a75c0f3c5e7ce2facf56666a0a5908f3bf11e7",
+  "paper": "https://doi.org/10.1101/2025.10.28.684868",
+  "source_dataset": "manc:v1.2.1",
+  "license": "Apache-2.0",
+  "notebooks": [
+    {
+      "file": "code/figure4.ipynb",
+      "sha256": "3d6feb5de41eb0d7424a6218b9c8a4afe68412a757c4fcb1b90385670e229e21",
+      "cell_index": 1,
+      "variable": "md_4_neurons"
+    },
+    {
+      "file": "code/figure_s5.ipynb",
+      "sha256": "f46bb594f10d9c300445962d26147437ef610df1a605ddda1dc2e8ce37e5c9a0",
+      "cell_index": 1,
+      "variable": "md_4_neurons"
+    }
+  ]
+}

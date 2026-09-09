@@ -1,0 +1,1057 @@
+{
+  "format": "nexus-nociception-assay-1",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "cohort_sha256": "10006e91a92bf20a2c1ed13f63ea5fd07bada83ec93e564dc270f0f46def5fb3",
+  "pack_manifest_sha256": "360cf2cdc8f4257d3045bd9b34c9b31b58418d38b1547ee9ddf4dbc7294d0004",
+  "model": {
+    "id": "male-cns-fast-transmitter-lif-v1",
+    "experimental": true,
+    "validation": "Unfitted MaleCNS adaptation; numerical checks are not biological validation.",
+    "nt_signs": {
+      "acetylcholine": 1,
+      "gaba": -1,
+      "glutamate": -1,
+      "histamine": 0,
+      "dopamine": 0,
+      "octopamine": 0,
+      "serotonin": 0,
+      "unclear": 0,
+      "missing": 0
+    },
+    "sign_assumptions": "One sign per presynaptic cell. Glutamate assumed inhibitory; receptor-specific effects unresolved. Histamine and monoamine effects omitted, not biologically absent.",
+    "weight_per_contact_mv": 0.275,
+    "dynamics": "Shiu-style LIF: dt 0.1 ms, membrane 20 ms, current 5 ms, delay 1.8 ms, refractory 2.2 ms; directly driven cells have zero refractory.",
+    "parameter_source": "https://doi.org/10.1038/s41586-024-07763-9",
+    "limitation": "No calibrated MaleCNS/VNC dynamics, plasticity, receptor kinetics, nociception validation, or subjective-state model.",
+    "transmitter_coverage": {
+      "acetylcholine": {
+        "cells": 103720,
+        "outgoing_edges": 14745137,
+        "assigned_sign": 1
+      },
+      "dopamine": {
+        "cells": 392,
+        "outgoing_edges": 241694,
+        "assigned_sign": 0
+      },
+      "gaba": {
+        "cells": 22069,
+        "outgoing_edges": 4925557,
+        "assigned_sign": -1
+      },
+      "glutamate": {
+        "cells": 29302,
+        "outgoing_edges": 4798718,
+        "assigned_sign": -1
+      },
+      "histamine": {
+        "cells": 7891,
+        "outgoing_edges": 89723,
+        "assigned_sign": 0
+      },
+      "missing": {
+        "cells": 178,
+        "outgoing_edges": 0,
+        "assigned_sign": 0
+      },
+      "octopamine": {
+        "cells": 101,
+        "outgoing_edges": 148519,
+        "assigned_sign": 0
+      },
+      "serotonin": {
+        "cells": 48,
+        "outgoing_edges": 45328,
+        "assigned_sign": 0
+      },
+      "unclear": {
+        "cells": 2999,
+        "outgoing_edges": 588262,
+        "assigned_sign": 0
+      }
+    }
+  },
+  "trials": [
+    {
+      "seed": 73100,
+      "condition": "intact",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "3334bc64e1aa133cb65fcd4e2e169a0719358984698d53dcedeaa0ca94724292",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 22025,
+          "non_source_spikes": 21332,
+          "groups": {
+            "sensory": {
+              "spikes": 693,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 656,
+              "active_cells": 38
+            },
+            "aversion_candidate": {
+              "spikes": 32,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 1,
+              "active_cells": 1
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "416275df6c78b2bdb11da6a4f3afe4c54896944a42de36099e000389ac239e37"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 1959,
+          "non_source_spikes": 1959,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 22,
+              "active_cells": 4
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "a02921c94b7bc4359ba80622a9e8ee21ce2b660f30e8da1a177824c2f46feb9b"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.06042308230733939,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 0.9994189891380552,
+        "turn": -2.902635849560964e-05,
+        "left_drive": 0.9993899627795595,
+        "right_drive": 0.9994480154965507,
+        "left_hz": 0.17429634869729355,
+        "right_hz": 0.1577098581283544,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.6188697719999254
+    },
+    {
+      "seed": 73100,
+      "condition": "source_outputs_blocked",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "3334bc64e1aa133cb65fcd4e2e169a0719358984698d53dcedeaa0ca94724292",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 699,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 699,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "ba1f522a5676045b9073cfe03ff25099d785f3b83d05ab13f7e9335150610964"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 6,
+          "non_source_spikes": 6,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 6,
+              "active_cells": 5
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "0360f0a4aa78a039edfb2cfbfc5cb01b9e8063d628f7322c2a4aee5e281ec8f4"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.0,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.3112784289996853
+    },
+    {
+      "seed": 73100,
+      "condition": "ascending_outputs_blocked",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "3334bc64e1aa133cb65fcd4e2e169a0719358984698d53dcedeaa0ca94724292",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 23371,
+          "non_source_spikes": 22597,
+          "groups": {
+            "sensory": {
+              "spikes": 774,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 870,
+              "active_cells": 37
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "afc9dcf3521332a6f2ccf7ae27d25089cc6d92b96494f2d5e2edb14c39a71098"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 2220,
+          "non_source_spikes": 2220,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 36,
+              "active_cells": 15
+            },
+            "aversion_candidate": {
+              "spikes": 2,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "79f3ac72cf1a6d137f997ee72bf026f73fd4dc4b28272697086d7fc49396eceb"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.0,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.3974234260003868
+    },
+    {
+      "seed": 73101,
+      "condition": "intact",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "de14ead449c7a90457f53473ccce629e8dd7ca2be3fd98a4bcb274a9e2d66c42",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 21016,
+          "non_source_spikes": 20256,
+          "groups": {
+            "sensory": {
+              "spikes": 760,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 673,
+              "active_cells": 39
+            },
+            "aversion_candidate": {
+              "spikes": 31,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 1,
+              "active_cells": 1
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "56dff94446e320596edc80b7078f792a5427e09aed85830a7aa65fe354ca388a"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 2621,
+          "non_source_spikes": 2621,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 39,
+              "active_cells": 11
+            },
+            "aversion_candidate": {
+              "spikes": 4,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "6fd7b64432b9bd85a4faf0d19754e9f6d6dd500e9c90cfa7338247a2e8413860"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.06042308230733939,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 0.9994480154965507,
+        "turn": 0.0,
+        "left_drive": 0.9994480154965507,
+        "right_drive": 0.9994480154965507,
+        "left_hz": 0.1577098581283544,
+        "right_hz": 0.1577098581283544,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.2934728319996793
+    },
+    {
+      "seed": 73101,
+      "condition": "source_outputs_blocked",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "de14ead449c7a90457f53473ccce629e8dd7ca2be3fd98a4bcb274a9e2d66c42",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 764,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 764,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "830abbc521c0e9eb648f8e512d3b1f98df6a2d53598abf6cade7bbf32e16cc0e"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 4,
+          "non_source_spikes": 4,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 4,
+              "active_cells": 4
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "a899904931afb276c1783973847b33540f52174c3744730aa8da0d9ef64c459b"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.0,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.2429757890004112
+    },
+    {
+      "seed": 73101,
+      "condition": "ascending_outputs_blocked",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "de14ead449c7a90457f53473ccce629e8dd7ca2be3fd98a4bcb274a9e2d66c42",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 25690,
+          "non_source_spikes": 24848,
+          "groups": {
+            "sensory": {
+              "spikes": 842,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 884,
+              "active_cells": 39
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "4936759f85dc96609decf1ff53b257c382b0bf5b5ac04aa4fd6f168702018162"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 3770,
+          "non_source_spikes": 3769,
+          "groups": {
+            "sensory": {
+              "spikes": 1,
+              "active_cells": 1
+            },
+            "ascending": {
+              "spikes": 41,
+              "active_cells": 19
+            },
+            "aversion_candidate": {
+              "spikes": 2,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "66d3c0660c2def18bc3f8f6fa7c878323189f5d60210c58e7af9153069f69073"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.0,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.297728649000419
+    },
+    {
+      "seed": 73102,
+      "condition": "intact",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "d4cd085b3ec047221ceaa66c750f2578a718cda2f955e9e1dfefd02f4b0f6903",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 20287,
+          "non_source_spikes": 19555,
+          "groups": {
+            "sensory": {
+              "spikes": 732,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 693,
+              "active_cells": 40
+            },
+            "aversion_candidate": {
+              "spikes": 32,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "f27bb54f7a8e02f60975611d3abd1fe6083d396a4d9fb4c9c95e7ae176a9c0c4"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 2641,
+          "non_source_spikes": 2641,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 35,
+              "active_cells": 8
+            },
+            "aversion_candidate": {
+              "spikes": 6,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "0c2c462be5afbeb47a8379120cda66f4bfa60bd7ff1e94bd8cab6896e4863f5f"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.0,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 0.9997240077482754,
+        "turn": 0.0002759922517246438,
+        "left_drive": 1.0,
+        "right_drive": 0.9994480154965507,
+        "left_hz": 0.0,
+        "right_hz": 0.1577098581283544,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.2914475789993958
+    },
+    {
+      "seed": 73102,
+      "condition": "source_outputs_blocked",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "d4cd085b3ec047221ceaa66c750f2578a718cda2f955e9e1dfefd02f4b0f6903",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 737,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 737,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "821960bac407859b871aec2e325a0e8f83d0a7ef842e34b79b08b00495dcee59"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.0,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 1.0,
+        "turn": 0.0,
+        "left_drive": 1.0,
+        "right_drive": 1.0,
+        "left_hz": 0.0,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.2360876029997598
+    },
+    {
+      "seed": 73102,
+      "condition": "ascending_outputs_blocked",
+      "rate_hz": 100,
+      "duration_ms": 500,
+      "external_input_sha256": "d4cd085b3ec047221ceaa66c750f2578a718cda2f955e9e1dfefd02f4b0f6903",
+      "phases": [
+        {
+          "phase": "baseline",
+          "total_spikes": 0,
+          "non_source_spikes": 0,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333"
+        },
+        {
+          "phase": "stimulation",
+          "total_spikes": 24445,
+          "non_source_spikes": 23615,
+          "groups": {
+            "sensory": {
+              "spikes": 830,
+              "active_cells": 24
+            },
+            "ascending": {
+              "spikes": 903,
+              "active_cells": 36
+            },
+            "aversion_candidate": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "06b2719fb6277546f265f96be2b3a6a49d26af7c574ad45e54bcd028ba1ba439"
+        },
+        {
+          "phase": "recovery",
+          "total_spikes": 2307,
+          "non_source_spikes": 2307,
+          "groups": {
+            "sensory": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "ascending": {
+              "spikes": 30,
+              "active_cells": 10
+            },
+            "aversion_candidate": {
+              "spikes": 2,
+              "active_cells": 2
+            },
+            "escape": {
+              "spikes": 0,
+              "active_cells": 0
+            },
+            "walking": {
+              "spikes": 0,
+              "active_cells": 0
+            }
+          },
+          "population_counts_sha256": "0faf6471901abc4c949045777fce02e01dcf5ca4ddb02e618e62ed3c82527c63"
+        }
+      ],
+      "release_preserved_state": true,
+      "finite_state": true,
+      "peak_escape_proxy": 0.0,
+      "peak_motor_disruption_proxy": 0.0,
+      "final_steering": {
+        "drive": 0.9994971093293705,
+        "turn": -0.00050289067062953,
+        "left_drive": 0.9989942186587409,
+        "right_drive": 1.0,
+        "left_hz": 0.28736609750259434,
+        "right_hz": 0.0,
+        "enabled": true,
+        "decoder": "DNa02 ipsilateral attenuation v1"
+      },
+      "wall_seconds": 1.329276230000687
+    }
+  ],
+  "source_hashes": {
+    "scripts/probe_nociception.py": "6937486a331267164b3616258a1c965ba38e9337f97d1b064517ba8cca0e2f06",
+    "src/nexus/brain/runtime.py": "133d19b1bff3befc5af5b6a8d53ba664b94ecabd2fdae7b7073816539acc7c52",
+    "src/nexus/datasets/nociception.py": "3ff08837115327e8f996b298f686e7d253bd4d8852d443c048f9772031706732"
+  },
+  "interpretation": "Tests propagation from source-mapped sensory candidates and sensitivity to relay output blockade. Does not establish subjective pain or identify genetic driver lines.",
+  "release": "Release removes external inputs and restores outputs without resetting neural state; delayed activity may persist.",
+  "ui_changed": false
+}

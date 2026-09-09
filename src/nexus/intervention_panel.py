@@ -33,7 +33,7 @@ class InterventionPanel(QWidget):
         self.buttons = {}
         definitions = [('defensive', 'Fear / threat', 'Looming-pathway input; engineered escape response.'),
                        ('aversion', 'Pain pathway / candidate proxy',
-                        ('Stimulates GNG121 (CB0059 counterpart) candidates.\nPeripheral nociception is not yet connected.' if brain_panel.config.experimental else 'Stimulates CB0059 central aversion candidates.\nPeripheral nociception is not yet connected.')),
+                        (f'Stimulates {brain_panel.config.nociception_count} mapped abdominal md candidates.\nNociception model remains experimental.' if brain_panel.config.nociception_count else 'Stimulates GNG121 (CB0059 counterpart) candidates.\nPeripheral nociception is not yet connected.' if brain_panel.config.experimental else 'Stimulates CB0059 central aversion candidates.\nPeripheral nociception is not yet connected.')),
                        ('seizure', 'Seizure-like experiment',
                         'Reduced inhibition with neural input.\nMotor disruption is an authored decoder.')]
         for name, title, detail in definitions:
@@ -97,7 +97,8 @@ class InterventionPanel(QWidget):
         pre, stimulus, recovery = [spin.value() for spin in self.durations]
         self.brain_panel.send('protocol', scenario_protocol(name, baseline_ms=pre, stimulus_ms=stimulus,
                                                           recovery_ms=recovery, celsius=self.temperature.value(),
-                                                          dataset=self.brain_panel.config.snapshot))
+                                                          dataset=self.brain_panel.config.snapshot,
+                                                          pain_circuit=self.brain_panel.config.pain_circuit))
 
     def accept_snapshot(self, packet):
         self.controls.setEnabled(not self.brain_panel.failed)

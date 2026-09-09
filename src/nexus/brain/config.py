@@ -21,6 +21,11 @@ class ModelConfig:
     left_ids: tuple[str, ...]
     right_ids: tuple[str, ...]
     food_available: bool
+    nociception_count: int = 0
+
+    @property
+    def pain_circuit(self):
+        return 'nociception_proxy' if self.nociception_count else 'aversion_proxy'
 
 
 def default_pack(dataset='male-cns'):
@@ -39,8 +44,11 @@ def model_config(directory):
                            tuple(SUGAR), (MN9,), (DNA02_LEFT,), (DNA02_RIGHT,), True)
     if manifest['snapshot'] != 'male-cns:v1.0' or not manifest.get('experimental'):
         raise ValueError('Unsupported neural dataset')
-    contents = (directory/'circuits.json').read_bytes()
-    if hashlib.sha256(contents).hexdigest() != manifest['files']['circuits.json']:
+    name = manifest.get('circuit_registry', '')
+    if not isinstance(name, str) or Path(name).name != name or not name.startswith('circuits') or not name.endswith('.json'):
+        raise ValueError('Invalid circuit registry path')
+    contents = (directory/name).read_bytes()
+    if hashlib.sha256(contents).hexdigest() != manifest['files'][name]:
         raise ValueError('Circuit registry checksum mismatch')
     registry = json.loads(contents)
     if registry['snapshot'] != manifest['snapshot']:
@@ -49,4 +57,5 @@ def model_config(directory):
     return ModelConfig(directory, manifest['snapshot'], 'MaleCNS v1.0 · experimental', True,
                        f"Warmth sensory cells ({len(registry['circuits']['warmth']['ids'])})", tuple(registry['circuits']['warmth']['ids']),
                        tuple(readouts['mn9']), tuple(readouts['steering_left']),
-                       tuple(readouts['steering_right']), False)
+                       tuple(readouts['steering_right']), False,
+                       len(registry['circuits'].get('nociception_proxy', {}).get('ids', [])))

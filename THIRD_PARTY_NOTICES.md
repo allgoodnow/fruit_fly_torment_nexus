@@ -60,3 +60,15 @@ Source and derived checksums and coordinate conversion are recorded in
 `data/brain-v630/anatomy-manifest.json`. These data retain the upstream FlyWire
 attribution and data terms described above. PyOpenGL 3.1.10 supplies the Python
 OpenGL bindings; its installed license accompanies the other dependency notices.
+
+Version 0.10.0 uses the published abdominal multidendritic sensory cohort from
+https://github.com/jesmjones/nociceptive_pathways_paper, commit
+`39a75c0f3c5e7ce2facf56666a0a5908f3bf11e7` (Apache-2.0), accompanying
+"Ascending nociceptive pathways drive rapid escape and sustained avoidance in
+adult Drosophila", doi:10.1101/2025.10.28.684868. The upstream license is included
+in `licenses/nociceptive-pathways/LICENSE`. We read the cohort from the figure 4
+and supplementary figure 5 notebooks without executing their code. Our mapping
+to MaleCNS uses the official cross-specimen annotations; it is an experimental
+candidate mapping, not a validated model of subjective pain. Source checksums,
+excluded correspondences, and derived targets are recorded in the accompanying
+experiment files. MaleCNS attribution is in `licenses/MaleCNS/NOTICE`.

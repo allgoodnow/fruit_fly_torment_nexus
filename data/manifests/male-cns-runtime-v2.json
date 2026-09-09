@@ -1,0 +1,139 @@
+{
+  "format": "nexus-connectome-1",
+  "snapshot": "male-cns:v1.0",
+  "neurons": 166700,
+  "edges": 25582938,
+  "experimental": true,
+  "model": {
+    "id": "male-cns-fast-transmitter-lif-v1",
+    "experimental": true,
+    "validation": "Unfitted MaleCNS adaptation; numerical checks are not biological validation.",
+    "nt_signs": {
+      "acetylcholine": 1,
+      "gaba": -1,
+      "glutamate": -1,
+      "histamine": 0,
+      "dopamine": 0,
+      "octopamine": 0,
+      "serotonin": 0,
+      "unclear": 0,
+      "missing": 0
+    },
+    "sign_assumptions": "One sign per presynaptic cell. Glutamate assumed inhibitory; receptor-specific effects unresolved. Histamine and monoamine effects omitted, not biologically absent.",
+    "weight_per_contact_mv": 0.275,
+    "dynamics": "Shiu-style LIF: dt 0.1 ms, membrane 20 ms, current 5 ms, delay 1.8 ms, refractory 2.2 ms; directly driven cells have zero refractory.",
+    "parameter_source": "https://doi.org/10.1038/s41586-024-07763-9",
+    "limitation": "No calibrated MaleCNS/VNC dynamics, plasticity, receptor kinetics, nociception validation, or subjective-state model.",
+    "transmitter_coverage": {
+      "acetylcholine": {
+        "cells": 103720,
+        "outgoing_edges": 14745137,
+        "assigned_sign": 1
+      },
+      "dopamine": {
+        "cells": 392,
+        "outgoing_edges": 241694,
+        "assigned_sign": 0
+      },
+      "gaba": {
+        "cells": 22069,
+        "outgoing_edges": 4925557,
+        "assigned_sign": -1
+      },
+      "glutamate": {
+        "cells": 29302,
+        "outgoing_edges": 4798718,
+        "assigned_sign": -1
+      },
+      "histamine": {
+        "cells": 7891,
+        "outgoing_edges": 89723,
+        "assigned_sign": 0
+      },
+      "missing": {
+        "cells": 178,
+        "outgoing_edges": 0,
+        "assigned_sign": 0
+      },
+      "octopamine": {
+        "cells": 101,
+        "outgoing_edges": 148519,
+        "assigned_sign": 0
+      },
+      "serotonin": {
+        "cells": 48,
+        "outgoing_edges": 45328,
+        "assigned_sign": 0
+      },
+      "unclear": {
+        "cells": 2999,
+        "outgoing_edges": 588262,
+        "assigned_sign": 0
+      }
+    }
+  },
+  "source_structural_manifest": {
+    "format": "nexus-structural-connectome-1",
+    "dataset": "male-cns:v1.0",
+    "runtime_compatible": false,
+    "neurons": 166700,
+    "edges": 25582938,
+    "weights": "unsigned synaptic contact counts; no voltage or receptor model",
+    "ordering": "bodyId ascending; edges grouped by pre, stable source order within rows",
+    "selection": "superclass is not null; both edge endpoints selected; no weight threshold",
+    "files": {
+      "ids.npy": {
+        "sha256": "ab90597b7b0ce07cbc22cb39a65b70bea2ac73cc7fd225951bd9d73f2fc8dd3f",
+        "bytes": 1333728
+      },
+      "offsets.npy": {
+        "sha256": "fe43420f11e6242a11f8199ae7f097cab4b8a6db181d36f2a46b9e46670acbb4",
+        "bytes": 1333736
+      },
+      "posts.npy": {
+        "sha256": "4d3ee4a5a96ce243d4c067df0a50c8d9c9f46f39792923217d9bc053bc2c9c90",
+        "bytes": 102331880
+      },
+      "contacts.npy": {
+        "sha256": "ece8cd09afe182066490096c6e7757e8e48f5331e784cd770d383ca3a72332e3",
+        "bytes": 102331880
+      }
+    },
+    "sources": {
+      "dataset": "male-cns:v1.0",
+      "source": "https://male-cns.janelia.org/download/",
+      "files": [
+        {
+          "file": "body-annotations-male-cns-v1.0-minconf-0.5.feather",
+          "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather",
+          "bytes": 14483314,
+          "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2"
+        },
+        {
+          "file": "body-neurotransmitters-male-cns-v1.0.feather",
+          "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-neurotransmitters-male-cns-v1.0.feather",
+          "bytes": 43282834,
+          "sha256": "95c9289220663abeb3409f3ad9e5a7f8a53f8093f5139d15502cd08da8879621"
+        },
+        {
+          "file": "connectome-weights-male-cns-v1.0-minconf-0.5.feather",
+          "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/connectome-weights-male-cns-v1.0-minconf-0.5.feather",
+          "bytes": 1051241946,
+          "sha256": "e35da783d1c686b2b58b3b87cd6a403ae43bfcfba8bff28e08ef752c1a56afc1"
+        }
+      ],
+      "retrieved_on": "2026-09-09",
+      "license": "CC-BY-4.0",
+      "attribution": "MaleCNS connectome: FlyEM (HHMI Janelia), University of Cambridge, MRC Laboratory of Molecular Biology, and Google Research."
+    }
+  },
+  "circuit_registry": "circuits-d5721f0747ee6559.json",
+  "files": {
+    "ids.npy": "ab90597b7b0ce07cbc22cb39a65b70bea2ac73cc7fd225951bd9d73f2fc8dd3f",
+    "offsets.npy": "fe43420f11e6242a11f8199ae7f097cab4b8a6db181d36f2a46b9e46670acbb4",
+    "posts.npy": "c3e01d22c12cb06a3250d98325edcadb08ad2d0c1754a9e3cf82b9a72a9eb49f",
+    "weights.npy": "b5263f47ea0d151d9818b577530ebee4caea871fb10706885325f545459a2b7d",
+    "circuits.json": "5979e615dc8b39fe4bcf5319a443effb72169e8130d2017a988c9f00152cb37c",
+    "circuits-d5721f0747ee6559.json": "d5721f0747ee6559f7250898fa04216d46dd63373ff21ab833516823946dc295"
+  }
+}

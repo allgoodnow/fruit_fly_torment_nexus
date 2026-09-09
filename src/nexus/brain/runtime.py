@@ -127,10 +127,12 @@ class Connectome:
         if manifest.get('snapshot') == 'male-cns:v1.0':
             if not manifest.get('experimental') or not isinstance(manifest.get('model'), dict):
                 raise ValueError('MaleCNS requires an explicit experimental model policy')
-            if manifest.get('circuit_registry') != 'circuits.json':
+            registry_name = manifest.get('circuit_registry', '')
+            if (not isinstance(registry_name, str) or Path(registry_name).name != registry_name
+                    or not registry_name.startswith('circuits') or not registry_name.endswith('.json')):
                 raise ValueError('MaleCNS requires a pack-bound circuit registry')
-            path = directory/'circuits.json'
-            if hashlib.sha256(path.read_bytes()).hexdigest() != manifest['files'].get('circuits.json'):
+            path = directory/registry_name
+            if hashlib.sha256(path.read_bytes()).hexdigest() != manifest['files'].get(registry_name):
                 raise ValueError('Circuit registry checksum mismatch')
             circuits = json.loads(path.read_text())
             if circuits.get('snapshot') != manifest['snapshot'] or circuits.get('format') != 'nexus-intervention-circuits-1':
@@ -266,7 +268,7 @@ class Brain:
         raise ValueError(f'No mapped circuit {name!r} for dataset {self.graph.snapshot}')
 
     def validate_circuit(self, name, rate_hz):
-        if name not in ('looming', 'warmth', 'aversion_proxy'):
+        if name not in ('looming', 'warmth', 'aversion_proxy', 'nociception_proxy'):
             raise ValueError('Unknown named input circuit')
         targets = self.resolve(self.circuit_ids(name))
         rate = float(rate_hz)

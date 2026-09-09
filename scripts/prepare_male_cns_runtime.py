@@ -16,8 +16,10 @@ def main():
     parser.add_argument('--structural', type=Path, default=ROOT/'data/brain-male-cns-v1.0-structural')
     parser.add_argument('--raw', type=Path, default=ROOT/'data/raw/male-cns-v1.0')
     parser.add_argument('--output', type=Path, default=ROOT/'data/brain-male-cns-v1.0-lif')
+    parser.add_argument('--cohort', type=Path, default=ROOT/'experiments/nociception-cohort-v1.json')
     args = parser.parse_args()
-    result = prepare_runtime(args.structural, args.raw, args.output)
+    cohort = json.loads(args.cohort.read_text())
+    result = prepare_runtime(args.structural, args.raw, args.output, nociception_cohort=cohort)
     print(json.dumps(result['model'], indent=2))
     print(f'Experimental runtime pack: {args.output}')
 
