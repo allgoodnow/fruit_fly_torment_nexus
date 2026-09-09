@@ -18,3 +18,5 @@ htmlcov/
 .ruff_cache/
 .mypy_cache/
 .DS_Store
+
+data/brain-male-cns-*/
