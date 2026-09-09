@@ -63,6 +63,9 @@ class CoupledSession:
         elif kind == 'silence':
             self.brain.silence(value['ids'])
             self.protocol = None
+        elif kind == 'inhibition_gain':
+            self.brain.set_inhibition_gain(value)
+            self.protocol = None
         elif kind == 'neural_release':
             self.brain.release()
             self.protocol = None

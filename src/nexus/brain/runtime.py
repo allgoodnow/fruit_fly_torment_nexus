@@ -23,7 +23,7 @@ REFRACTORY_STEPS = 22
 
 @njit(cache=not getattr(sys, "frozen", False), fastmath=False)
 def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
-             output_gain, queue, queue_size, counts, step, inputs, input_events,
+             output_gain, inhibition_gain, queue, queue_size, counts, step, inputs, input_events,
              trace_ids):
     steps = len(input_events)
     trace = np.empty((steps, len(trace_ids)), dtype=np.float64)
@@ -63,7 +63,10 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
                 for edge in range(offsets[pre], offsets[pre + 1]):
                     post = posts[edge]
                     if enabled[post]:
-                        g[post] += weights[edge] * gain
+                        weight = weights[edge]
+                        if weight < 0:
+                            weight *= inhibition_gain
+                        g[post] += weight * gain
         queue_size[slot] = 0
         # N=1 PoissonInput is Bernoulli(rate*dt); it acts in the synapses slot.
         for j in range(len(inputs)):
@@ -186,7 +189,29 @@ class Brain:
         self.manual_rate = 0.
         self._refresh_inputs()
         self.output_gain.fill(1)
+        self.inhibition_gain = 1.
         self.events.append({"kind": "release", "time": self.time})
+
+    @staticmethod
+    def validate_inhibition_gain(value):
+        if isinstance(value, (bool, str)):
+            raise ValueError('Inhibition gain must be a finite number in [0, 1]')
+        gain = float(value)
+        if not math.isfinite(gain) or not 0 <= gain <= 1:
+            raise ValueError('Inhibition gain must be a finite number in [0, 1]')
+        return gain
+
+    def set_inhibition_gain(self, value):
+        """Scale negative edges at delivery; neither reset state nor edit the graph.
+
+        This model overlay is not a drug dose or a validated seizure mechanism.
+        Previously delivered synaptic state decays naturally after restoration.
+        """
+        gain = self.validate_inhibition_gain(value)
+        self.inhibition_gain = gain
+        self.events.append({'kind': 'inhibition_gain', 'time': self.time,
+                            'gain': gain, 'scope': 'all_negative_edges',
+                            'model_extension': 'negative-edge-gain-v1'})
 
     def set_sensory_input(self, ids, rate_hz):
         """Environmental input channel; overlapping manual/sensory rates use max."""
@@ -228,6 +253,7 @@ class Brain:
         self.refractory.fill(REFRACTORY_STEPS)
         self.enabled.fill(True)
         self.output_gain.fill(1)
+        self.inhibition_gain = 1.
         self.queue.fill(0)
         self.queue_size.fill(0)
         self.counts.fill(0)
@@ -257,7 +283,7 @@ class Brain:
                 raise ValueError("Input replay shape does not match step count and target count")
         result = _advance(self.v, self.g, self.last_spike, self.refractory, self.enabled,
                           self.graph.offsets, self.graph.posts, self.graph.weights,
-                          self.output_gain, self.queue, self.queue_size, self.counts,
+                          self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
                           self.step, self.inputs, events, traces)
         self.step += steps
         if not np.isfinite(self.v).all() or not np.isfinite(self.g).all():

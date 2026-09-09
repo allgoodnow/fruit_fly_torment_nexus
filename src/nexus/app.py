@@ -20,6 +20,7 @@ def main():
     parser.add_argument("--brain-smoke-test", type=Path, help="Also exercise the real brain and timed sequence")
     parser.add_argument('--coupled-smoke-test', type=Path, help='Exercise shared-clock neural steering')
     parser.add_argument('--food-smoke-test', type=Path, help='Exercise contact-driven taste feedback')
+    parser.add_argument('--perturbation-smoke-test', type=Path, help='Exercise reversible inhibition controls')
     parser.add_argument('--food-demo', action='store_true', help='Start a food crossing with no manual neural input')
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
@@ -30,7 +31,9 @@ def main():
         args.smoke_test = args.coupled_smoke_test
     if args.food_smoke_test:
         args.smoke_test = args.food_smoke_test
-    coupled = bool(args.food_smoke_test or args.food_demo or args.coupled_smoke_test) or not (args.independent or args.smoke_test)
+    if args.perturbation_smoke_test:
+        args.smoke_test = args.perturbation_smoke_test
+    coupled = bool(args.food_smoke_test or args.food_demo or args.coupled_smoke_test or args.perturbation_smoke_test) or not (args.independent or args.smoke_test)
 
     from PySide6.QtCore import QStandardPaths, QTimer, Qt, Signal
     from PySide6.QtGui import QImage, QPainter, QPixmap, QPalette, QColor
@@ -445,7 +448,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.5.0", "started_at": self.started_at,
+            return {"version": "0.6.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -470,6 +473,9 @@ def main():
                 return
             if args.food_smoke_test:
                 self.food_smoke()
+                return
+            if args.perturbation_smoke_test:
+                self.perturbation_smoke()
                 return
             if self.smoke_stage >= 7:
                 self.brain_smoke()
@@ -722,6 +728,71 @@ def main():
                 self.tabs.setCurrentIndex(0)
                 self.grab().save(str(data_dir / 'food-controls.png'))
                 self.smoke_finish(True)
+
+        def perturbation_smoke(self):
+            panel, t = self.brain_panel, self.brain_panel.telemetry
+            if not panel.ready or not t or not self.frame_count or self.brain_view.anatomy is None:
+                return
+            if abs(t['sim_time']-self.telemetry['sim_time']) > 1e-9:
+                self.smoke_finish(False)
+                return
+            if self.smoke_stage == 0:
+                self.send('food_config', {'enabled': False})
+                panel.inhibition.setValue(25)
+                panel.perturb_button.click()
+                self.smoke_stage = 1
+            elif self.smoke_stage == 1 and t['inhibition_gain'] == .25:
+                if t['sim_time'] != 0 or t['running']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('native inhibition button applies while paused without advancing time')
+                panel.preset.setCurrentIndex(0)
+                panel.sequence_mode.setCurrentIndex(1)
+                for spin, value in zip(panel.durations, [100, 300, 150]):
+                    spin.setValue(value)
+                panel.send('protocol', panel.protocol())
+                self.smoke_stage = 2
+            elif self.smoke_stage == 2 and (t.get('protocol') or {}).get('completed'):
+                times = [(e['kind'], e['time']) for e in t['interventions']]
+                success = (t['sim_time'] == .55 and not t['running'] and t['inhibition_gain'] == 1
+                           and not t['manual_ids'] and t['total_spikes'] > 0
+                           and ('inhibition_gain', .1) in times and ('release', .4) in times)
+                if not success:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.extend(['prepared inhibition/input/recovery sequence uses exact shared-clock boundaries',
+                                          'full network generates spikes and release restores baseline gain',
+                                          '3D body advances under the existing neural decoder'])
+                self.pause_time, self.pause_spikes = t['sim_time'], t['total_spikes']
+                panel.stimulate()
+                panel.perturb_button.click()
+                self.smoke_stage = 3
+            elif self.smoke_stage == 3 and t['inhibition_gain'] == .25 and t['manual_ids']:
+                panel.restore_button.click()
+                self.smoke_stage = 4
+            elif self.smoke_stage == 4 and t['inhibition_gain'] == 1:
+                if not t['manual_ids'] or t['sim_time'] != self.pause_time or t['total_spikes'] != self.pause_spikes:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('restore inhibition retains manual input, time, and spike totals')
+                panel.perturb_button.click()
+                panel.send('release')
+                self.smoke_stage = 5
+            elif self.smoke_stage == 5 and t['inhibition_gain'] == 1 and not t['manual_ids']:
+                if t['sim_time'] != self.pause_time or t['total_spikes'] != self.pause_spikes:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('manual release removes the overlay without resetting the session')
+                self.grab().save(str(data_dir / 'perturbation-app.png'))
+                panel.grab().save(str(data_dir / 'perturbation-controls.png'))
+                panel.send('inhibition_gain', 0.)
+                panel.send('reset')
+                self.smoke_stage = 6
+            elif self.smoke_stage == 6 and t['generation'] == 1:
+                success = t['sim_time'] == 0 and t['total_spikes'] == 0 and t['inhibition_gain'] == 1
+                if success:
+                    self.smoke_checks.append('reset clears both clocks, spike counts, and the overlay')
+                self.smoke_finish(success)
 
         def smoke_finish(self, success):
             self.smoke_timer.stop()

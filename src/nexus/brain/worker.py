@@ -62,6 +62,9 @@ def simulate_brain(directory, commands, frames, events):
                     elif kind == "silence":
                         brain.silence(value["ids"])
                         protocol = None
+                    elif kind == 'inhibition_gain':
+                        brain.set_inhibition_gain(value)
+                        protocol = None
                     elif kind == "release":
                         brain.release()
                         protocol = None

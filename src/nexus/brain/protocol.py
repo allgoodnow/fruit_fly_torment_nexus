@@ -44,6 +44,8 @@ class Protocol:
                     rate = float(item["rate_hz"])
                     if not math.isfinite(rate) or not 0 < rate <= 1000:
                         raise ValueError("Input rate must be in (0, 1000] Hz")
+            elif action == 'inhibition_gain':
+                brain.validate_inhibition_gain(item['gain'])
             elif action != "release":
                 raise ValueError(f"Unknown protocol action: {action}")
             self.commands.append((at, deepcopy(item)))
@@ -61,6 +63,8 @@ class Protocol:
                     brain.stimulate(command["ids"], command["rate_hz"])
                 elif command["action"] == "silence":
                     brain.silence(command["ids"])
+                elif command['action'] == 'inhibition_gain':
+                    brain.set_inhibition_gain(command['gain'])
                 else:
                     brain.release()
                 self.cursor += 1

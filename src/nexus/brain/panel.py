@@ -98,11 +98,33 @@ class BrainPanel(QWidget):
         silence.clicked.connect(self.silence)
         form.addRow(silence)
         controls.addWidget(selection)
+        experiment = QGroupBox('Network perturbation · experimental')
+        form = QFormLayout(experiment)
+        explanation = QLabel('Reduce inhibitory connection strength.\nNeeds ongoing input to start activity.\nSeizure dynamics are not yet validated.')
+        explanation.setWordWrap(True)
+        form.addRow(explanation)
+        self.inhibition = QSpinBox()
+        self.inhibition.setRange(0, 100)
+        self.inhibition.setValue(25)
+        self.inhibition.setSuffix(' %')
+        form.addRow('Inhibition remaining', self.inhibition)
+        self.perturb_button = QPushButton('Apply reduced inhibition')
+        self.perturb_button.clicked.connect(lambda: self.send('inhibition_gain', self.inhibition.value()/100))
+        form.addRow(self.perturb_button)
+        self.restore_button = QPushButton('Restore inhibition')
+        self.restore_button.clicked.connect(lambda: self.send('inhibition_gain', 1.))
+        form.addRow(self.restore_button)
+        self.perturb_status = QLabel('Applied inhibition: 100 %')
+        form.addRow(self.perturb_status)
+        controls.addWidget(experiment)
         release = QPushButton("Release manual interventions" if command_sink else "Release all interventions")
         release.clicked.connect(lambda: self.send("release"))
         controls.addWidget(release)
         sequence = QGroupBox("Timed sequence")
         form = QFormLayout(sequence)
+        self.sequence_mode = QComboBox()
+        self.sequence_mode.addItems(['Selected neural input', 'Reduced inhibition + selected input'])
+        form.addRow(self.sequence_mode)
         self.durations = []
         for name, value in (("Baseline",100),("Stimulation",500),("Recovery",500)):
             spin = QSpinBox()
@@ -159,11 +181,16 @@ class BrainPanel(QWidget):
 
     def protocol(self):
         pre, pulse, post = [spin.value() for spin in self.durations]
-        return {"format":"nexus-protocol-1","name":"Baseline / stimulation / recovery",
+        description = {"format":"nexus-protocol-1","name":"Baseline / stimulation / recovery",
                 "duration_ms":pre+pulse+post,"events":[
                     {"at_ms":0,"action":"release"},
                     {"at_ms":pre,"action":"stimulate","ids":self.targets(),"rate_hz":self.rate.value()},
                     {"at_ms":pre+pulse,"action":"release"}]}
+        if self.sequence_mode.currentIndex() == 1:
+            description['name'] = 'Reduced inhibition / selected input / recovery'
+            description['events'].insert(1, {'at_ms': pre, 'action': 'inhibition_gain',
+                                             'gain': self.inhibition.value()/100})
+        return description
 
     def load(self):
         if self.command_sink is not None:
@@ -241,11 +268,14 @@ class BrainPanel(QWidget):
             key = (t['generation'], json.dumps(intervention, sort_keys=True))
             if key not in self.intervention_seen:
                 self.intervention_seen.add(key)
-                self.session_event.emit(f"BRAIN {intervention['time']:.3f}s · {intervention['kind']} intervention")
+                detail = (f"inhibition remaining: {intervention['gain']*100:g} %"
+                          if intervention['kind'] == 'inhibition_gain' else f"{intervention['kind']} intervention")
+                self.session_event.emit(f"BRAIN {intervention['time']:.3f}s · {detail}")
         if len(self.intervention_seen) > 4000:
             self.intervention_seen = {(t['generation'], json.dumps(e, sort_keys=True)) for e in t['interventions']}
         active = len(t['stimulated_ids'])
         self.status.setText(f"{'Running' if t['running'] else 'Paused'} · {active} stimulated · {t['silenced_count']} silenced")
+        self.perturb_status.setText(f"Applied inhibition: {t['inhibition_gain']*100:g} %")
         if t['protocol']:
             self.status.setText(self.status.text()+f"\nSequence {'complete' if t['protocol']['completed'] else 'active'}")
         if self.command_sink and t.get('environment'):
@@ -258,7 +288,8 @@ class BrainPanel(QWidget):
         self.run_button.blockSignals(False)
         self.metrics.setText(f"Brain time: {t['sim_time']:.3f} s · {t['realtime_factor']:.2f}×\n"
             f"{t['neurons']:,} neurons · {t['edges']:,} edges\n"
-            f"Spikes: {t['total_spikes']:,} · MN9: {t['mn9_spikes']}\nMN9 voltage: {t['mn9_mv']:.2f} mV")
+            f"Spikes: {t['total_spikes']:,} · MN9: {t['mn9_spikes']}\nMN9 voltage: {t['mn9_mv']:.2f} mV\n"
+            f"Population rate: {t['population_hz_per_neuron']:.3f} Hz/neuron")
         if self.bridge and 'motor_bridge' in t:
             m = t['motor_bridge']
             self.bridge.blockSignals(True)
@@ -275,7 +306,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"0.5.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"0.6.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

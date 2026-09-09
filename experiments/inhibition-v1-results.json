@@ -1,0 +1,1509 @@
+{
+  "format": "nexus-inhibition-assay-1",
+  "overlay": "negative-edge-gain-v1",
+  "interpretation": "Exploratory activity measurements; no validated seizure classification.",
+  "sources": [
+    "https://github.com/philshiu/Drosophila_brain_model",
+    "https://pubmed.ncbi.nlm.nih.gov/34278939/"
+  ],
+  "brain_manifest_sha256": "013be4508150a44e3f5e701535531cb25e2fab8bbe1abbb0ddb5c11f088dce95",
+  "anatomy_sha256": "aff02c8670ff4fac91de005a317add3a9b5fc9a630d218bc87fc2bb31795f02c",
+  "bin_ms": 1,
+  "windows_ms": {
+    "baseline": [
+      0,
+      100
+    ],
+    "intervention": [
+      100,
+      400
+    ],
+    "recovery": [
+      400,
+      700
+    ]
+  },
+  "regional_measurement": "Eight coordinate-median octants; excludes direct input and unlocated cells.",
+  "unlocated_cells": 78,
+  "release_semantics": "At 400 ms remove manual input and restore negative-edge gain; preserve dynamic state.",
+  "trials": [
+    {
+      "name": "quiet",
+      "seed": 73100,
+      "inhibition_gain": 1.0,
+      "input_hz": 0,
+      "wall_seconds": 1.6745313979999992,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "recovery": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.0,
+        -52.0
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "quiet_disinhibited",
+      "seed": 73100,
+      "inhibition_gain": 0.25,
+      "input_hz": 0,
+      "wall_seconds": 1.6387000909999188,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "recovery": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.0,
+        -52.0
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.25,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "sham",
+      "seed": 73100,
+      "inhibition_gain": 1.0,
+      "input_hz": 200,
+      "wall_seconds": 1.6632448280001881,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 5186,
+          "downstream_spikes": 3912,
+          "recruited_neurons": 365,
+          "population_hz_per_neuron": 0.13568812140240713,
+          "peak_1ms_spikes": 35,
+          "bin_fano_factor": 2.202727857051035,
+          "mean_octant_correlation": 0.09852045019947356,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 160.0
+        },
+        "recovery": {
+          "spikes": 297,
+          "downstream_spikes": 297,
+          "recruited_neurons": 180,
+          "population_hz_per_neuron": 0.007770800627943485,
+          "peak_1ms_spikes": 14,
+          "bin_fano_factor": 7.801245791245791,
+          "mean_octant_correlation": 0.383804734150074,
+          "nonconstant_octants": 5,
+          "max_downstream_hz": 26.666666666666668
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.00082313986694,
+        -51.99996636249581
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "reduced_inhibition",
+      "seed": 73100,
+      "inhibition_gain": 0.25,
+      "input_hz": 200,
+      "wall_seconds": 2.4744719730001634,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 304463,
+          "downstream_spikes": 303184,
+          "recruited_neurons": 27441,
+          "population_hz_per_neuron": 7.966064887493459,
+          "peak_1ms_spikes": 2324,
+          "bin_fano_factor": 952.5290903547119,
+          "mean_octant_correlation": 0.9584532864691663,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 216.66666666666669
+        },
+        "recovery": {
+          "spikes": 140499,
+          "downstream_spikes": 140499,
+          "recruited_neurons": 11708,
+          "population_hz_per_neuron": 3.676059654631083,
+          "peak_1ms_spikes": 1941,
+          "bin_fano_factor": 34.69923864226792,
+          "mean_octant_correlation": 0.7635770070088979,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 353.33333333333337
+        }
+      },
+      "final_voltage_range_mv": [
+        -239.9469780300513,
+        -45.000978423525524
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.25,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "no_inhibition",
+      "seed": 73100,
+      "inhibition_gain": 0.0,
+      "input_hz": 200,
+      "wall_seconds": 3.4562317329996404,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 876460,
+          "downstream_spikes": 875168,
+          "recruited_neurons": 44652,
+          "population_hz_per_neuron": 22.931972789115648,
+          "peak_1ms_spikes": 4108,
+          "bin_fano_factor": 843.9487765176582,
+          "mean_octant_correlation": 0.974685180969183,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 296.6666666666667
+        },
+        "recovery": {
+          "spikes": 144183,
+          "downstream_spikes": 144183,
+          "recruited_neurons": 14954,
+          "population_hz_per_neuron": 3.772448979591837,
+          "peak_1ms_spikes": 3241,
+          "bin_fano_factor": 100.41008558567931,
+          "mean_octant_correlation": 0.9039546784541412,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 350.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -266.285816969854,
+        -45.003333470915145
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "high_input_control",
+      "seed": 73100,
+      "inhibition_gain": 1.0,
+      "input_hz": 1000,
+      "wall_seconds": 1.679108258999804,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 13957,
+          "downstream_spikes": 8202,
+          "recruited_neurons": 492,
+          "population_hz_per_neuron": 0.3651753008895866,
+          "peak_1ms_spikes": 77,
+          "bin_fano_factor": 1.4648446418762389,
+          "mean_octant_correlation": 0.07940545615921742,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 253.33333333333334
+        },
+        "recovery": {
+          "spikes": 301,
+          "downstream_spikes": 301,
+          "recruited_neurons": 230,
+          "population_hz_per_neuron": 0.007875457875457875,
+          "peak_1ms_spikes": 23,
+          "bin_fano_factor": 11.518261351052047,
+          "mean_octant_correlation": 0.23990778371483631,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 13.333333333333334
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.00031552546635,
+        -51.99997828604614
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 1000.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "quiet",
+      "seed": 73101,
+      "inhibition_gain": 1.0,
+      "input_hz": 0,
+      "wall_seconds": 1.650531405000038,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "recovery": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.0,
+        -52.0
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "quiet_disinhibited",
+      "seed": 73101,
+      "inhibition_gain": 0.25,
+      "input_hz": 0,
+      "wall_seconds": 1.6493298069999582,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "recovery": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.0,
+        -52.0
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.25,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "sham",
+      "seed": 73101,
+      "inhibition_gain": 1.0,
+      "input_hz": 200,
+      "wall_seconds": 1.7052500060003695,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 5253,
+          "downstream_spikes": 3958,
+          "recruited_neurons": 366,
+          "population_hz_per_neuron": 0.13744113029827315,
+          "peak_1ms_spikes": 33,
+          "bin_fano_factor": 1.781642870740529,
+          "mean_octant_correlation": 0.06298698656900349,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 156.66666666666669
+        },
+        "recovery": {
+          "spikes": 259,
+          "downstream_spikes": 259,
+          "recruited_neurons": 190,
+          "population_hz_per_neuron": 0.006776556776556777,
+          "peak_1ms_spikes": 20,
+          "bin_fano_factor": 12.576821106821113,
+          "mean_octant_correlation": 0.4651571453666118,
+          "nonconstant_octants": 5,
+          "max_downstream_hz": 16.666666666666668
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.00034210938013,
+        -51.999988699012405
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "reduced_inhibition",
+      "seed": 73101,
+      "inhibition_gain": 0.25,
+      "input_hz": 200,
+      "wall_seconds": 2.5475784390000626,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 350917,
+          "downstream_spikes": 349621,
+          "recruited_neurons": 27467,
+          "population_hz_per_neuron": 9.181501831501834,
+          "peak_1ms_spikes": 2347,
+          "bin_fano_factor": 838.8424044337169,
+          "mean_octant_correlation": 0.952261708754563,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 216.66666666666669
+        },
+        "recovery": {
+          "spikes": 140100,
+          "downstream_spikes": 140099,
+          "recruited_neurons": 11440,
+          "population_hz_per_neuron": 3.6656200941915227,
+          "peak_1ms_spikes": 1923,
+          "bin_fano_factor": 31.307009279086365,
+          "mean_octant_correlation": 0.7453603547166823,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 353.33333333333337
+        }
+      },
+      "final_voltage_range_mv": [
+        -271.88207671166555,
+        -45.001898397122496
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.25,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "no_inhibition",
+      "seed": 73101,
+      "inhibition_gain": 0.0,
+      "input_hz": 200,
+      "wall_seconds": 3.4961906959997577,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 883153,
+          "downstream_spikes": 881837,
+          "recruited_neurons": 44627,
+          "population_hz_per_neuron": 23.1070905285191,
+          "peak_1ms_spikes": 4083,
+          "bin_fano_factor": 821.7357350727074,
+          "mean_octant_correlation": 0.9759811195320626,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 300.0
+        },
+        "recovery": {
+          "spikes": 144818,
+          "downstream_spikes": 144818,
+          "recruited_neurons": 14931,
+          "population_hz_per_neuron": 3.7890633176347466,
+          "peak_1ms_spikes": 3239,
+          "bin_fano_factor": 102.16402371712542,
+          "mean_octant_correlation": 0.908204975493995,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 346.6666666666667
+        }
+      },
+      "final_voltage_range_mv": [
+        -239.20206672108662,
+        -45.00122703119172
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "high_input_control",
+      "seed": 73101,
+      "inhibition_gain": 1.0,
+      "input_hz": 1000,
+      "wall_seconds": 1.699692450999919,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 14096,
+          "downstream_spikes": 8288,
+          "recruited_neurons": 513,
+          "population_hz_per_neuron": 0.3688121402407117,
+          "peak_1ms_spikes": 69,
+          "bin_fano_factor": 1.4765853197124479,
+          "mean_octant_correlation": 0.07152604186401453,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 253.33333333333334
+        },
+        "recovery": {
+          "spikes": 319,
+          "downstream_spikes": 317,
+          "recruited_neurons": 250,
+          "population_hz_per_neuron": 0.008346415489272634,
+          "peak_1ms_spikes": 27,
+          "bin_fano_factor": 15.190585161964476,
+          "mean_octant_correlation": 0.43049379086364326,
+          "nonconstant_octants": 7,
+          "max_downstream_hz": 10.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.00016788897193,
+        -51.999989319418724
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 1000.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "quiet",
+      "seed": 73102,
+      "inhibition_gain": 1.0,
+      "input_hz": 0,
+      "wall_seconds": 1.6528013809997901,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "recovery": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.0,
+        -52.0
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "quiet_disinhibited",
+      "seed": 73102,
+      "inhibition_gain": 0.25,
+      "input_hz": 0,
+      "wall_seconds": 1.6588958739998816,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "recovery": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.0,
+        -52.0
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.25,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "sham",
+      "seed": 73102,
+      "inhibition_gain": 1.0,
+      "input_hz": 200,
+      "wall_seconds": 1.6807467669996186,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 5037,
+          "downstream_spikes": 3786,
+          "recruited_neurons": 350,
+          "population_hz_per_neuron": 0.13178963893249607,
+          "peak_1ms_spikes": 37,
+          "bin_fano_factor": 2.2278677784395478,
+          "mean_octant_correlation": 0.1114191608523097,
+          "nonconstant_octants": 7,
+          "max_downstream_hz": 153.33333333333334
+        },
+        "recovery": {
+          "spikes": 217,
+          "downstream_spikes": 217,
+          "recruited_neurons": 151,
+          "population_hz_per_neuron": 0.005677655677655678,
+          "peak_1ms_spikes": 18,
+          "bin_fano_factor": 8.765145929339475,
+          "mean_octant_correlation": 0.40440097585709633,
+          "nonconstant_octants": 5,
+          "max_downstream_hz": 20.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.00040416856604,
+        -51.99997937221432
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "reduced_inhibition",
+      "seed": 73102,
+      "inhibition_gain": 0.25,
+      "input_hz": 200,
+      "wall_seconds": 2.5730575800002953,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 344725,
+          "downstream_spikes": 343466,
+          "recruited_neurons": 27479,
+          "population_hz_per_neuron": 9.019492412349557,
+          "peak_1ms_spikes": 2303,
+          "bin_fano_factor": 849.4146259095415,
+          "mean_octant_correlation": 0.9529322466717585,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 206.66666666666669
+        },
+        "recovery": {
+          "spikes": 141682,
+          "downstream_spikes": 141682,
+          "recruited_neurons": 11847,
+          "population_hz_per_neuron": 3.7070120355834644,
+          "peak_1ms_spikes": 1993,
+          "bin_fano_factor": 35.799872860819775,
+          "mean_octant_correlation": 0.7761926277868977,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 350.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -254.2535454974246,
+        -45.00030850640966
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.25,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "no_inhibition",
+      "seed": 73102,
+      "inhibition_gain": 0.0,
+      "input_hz": 200,
+      "wall_seconds": 3.540558555000189,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 873615,
+          "downstream_spikes": 872343,
+          "recruited_neurons": 44589,
+          "population_hz_per_neuron": 22.857535321821036,
+          "peak_1ms_spikes": 4127,
+          "bin_fano_factor": 847.758768164466,
+          "mean_octant_correlation": 0.9754002303074484,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 293.33333333333337
+        },
+        "recovery": {
+          "spikes": 144911,
+          "downstream_spikes": 144911,
+          "recruited_neurons": 15161,
+          "population_hz_per_neuron": 3.7914965986394558,
+          "peak_1ms_spikes": 3368,
+          "bin_fano_factor": 105.58002219753271,
+          "mean_octant_correlation": 0.9125842752341653,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 350.0
+        }
+      },
+      "final_voltage_range_mv": [
+        -246.5905662002582,
+        -45.00014213195268
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 0.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 200.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    },
+    {
+      "name": "high_input_control",
+      "seed": 73102,
+      "inhibition_gain": 1.0,
+      "input_hz": 1000,
+      "wall_seconds": 1.7910573499998463,
+      "windows": {
+        "baseline": {
+          "spikes": 0,
+          "downstream_spikes": 0,
+          "recruited_neurons": 0,
+          "population_hz_per_neuron": 0.0,
+          "peak_1ms_spikes": 0,
+          "bin_fano_factor": null,
+          "mean_octant_correlation": null,
+          "nonconstant_octants": 0,
+          "max_downstream_hz": 0.0
+        },
+        "intervention": {
+          "spikes": 13741,
+          "downstream_spikes": 8007,
+          "recruited_neurons": 499,
+          "population_hz_per_neuron": 0.3595238095238095,
+          "peak_1ms_spikes": 68,
+          "bin_fano_factor": 1.7654753414356064,
+          "mean_octant_correlation": 0.08293020917696522,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 253.33333333333334
+        },
+        "recovery": {
+          "spikes": 484,
+          "downstream_spikes": 482,
+          "recruited_neurons": 283,
+          "population_hz_per_neuron": 0.012663526949241236,
+          "peak_1ms_spikes": 33,
+          "bin_fano_factor": 14.775096418732781,
+          "mean_octant_correlation": 0.27888351262438094,
+          "nonconstant_octants": 8,
+          "max_downstream_hz": 43.333333333333336
+        }
+      },
+      "final_voltage_range_mv": [
+        -52.001926470372155,
+        -51.99987350511407
+      ],
+      "events": [
+        {
+          "kind": "inhibition_gain",
+          "time": 0.1,
+          "gain": 1.0,
+          "scope": "all_negative_edges",
+          "model_extension": "negative-edge-gain-v1"
+        },
+        {
+          "kind": "stimulate",
+          "time": 0.1,
+          "ids": [
+            "720575940624963786",
+            "720575940630233916",
+            "720575940637568838",
+            "720575940638202345",
+            "720575940617000768",
+            "720575940630797113",
+            "720575940632889389",
+            "720575940621754367",
+            "720575940621502051",
+            "720575940640649691",
+            "720575940639332736",
+            "720575940616885538",
+            "720575940639198653",
+            "720575940620900446",
+            "720575940617937543",
+            "720575940632425919",
+            "720575940633143833",
+            "720575940612670570",
+            "720575940628853239",
+            "720575940629176663",
+            "720575940611875570"
+          ],
+          "rate_hz": 1000.0
+        },
+        {
+          "kind": "release",
+          "time": 0.4
+        }
+      ]
+    }
+  ],
+  "success": true,
+  "version": "0.6.0",
+  "limitations": [
+    "This all-negative-edge overlay is not a selective GABA receptor or drug model.",
+    "Regional correlations include common onset trends; no claim of validated seizure synchrony.",
+    "No timestep sensitivity or independent biological seizure validation has been performed.",
+    "The quiet model needs input to start activity; inhibition reduction alone produced no spikes.",
+    "Elevated activity persisted for the full one-second post-release body assay; recovery was not established.",
+    "Movement uses the existing DNa02 decoder and engineered gait; no convulsion animation is imposed."
+  ],
+  "source_sha256": {
+    "src/nexus/brain/runtime.py": "fd9799ad55e15a2ac47cee95c3b8ae72b0284b606838b9f52b9bfa03179c79dc",
+    "src/nexus/brain/protocol.py": "871ea865ae4820cf9135cbbe546bffab96bd781b00fe02876152d695e0f195b1",
+    "scripts/probe_inhibition.py": "8d833214a70822ddddd6db8e319757b4df6303e1ae288a8ba77ce83ce5cd430b",
+    "scripts/probe_inhibition_body.py": "7d6c77f13af6584ccceb166c45d326ab2b01e6bf2cb753a2dd86244c757e555b"
+  },
+  "body_trials": [
+    {
+      "name": "sham",
+      "wall_seconds": 11.968682563999664,
+      "total_spikes": 5483,
+      "last_100ms_spikes": 0,
+      "minimum_upright": 0.9906289785915733,
+      "final_yaw": 0.27114418269487506,
+      "final_position_mm": [
+        18.791900284330985,
+        4.291667973749847,
+        1.1095761725652284
+      ]
+    },
+    {
+      "name": "reduced",
+      "wall_seconds": 13.52562731900025,
+      "total_spikes": 763684,
+      "last_100ms_spikes": 45522,
+      "minimum_upright": 0.9906289785915733,
+      "final_yaw": 0.6811099677357456,
+      "final_position_mm": [
+        14.04985211435242,
+        6.111714787935323,
+        1.113448340833053
+      ]
+    },
+    {
+      "name": "decoder_blocked",
+      "wall_seconds": 13.501876142999663,
+      "total_spikes": 763684,
+      "last_100ms_spikes": 45522,
+      "minimum_upright": 0.9906289785915733,
+      "final_yaw": 0.27114418269487506,
+      "final_position_mm": [
+        18.791900284330985,
+        4.291667973749847,
+        1.1095761725652284
+      ]
+    },
+    {
+      "name": "coupling_5ms",
+      "wall_seconds": 13.69635946399967,
+      "total_spikes": 763684,
+      "last_100ms_spikes": 45522,
+      "minimum_upright": 0.9906289785915733,
+      "final_yaw": 0.6691577730279628,
+      "final_position_mm": [
+        14.096700292568686,
+        6.0138904920858565,
+        1.1113337771501293
+      ]
+    }
+  ],
+  "body_acceptance": {
+    "success": true,
+    "checks": [
+      "shared clocks",
+      "finite physics",
+      "release restores gain",
+      "decoder ablation preserves neural counts and removes motor bias",
+      "coupling interval preserves neural counts"
+    ]
+  }
+}
