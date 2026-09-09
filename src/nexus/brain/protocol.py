@@ -46,6 +46,12 @@ class Protocol:
                         raise ValueError("Input rate must be in (0, 1000] Hz")
             elif action == 'inhibition_gain':
                 brain.validate_inhibition_gain(item['gain'])
+            elif action == 'circuit':
+                brain.validate_circuit(item['name'], item['rate_hz'])
+            elif action == 'heat':
+                from .circuits import heat_rate
+                _, rate = (None, 0.) if item['celsius'] is None else heat_rate(item['celsius'])
+                brain.validate_circuit('warmth', rate)
             elif action != "release":
                 raise ValueError(f"Unknown protocol action: {action}")
             self.commands.append((at, deepcopy(item)))
@@ -65,6 +71,10 @@ class Protocol:
                     brain.silence(command["ids"])
                 elif command['action'] == 'inhibition_gain':
                     brain.set_inhibition_gain(command['gain'])
+                elif command['action'] == 'circuit':
+                    brain.set_circuit_input(command['name'], command['rate_hz'])
+                elif command['action'] == 'heat':
+                    brain.set_heat(command['celsius'])
                 else:
                     brain.release()
                 self.cursor += 1

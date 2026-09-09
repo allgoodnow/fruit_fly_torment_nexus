@@ -68,7 +68,7 @@ class BrainPanel(QWidget):
         controls.addLayout(row)
         self.bridge = None
         if command_sink:
-            self.bridge = QCheckBox('Enable neural steering')
+            self.bridge = QCheckBox('Enable neural motor bridge')
             self.bridge.setChecked(True)
             self.bridge.toggled.connect(lambda value: self.send('bridge_enabled', value))
             controls.addWidget(self.bridge)
@@ -270,6 +270,10 @@ class BrainPanel(QWidget):
                 self.intervention_seen.add(key)
                 detail = (f"inhibition remaining: {intervention['gain']*100:g} %"
                           if intervention['kind'] == 'inhibition_gain' else f"{intervention['kind']} intervention")
+                if intervention['kind'] == 'circuit_input':
+                    detail = f"{intervention['circuit']} input: {intervention['rate_hz']:g} Hz"
+                elif intervention['kind'] == 'heat_scenario':
+                    detail = f"heat scenario: {intervention['nominal_celsius']}°C nominal · {intervention['rate_hz']:g} Hz"
                 self.session_event.emit(f"BRAIN {intervention['time']:.3f}s · {detail}")
         if len(self.intervention_seen) > 4000:
             self.intervention_seen = {(t['generation'], json.dumps(e, sort_keys=True)) for e in t['interventions']}
@@ -306,7 +310,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"0.6.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"0.7.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

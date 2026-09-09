@@ -32,7 +32,9 @@ def main():
             brain.reset()
             body.reset()
             session = CoupledSession(brain, body, coupling_ticks=interval)
-            session.decoder.enabled = enabled
+            session.command('bridge_enabled', enabled)
+            # This assay isolates the original DNa02 steering decoder.
+            session.command('motor_effects_enabled', False)
             session.command('protocol', {'format': 'nexus-protocol-1', 'duration_ms': 1400,
                 'events': [{'at_ms': 100, 'action': 'inhibition_gain', 'gain': gain},
                            {'at_ms': 100, 'action': 'stimulate', 'ids': SUGAR, 'rate_hz': 200},

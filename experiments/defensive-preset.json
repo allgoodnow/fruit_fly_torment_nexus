@@ -1,0 +1,21 @@
+{
+  "format": "nexus-protocol-1",
+  "name": "Looming-threat pathway / escape motor proxy",
+  "duration_ms": 1100,
+  "events": [
+    {
+      "at_ms": 0,
+      "action": "release"
+    },
+    {
+      "action": "circuit",
+      "name": "looming",
+      "rate_hz": 200,
+      "at_ms": 100
+    },
+    {
+      "at_ms": 600,
+      "action": "release"
+    }
+  ]
+}

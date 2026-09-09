@@ -39,6 +39,9 @@ class NeuralTelemetry:
                   'rate_hz': float(brain.rates[0]) if len(brain.rates) else 0,
                   'silenced_count': int((brain.output_gain==0).sum()),
                   'inhibition_gain': brain.inhibition_gain,
+                  'nominal_temperature_c': brain.nominal_temperature,
+                  'circuit_inputs': {name: {'ids': [str(brain.graph.ids[i]) for i in targets], 'rate_hz': rate}
+                                     for name, (targets, rate) in brain.circuit_inputs.items()},
                   'population_hz_per_neuron': float(delta.sum()/duration/len(brain.counts)) if duration else 0.,
                   'protocol': None if not protocol else {'name': protocol.description.get('name', 'Sequence'),
                                                        'completed': protocol.completed, 'event_cursor': protocol.cursor},

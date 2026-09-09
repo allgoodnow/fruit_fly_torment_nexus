@@ -187,6 +187,8 @@ class Brain:
     def release(self):
         self.manual_inputs = np.array([], dtype=np.int32)
         self.manual_rate = 0.
+        self.circuit_inputs.clear()
+        self.nominal_temperature = None
         self._refresh_inputs()
         self.output_gain.fill(1)
         self.inhibition_gain = 1.
@@ -228,6 +230,37 @@ class Brain:
         self.events.append({'kind': 'sensory_input' if len(targets) else 'sensory_release',
                             'time': self.time, 'ids': [str(self.graph.ids[i]) for i in targets], 'rate_hz': rate})
 
+    def validate_circuit(self, name, rate_hz):
+        from .circuits import circuit_ids
+        if name not in ('looming', 'warmth', 'aversion_proxy') or self.graph.snapshot != '630':
+            raise ValueError('Named input requires a supported v630 circuit')
+        targets = self.resolve(circuit_ids(name))
+        rate = float(rate_hz)
+        if isinstance(rate_hz, bool) or not math.isfinite(rate) or not 0 <= rate <= 1000:
+            raise ValueError('Circuit input rate must be in [0, 1000] Hz')
+        return targets, rate
+
+    def set_circuit_input(self, name, rate_hz):
+        targets, rate = self.validate_circuit(name, rate_hz)
+        if rate:
+            self.circuit_inputs[name] = (targets, rate)
+        else:
+            self.circuit_inputs.pop(name, None)
+        if name == 'warmth':
+            self.nominal_temperature = None
+        self._refresh_inputs()
+        self.events.append({'kind': 'circuit_input', 'time': self.time, 'circuit': name,
+                            'rate_hz': rate, 'ids': [str(self.graph.ids[i]) for i in targets]})
+
+    def set_heat(self, temperature):
+        from .circuits import heat_rate
+        value, rate = (None, 0.) if temperature is None else heat_rate(temperature)
+        self.set_circuit_input('warmth', rate)
+        self.nominal_temperature = value
+        self.events.append({'kind': 'heat_scenario', 'time': self.time, 'nominal_celsius': value,
+                            'rate_hz': rate, 'mapping': 'warmth-input-proxy-v1',
+                            'thermal_damage_modeled': False})
+
     def _refresh_inputs(self):
         # Preserve manual target order so independent-mode seeded trials retain
         # exactly the original random draw order. Duplicate targets never receive
@@ -235,6 +268,10 @@ class Brain:
         rates = {int(i): self.manual_rate for i in self.manual_inputs}
         for i in self.sensory_inputs:
             rates[int(i)] = max(rates.get(int(i), 0.), self.sensory_rate)
+        for name in sorted(self.circuit_inputs):
+            targets, rate = self.circuit_inputs[name]
+            for i in targets:
+                rates[int(i)] = max(rates.get(int(i), 0.), rate)
         self.refractory[self.inputs] = REFRACTORY_STEPS
         self.inputs = np.array(list(rates), dtype=np.int32)
         self.rates = np.array(list(rates.values()), dtype=np.float64)
@@ -263,6 +300,8 @@ class Brain:
         self.manual_inputs = np.array([], dtype=np.int32)
         self.sensory_inputs = np.array([], dtype=np.int32)
         self.manual_rate = self.sensory_rate = 0.
+        self.circuit_inputs = {}
+        self.nominal_temperature = None
         self.history.clear()
         self.events.clear()
 

@@ -21,6 +21,7 @@ def main():
     parser.add_argument('--coupled-smoke-test', type=Path, help='Exercise shared-clock neural steering')
     parser.add_argument('--food-smoke-test', type=Path, help='Exercise contact-driven taste feedback')
     parser.add_argument('--perturbation-smoke-test', type=Path, help='Exercise reversible inhibition controls')
+    parser.add_argument('--response-smoke-test', type=Path, help='Exercise threat, heat, and motor experiment controls')
     parser.add_argument('--food-demo', action='store_true', help='Start a food crossing with no manual neural input')
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
@@ -33,7 +34,9 @@ def main():
         args.smoke_test = args.food_smoke_test
     if args.perturbation_smoke_test:
         args.smoke_test = args.perturbation_smoke_test
-    coupled = bool(args.food_smoke_test or args.food_demo or args.coupled_smoke_test or args.perturbation_smoke_test) or not (args.independent or args.smoke_test)
+    if args.response_smoke_test:
+        args.smoke_test = args.response_smoke_test
+    coupled = bool(args.food_smoke_test or args.food_demo or args.coupled_smoke_test or args.perturbation_smoke_test or args.response_smoke_test) or not (args.independent or args.smoke_test)
 
     from PySide6.QtCore import QStandardPaths, QTimer, Qt, Signal
     from PySide6.QtGui import QImage, QPainter, QPixmap, QPalette, QColor
@@ -48,6 +51,7 @@ def main():
     from nexus.brain.panel import BrainPanel, default_pack
     from nexus.brain.view import BrainView
     from nexus.food_panel import FoodPanel
+    from nexus.intervention_panel import InterventionPanel
 
     app = QApplication(sys.argv[:1])
     app.setStyle('Fusion')
@@ -273,7 +277,12 @@ def main():
             brain_scroll.setWidgetResizable(True)
             brain_scroll.setWidget(self.brain_panel)
             self.tabs.addTab(brain_scroll,"Brain")
-            self.tabs.currentChanged.connect(self.graph_stack.setCurrentIndex)
+            self.intervention_panel = InterventionPanel(self.brain_panel, coupled=coupled)
+            experiment_scroll = QScrollArea()
+            experiment_scroll.setWidgetResizable(True)
+            experiment_scroll.setWidget(self.intervention_panel)
+            self.tabs.addTab(experiment_scroll, 'Experiments')
+            self.tabs.currentChanged.connect(lambda index: self.graph_stack.setCurrentIndex(0 if index == 0 else 1))
             if coupled:
                 self.tabs.setCurrentIndex(1)
             split.addWidget(self.tabs)
@@ -448,7 +457,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.6.0", "started_at": self.started_at,
+            return {"version": "0.7.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -476,6 +485,9 @@ def main():
                 return
             if args.perturbation_smoke_test:
                 self.perturbation_smoke()
+                return
+            if args.response_smoke_test:
+                self.response_smoke()
                 return
             if self.smoke_stage >= 7:
                 self.brain_smoke()
@@ -793,6 +805,87 @@ def main():
                 if success:
                     self.smoke_checks.append('reset clears both clocks, spike counts, and the overlay')
                 self.smoke_finish(success)
+
+        def response_smoke(self):
+            panel, t = self.intervention_panel, self.brain_panel.telemetry
+            if not self.brain_panel.ready or not t or not self.frame_count or self.brain_view.anatomy is None:
+                return
+            if abs(t['sim_time']-self.telemetry['sim_time']) > 1e-9:
+                self.smoke_finish(False)
+                return
+            if self.smoke_stage == 0:
+                self.send('food_config', {'enabled': False})
+                self.tabs.setCurrentIndex(2)
+                for spin, value in zip(panel.durations, [100, 500, 200]):
+                    spin.setValue(value)
+                self.response_cases = ['defensive', 'aversion', 'heat', 'seizure', 'heat_overload']
+                self.response_index = 0
+                self.smoke_stage = 1
+            elif self.smoke_stage == 1:
+                self.response_peak = self.response_escape = self.response_offset = 0.
+                self.response_temperature = None
+                name = self.response_cases[self.response_index]
+                panel.buttons[name].click()
+                self.smoke_stage = 2
+            elif self.smoke_stage == 2:
+                effects = t['motor_effects']
+                self.response_peak = max(self.response_peak, effects['disruption'])
+                self.response_escape = max(self.response_escape, effects['escape'])
+                self.response_offset = max(self.response_offset, self.telemetry['motor_offset_rms_rad'])
+                if t['nominal_temperature_c'] is not None:
+                    self.response_temperature = t['nominal_temperature_c']
+                if not (t.get('protocol') or {}).get('completed'):
+                    return
+                name = self.response_cases[self.response_index]
+                success = t['sim_time'] == .8 and not t['running'] and t['inhibition_gain'] == 1 and not t['circuit_inputs']
+                if name == 'defensive':
+                    success &= self.response_escape > .1 and self.response_offset > .02
+                elif name == 'aversion':
+                    success &= t['total_spikes'] > 0 and any(e.get('circuit') == 'aversion_proxy' for e in t['interventions'])
+                elif name == 'heat':
+                    success &= self.response_temperature == 40 and t['total_spikes'] > 1000
+                else:
+                    success &= self.response_peak > .1 and self.response_offset > .05
+                    if name == 'heat_overload':
+                        success &= self.response_temperature == 100
+                if not success:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append(name+' button runs, releases on schedule, and reports measured responses')
+                self.grab().save(str(data_dir / (name+'-app.png')))
+                panel.grab().save(str(data_dir / 'experiment-controls.png'))
+                self.response_generation = t['generation']+1
+                self.brain_panel.send('reset')
+                self.smoke_stage = 3
+            elif self.smoke_stage == 3 and t['generation'] == self.response_generation:
+                if t['sim_time'] != 0 or t['total_spikes'] != 0 or t['motor_effects']['disruption'] != 0:
+                    self.smoke_finish(False)
+                    return
+                self.response_index += 1
+                if self.response_index < len(self.response_cases):
+                    self.smoke_stage = 1
+                else:
+                    self.brain_panel.send('heat', 100)
+                    self.brain_panel.send('circuit', {'name': 'looming', 'rate_hz': 200})
+                    self.brain_panel.send('inhibition_gain', .25)
+                    self.smoke_stage = 4
+            elif self.smoke_stage == 4 and t['inhibition_gain'] == .25 and len(t['circuit_inputs']) == 2:
+                if t['sim_time'] != 0:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('threat and heat inputs coexist while paused')
+                panel.release.click()
+                self.smoke_stage = 5
+            elif self.smoke_stage == 5 and not t['circuit_inputs'] and t['inhibition_gain'] == 1:
+                if t['sim_time'] != 0 or t['nominal_temperature_c'] is not None:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('release clears scenario inputs and overlays without advancing time')
+                panel.motor_enabled.setChecked(False)
+                self.smoke_stage = 6
+            elif self.smoke_stage == 6 and not t['motor_effects']['enabled']:
+                self.smoke_checks.append('motor proxy ablation can be controlled from the native experiments tab')
+                self.smoke_finish(True)
 
         def smoke_finish(self, success):
             self.smoke_timer.stop()

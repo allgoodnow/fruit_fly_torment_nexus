@@ -12,7 +12,7 @@ import mujoco
 import numpy as np
 from flygym import Simulation
 from flygym.anatomy import BodySegment, ContactBodiesPreset
-from flygym.compose import FlatGroundWorld
+from flygym.compose import FlatGroundWorld, ActuatorType
 from flygym.utils.math import Rotation3D
 from flygym_demo.complex_terrain import (
     HybridControllerObservation, HybridTurningController, LocomotionAction,
@@ -33,7 +33,7 @@ class FlyBody:
                 material.reflectance = 0
         self.world.add_fly(
             self.fly, [0, 0, 0.8], Rotation3D("quat", [1, 0, 0, 0]),
-            bodysegs_with_ground_contact=ContactBodiesPreset.TIBIA_TARSUS_ONLY,
+            bodysegs_with_ground_contact=ContactBodiesPreset.LEGS_THORAX_ABDOMEN_HEAD,
             add_ground_contact_sensors=False,
         )
         self.sim = Simulation(self.world)
@@ -46,6 +46,12 @@ class FlyBody:
         self.thorax_index = self.fly.get_bodysegs_order().index(BodySegment("c_thorax"))
         self.thorax_id = self.sim._internal_bodyids_by_fly[self.fly.name][self.thorax_index]
         model = self.sim.mj_model
+        actuator_ids = self.sim._intern_actuatorids_by_type_by_fly[ActuatorType.POSITION][self.fly.name]
+        joint_ids = model.actuator_trnid[actuator_ids, 0]
+        self.angle_low = np.where(model.jnt_limited[joint_ids], model.jnt_range[joint_ids, 0], -np.inf)
+        self.angle_high = np.where(model.jnt_limited[joint_ids], model.jnt_range[joint_ids, 1], np.inf)
+        self.effect_phase = np.arange(len(self.dofs))*1.61803398875
+        self.effect_frequency = 9.+(np.arange(len(self.dofs)) % 7)*1.7
         self.ground_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, 'ground_plane')
         self.foot_geoms = {i: mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_GEOM, i).split('/')[-1][:2]
                            for i in range(model.ngeom)
@@ -86,6 +92,7 @@ class FlyBody:
         self.elapsed_steps = 0
         self.path.clear()
         self.origin = self.position().copy()
+        self.motor_offset_rms = 0.
 
     def position(self):
         return self.sim.mj_data.xpos[self.thorax_id].copy()
@@ -108,9 +115,11 @@ class FlyBody:
         raise ValueError('Choose food placement ahead or under')
 
     def advance(self, seconds: float, *, drive: float = 1.0, turn: float = 0.0,
-                wander: bool = True):
+                wander: bool = True, escape: float = 0., disruption: float = 0.):
+        if not all(math.isfinite(float(v)) and 0 <= v <= 1 for v in (escape, disruption)):
+            raise ValueError('Motor effects must be finite levels between zero and one')
         count = max(1, round(seconds / self.sim.timestep))
-        drive = float(np.clip(drive, 0.0, 1.3))
+        drive = float(np.clip(drive+.3*escape, 0.0, 1.3))
         turn = float(np.clip(turn, -0.6, 0.6))
         for _ in range(count):
             # Authored exploration signal. This is deliberately not called a brain.
@@ -118,6 +127,19 @@ class FlyBody:
             signal = np.clip([drive + steering, drive - steering], 0.0, 1.5)
             obs = HybridControllerObservation.from_sim(self.sim, self.fly.name)
             action = self.controller.step(signal, obs)
+            if escape or disruption:
+                # Authored muscle-command disturbance driven by neural readouts.
+                # No pose teleport, injected body force, or thermal tissue model.
+                phase = 2*np.pi*self.time
+                offset = (.18*escape*np.sin(phase*5+self.effect_phase)
+                          + .8*disruption*np.sin(phase*self.effect_frequency+self.effect_phase))
+                angles = np.clip(action.joint_angles+offset, self.angle_low, self.angle_high)
+                adhesion = action.adhesion_onoff.copy()
+                adhesion &= np.sin(phase*12+np.arange(6)*2.4) < 1-1.8*disruption
+                self.motor_offset_rms = float(np.sqrt(np.mean((angles-action.joint_angles)**2)))
+                action = LocomotionAction(joint_angles=angles, adhesion_onoff=adhesion)
+            else:
+                self.motor_offset_rms = 0.
             apply_locomotion_action(self.sim, self.fly.name, action)
             self.sim.step()
             self.elapsed_steps += 1
@@ -160,6 +182,7 @@ class FlyBody:
             "phases": (self.controller.cpg_network.curr_phases % (2 * np.pi)).tolist(),
             "magnitudes": self.controller.cpg_network.curr_magnitudes.tolist(),
             "path": list(self.path),
+            "motor_offset_rms_rad": self.motor_offset_rms,
             "mode": "engineered locomotion; connectome not connected",
         }
 

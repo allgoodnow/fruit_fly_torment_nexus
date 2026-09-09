@@ -6,6 +6,7 @@ from collections import deque
 from queue import Empty
 
 from .brain.motor import SteeringDecoder
+from .brain.motor_effects import MotorEffects
 from .brain.protocol import Protocol
 from .brain.telemetry import NeuralTelemetry
 from .worker import put_latest
@@ -20,6 +21,7 @@ class CoupledSession:
         self.brain, self.body = brain, body
         self.environment = environment
         self.decoder = SteeringDecoder(brain)
+        self.motor_effects = MotorEffects(brain)
         self.coupling_ticks = coupling_ticks
         self.baseline = 1.
         self.running = False
@@ -51,6 +53,7 @@ class CoupledSession:
             self.brain.reset()
             self.body.reset()
             self.decoder.reset()
+            self.motor_effects.reset()
             self.monitor.reset(self.brain)
             self.running, self.protocol = False, None
             self.generation += 1
@@ -66,6 +69,12 @@ class CoupledSession:
         elif kind == 'inhibition_gain':
             self.brain.set_inhibition_gain(value)
             self.protocol = None
+        elif kind == 'circuit':
+            self.brain.set_circuit_input(value['name'], value['rate_hz'])
+            self.protocol = None
+        elif kind == 'heat':
+            self.brain.set_heat(value)
+            self.protocol = None
         elif kind == 'neural_release':
             self.brain.release()
             self.protocol = None
@@ -76,6 +85,9 @@ class CoupledSession:
             self.protocol, self.running = candidate, True
         elif kind == 'bridge_enabled':
             self.decoder.enabled = bool(value)
+            self.motor_effects.enabled = bool(value)
+        elif kind == 'motor_effects_enabled':
+            self.motor_effects.enabled = bool(value)
         elif kind == 'drive':
             drive = float(value)
             if not math.isfinite(drive):
@@ -113,7 +125,7 @@ class CoupledSession:
                 break
             step = min(self.coupling_ticks, end-self.brain.step)
             before = self.brain.step
-            counts = self.brain.counts[self.decoder.indices].copy()
+            before_counts = self.brain.counts.copy()
             if self.protocol:
                 # Stop at intervention boundaries too, so outgoing silencing is
                 # applied to the same interval in the brain and motor decoder.
@@ -132,10 +144,15 @@ class CoupledSession:
             elapsed = (self.brain.step-before)*.0001
             if self.environment is not None and self.environment.active:
                 self.environment.active_seconds += elapsed
-            counts = self.brain.counts[self.decoder.indices]-counts
-            self.decoder.observe(counts, elapsed, gains)
+            counts = self.brain.counts-before_counts
+            self.decoder.observe(counts[self.decoder.indices], elapsed, gains)
+            self.motor_effects.observe(counts, elapsed, self.brain.output_gain, self.brain.inputs)
             output = self.decoder.output(self.baseline)
-            self.body.advance(elapsed, drive=output['drive'], turn=output['turn'], wander=False)
+            effects = self.motor_effects.output()
+            extra = {'escape': effects['escape'], 'disruption': effects['disruption']}
+            if not any(extra.values()):
+                extra = {}  # Preserve the original body adapter interface at baseline.
+            self.body.advance(elapsed, drive=output['drive'], turn=output['turn'], wander=False, **extra)
             if abs(self.body.time-self.brain.time) > 1e-9:
                 raise RuntimeError('Body and brain clocks diverged')
             self.sync_environment()
@@ -145,18 +162,21 @@ class CoupledSession:
                 self.running = False
 
     def snapshot(self):
-        neural = self.monitor.snapshot(self.brain, self.running, self.generation, self.protocol, coupled=self.decoder.enabled)
+        neural = self.monitor.snapshot(self.brain, self.running, self.generation, self.protocol,
+                                       coupled=self.decoder.enabled or self.motor_effects.enabled)
         neural['shared_clock'] = True
         food = self.environment.snapshot() if self.environment is not None else None
         neural['environment'] = food
         motor = self.decoder.output(self.baseline)
         neural['motor_bridge'] = motor
+        neural['motor_effects'] = self.motor_effects.output()
         body = self.body.telemetry()
         body.update(running=self.running, wander=False, drive=self.baseline, turn=motor['turn'],
                     generation=self.generation, realtime_factor=neural['realtime_factor'],
                     mode='experimental DNa02 neural steering / engineered gait',
                     motor_bridge=motor, brain_time=self.brain.time, coupling_ms=self.coupling_ticks*.1,
                     environment=food)
+        body['motor_effects'] = neural['motor_effects']
         return {'telemetry': body, 'brain': neural}
 
 
