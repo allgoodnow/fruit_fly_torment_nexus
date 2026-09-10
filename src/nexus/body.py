@@ -98,6 +98,9 @@ class FlyBody:
     def position(self):
         return self.sim.mj_data.xpos[self.thorax_id].copy()
 
+    def upright(self):
+        return float(self.sim.mj_data.xmat[self.thorax_id].reshape(3, 3)[2, 2])
+
     def ground_contacts(self):
         result = []
         for contact in self.sim.mj_data.contact[:self.sim.mj_data.ncon]:

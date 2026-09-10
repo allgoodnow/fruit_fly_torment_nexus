@@ -1,0 +1,212 @@
+{
+  "format": "nexus-recovery-validation-1",
+  "version": "0.12.0",
+  "created_at": "2026-09-10T02:10:30.317505+00:00",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "edges": 25582938,
+  "unit_tests": {
+    "passed": 84,
+    "seconds": 9.08
+  },
+  "gui_design_unchanged": true,
+  "new_gui_content": "Post-release observation and settling transitions in the existing red event log only.",
+  "packaged_gui_checks": [
+    "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+    "defensive button runs, releases on schedule, and reports measured responses",
+    "aversion button runs, releases on schedule, and reports measured responses",
+    "heat button runs, releases on schedule, and reports measured responses",
+    "seizure button runs, releases on schedule, and reports measured responses",
+    "heat_overload button runs, releases on schedule, and reports measured responses",
+    "threat and heat inputs coexist while paused",
+    "release clears scenario inputs and overlays without advancing time",
+    "motor proxy ablation can be controlled from the native experiments tab"
+  ],
+  "checks": [
+    "Monitor does not alter neural random draws, voltages, delayed events or body commands",
+    "Complete common 7.6 seconds match v0.11 neural and body trace exactly",
+    "Continuous 16.1-second full-body and neural-only runs have identical final per-neuron counts",
+    "Packaged isolated nociception run detects combined quiet and upright posture at 920 ms (520 ms after release)",
+    "Ten-second post-release continuous run does not falsely report settling"
+  ],
+  "rules": {
+    "neural_hz_per_neuron_max": 0.1,
+    "escape_max": 0.05,
+    "disruption_max": 0.05,
+    "steering_hz_max": 10.0,
+    "upright_min": 0.8,
+    "hold_ms": 500.0,
+    "interpretation": "Consecutive qualifying simulation intervals; not biological recovery or subjective relief."
+  },
+  "body_final_observation": {
+    "id": 5,
+    "input_start_ms": 5800.0,
+    "release_ms": 6100.0,
+    "phase": "observing",
+    "settled_at_ms": null,
+    "quiet_ticks": {
+      "neural": 0,
+      "motor": 0,
+      "posture": 0,
+      "all": 0
+    },
+    "observed_until_ms": 16100.0,
+    "neural_hz_per_neuron": 2.7714457108578285,
+    "neural_quiet": false,
+    "motor_quiet": false,
+    "upright": -0.9470180705937733,
+    "upright_enough": false
+  },
+  "packaged_final_observation": {
+    "id": 1,
+    "input_start_ms": 100.0,
+    "release_ms": 400.0,
+    "phase": "settled",
+    "settled_at_ms": 920.0,
+    "quiet_ticks": {
+      "neural": 19800,
+      "motor": 20000,
+      "posture": 20000,
+      "all": 19800
+    },
+    "observed_until_ms": 2400.0,
+    "neural_hz_per_neuron": 0.04799040191961608,
+    "neural_quiet": true,
+    "motor_quiet": true,
+    "upright": 0.9981710617439057,
+    "upright_enough": true
+  },
+  "neural_trials": [
+    {
+      "scenario": "aversion",
+      "seed": 73100,
+      "release_ms": 400,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 102447,
+      "first_500ms_neural_quiet_after_release_ms": 520.0,
+      "final_neural_quiet_duration_ms": 9980.0,
+      "last_second_hz_per_neuron": 0.04779244151169766,
+      "wall_seconds": 40.244372814000144,
+      "end_counts_sha256": "2361a4593f87fa150b4c496e474ab8cdd3bf6f13687286c25f1362cb77ca8e4c"
+    },
+    {
+      "scenario": "seizure",
+      "seed": 73100,
+      "release_ms": 400,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 6375586,
+      "first_500ms_neural_quiet_after_release_ms": null,
+      "final_neural_quiet_duration_ms": 0.0,
+      "last_second_hz_per_neuron": 2.9230533893221353,
+      "wall_seconds": 46.666202333,
+      "end_counts_sha256": "416bd9b492c6feaa8f8288e4c264e949439ad9c9ecb4d355721cc5f99390183e"
+    },
+    {
+      "scenario": "continuous",
+      "seed": 73100,
+      "release_ms": 6100.0,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 9370114,
+      "first_500ms_neural_quiet_after_release_ms": null,
+      "final_neural_quiet_duration_ms": 0.0,
+      "last_second_hz_per_neuron": 2.9046490701859637,
+      "wall_seconds": 69.22815286499986,
+      "end_counts_sha256": "28a1ba21c6c675478eebe881758b353236e5c2245a6e85b808dfe1c49bd6147f"
+    },
+    {
+      "scenario": "aversion",
+      "seed": 73101,
+      "release_ms": 400,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 102405,
+      "first_500ms_neural_quiet_after_release_ms": 620.0,
+      "final_neural_quiet_duration_ms": 9880.0,
+      "last_second_hz_per_neuron": 0.048002399520095974,
+      "wall_seconds": 35.79079544000001,
+      "end_counts_sha256": "c50d80c462d32ea12ce0141179c1efda324f5bfc1747ab34d45e80a128131d3f"
+    },
+    {
+      "scenario": "seizure",
+      "seed": 73101,
+      "release_ms": 400,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 6860247,
+      "first_500ms_neural_quiet_after_release_ms": null,
+      "final_neural_quiet_duration_ms": 0.0,
+      "last_second_hz_per_neuron": 3.1981763647270545,
+      "wall_seconds": 51.191605380000055,
+      "end_counts_sha256": "739cd15316ab07200b4fd525789973013a5b4e93918dfeac1e7277a1d3d9d888"
+    },
+    {
+      "scenario": "continuous",
+      "seed": 73101,
+      "release_ms": 6100.0,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 9419826,
+      "first_500ms_neural_quiet_after_release_ms": null,
+      "final_neural_quiet_duration_ms": 0.0,
+      "last_second_hz_per_neuron": 2.9284583083383326,
+      "wall_seconds": 63.91161411400003,
+      "end_counts_sha256": "3fb5a34cb8027fc6774322c32bfc5263d9cacc7a67f149d3fa4bf83a5dbdb460"
+    },
+    {
+      "scenario": "aversion",
+      "seed": 73102,
+      "release_ms": 400,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 101696,
+      "first_500ms_neural_quiet_after_release_ms": 580.0,
+      "final_neural_quiet_duration_ms": 9920.0,
+      "last_second_hz_per_neuron": 0.048050389922015595,
+      "wall_seconds": 39.93488981600012,
+      "end_counts_sha256": "e63ab29186595474fddf5967906cce7c45d5091f273ab05d67a7d5b2b084149a"
+    },
+    {
+      "scenario": "seizure",
+      "seed": 73102,
+      "release_ms": 400,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 6394876,
+      "first_500ms_neural_quiet_after_release_ms": null,
+      "final_neural_quiet_duration_ms": 0.0,
+      "last_second_hz_per_neuron": 2.9297300539892017,
+      "wall_seconds": 44.96358526900008,
+      "end_counts_sha256": "9f761269fb149fa01b9a2b8fe2aac4430f764b627e1778ffcc9fd0afcb39771b"
+    },
+    {
+      "scenario": "continuous",
+      "seed": 73102,
+      "release_ms": 6100.0,
+      "observed_after_release_ms": 10000,
+      "total_spikes": 9138528,
+      "first_500ms_neural_quiet_after_release_ms": null,
+      "final_neural_quiet_duration_ms": 0.0,
+      "last_second_hz_per_neuron": 2.909364127174565,
+      "wall_seconds": 63.631840567000154,
+      "end_counts_sha256": "42eafa7c2ce43b59936369356c1f191351d622530cbeca0ee3185e32bebb213b"
+    }
+  ],
+  "sha256": {
+    "src/nexus/recovery.py": "e1261dc8d0741633a32b6969ba368fc0d0904f7d55953ffd2cc05c3f072c707e",
+    "src/nexus/coupled.py": "55c9b3c2c358a2027686e687f9c361f0083ac4b63a48c6f30f62f289c5ff5d1a",
+    "src/nexus/body.py": "a4621d534c8c99fd8b5136b1e6ac1273c7631e534727f8a74e864146b11060c9",
+    "src/nexus/sequence_run.py": "d5bc85731cf1fa9117b00c3fcf36c9d689f67011aa66395b41b5a3926a0079f4",
+    "src/nexus/brain/panel.py": "1a9c21b586f8c7f8f6680ad72f74bf91556b62d082c76bd517fc97ab094aee73",
+    "scripts/probe_recovery.py": "7436745a8a8bdafde73fb48d9417c535d30e6c954c5186cbc13cf76b13a938ae",
+    "experiments/male-cns-recovery-sequence.json": "1c5c12bcdf6171e2bff61381dd8c349c082839f8e8bf6ceca8329b0ea8341037",
+    "experiments/male-cns-nociception-recovery.json": "6e3331560e0b7418254a56f16022203294ae69314e2be2ef6fe36725fbdd36b7",
+    "experiments/recovery-neural-v1-results.json": "3e44f064ddf9624c07fcac535ada95d9461b9dfde4c07ef1217e837508619c89",
+    "runs/recovery_v012_intact/report.json": "83c588ba732cef6b5cfc4ba95fd78cde067b39a5a725ba4a0963e07b2cd45679",
+    "runs/recovery_v012_intact/trace.jsonl": "2988c20174f5615a8ba45ab527a02f3d3f20ea55b7c54a2b360800d30fde5c5d",
+    "runs/recovery_v012_intact/counts.npz": "451b40c094f448326af909f7431f4b289a7ea818550ee06fbacf0afb127ced39",
+    "runs/recovery_v012_packaged/report.json": "7f6ccc3103cc993cdd14c1b75f5030372af36283c456182ad8b3ceca22fee39c",
+    "runs/recovery_packaged_acceptance/acceptance.json": "02e252c8c499c8fd594bf2273a84752841ef2c889805230445f6e48e0655950a"
+  },
+  "limitations": [
+    "These criteria describe this experimental model, not biological recovery or subjective relief",
+    "Quiet threshold is 0.1 Hz per neuron; it does not mean zero spikes or return to the initially silent network",
+    "Persistent activity over ten seconds does not establish permanent instability",
+    "Brain-only seed comparisons do not establish body recovery for every seed"
+  ]
+}

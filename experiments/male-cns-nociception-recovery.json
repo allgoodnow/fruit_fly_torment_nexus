@@ -1,0 +1,22 @@
+{
+  "format": "nexus-protocol-1",
+  "name": "Abdominal md candidates / experimental nociception",
+  "duration_ms": 2400,
+  "events": [
+    {
+      "at_ms": 0,
+      "action": "release"
+    },
+    {
+      "action": "circuit",
+      "name": "nociception_proxy",
+      "rate_hz": 100,
+      "at_ms": 100
+    },
+    {
+      "at_ms": 400,
+      "action": "release"
+    }
+  ],
+  "dataset": "male-cns:v1.0"
+}

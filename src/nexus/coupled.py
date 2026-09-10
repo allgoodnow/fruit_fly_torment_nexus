@@ -11,6 +11,7 @@ from .brain.protocol import Protocol
 from .brain.telemetry import NeuralTelemetry
 from .worker import put_latest
 from .behavior import GroundBehavior
+from .recovery import RecoveryMonitor
 
 
 class CoupledSession:
@@ -32,7 +33,13 @@ class CoupledSession:
         self.completed_protocol = None
         self.generation = 0
         self.monitor = NeuralTelemetry(brain)
+        self.recovery = RecoveryMonitor()
         self.sync_environment()
+
+    def sync_recovery(self):
+        active = (bool(self.brain.inputs.size) or self.brain.inhibition_gain != 1
+                  or bool((self.brain.output_gain != 1).any()))
+        self.recovery.controls(self.brain.step, active)
 
     def sync_environment(self):
         if self.environment is not None:
@@ -60,6 +67,7 @@ class CoupledSession:
             self.motor_effects.reset()
             self.behavior.reset()
             self.monitor.reset(self.brain)
+            self.recovery.reset()
             self.running, self.protocol = False, None
             self.completed_protocol = None
             self.generation += 1
@@ -127,6 +135,7 @@ class CoupledSession:
             self.body.reset_camera()
         else:
             raise ValueError(f'Unsupported coupled command: {kind}')
+        self.sync_recovery()
 
     def advance(self, ticks=100):
         end = self.brain.step + ticks
@@ -155,6 +164,7 @@ class CoupledSession:
                     at = self.protocol.origin+self.protocol.commands[self.protocol.cursor][0]
                     step = min(step, at-before)
                 step = min(step, self.protocol.origin+self.protocol.duration-before)
+            self.sync_recovery()
             gains = self.brain.output_gain[self.decoder.indices].copy()
             # The protocol applies endpoint events on the next iteration, after
             # this body's interval has used the correct pre-event output gains.
@@ -179,12 +189,17 @@ class CoupledSession:
             self.body.advance(elapsed, drive=output['drive'], turn=output['turn'], wander=False, **extra)
             if abs(self.body.time-self.brain.time) > 1e-9:
                 raise RuntimeError('Body and brain clocks diverged')
+            self.recovery.observe(self.brain.step, int(counts.sum()), len(counts),
+                                  escape=effects['escape'], disruption=effects['disruption'],
+                                  steering_hz=float(max(self.decoder.rates)) if self.decoder.enabled else 0.,
+                                  upright=self.body.upright() if hasattr(self.body, 'upright') else None)
             self.sync_environment()
         if self.protocol:
             self.protocol.advance(self.brain, 0)
             if self.protocol.completed:
                 self.completed_protocol = self.protocol
                 self.running = self.running and self.resume_after_protocol and self.behavior.enabled
+        self.sync_recovery()
 
     def motor_output(self, behavior):
         motor = self.decoder.output(behavior['drive'])
@@ -206,6 +221,7 @@ class CoupledSession:
         neural['motor_effects'] = self.motor_effects.output()
         neural['ground_behavior'] = self.behavior.output(self.baseline)
         neural['resume_after_protocol'] = self.resume_after_protocol
+        neural['recovery'] = self.recovery.snapshot()
         body = self.body.telemetry()
         body.update(running=self.running, wander=False, drive=self.baseline, turn=motor['turn'],
                     generation=self.generation, realtime_factor=neural['realtime_factor'],

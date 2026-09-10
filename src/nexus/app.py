@@ -513,7 +513,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.11.0", "started_at": self.started_at,
+            return {"version": "0.12.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,

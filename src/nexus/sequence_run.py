@@ -76,6 +76,7 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
                     'joint_offset_rms_rad': body.motor_offset_rms,
                     'behavior': session.behavior.output(session.baseline),
                     'motor_effects': session.motor_effects.output(),
+                    'recovery': session.recovery.status(),
                 }
                 stream.write(json.dumps(row, allow_nan=False)+'\n')
                 previous_counts[:] = brain.counts
@@ -98,7 +99,8 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
                       final_position_mm=body.position().tolist(),
                       inputs_released=not bool(brain.inputs.size),
                       network_overlays_released=bool(brain.inhibition_gain == 1 and np.all(brain.output_gain == 1)),
-                      events=[e for e in brain.events if id(e) not in earlier_event_ids])
+                      events=[e for e in brain.events if id(e) not in earlier_event_ids],
+                      recovery=session.recovery.snapshot())
     except BaseException as error:
         session.running = False
         report.update(status='interrupted' if isinstance(error, KeyboardInterrupt) else 'failed',

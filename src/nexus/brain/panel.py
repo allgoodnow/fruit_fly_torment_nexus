@@ -273,6 +273,14 @@ class BrainPanel(QWidget):
                 self.session_event.emit(f"BRAIN {intervention['time']:.3f}s · {detail}")
         if len(self.intervention_seen) > 4000:
             self.intervention_seen = {(t['generation'], json.dumps(e, sort_keys=True)) for e in t['interventions']}
+        for event in t.get('recovery', {}).get('events', []):
+            key = (t['generation'], 'recovery', event['id'])
+            if key not in self.intervention_seen:
+                self.intervention_seen.add(key)
+                detail = {'release_observation': 'Inputs off; observing neural activity and posture',
+                          'response_settled': 'Activity low and body upright for 500 ms (model check)',
+                          'response_returned': 'Activity or posture no longer meets the settling check'}[event['kind']]
+                self.session_event.emit(f"BODY + BRAIN {event['time']:.3f}s · {detail}")
         active = len(t['stimulated_ids'])
         self.status.setText(f"{'Running' if t['running'] else 'Paused'} · {active} stimulated · {t['silenced_count']} silenced")
         self.perturb_status.setText(f"Applied inhibition: {t['inhibition_gain']*100:g} %")
@@ -307,7 +315,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"0.11.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"0.12.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

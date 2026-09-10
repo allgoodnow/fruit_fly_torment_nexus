@@ -1,0 +1,113 @@
+{
+  "format": "nexus-protocol-1",
+  "dataset": "male-cns:v1.0",
+  "name": "Continuous prepared experiments / ten-second post-release observation",
+  "duration_ms": 16100,
+  "events": [
+    {
+      "at_ms": 0.0,
+      "action": "release"
+    },
+    {
+      "action": "circuit",
+      "name": "looming",
+      "rate_hz": 200,
+      "at_ms": 1750.0
+    },
+    {
+      "at_ms": 2000.0,
+      "action": "release"
+    },
+    {
+      "at_ms": 2500.0,
+      "action": "release"
+    },
+    {
+      "action": "circuit",
+      "name": "nociception_proxy",
+      "rate_hz": 100,
+      "at_ms": 2600.0
+    },
+    {
+      "at_ms": 2900.0,
+      "action": "release"
+    },
+    {
+      "at_ms": 3400.0,
+      "action": "release"
+    },
+    {
+      "action": "heat",
+      "celsius": 40,
+      "at_ms": 3500.0
+    },
+    {
+      "at_ms": 3800.0,
+      "action": "release"
+    },
+    {
+      "at_ms": 4300.0,
+      "action": "release"
+    },
+    {
+      "action": "circuit",
+      "name": "warmth",
+      "rate_hz": 300,
+      "at_ms": 4400.0
+    },
+    {
+      "action": "inhibition_gain",
+      "gain": 0.25,
+      "at_ms": 4400.0
+    },
+    {
+      "at_ms": 4700.0,
+      "action": "release"
+    },
+    {
+      "at_ms": 5700.0,
+      "action": "release"
+    },
+    {
+      "action": "heat",
+      "celsius": 100,
+      "at_ms": 5800.0
+    },
+    {
+      "action": "inhibition_gain",
+      "gain": 0.25,
+      "at_ms": 5800.0
+    },
+    {
+      "at_ms": 6100.0,
+      "action": "release"
+    }
+  ],
+  "stages": [
+    {
+      "name": "Looming-threat pathway / escape motor proxy",
+      "start_ms": 0.0,
+      "end_ms": 2500.0
+    },
+    {
+      "name": "Abdominal md candidates / experimental nociception",
+      "start_ms": 2500.0,
+      "end_ms": 3400.0
+    },
+    {
+      "name": "Nominal heat input",
+      "start_ms": 3400.0,
+      "end_ms": 4300.0
+    },
+    {
+      "name": "Seizure-like experiment / network and motor disruption",
+      "start_ms": 4300.0,
+      "end_ms": 5700.0
+    },
+    {
+      "name": "Nominal heat input + authored network overload",
+      "start_ms": 5700.0,
+      "end_ms": 16100
+    }
+  ]
+}
