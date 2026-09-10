@@ -8,7 +8,6 @@ Built this based on the question "At what point does it become unethical?".
 
 **1.0 experimental release** — a native Linux application with a 3D fly body,
 a 166,700-neuron MaleCNS model, live brain/VNC activity, and timed neural interventions.
-The interface is white with black text and red stimulation labels and logs.
 
 ## Download and run
 
