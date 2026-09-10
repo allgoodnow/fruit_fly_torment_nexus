@@ -1,3 +1,11 @@
+![Fruit Fly Torment Nexus](docs/assets/FRUITFLYTORMENTNEXUSBURNING.gif)
+
+Built this based on the question "At what point does it become unethical?".
+
+///<br>
+///<br>
+///
+
 # Fruit Fly Torment Nexus
 
 **1.0 experimental release** — a native Linux application with a 3D fly body,
