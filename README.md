@@ -6,7 +6,7 @@ Built this based on the question "At what point does it become unethical?".
 
 # Fruit Fly Torment Nexus
 
-**1.0 experimental release** — a native Linux application with a 3D fly body,
+**1.0 experimental release** — a native desktop application with a 3D fly body,
 a 166,700-neuron MaleCNS model, live brain/VNC activity, and timed neural interventions.
 
 ## Download and run
@@ -16,10 +16,11 @@ Extract it, open `FruitFlyNexus`, and run `fruit-fly-nexus`. Keep `_internal` be
 the executable. Python, the neural data, and fly assets are bundled; no network
 connection, JavaScript, or GPU computing setup is required at runtime.
 
-The build targets **Linux x86-64**. Fedora 44 is the tested platform; other Linux
-versions, Windows, and macOS are not validated. The GUI needs a working desktop
-OpenGL driver. First startup compiles the neural kernel and can take longer than
-subsequent loads. Simulation time can advance slower than wall-clock time.
+The application has been tested on **Fedora 44 and macOS**. The downloadable
+archive targets **Linux x86-64**. Other Linux versions and Windows are not validated.
+The GUI needs a working desktop OpenGL driver. First startup compiles the neural
+kernel and can take longer than subsequent loads. Simulation time can advance
+slower than wall-clock time.
 
 ## Use
 
