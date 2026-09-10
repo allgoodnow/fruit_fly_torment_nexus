@@ -15,7 +15,6 @@ The clock beside it uses simulation time.
 | BOILING | The nominal 100°C warmth scenario is applied. The boiling preset also reduces inhibition; BOILING covers that combined preset. |
 | HEAT | Warmth input below the nominal boiling scenario, without reduced inhibition. |
 | CUSTOM | Manually selected neurons are stimulated, outside a reduced-inhibition scenario. |
-| FOOD | Contact-driven taste input is active in a dataset with mapped taste cells. |
 | SILENCING | Selected neurons' outgoing effects are blocked. |
 | NONE | No monitored inputs or network overlays are currently applied. |
 
@@ -39,7 +38,7 @@ The baseline releases existing manual interventions before the next input begins
 - **Pause** stops advancement while preserving model state.
 - **Release stimulation** clears manual inputs, silencing, and reduced inhibition.
   It preserves voltages, accumulated spikes, and delayed neural events. Activity
-  and movement can therefore continue afterward. Independent food input may remain.
+  and movement can therefore continue afterward.
 - **Reset body + brain** reinitializes both models and their clocks.
 - **Enable motor response** controls the escape/disruption decoder. Neural activity
   continues when that decoder is disabled.
@@ -95,13 +94,12 @@ while producing little visible walking change. A stronger visible avoidance
 response would require a separately investigated or explicitly authored motor
 mapping; increasing the label's prominence does not change that mapping.
 
-## Food and advanced controls
+## Advanced controls
 
-The Body tab controls free ground behavior, baseline walking drive, the food patch,
-and the camera. Food is a visible arena marker; it is not a collidable food object.
-In the legacy FlyWire v630 mode, measured foot contact supplies a pooled taste-input
-proxy separately from manual stimulation. MaleCNS taste feedback remains disabled
-until its sugar cells are mapped. Its food marker and contact reporting still work.
+The Body tab controls free ground behavior, baseline walking drive, and the camera.
+The arena has no food marker or automatic taste feedback. These features were
+removed from the application in version 0.14. Historical research scripts and
+recorded results may still refer to them.
 
 The Brain tab provides custom neuron IDs, input rate, target-output silencing,
 inhibition strength, motor-bridge controls, and timed sequences. The inhibition

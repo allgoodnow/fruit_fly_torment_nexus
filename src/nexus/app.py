@@ -25,11 +25,9 @@ def main():
     parser.add_argument("--smoke-test", type=Path, help="Run UI acceptance checks and write report/screenshot here")
     parser.add_argument("--brain-smoke-test", type=Path, help="Also exercise the real brain and timed sequence")
     parser.add_argument('--coupled-smoke-test', type=Path, help='Exercise shared-clock neural steering')
-    parser.add_argument('--food-smoke-test', type=Path, help='Exercise contact-driven taste feedback')
     parser.add_argument('--perturbation-smoke-test', type=Path, help='Exercise reversible inhibition controls')
     parser.add_argument('--response-smoke-test', type=Path, help='Exercise threat, heat, and motor experiment controls')
     parser.add_argument('--behavior-smoke-test', type=Path, help='Exercise free ground behavior and neural interruption')
-    parser.add_argument('--food-demo', action='store_true', help='Start a food crossing with no manual neural input')
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
     args = parser.parse_args()
@@ -56,21 +54,17 @@ def main():
     if args.male_cns_smoke_test:
         args.dataset = 'male-cns'
         args.response_smoke_test = args.male_cns_smoke_test
-    if args.dataset == 'male-cns' and (args.food_demo or args.food_smoke_test):
-        parser.error('The food feedback demo currently requires --dataset flywire-v630')
     if args.brain_smoke_test:
         args.smoke_test = args.brain_smoke_test
     if args.coupled_smoke_test:
         args.smoke_test = args.coupled_smoke_test
-    if args.food_smoke_test:
-        args.smoke_test = args.food_smoke_test
     if args.perturbation_smoke_test:
         args.smoke_test = args.perturbation_smoke_test
     if args.response_smoke_test:
         args.smoke_test = args.response_smoke_test
     if args.behavior_smoke_test:
         args.smoke_test = args.behavior_smoke_test
-    coupled = bool(args.food_smoke_test or args.food_demo or args.coupled_smoke_test or args.perturbation_smoke_test or args.response_smoke_test or args.behavior_smoke_test) or not (args.independent or args.smoke_test)
+    coupled = bool(args.coupled_smoke_test or args.perturbation_smoke_test or args.response_smoke_test or args.behavior_smoke_test) or not (args.independent or args.smoke_test)
 
     from PySide6.QtCore import QStandardPaths, QTimer, Qt, Signal
     from PySide6.QtGui import QImage, QPainter, QPixmap, QPalette, QColor
@@ -85,7 +79,6 @@ def main():
     from nexus.brain.panel import BrainPanel
     from nexus.brain.config import default_pack, model_config
     from nexus.brain.view import BrainView
-    from nexus.food_panel import FoodPanel
     from nexus.intervention_panel import InterventionPanel
     from nexus.stimulation_banner import StimulationBanner
     from nexus.guide import GuideDialog
@@ -178,7 +171,6 @@ def main():
             self.closed = False
             self.camera_delta = [0.0, 0.0, 0.0]
             self.frame_count = 0
-            self.world_log_seen = set()
             self.smoke_stage = 0
             self.smoke_clock = time.monotonic()
             self.smoke_checks = []
@@ -211,9 +203,6 @@ def main():
             body_label.setMinimumHeight(35)
             body_layout.addWidget(body_label)
             body_layout.addWidget(self.viewport, 1)
-            self.food_status = QLabel('Food feedback loading…' if coupled else 'Independent body mode')
-            self.food_status.setWordWrap(True)
-            body_layout.addWidget(self.food_status)
             self.behavior_status = QLabel('Ground behavior loading…' if coupled else '')
             self.behavior_status.setWordWrap(True)
             body_layout.addWidget(self.behavior_status)
@@ -278,9 +267,6 @@ def main():
             self.release.clicked.connect(lambda: self.send("release"))
             form.addRow(self.release)
             controls.addWidget(motor)
-            self.food_panel = FoodPanel(self.send, available=config.food_available) if coupled else None
-            if self.food_panel:
-                controls.addWidget(self.food_panel)
             camera_button = QPushButton("Reset camera")
             camera_button.clicked.connect(lambda: self.send("camera_reset"))
             controls.addWidget(camera_button)
@@ -327,15 +313,13 @@ def main():
             split.setSizes([1100, 360])
             self.setCentralWidget(root)
             self.interactive = [self.run_button, self.step_button, self.reset_button, motor, camera_button]
-            if self.food_panel:
-                self.interactive.append(self.food_panel)
             for widget in self.interactive:
                 widget.setEnabled(False)
             self.process.start()
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.poll)
             self.timer.start(30)
-            if (args.run_demo or args.food_demo) and not args.smoke_test:
+            if args.run_demo and not args.smoke_test:
                 self.tabs.setCurrentIndex(1)
                 self.brain_panel.load()
                 self.demo_body_started = self.demo_brain_started = False
@@ -351,17 +335,6 @@ def main():
             if self.failed or self.brain_panel.failed:
                 self.demo_timer.stop()
                 print('Demo startup failed; see the application diagnostics.', flush=True)
-                return
-            if args.food_demo:
-                if self.ready and self.brain_panel.ready and not self.demo_body_started:
-                    self.send('food_demo')
-                    self.demo_body_started = True
-                brain = self.brain_panel.telemetry
-                if brain.get('mn9_spikes', 0) > 0:
-                    self.demo_timer.stop()
-                    print(json.dumps({'food_demo_running': True, 'body_time': self.telemetry['sim_time'],
-                                      'brain_time': brain['sim_time'], 'mn9_spikes': brain['mn9_spikes'],
-                                      'manual_ids': brain['manual_ids'], 'food_active': brain['environment']['active']}), flush=True)
                 return
             if self.ready and not self.demo_body_started:
                 self.send('running', True)
@@ -423,7 +396,7 @@ def main():
                     for widget in self.interactive:
                         widget.setEnabled(True)
                     self.log.append('Body + brain loaded. Shared clock ready.' if coupled else "Body loaded. Ready to run.")
-                    if coupled and (not args.smoke_test or args.behavior_smoke_test) and not (args.run_demo or args.food_demo):
+                    if coupled and (not args.smoke_test or args.behavior_smoke_test) and not args.run_demo:
                         self.send('running', True)
                 elif event["kind"] == "error":
                     self.fail(event["message"])
@@ -443,18 +416,6 @@ def main():
             if packet is not None and not self.failed:
                 if coupled:
                     self.brain_panel.receive_snapshot(packet['brain'])
-                    food = packet['telemetry'].get('environment')
-                    if food:
-                        self.food_panel.receive(food)
-                        self.food_status.setText(f"Food: {'present' if food['present'] else 'removed'} · Contact: {'yes' if food['contact'] else 'no'}")
-                        for event in food['events']:
-                            key = (packet['telemetry']['generation'], json.dumps(event, sort_keys=True))
-                            if key not in self.world_log_seen:
-                                self.world_log_seen.add(key)
-                                detail = f" · contact={event['contact']} · input={event['active']}" if event['kind'] == 'food_contact' else ''
-                                self.log.append(f"ENV {event['time']:.4f}s · {event['kind']}{detail}")
-                        if len(self.world_log_seen) > 1000:
-                            self.world_log_seen = {(packet['telemetry']['generation'], json.dumps(e, sort_keys=True)) for e in food['events']}
                 previous = self.telemetry
                 self.telemetry = t = packet["telemetry"]
                 image = packet["pixels"]
@@ -511,9 +472,9 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.13.0", "started_at": self.started_at,
+            return {"version": "0.14.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
-                    "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
+                    "brain_connected": coupled, "sensory_feedback_connected": False, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
                     "brain_lab":self.brain_panel.diagnostics(), "brain_view":self.brain_view.diagnostics()}
 
@@ -533,9 +494,6 @@ def main():
                 return
             if args.coupled_smoke_test:
                 self.coupled_smoke()
-                return
-            if args.food_smoke_test:
-                self.food_smoke()
                 return
             if args.perturbation_smoke_test:
                 self.perturbation_smoke()
@@ -664,7 +622,6 @@ def main():
                 return
             if self.smoke_stage == 0:
                 self.smoke_checks.append('coupled brain/body load and anatomical OpenGL initializes')
-                self.send('food_config', {'enabled': False})
                 self.coupled_saw_turn = False
                 sequence = {'format': 'nexus-protocol-1', 'duration_ms': 320.1,
                             'events': [{'at_ms': 0, 'action': 'release'},
@@ -730,74 +687,6 @@ def main():
                 self.smoke_checks.append('Body pause also pauses the brain')
                 self.smoke_finish(True)
 
-        def food_smoke(self):
-            t = self.brain_panel.telemetry
-            if not t or not self.telemetry:
-                return
-            food = t['environment']
-            if abs(t['sim_time']-self.telemetry['sim_time']) > 1e-9:
-                self.smoke_finish(False)
-                return
-            if self.smoke_stage == 0:
-                self.send('food_demo')
-                self.smoke_stage = 1
-            elif self.smoke_stage == 1 and food['active'] and t['mn9_spikes'] > 0:
-                if t['manual_ids'] or len(t['sensory_ids']) != 21 or not self.brain_view.active_count:
-                    self.smoke_finish(False)
-                    return
-                self.smoke_checks.extend(['visible food patch and actual foot contact drive 21 taste inputs',
-                                          'food input produces real downstream MN9 spikes without manual stimulation',
-                                          'anatomical brain displays food-driven activity'])
-                self.grab().save(str(data_dir / 'food-app.png'))
-                self.send('running', False)
-                self.smoke_stage = 2
-            elif self.smoke_stage == 2 and not t['running']:
-                self.food_pause_time = t['sim_time']
-                self.food_pause_spikes = t['total_spikes']
-                self.send('food_config', {'present': False})
-                self.smoke_stage = 3
-            elif self.smoke_stage == 3 and not food['present']:
-                if t['sim_time'] != self.food_pause_time or t['sensory_ids'] or food['active'] or t['total_spikes'] != self.food_pause_spikes:
-                    self.smoke_finish(False)
-                    return
-                self.smoke_checks.append('removing food while paused clears sensory input without advancing or resetting')
-                self.send('food_place', 'under')
-                self.smoke_stage = 4
-            elif self.smoke_stage == 4 and food['active']:
-                self.smoke_checks.append('placing food under actual feet restores pending sensory input while paused')
-                self.brain_panel.stimulate()
-                self.smoke_stage = 5
-            elif self.smoke_stage == 5 and t['manual_ids']:
-                if len(t['sensory_ids']) != 21 or len(t['stimulated_ids']) != 22:
-                    self.smoke_finish(False)
-                    return
-                self.smoke_checks.append('manual steering and food input coexist in separate channels')
-                self.brain_panel.send('release')
-                self.smoke_stage = 6
-            elif self.smoke_stage == 6 and not t['manual_ids']:
-                if len(t['sensory_ids']) != 21:
-                    self.smoke_finish(False)
-                    return
-                self.smoke_checks.append('manual release preserves ongoing environmental input')
-                self.send('food_config', {'enabled': False})
-                self.smoke_stage = 7
-            elif self.smoke_stage == 7 and not food['enabled']:
-                if not food['present'] or not food['contact'] or food['active'] or t['sensory_ids']:
-                    self.smoke_finish(False)
-                    return
-                self.smoke_checks.append('feedback ablation preserves physical food contact and removes neural input')
-                self.send('food_place', 'ahead')
-                self.send('reset')
-                self.smoke_stage = 8
-            elif self.smoke_stage == 8 and t['sim_time'] == 0:
-                if t['total_spikes'] or food['active_seconds'] or self.brain_view.active_count:
-                    self.smoke_finish(False)
-                    return
-                self.smoke_checks.append('shared reset clears neural activity, clocks, and exposure counters')
-                self.tabs.setCurrentIndex(0)
-                self.grab().save(str(data_dir / 'food-controls.png'))
-                self.smoke_finish(True)
-
         def perturbation_smoke(self):
             panel, t = self.brain_panel, self.brain_panel.telemetry
             if not panel.ready or not t or not self.frame_count or self.brain_view.anatomy is None:
@@ -806,7 +695,6 @@ def main():
                 self.smoke_finish(False)
                 return
             if self.smoke_stage == 0:
-                self.send('food_config', {'enabled': False})
                 panel.inhibition.setValue(25)
                 panel.perturb_button.click()
                 self.smoke_stage = 1
@@ -873,7 +761,6 @@ def main():
                 return
             if self.smoke_stage == 0:
                 self.tabs.setCurrentIndex(0)
-                self.send('food_config', {'enabled': False})
                 if not t['running']:
                     return
                 if not b['enabled']:
@@ -942,15 +829,15 @@ def main():
                 self.smoke_finish(False)
                 return
             if self.smoke_stage == 0:
-                self.send('food_config', {'enabled': False})
                 if config.experimental:
                     if (t['dataset'] != 'male-cns:v1.0' or t['neurons'] != 166700
                             or self.brain_view.anatomy.manifest['snapshot'] != t['dataset']
                             or self.brain_view.anatomy.valid.sum() != 140638
-                            or t['environment']['enabled'] or t['environment']['feedback_available']):
+                            or t['environment'] is not None or t['sensory_ids']
+                            or self.telemetry.get('food_patch_present', True)):
                         self.smoke_finish(False)
                         return
-                    self.smoke_checks.append('MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled')
+                    self.smoke_checks.append('MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback')
                 self.tabs.setCurrentIndex(2)
                 for spin, value in zip(panel.durations, [100, 500, 200]):
                     spin.setValue(value)

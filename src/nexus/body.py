@@ -193,6 +193,7 @@ class FlyBody:
             "magnitudes": self.controller.cpg_network.curr_magnitudes.tolist(),
             "path": list(self.path),
             "motor_offset_rms_rad": self.motor_offset_rms,
+            "food_patch_present": bool(self.food_patch and self.food_patch['present']),
             "mode": "engineered locomotion; connectome not connected",
         }
 

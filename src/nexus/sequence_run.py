@@ -117,9 +117,7 @@ def run_file(protocol_path, output, *, dataset='male-cns', seed=73100, motor_bri
     from .body import FlyBody
     from .brain.config import default_pack, model_config
     from .brain.runtime import Brain, Connectome
-    from .brain.targets import readout_ids
     from .coupled import CoupledSession
-    from .environment import FoodEnvironment
 
     contents = Path(protocol_path).read_bytes()
     if len(contents) > 1_000_000:
@@ -131,8 +129,7 @@ def run_file(protocol_path, output, *, dataset='male-cns', seed=73100, motor_bri
     manifest_bytes = (config.directory/'manifest.json').read_bytes()
     body = FlyBody(render=False)
     try:
-        targets = readout_ids('sugar', brain.graph) if config.food_available else []
-        session = CoupledSession(brain, body, autonomous=True, environment=FoodEnvironment(targets=targets))
+        session = CoupledSession(brain, body, autonomous=True)
         session.command('bridge_enabled', motor_bridge)
         return record_sequence(session, description, output,
                                provenance={'pack_manifest_sha256': hashlib.sha256(manifest_bytes).hexdigest(),

@@ -20,8 +20,6 @@ def active_stimulation(packet):
         labels.append('HEAT')
     if packet.get('manual_ids') and not reduced:
         labels.append('CUSTOM')
-    if packet.get('sensory_ids') and packet.get('sensory_rate_hz', 0) > 0:
-        labels.append('FOOD')
     if packet.get('silenced_count', 0):
         labels.append('SILENCING')
     return tuple(labels)

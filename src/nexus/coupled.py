@@ -239,14 +239,12 @@ def simulate_coupled(directory, commands, frames, events, *, render=True, autono
         from .body import FlyBody
         from .brain.runtime import Brain, Connectome
         from .brain.targets import readout_ids
-        from .environment import FoodEnvironment
         brain = Brain(Connectome.load(directory, allow_experimental=allow_experimental))
         brain.resolve(readout_ids('mn9', brain.graph))
-        sugar = readout_ids('sugar', brain.graph) if brain.graph.snapshot == '630' else []
         brain.advance(.0001)
         brain.reset()
         body = FlyBody(render=render)
-        session = CoupledSession(brain, body, environment=FoodEnvironment(targets=sugar), autonomous=autonomous)
+        session = CoupledSession(brain, body, autonomous=autonomous)
         seen, recent = set(), deque()
         events.put({'kind': 'ready', 'coupled': True, 'dataset': brain.graph.snapshot})
         dirty, last_publish = True, 0

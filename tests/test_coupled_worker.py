@@ -34,6 +34,8 @@ def test_coupled_worker_deduplicates_steps_rejects_invalid_input_and_preserves_o
                 break
         assert p['brain']['sim_time'] == p['telemetry']['sim_time'] == .01
         assert p['telemetry']['drive'] == .5
+        assert p['brain']['environment'] is None and not p['brain']['sensory_ids']
+        assert p['telemetry']['food_patch_present'] is False
         assert not p['brain']['running']
         commands.put({'id': 7, 'kind': 'shutdown'})
         process.join(timeout=5)

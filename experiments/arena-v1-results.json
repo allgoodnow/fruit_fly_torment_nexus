@@ -1,0 +1,66 @@
+{
+  "format": "nexus-arena-validation-1",
+  "version": "0.14.0",
+  "created_at": "2026-09-10T07:01:50.899088+00:00",
+  "success": true,
+  "unit_tests": {
+    "passed": 98,
+    "seconds": 9.47
+  },
+  "packaged_acceptance": {
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab"
+    ],
+    "sha256": "fb9a246dce1a3e5bbe6de6cb7d1fe3093cc304e67798cdb4e095d5376202a219",
+    "food_patch_present": false,
+    "sensory_feedback_connected": false
+  },
+  "sequence": {
+    "dataset": "male-cns:v1.0",
+    "duration_ms": 2400.0,
+    "total_spikes": 38739,
+    "environment": null,
+    "reference": "runs/recovery_v012_packaged",
+    "per_neuron_counts_identical": true,
+    "recorded_trace_identical": true,
+    "report_sha256": "63046f002042ff4608834650c79876c33ac9ff7454314361e4c3e7d3917b083f",
+    "trace_sha256": "9353613cf6a0564c2103f44078047abfe58bf120eed70bef5f4201384cfea0ae",
+    "provenance": {
+      "pack_manifest_sha256": "5da5a8821f56f456ffac846957c346cecd8050b8d98e0ea69358556bc3db1adf",
+      "input_file_sha256": "6e3331560e0b7418254a56f16022203294ae69314e2be2ef6fe36725fbdd36b7"
+    }
+  },
+  "changes": [
+    "Removed food patch and food/taste controls from the application",
+    "Interactive and unattended runs no longer create a food environment",
+    "Historical research helpers and results retained"
+  ],
+  "limitations": [
+    "Neural dynamics and motor mapping remain experimental",
+    "Pain-to-avoidance mapping and recovery behavior remain outstanding"
+  ],
+  "source_hashes": {
+    "src/nexus/app.py": "29a506cf97b8a9e2f4af8d39d0ca6d911fbee27d9076fdfd089e2d610d2bc92b",
+    "src/nexus/body.py": "33b3e80590798de0f8dbf7ca28577134d49321b53a321e7fed2ab66d7d09b596",
+    "src/nexus/coupled.py": "2c16345db1c0b036d63bdfdcce56c0ff16b6a38d58e21832d0840589f1b20634",
+    "src/nexus/sequence_run.py": "893263c8973b05c3f7ba2c778082bc7cd197bce0f2a096e37a5a890a16e00006",
+    "src/nexus/stimulation.py": "ee2ce746961ca118ce3f95e3b927a5a3067125c59f8e9ae6687887caeeb4d308",
+    "src/nexus/brain/panel.py": "0810012e9bdffe1c7432849fa027945f53a5e0d150cd15b84c71bf2f638aa0de",
+    "docs/user-guide.md": "238081ba9314b070651fac6a50cc894bcd544bb049cd8b8ff12030218208252d"
+  }
+}

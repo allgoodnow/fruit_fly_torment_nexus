@@ -281,9 +281,6 @@ class BrainPanel(QWidget):
         self.perturb_status.setText(f"Applied inhibition: {t['inhibition_gain']*100:g} %")
         if t['protocol']:
             self.status.setText(self.status.text()+f"\nSequence {'complete' if t['protocol']['completed'] else 'active'}")
-        if self.command_sink and t.get('environment'):
-            food = t['environment']
-            self.status.setText(self.status.text()+f"\nFood input: {'active' if food['active'] else 'off'} · {len(t['manual_ids'])} manual targets")
         self.run_button.blockSignals(True)
         self.run_button.setChecked(t['running'])
         self.run_button.setText(("Pause both" if t['running'] else "Run both") if self.command_sink else
@@ -310,7 +307,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"0.13.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"0.14.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

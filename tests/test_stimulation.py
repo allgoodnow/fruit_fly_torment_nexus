@@ -22,7 +22,7 @@ def packet(*names, temperature=None, gain=1, **extra):
     (packet('nociception_proxy', 'aversion_proxy'), ('PAIN',)),
     (packet(manual_ids=['1']), ('CUSTOM',)),
     (packet(manual_ids=['1'], gain=.25), ('SEIZURE',)),
-    (packet(sensory_ids=['1'], sensory_rate_hz=200, silenced_count=1), ('FOOD', 'SILENCING')),
+    (packet(sensory_ids=['1'], sensory_rate_hz=200, silenced_count=1), ('SILENCING',)),
     (packet(total_spikes=100000, motor_effects={'disruption': 1}, protocol={'name': 'Pain'}), ()),
 ])
 def test_labels_follow_inputs_not_buttons_residual_spikes_or_body_motion(state, expected):
