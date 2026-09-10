@@ -1,0 +1,255 @@
+{
+  "format": "nexus-continuous-sequence-validation-1",
+  "version": "0.11.0",
+  "created_at": "2026-09-10T01:52:43.666058+00:00",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "edges": 25582938,
+  "unit_tests": {
+    "passed": 75,
+    "seconds": 8.93
+  },
+  "gui_design_unchanged": true,
+  "packaged_gui": {
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "threat and heat inputs coexist while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab"
+    ],
+    "report_sha256": "d882a762b473aa02c7be7658f724b672b135b247c5cee4908570d32e308fe475"
+  },
+  "checks": [
+    "Three full 7600 ms runs completed with finite 3D physics and shared clocks",
+    "Every neuron count and every interval spike total matches with the motor bridge disabled",
+    "Packaged and development runs produce identical full recorded traces",
+    "All input and overlay releases occurred on schedule without resetting state"
+  ],
+  "trials": {
+    "intact": {
+      "total_spikes": 5254776,
+      "wall_seconds": 82.08660669,
+      "states": [
+        "exploring",
+        "interrupted",
+        "resting",
+        "turning"
+      ],
+      "minimum_upright": -0.9924503347086331,
+      "final_position_mm": [
+        22.48900276559067,
+        -10.036972235523042,
+        0.6003554066420369
+      ],
+      "final_population_hz_per_neuron": 2.964607078584283,
+      "stages": [
+        {
+          "name": "Looming-threat pathway / escape motor proxy",
+          "start_ms": 0.0,
+          "end_ms": 2500.0,
+          "spikes": 72206,
+          "minimum_upright": 0.8254776081375632,
+          "peak_disruption": 0.011186903933052599,
+          "final_population_hz_per_neuron": 0.05398920215956809
+        },
+        {
+          "name": "Abdominal md candidates / experimental nociception",
+          "start_ms": 2500.0,
+          "end_ms": 3400.0,
+          "spikes": 299534,
+          "minimum_upright": 0.9174641579533184,
+          "peak_disruption": 0.19748211724912648,
+          "final_population_hz_per_neuron": 2.8752249550089983
+        },
+        {
+          "name": "Nominal heat input",
+          "start_ms": 3400.0,
+          "end_ms": 4300.0,
+          "spikes": 437148,
+          "minimum_upright": 0.8351914050068532,
+          "peak_disruption": 0.21201998168747346,
+          "final_population_hz_per_neuron": 2.927414517096581
+        },
+        {
+          "name": "Seizure-like experiment / network and motor disruption",
+          "start_ms": 4300.0,
+          "end_ms": 5700.0,
+          "spikes": 2100555,
+          "minimum_upright": -0.9924503347086331,
+          "peak_disruption": 0.999414378569285,
+          "final_population_hz_per_neuron": 2.9478104379124175
+        },
+        {
+          "name": "Nominal heat input + authored network overload",
+          "start_ms": 5700.0,
+          "end_ms": 7600.0,
+          "spikes": 2345333,
+          "minimum_upright": -0.9914111830206964,
+          "peak_disruption": 0.9994205202673796,
+          "final_population_hz_per_neuron": 2.964607078584283
+        }
+      ],
+      "files": {
+        "runs/continuous_v011_intact/report.json": "ccd8adc2ff319fabea543a63dea7d11cdfd38f31503933261d58bad337efce19",
+        "runs/continuous_v011_intact/trace.jsonl": "f1b10403b5bf473b800ed9ccf1029b0f12587881685080e096e416473c7eceef",
+        "runs/continuous_v011_intact/counts.npz": "5d28347f4c2eb79b81034d01c4136a3d7bc000e4bbdd57a9b2515dd990ee5c69"
+      }
+    },
+    "bridge_blocked": {
+      "total_spikes": 5254776,
+      "wall_seconds": 76.62512827400002,
+      "states": [
+        "exploring",
+        "resting",
+        "turning"
+      ],
+      "minimum_upright": 0.9843846479451113,
+      "final_position_mm": [
+        14.250197375885797,
+        -47.666559318384856,
+        1.0731703578375202
+      ],
+      "final_population_hz_per_neuron": 2.964607078584283,
+      "stages": [
+        {
+          "name": "Looming-threat pathway / escape motor proxy",
+          "start_ms": 0.0,
+          "end_ms": 2500.0,
+          "spikes": 72206,
+          "minimum_upright": 0.987167150489532,
+          "peak_disruption": 0.0,
+          "final_population_hz_per_neuron": 0.05398920215956809
+        },
+        {
+          "name": "Abdominal md candidates / experimental nociception",
+          "start_ms": 2500.0,
+          "end_ms": 3400.0,
+          "spikes": 299534,
+          "minimum_upright": 0.9902771233687828,
+          "peak_disruption": 0.0,
+          "final_population_hz_per_neuron": 2.8752249550089983
+        },
+        {
+          "name": "Nominal heat input",
+          "start_ms": 3400.0,
+          "end_ms": 4300.0,
+          "spikes": 437148,
+          "minimum_upright": 0.9877036697959998,
+          "peak_disruption": 0.0,
+          "final_population_hz_per_neuron": 2.927414517096581
+        },
+        {
+          "name": "Seizure-like experiment / network and motor disruption",
+          "start_ms": 4300.0,
+          "end_ms": 5700.0,
+          "spikes": 2100555,
+          "minimum_upright": 0.9874514891155234,
+          "peak_disruption": 0.0,
+          "final_population_hz_per_neuron": 2.9478104379124175
+        },
+        {
+          "name": "Nominal heat input + authored network overload",
+          "start_ms": 5700.0,
+          "end_ms": 7600.0,
+          "spikes": 2345333,
+          "minimum_upright": 0.9843846479451113,
+          "peak_disruption": 0.0,
+          "final_population_hz_per_neuron": 2.964607078584283
+        }
+      ],
+      "files": {
+        "runs/continuous_v011_bridge_blocked/report.json": "bec9ba52077bb1821adc103d1d5fc1db6741df3d6872c0d8634fae00a93f695f",
+        "runs/continuous_v011_bridge_blocked/trace.jsonl": "87ee649bfc8b2da19d6e53976845291f912a8db7b7d4035348618eb63ca469ec",
+        "runs/continuous_v011_bridge_blocked/counts.npz": "5d28347f4c2eb79b81034d01c4136a3d7bc000e4bbdd57a9b2515dd990ee5c69"
+      }
+    },
+    "packaged": {
+      "total_spikes": 5254776,
+      "wall_seconds": 89.40289431199994,
+      "states": [
+        "exploring",
+        "interrupted",
+        "resting",
+        "turning"
+      ],
+      "minimum_upright": -0.9924503347086331,
+      "final_position_mm": [
+        22.48900276559067,
+        -10.036972235523042,
+        0.6003554066420369
+      ],
+      "final_population_hz_per_neuron": 2.964607078584283,
+      "stages": [
+        {
+          "name": "Looming-threat pathway / escape motor proxy",
+          "start_ms": 0.0,
+          "end_ms": 2500.0,
+          "spikes": 72206,
+          "minimum_upright": 0.8254776081375632,
+          "peak_disruption": 0.011186903933052599,
+          "final_population_hz_per_neuron": 0.05398920215956809
+        },
+        {
+          "name": "Abdominal md candidates / experimental nociception",
+          "start_ms": 2500.0,
+          "end_ms": 3400.0,
+          "spikes": 299534,
+          "minimum_upright": 0.9174641579533184,
+          "peak_disruption": 0.19748211724912648,
+          "final_population_hz_per_neuron": 2.8752249550089983
+        },
+        {
+          "name": "Nominal heat input",
+          "start_ms": 3400.0,
+          "end_ms": 4300.0,
+          "spikes": 437148,
+          "minimum_upright": 0.8351914050068532,
+          "peak_disruption": 0.21201998168747346,
+          "final_population_hz_per_neuron": 2.927414517096581
+        },
+        {
+          "name": "Seizure-like experiment / network and motor disruption",
+          "start_ms": 4300.0,
+          "end_ms": 5700.0,
+          "spikes": 2100555,
+          "minimum_upright": -0.9924503347086331,
+          "peak_disruption": 0.999414378569285,
+          "final_population_hz_per_neuron": 2.9478104379124175
+        },
+        {
+          "name": "Nominal heat input + authored network overload",
+          "start_ms": 5700.0,
+          "end_ms": 7600.0,
+          "spikes": 2345333,
+          "minimum_upright": -0.9914111830206964,
+          "peak_disruption": 0.9994205202673796,
+          "final_population_hz_per_neuron": 2.964607078584283
+        }
+      ],
+      "files": {
+        "runs/continuous_v011_packaged/report.json": "48faccd94e148ed56c79e7264cb228557e7dae30b4016d91b6e81d3559b99599",
+        "runs/continuous_v011_packaged/trace.jsonl": "f1b10403b5bf473b800ed9ccf1029b0f12587881685080e096e416473c7eceef",
+        "runs/continuous_v011_packaged/counts.npz": "5d28347f4c2eb79b81034d01c4136a3d7bc000e4bbdd57a9b2515dd990ee5c69"
+      }
+    }
+  },
+  "limitations": [
+    "One seed; 10 ms recorded summaries are not a complete spike raster",
+    "Later stages inherit earlier neural state and are not isolated causal experiments",
+    "The motor decoder is authored; biological nociception, seizures and subjective pain are unvalidated",
+    "Removing inputs did not restore baseline activity in the observed post-release interval"
+  ],
+  "source_hashes": {
+    "src/nexus/sequence_run.py": "e8b79401f937b4e332855598cbcb0c673a1603e812e9b0e8da83441194b75897",
+    "src/nexus/brain/scenarios.py": "4a1a832918dacccfbf7de4775aabb82f33dd1b0e4348349875d8fcd61cdd23fc",
+    "src/nexus/app.py": "20ece43ffefc66e3811c73646b11935a9249462cffa0313f2c206c9e3a9f8af1",
+    "src/nexus/coupled.py": "cc76dce3e41f0174561f8157c648d344bb553618586ae8bde3ac5fe6da6c853d",
+    "experiments/male-cns-continuous-sequence.json": "f7e290c66b9c0a59743dec2c923a00094a74f4eeda86d7049ea746fed37fac89"
+  }
+}

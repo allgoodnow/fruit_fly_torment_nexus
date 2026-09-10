@@ -1,6 +1,6 @@
 {
   "format": "nexus-protocol-1",
-  "name": "Central aversion candidate / nociception unresolved",
+  "name": "Abdominal md candidates / experimental nociception",
   "duration_ms": 1100,
   "events": [
     {
@@ -9,13 +9,14 @@
     },
     {
       "action": "circuit",
-      "name": "aversion_proxy",
-      "rate_hz": 200,
+      "name": "nociception_proxy",
+      "rate_hz": 100,
       "at_ms": 100
     },
     {
       "at_ms": 600,
       "action": "release"
     }
-  ]
+  ],
+  "dataset": "male-cns:v1.0"
 }

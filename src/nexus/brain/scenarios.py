@@ -36,3 +36,26 @@ def scenario_protocol(name, *, baseline_ms=100, stimulus_ms=500, recovery_ms=500
     events.append({'at_ms': release, 'action': 'release'})
     return {'format': 'nexus-protocol-1', 'name': title,
             'duration_ms': release+recovery_ms, 'events': events, 'dataset': dataset}
+
+
+def sequence_protocol(stages, *, dataset, pain_circuit='aversion_proxy'):
+    """Join presets on one clock, releasing inputs without resetting neural state."""
+    if not isinstance(stages, list) or not 1 <= len(stages) <= 50:
+        raise ValueError('Choose between 1 and 50 sequence stages')
+    offset, events, labels = 0, [], []
+    for stage in stages:
+        if not isinstance(stage, dict):
+            raise ValueError('Each sequence stage must be an object')
+        if set(stage)-{'name', 'baseline_ms', 'stimulus_ms', 'recovery_ms', 'celsius'}:
+            raise ValueError('Unknown sequence stage setting')
+        protocol = scenario_protocol(**stage, dataset=dataset, pain_circuit=pain_circuit)
+        duration = ticks(protocol['duration_ms'])
+        if offset+duration > 6000000:
+            raise ValueError('Sequence cannot exceed 10 minutes')
+        events.extend(dict(event, at_ms=(offset+ticks(event['at_ms']))/10)
+                      for event in protocol['events'])
+        labels.append({'name': protocol['name'], 'start_ms': offset/10, 'end_ms': (offset+duration)/10})
+        offset += duration
+    return {'format': 'nexus-protocol-1', 'dataset': dataset,
+            'name': 'Continuous prepared experiments / no state reset',
+            'duration_ms': offset/10, 'events': events, 'stages': labels}

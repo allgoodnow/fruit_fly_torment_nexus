@@ -1,19 +1,13 @@
 {
   "format": "nexus-protocol-1",
-  "name": "Experimental reduced inhibition / sugar input / release",
-  "duration_ms": 1400,
+  "name": "Seizure-like experiment / network and motor disruption",
+  "duration_ms": 1100,
   "events": [
     {
       "at_ms": 0,
       "action": "release"
     },
     {
-      "at_ms": 100,
-      "action": "inhibition_gain",
-      "gain": 0.25
-    },
-    {
-      "at_ms": 100,
       "action": "stimulate",
       "ids": [
         "720575940624963786",
@@ -38,10 +32,16 @@
         "720575940629176663",
         "720575940611875570"
       ],
-      "rate_hz": 200
+      "rate_hz": 200,
+      "at_ms": 100
     },
     {
-      "at_ms": 400,
+      "action": "inhibition_gain",
+      "gain": 0.25,
+      "at_ms": 100
+    },
+    {
+      "at_ms": 600,
       "action": "release"
     }
   ],

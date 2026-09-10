@@ -1,6 +1,6 @@
 {
   "format": "nexus-protocol-1",
-  "name": "Nominal heat input + authored network overload",
+  "name": "Nominal heat input",
   "duration_ms": 1100,
   "events": [
     {
@@ -9,12 +9,7 @@
     },
     {
       "action": "heat",
-      "celsius": 100,
-      "at_ms": 100
-    },
-    {
-      "action": "inhibition_gain",
-      "gain": 0.25,
+      "celsius": 40,
       "at_ms": 100
     },
     {
@@ -22,5 +17,5 @@
       "action": "release"
     }
   ],
-  "dataset": "male-cns:v1.0"
+  "dataset": "630"
 }

@@ -17,6 +17,10 @@ def main():
     mp.freeze_support()
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", choices=["male-cns", "flywire-v630"], default="male-cns", help="Neural dataset; MaleCNS uses experimental LIF parameters")
+    parser.add_argument('--run-sequence', type=Path, help='Run a saved sequence with full 3D physics without opening the GUI')
+    parser.add_argument('--output-dir', type=Path, help='New folder for unattended sequence results')
+    parser.add_argument('--seed', type=int, default=73100, help='Neural random seed for unattended sequences')
+    parser.add_argument('--disable-motor-bridge', action='store_true', help='Unattended comparison with neural motor effects disabled')
     parser.add_argument("--male-cns-smoke-test", type=Path, help="Check MaleCNS controls, anatomy and shared-clock body")
     parser.add_argument("--smoke-test", type=Path, help="Run UI acceptance checks and write report/screenshot here")
     parser.add_argument("--brain-smoke-test", type=Path, help="Also exercise the real brain and timed sequence")
@@ -29,6 +33,26 @@ def main():
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
     args = parser.parse_args()
+    if args.run_sequence:
+        if not args.output_dir:
+            parser.error('--run-sequence requires --output-dir')
+        if args.output_dir.exists():
+            parser.error('Choose a new output folder; existing results are never overwritten')
+        cache = Path(os.environ.get('XDG_CACHE_HOME', Path.home()/'.cache'))/'fruit-fly-nexus'
+        for name, subdir in [('NUMBA_CACHE_DIR', 'numba'), ('MPLCONFIGDIR', 'matplotlib'),
+                             ('FLYGYM_ASSET_CACHE_DIR', 'assets')]:
+            os.environ.setdefault(name, str(cache/subdir))
+        from nexus.sequence_run import run_file
+        try:
+            result = run_file(args.run_sequence, args.output_dir, dataset=args.dataset,
+                              seed=args.seed, motor_bridge=not args.disable_motor_bridge)
+        except (OSError, ValueError, KeyError, RuntimeError) as error:
+            print(f'Sequence failed: {error}', file=sys.stderr)
+            return 1
+        print(json.dumps({key: result[key] for key in ('success', 'dataset', 'elapsed_ms', 'total_spikes')}), flush=True)
+        return 0
+    if args.output_dir or args.disable_motor_bridge or args.seed != 73100:
+        parser.error('Sequence output and comparison options require --run-sequence')
     if args.male_cns_smoke_test:
         args.dataset = 'male-cns'
         args.response_smoke_test = args.male_cns_smoke_test
@@ -489,7 +513,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.10.0", "started_at": self.started_at,
+            return {"version": "0.11.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,

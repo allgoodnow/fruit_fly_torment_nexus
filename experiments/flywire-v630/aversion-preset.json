@@ -1,6 +1,6 @@
 {
   "format": "nexus-protocol-1",
-  "name": "Nominal heat input + authored network overload",
+  "name": "Central aversion candidate / nociception unresolved",
   "duration_ms": 1100,
   "events": [
     {
@@ -8,13 +8,9 @@
       "action": "release"
     },
     {
-      "action": "heat",
-      "celsius": 100,
-      "at_ms": 100
-    },
-    {
-      "action": "inhibition_gain",
-      "gain": 0.25,
+      "action": "circuit",
+      "name": "aversion_proxy",
+      "rate_hz": 200,
       "at_ms": 100
     },
     {
@@ -22,5 +18,5 @@
       "action": "release"
     }
   ],
-  "dataset": "male-cns:v1.0"
+  "dataset": "630"
 }
