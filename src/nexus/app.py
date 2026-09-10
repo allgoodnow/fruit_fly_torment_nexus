@@ -16,6 +16,8 @@ import time
 def main():
     mp.freeze_support()
     parser = argparse.ArgumentParser()
+    from nexus import __version__
+    parser.add_argument('--version', action='version', version='Fruit Fly Nexus '+__version__)
     parser.add_argument("--dataset", choices=["male-cns", "flywire-v630"], default="male-cns", help="Neural dataset; MaleCNS uses experimental LIF parameters")
     parser.add_argument('--run-sequence', type=Path, help='Run a saved sequence with full 3D physics without opening the GUI')
     parser.add_argument('--output-dir', type=Path, help='New folder for unattended sequence results')
@@ -246,6 +248,11 @@ def main():
             self.reset_button = QPushButton("Reset body + brain" if coupled else "Reset simulation")
             self.reset_button.clicked.connect(lambda: self.send("reset"))
             controls.addWidget(self.reset_button)
+            self.reposition_button = QPushButton('Reposition body only')
+            self.reposition_button.setVisible(coupled)
+            self.reposition_button.setToolTip('Restore upright posture and pause; preserve neural state and simulation time.')
+            self.reposition_button.clicked.connect(lambda: self.send('reposition_body'))
+            controls.addWidget(self.reposition_button)
             motor = QGroupBox("Motor controller")
             form = QFormLayout(motor)
             self.wander = QCheckBox("Free ground behavior" if coupled else "Automatic steering")
@@ -312,7 +319,7 @@ def main():
             split.addWidget(self.tabs)
             split.setSizes([1100, 360])
             self.setCentralWidget(root)
-            self.interactive = [self.run_button, self.step_button, self.reset_button, motor, camera_button]
+            self.interactive = [self.run_button, self.step_button, self.reset_button, self.reposition_button, motor, camera_button]
             for widget in self.interactive:
                 widget.setEnabled(False)
             self.process.start()
@@ -427,7 +434,8 @@ def main():
                 self.status.setText("Running" if t["running"] else "Paused")
                 behavior = t.get('ground_behavior')
                 if behavior:
-                    self.behavior_status.setText(f"Behavior: {behavior['state']}")
+                    self.behavior_status.setText('Body overturned — reposition available in controls'
+                                                if t.get('upright', 1.) < .2 else f"Behavior: {behavior['state']}")
                     old_behavior = previous.get('ground_behavior', {})
                     if behavior['state'] != old_behavior.get('state') or t['generation'] != previous.get('generation'):
                         self.log.append(f"BODY {t['sim_time']:.3f}s · {behavior['state']}")
@@ -472,7 +480,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.16.0", "started_at": self.started_at,
+            return {"version": "1.0.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": False, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -939,6 +947,40 @@ def main():
                 self.smoke_stage = 6
             elif self.smoke_stage == 6 and not t['motor_effects']['enabled']:
                 self.smoke_checks.append('motor proxy ablation can be controlled from the native experiments tab')
+                self.brain_panel.send('circuit', {'name': config.pain_circuit, 'rate_hz': 100})
+                self.brain_panel.send('step')
+                self.smoke_stage = 7
+            elif self.smoke_stage == 7 and t['sim_time'] == .01 and t['circuit_inputs']:
+                self.reposition_spikes = t['total_spikes']
+                self.reposition_button.click()
+                self.smoke_stage = 8
+            elif self.smoke_stage == 8 and t.get('reposition_count') == 1:
+                if t['sim_time'] != .01 or t['total_spikes'] != self.reposition_spikes or not t['circuit_inputs'] or t['running'] or t['body_upright'] < .95:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('body reposition preserves neural inputs, spikes and time, restores posture and pauses')
+                self.reset_generation = t['generation']+1
+                self.reset_button.click()
+                self.smoke_stage = 9
+            elif self.smoke_stage == 9 and t['generation'] == self.reset_generation:
+                if t['total_spikes'] or t['sim_time'] or t['circuit_inputs'] or t['reposition_count']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('reset clears both models after assisted reposition')
+                if panel.pause.text() != 'Resume':
+                    self.smoke_finish(False)
+                    return
+                panel.pause.click()
+                self.smoke_stage = 10
+            elif self.smoke_stage == 10 and t['running'] and t['sim_time'] >= .01:
+                panel.pause.click()
+                self.smoke_stage = 11
+            elif self.smoke_stage == 11 and not t['running']:
+                if panel.pause.text() != 'Resume':
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('experiment control resumes and pauses the shared simulation')
+                self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 
         def smoke_finish(self, success):

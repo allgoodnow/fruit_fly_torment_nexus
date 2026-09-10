@@ -1,0 +1,851 @@
+{
+  "version": "1.0.0",
+  "success": true,
+  "recorded_at": "2026-09-10T17:25:23.501507+00:00",
+  "automated_tests": {
+    "passed": 106,
+    "failed": 0,
+    "wall_seconds": 9.92
+  },
+  "packaged_gui": {
+    "host_success": true,
+    "isolated_desktop_success": true,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation"
+    ],
+    "host_report_sha256": "f1d4e2d5f3632f28344e01edd935ab3440df537fa8e82848e46a8e192323db66",
+    "isolated_report_sha256": "0964589eea1e00f761f84270e9e62b10f0d240084b7a0bca30807a05668ca938",
+    "isolated_final_screenshot_sha256": "101c55ef36f922b0f6f510ecbdd9c7257f1c9e70262676435c012c389cd54871"
+  },
+  "isolated_environment": {
+    "distribution": "Fedora 44 x86-64",
+    "base_image": "registry.fedoraproject.org/fedora:44",
+    "base_image_id": "74d8893a22f206df7a713e9c39101040e7b1788102a810018f84a7982987dd3b",
+    "desktop_image_id": "74b01ff07c4dc573b798fd0e8fa07c7b3079b0ee0eea5984c57893129c8ebe52",
+    "network": "none",
+    "mounts": [
+      "read-only application bundle",
+      "writable output folder"
+    ],
+    "graphics": "Mesa software rendering in Xvfb; no GPU device mounted",
+    "python_or_project_dependencies_installed": false,
+    "desktop_packages_recipe": "packaging/Containerfile.release-test",
+    "note": "Recorded desktop image was built in two stages with equivalent package lists: desktop libraries followed by EGL. Bare Fedora CLI test needed neither stage."
+  },
+  "isolated_cli": {
+    "success": true,
+    "elapsed_ms": 20.0,
+    "wall_seconds": 1.231239029999415,
+    "neurons": 166700,
+    "total_spikes": 0,
+    "report_sha256": "0d0147ffb3255c8d484d598a73708296c052eeb3e656b3223641960b746dd00c"
+  },
+  "endurance": {
+    "version": "1.0.0",
+    "success": true,
+    "simulated_seconds": 60,
+    "continuous_seconds": 48,
+    "repeated_stimulations": 25,
+    "reset_cycles": 5,
+    "identical_neural_counts_after_every_reset": true,
+    "manual_repositions": [
+      {
+        "at_ms": 10000.0,
+        "neural_state_preserved": true,
+        "upright_after": 0.9998819698276534
+      },
+      {
+        "at_ms": 20000.0,
+        "neural_state_preserved": true,
+        "upright_after": 0.9998819698276534
+      },
+      {
+        "at_ms": 30000.0,
+        "neural_state_preserved": true,
+        "upright_after": 0.9998819698276534
+      },
+      {
+        "at_ms": 40000.0,
+        "neural_state_preserved": true,
+        "upright_after": 0.9998819698276534
+      }
+    ],
+    "rss_growth_after_warmup_bytes": 13467648,
+    "rss_peak_bytes": 779517952,
+    "wall_seconds": 665.8293820199979,
+    "post_release_before_reset": {
+      "rules": {
+        "neural_hz_per_neuron_max": 0.1,
+        "escape_max": 0.05,
+        "disruption_max": 0.05,
+        "retreat_max": 0.05,
+        "steering_hz_max": 10.0,
+        "upright_min": 0.8,
+        "hold_ms": 500.0,
+        "interpretation": "Consecutive qualifying simulation intervals; not biological recovery or subjective relief."
+      },
+      "phase": "observing",
+      "episodes": [
+        {
+          "id": 1,
+          "input_start_ms": 100.0,
+          "release_ms": 400.0,
+          "phase": "settled",
+          "settled_at_ms": 1080.0,
+          "quiet_ticks": {
+            "neural": 6700,
+            "motor": 5200,
+            "posture": 7000,
+            "all": 5200
+          },
+          "observed_until_ms": 1100.0,
+          "neural_hz_per_neuron": 0.04439112177564487,
+          "neural_quiet": true,
+          "motor_quiet": true,
+          "upright": 0.9996240659954366,
+          "upright_enough": true,
+          "observation_end_ms": 1100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 2,
+          "input_start_ms": 1100.0,
+          "release_ms": 1400.0,
+          "phase": "settled",
+          "settled_at_ms": 2060.0,
+          "quiet_ticks": {
+            "neural": 6500,
+            "motor": 5400,
+            "posture": 7000,
+            "all": 5400
+          },
+          "observed_until_ms": 2100.0,
+          "neural_hz_per_neuron": 0.052189562087582485,
+          "neural_quiet": true,
+          "motor_quiet": true,
+          "upright": 0.9952231554688205,
+          "upright_enough": true,
+          "observation_end_ms": 2100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 3,
+          "input_start_ms": 2100.0,
+          "release_ms": 2400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 2000,
+            "all": 0
+          },
+          "observed_until_ms": 3100.0,
+          "neural_hz_per_neuron": 2.782243551289742,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": 0.9728808643331973,
+          "upright_enough": true,
+          "observation_end_ms": 3100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 4,
+          "input_start_ms": 3100.0,
+          "release_ms": 3400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 4100.0,
+          "neural_hz_per_neuron": 2.8854229154169166,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9790597180220028,
+          "upright_enough": false,
+          "observation_end_ms": 4100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 5,
+          "input_start_ms": 4100.0,
+          "release_ms": 4400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 5100.0,
+          "neural_hz_per_neuron": 2.960407918416317,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.8838054957156498,
+          "upright_enough": false,
+          "observation_end_ms": 5100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 6,
+          "input_start_ms": 5100.0,
+          "release_ms": 5400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 6100.0,
+          "neural_hz_per_neuron": 2.856628674265147,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.8455986772536598,
+          "upright_enough": false,
+          "observation_end_ms": 6100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 7,
+          "input_start_ms": 6100.0,
+          "release_ms": 6400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 7100.0,
+          "neural_hz_per_neuron": 2.9868026394721054,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.7050951556740903,
+          "upright_enough": false,
+          "observation_end_ms": 7100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 8,
+          "input_start_ms": 7100.0,
+          "release_ms": 7400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 8100.0,
+          "neural_hz_per_neuron": 3.059388122375525,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.8836710443363021,
+          "upright_enough": false,
+          "observation_end_ms": 8100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 9,
+          "input_start_ms": 8100.0,
+          "release_ms": 8400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 9100.0,
+          "neural_hz_per_neuron": 2.9454109178164365,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.8797577219597236,
+          "upright_enough": false,
+          "observation_end_ms": 9100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 10,
+          "input_start_ms": 9100.0,
+          "release_ms": 9400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 1000,
+            "all": 0
+          },
+          "observed_until_ms": 10100.0,
+          "neural_hz_per_neuron": 3.158368326334733,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": 0.9835351017667103,
+          "upright_enough": true,
+          "assisted_repositions": 1,
+          "observation_end_ms": 10100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 11,
+          "input_start_ms": 10100.0,
+          "release_ms": 10400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 11100.0,
+          "neural_hz_per_neuron": 3.2459508098380323,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.966823074416457,
+          "upright_enough": false,
+          "observation_end_ms": 11100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 12,
+          "input_start_ms": 11100.0,
+          "release_ms": 11400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 12100.0,
+          "neural_hz_per_neuron": 3.145770845830834,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9117398272537632,
+          "upright_enough": false,
+          "observation_end_ms": 12100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 13,
+          "input_start_ms": 12100.0,
+          "release_ms": 12400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 13100.0,
+          "neural_hz_per_neuron": 3.1187762447510496,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9731202505104832,
+          "upright_enough": false,
+          "observation_end_ms": 13100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 14,
+          "input_start_ms": 13100.0,
+          "release_ms": 13400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 14100.0,
+          "neural_hz_per_neuron": 3.2729454109178167,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.8959354116237507,
+          "upright_enough": false,
+          "observation_end_ms": 14100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 15,
+          "input_start_ms": 14100.0,
+          "release_ms": 14400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 15100.0,
+          "neural_hz_per_neuron": 3.122375524895021,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9132746346181358,
+          "upright_enough": false,
+          "observation_end_ms": 15100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 16,
+          "input_start_ms": 15100.0,
+          "release_ms": 15400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 16100.0,
+          "neural_hz_per_neuron": 3.146970605878824,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9470026879651712,
+          "upright_enough": false,
+          "observation_end_ms": 16100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 17,
+          "input_start_ms": 16100.0,
+          "release_ms": 16400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 17100.0,
+          "neural_hz_per_neuron": 3.289142171565687,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9595839415767837,
+          "upright_enough": false,
+          "observation_end_ms": 17100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 18,
+          "input_start_ms": 17100.0,
+          "release_ms": 17400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 18100.0,
+          "neural_hz_per_neuron": 3.404919016196761,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9109774192051161,
+          "upright_enough": false,
+          "observation_end_ms": 18100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 19,
+          "input_start_ms": 18100.0,
+          "release_ms": 18400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 19100.0,
+          "neural_hz_per_neuron": 3.3785242951409717,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9258907741942418,
+          "upright_enough": false,
+          "observation_end_ms": 19100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 20,
+          "input_start_ms": 19100.0,
+          "release_ms": 19400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 1000,
+            "all": 0
+          },
+          "observed_until_ms": 20100.0,
+          "neural_hz_per_neuron": 3.256748650269946,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": 0.9806496234231158,
+          "upright_enough": true,
+          "assisted_repositions": 1,
+          "observation_end_ms": 20100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 21,
+          "input_start_ms": 20100.0,
+          "release_ms": 20400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 21100.0,
+          "neural_hz_per_neuron": 3.2789442111577682,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.954409216359065,
+          "upright_enough": false,
+          "observation_end_ms": 21100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 22,
+          "input_start_ms": 21100.0,
+          "release_ms": 21400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 22100.0,
+          "neural_hz_per_neuron": 3.16376724655069,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.8462259922707117,
+          "upright_enough": false,
+          "observation_end_ms": 22100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 23,
+          "input_start_ms": 22100.0,
+          "release_ms": 22400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 23100.0,
+          "neural_hz_per_neuron": 3.170965806838632,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.960886521150236,
+          "upright_enough": false,
+          "observation_end_ms": 23100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 24,
+          "input_start_ms": 23100.0,
+          "release_ms": 23400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 0,
+            "all": 0
+          },
+          "observed_until_ms": 24100.0,
+          "neural_hz_per_neuron": 2.958608278344331,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": -0.9307804684668706,
+          "upright_enough": false,
+          "observation_end_ms": 24100.0,
+          "observation_end_reason": "new_input"
+        },
+        {
+          "id": 25,
+          "input_start_ms": 24100.0,
+          "release_ms": 24400.0,
+          "phase": "observing",
+          "settled_at_ms": null,
+          "quiet_ticks": {
+            "neural": 0,
+            "motor": 0,
+            "posture": 15200,
+            "all": 0
+          },
+          "observed_until_ms": 48000.0,
+          "neural_hz_per_neuron": 3.033593281343731,
+          "neural_quiet": false,
+          "motor_quiet": false,
+          "upright": 0.9920978749124378,
+          "upright_enough": true,
+          "assisted_repositions": 2
+        }
+      ],
+      "events": [
+        {
+          "id": 1,
+          "episode": 1,
+          "kind": "release_observation",
+          "time": 0.4
+        },
+        {
+          "id": 2,
+          "episode": 1,
+          "kind": "response_settled",
+          "time": 1.08
+        },
+        {
+          "id": 3,
+          "episode": 2,
+          "kind": "release_observation",
+          "time": 1.4000000000000001
+        },
+        {
+          "id": 4,
+          "episode": 2,
+          "kind": "response_settled",
+          "time": 2.06
+        },
+        {
+          "id": 5,
+          "episode": 3,
+          "kind": "release_observation",
+          "time": 2.4
+        },
+        {
+          "id": 6,
+          "episode": 4,
+          "kind": "release_observation",
+          "time": 3.4000000000000004
+        },
+        {
+          "id": 7,
+          "episode": 5,
+          "kind": "release_observation",
+          "time": 4.4
+        },
+        {
+          "id": 8,
+          "episode": 6,
+          "kind": "release_observation",
+          "time": 5.4
+        },
+        {
+          "id": 9,
+          "episode": 7,
+          "kind": "release_observation",
+          "time": 6.4
+        },
+        {
+          "id": 10,
+          "episode": 8,
+          "kind": "release_observation",
+          "time": 7.4
+        },
+        {
+          "id": 11,
+          "episode": 9,
+          "kind": "release_observation",
+          "time": 8.4
+        },
+        {
+          "id": 12,
+          "episode": 10,
+          "kind": "release_observation",
+          "time": 9.4
+        },
+        {
+          "id": 13,
+          "episode": 10,
+          "kind": "body_repositioned",
+          "time": 10.0
+        },
+        {
+          "id": 14,
+          "episode": 11,
+          "kind": "release_observation",
+          "time": 10.4
+        },
+        {
+          "id": 15,
+          "episode": 12,
+          "kind": "release_observation",
+          "time": 11.4
+        },
+        {
+          "id": 16,
+          "episode": 13,
+          "kind": "release_observation",
+          "time": 12.4
+        },
+        {
+          "id": 17,
+          "episode": 14,
+          "kind": "release_observation",
+          "time": 13.4
+        },
+        {
+          "id": 18,
+          "episode": 15,
+          "kind": "release_observation",
+          "time": 14.4
+        },
+        {
+          "id": 19,
+          "episode": 16,
+          "kind": "release_observation",
+          "time": 15.4
+        },
+        {
+          "id": 20,
+          "episode": 17,
+          "kind": "release_observation",
+          "time": 16.400000000000002
+        },
+        {
+          "id": 21,
+          "episode": 18,
+          "kind": "release_observation",
+          "time": 17.400000000000002
+        },
+        {
+          "id": 22,
+          "episode": 19,
+          "kind": "release_observation",
+          "time": 18.400000000000002
+        },
+        {
+          "id": 23,
+          "episode": 20,
+          "kind": "release_observation",
+          "time": 19.400000000000002
+        },
+        {
+          "id": 24,
+          "episode": 20,
+          "kind": "body_repositioned",
+          "time": 20.0
+        },
+        {
+          "id": 25,
+          "episode": 21,
+          "kind": "release_observation",
+          "time": 20.400000000000002
+        },
+        {
+          "id": 26,
+          "episode": 22,
+          "kind": "release_observation",
+          "time": 21.400000000000002
+        },
+        {
+          "id": 27,
+          "episode": 23,
+          "kind": "release_observation",
+          "time": 22.400000000000002
+        },
+        {
+          "id": 28,
+          "episode": 24,
+          "kind": "release_observation",
+          "time": 23.400000000000002
+        },
+        {
+          "id": 29,
+          "episode": 25,
+          "kind": "release_observation",
+          "time": 24.400000000000002
+        },
+        {
+          "id": 30,
+          "episode": 25,
+          "kind": "body_repositioned",
+          "time": 30.0
+        },
+        {
+          "id": 31,
+          "episode": 25,
+          "kind": "body_repositioned",
+          "time": 40.0
+        }
+      ]
+    },
+    "final_population_hz_per_neuron_before_reset": 2.9364727054589084,
+    "limitations": [
+      "One neural seed on this host; not an hours-long or cross-hardware endurance certification.",
+      "Posture assistance is explicit and does not normalize persistent neural activity."
+    ]
+  },
+  "evidence_sha256": {
+    "endurance_report": "08f3273df7dac9dfdfaf72d1cbc61b5634e319d8fb3155e124b851b264f831f9",
+    "endurance_protocol": "125dc30d2a4f9ae85bbccec92f01079389cee1cc13774b22507fc28ca98b486e",
+    "endurance_trace": "a46b08a341ddc4967cea9656894e9d81314186ac668fc21e64178f91a32a8c9f"
+  },
+  "source_sha256": {
+    "src/nexus/app.py": "6eeb57d1779fb8245ac1ac610230e61b225769b2ae20ee70d2976adf5049ba69",
+    "src/nexus/body.py": "18e90659a334ee38f7040d8f8d8ecd1952ffbff302c8a0f038869b5a1cd96e46",
+    "src/nexus/coupled.py": "3729928462294461158a264442d636e1a1222a2e62bfbab86c1dfa3288c95fdd",
+    "src/nexus/recovery.py": "b2dd1d97dc909eb898d4133a961e140d0014dcdb26d5cbf4f534472488aab794",
+    "src/nexus/intervention_panel.py": "23e82d2869f829fb5e1875cbf5b44f21d81f436b51896e6dc3ca1be53cc41003",
+    "src/nexus/brain/runtime.py": "1e2864bd7781a062abf3a125d01bd332543a70f60d1853e58deada75a6b15211",
+    "src/nexus/brain/motor.py": "999169bce017f8b511cddf3e322908ddde9d6be82724d0a1495c29263f54fd9a",
+    "scripts/verify_final_endurance.py": "459fcea8e947d97b20a45071ada52e583dd53ec4679efd20ce2d1e3c8a1b22f3",
+    "tests/test_reposition.py": "02caaa7b91ff0be4d24f6c8b4e2314cc65bce60bbe42e349440e4d28c108b214",
+    "tests/test_intervention_panel.py": "8ba0a61b8f45638e5ef6c0803f4218c83200a78f0de19bc1bba22804bc6589a6"
+  },
+  "limitations": [
+    "One Linux distribution and one neural seed; no cross-hardware or hours-long stability certification.",
+    "Persistent activity remained after strong inputs were released; explicit body assistance preserved it.",
+    "Experimental unfitted neural dynamics and engineered body control; this release does not validate subjective feelings, biological seizures or thermal injury."
+  ]
+}

@@ -84,6 +84,16 @@ class RecoveryMonitor:
         return {'rules': dict(self.RULES), 'phase': self.current['phase'] if self.current else 'no_input_yet',
                 'episodes': deepcopy(list(self.episodes)), 'events': list(self.events)}
 
+    def body_repositioned(self, tick):
+        if self.current is not None:
+            row = self.current
+            row['assisted_repositions'] = row.get('assisted_repositions', 0)+1
+            row['quiet_ticks']['posture'] = row['quiet_ticks']['all'] = 0
+            row['settled_at_ms'] = None
+            if not self.active:
+                row['phase'] = 'observing'
+        self.event('body_repositioned', tick)
+
     def status(self):
         if self.current is None:
             return {'phase': 'no_input_yet'}

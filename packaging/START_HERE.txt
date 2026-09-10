@@ -1,0 +1,20 @@
+FRUIT FLY TORMENT NEXUS — 1.0 EXPERIMENTAL
+
+1. Extract the whole archive.
+2. Open the FruitFlyNexus folder and run fruit-fly-nexus.
+3. Keep the _internal folder beside the executable.
+4. Use Experiments to apply inputs; open Guide for instructions and model limits.
+
+Linux x86-64. Tested on Fedora 44. A desktop OpenGL driver is required.
+Python, model data, and assets are bundled. No runtime network connection is needed.
+First startup compiles the neural model and may take a little time.
+
+Pause/Resume: stop or continue both clocks.
+Release stimulation: remove inputs; ongoing neural activity may persist.
+Reposition body only: manual posture assistance; preserves the neural state and pauses.
+Reset body + brain: start a new session.
+
+This is an experimental simulation with engineered movement. The labels do not
+establish subjective pain or fear, biological seizures, or thermal tissue damage.
+
+USER_GUIDE.md contains the full offline guide.

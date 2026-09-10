@@ -274,6 +274,7 @@ class BrainPanel(QWidget):
                 self.intervention_seen.add(key)
                 detail = {'release_observation': 'Inputs off; observing neural activity and posture',
                           'response_settled': 'Activity low and body upright for 500 ms (model check)',
+                          'body_repositioned': 'Body repositioned manually; neural state preserved; paused',
                           'response_returned': 'Activity or posture no longer meets the settling check'}[event['kind']]
                 self.session_event.emit(f"BODY + BRAIN {event['time']:.3f}s · {detail}")
         active = len(t['stimulated_ids'])
@@ -307,7 +308,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"0.16.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"1.0.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

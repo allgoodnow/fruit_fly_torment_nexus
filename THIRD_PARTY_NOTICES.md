@@ -1,6 +1,6 @@
 # Third-party software
 
-This prototype uses **NeuroMechFly / FlyGym 2.1.0** from
+This application uses **NeuroMechFly / FlyGym 2.1.0** from
 https://github.com/NeLy-EPFL/flygym, pinned to commit
 `38c8ec61034cd59bc5ba0de20688d4a3c0000d60` (Apache-2.0).
 It reuses the official complex-terrain hybrid turning controller and bundled
@@ -46,7 +46,7 @@ decoder with authored gains; it does not reconstruct the ventral nerve cord.
 Functional motivation: Yang et al., Cell (2024), doi:10.1016/j.cell.2024.08.033.
 No subjective-experience claim is implied.
 
-Version 0.5.0 adds a pooled foot-contact-to-sugar-input proxy using the existing
+The historical version 0.5.0 added a pooled foot-contact-to-sugar-input proxy using the existing
 reference taste cohort. The pathway/readout motivation is Shiu et al., Nature
 (2024), doi:10.1038/s41586-024-07763-9. The peripheral mapping and food geometry are
 application-authored approximations, not data or a model validated by that study.
@@ -72,3 +72,7 @@ to MaleCNS uses the official cross-specimen annotations; it is an experimental
 candidate mapping, not a validated model of subjective pain. Source checksums,
 excluded correspondences, and derived targets are recorded in the accompanying
 experiment files. MaleCNS attribution is in `licenses/MaleCNS/NOTICE`.
+
+The food/taste proxy was removed from the application in version 0.14. Version 1.0
+uses the MaleCNS model and source-matched MDN motor readout described in the user
+guide. Body repositioning is application-authored manual assistance.

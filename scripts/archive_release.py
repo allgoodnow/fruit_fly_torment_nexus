@@ -3,20 +3,27 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import tarfile
 
 ROOT = Path(__file__).resolve().parents[1]
-bundle = ROOT / "dist" / "FruitFlyNexus-0.16.0"
-report_path = ROOT / "runs" / "descending_packaged_acceptance" / "acceptance.json"
+bundle = ROOT / "dist" / "FruitFlyNexus-1.0.0"
+report_path = ROOT / "runs" / "final_packaged_acceptance" / "acceptance.json"
 report = json.loads(report_path.read_text())
-if not report.get("success") or report.get("version") != "0.16.0":
+if not report.get("success") or report.get("version") != "1.0.0":
     raise SystemExit("Packaged acceptance must pass before archiving.")
-for name in ("THIRD_PARTY_NOTICES.md", "environment.json"):
+for name in ("THIRD_PARTY_NOTICES.md", "environment.json", "README.md"):
     shutil.copyfile(ROOT / name, bundle / name)
 shutil.copyfile(ROOT / 'docs/user-guide.md', bundle / 'USER_GUIDE.md')
+shutil.copyfile(ROOT / 'packaging/START_HERE.txt', bundle / 'START_HERE.txt')
 shutil.copytree(ROOT / 'experiments', bundle / 'experiments', dirs_exist_ok=True)
 shutil.copyfile(report_path, bundle / "acceptance.json")
-archive = ROOT / "dist" / "fruit-fly-nexus-0.16.0-linux-x86_64.tar.gz"
+(bundle/'BUILD_INFO.json').write_text(json.dumps({
+    'version': report['version'],
+    'source_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+    'tracked_changes_at_archive': bool(subprocess.check_output(['git', 'diff', 'HEAD', '--name-only'], cwd=ROOT, text=True).strip()),
+}, indent=2)+'\n')
+archive = ROOT / "dist" / "fruit-fly-nexus-1.0.0-linux-x86_64.tar.gz"
 with tarfile.open(archive, "w:gz", compresslevel=6) as tar:
     tar.add(bundle, arcname="FruitFlyNexus")
 with archive.open("rb") as stream:

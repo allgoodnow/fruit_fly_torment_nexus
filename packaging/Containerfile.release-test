@@ -1,0 +1,8 @@
+# Isolated desktop acceptance environment; no Python or project dependencies.
+FROM registry.fedoraproject.org/fedora:44
+RUN dnf -y install xorg-x11-server-Xvfb mesa-dri-drivers dejavu-sans-fonts \
+    libxkbcommon-x11 xcb-util-cursor xcb-util-wm xcb-util-image \
+    xcb-util-keysyms xcb-util-renderutil libglvnd-egl mesa-libEGL \
+    && dnf clean all
+ENV QT_QPA_PLATFORM=xcb LANG=C.UTF-8
+ENTRYPOINT ["xvfb-run", "-a", "-s", "-screen 0 1600x1000x24", "/app/fruit-fly-nexus"]

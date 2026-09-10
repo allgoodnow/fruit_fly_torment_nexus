@@ -101,6 +101,23 @@ class FlyBody:
     def upright(self):
         return float(self.sim.mj_data.xmat[self.thorax_id].reshape(3, 3)[2, 2])
 
+    def reposition(self):
+        """Explicit posture assistance; preserve location, clock and trail."""
+        free = np.flatnonzero(self.sim.mj_model.jnt_type == mujoco.mjtJoint.mjJNT_FREE)
+        if len(free) != 1:
+            raise RuntimeError('Body reposition requires one free root joint')
+        address = int(self.sim.mj_model.jnt_qposadr[free[0]])
+        xy, steps, physics_time = self.position()[:2], self.elapsed_steps, self.sim.mj_data.time
+        origin, path = self.origin.copy(), list(self.path)
+        self.reset()
+        mujoco.mj_forward(self.sim.mj_model, self.sim.mj_data)
+        self.sim.mj_data.qpos[address:address+2] += xy-self.position()[:2]
+        self.sim.mj_data.qvel[:] = 0
+        self.sim.mj_data.time = physics_time
+        mujoco.mj_forward(self.sim.mj_model, self.sim.mj_data)
+        self.elapsed_steps, self.origin = steps, origin
+        self.path.extend(path)
+
     def ground_contacts(self):
         result = []
         for contact in self.sim.mj_data.contact[:self.sim.mj_data.ncon]:
@@ -196,6 +213,7 @@ class FlyBody:
             "magnitudes": self.controller.cpg_network.curr_magnitudes.tolist(),
             "path": list(self.path),
             "motor_offset_rms_rad": self.motor_offset_rms,
+            "upright": self.upright(),
             "food_patch_present": bool(self.food_patch and self.food_patch['present']),
             "mode": "engineered locomotion; connectome not connected",
         }

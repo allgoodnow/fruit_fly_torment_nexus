@@ -1,3 +1,5 @@
+> Historical development record. For the 1.0 release, see [README](README.md), [the user guide](docs/user-guide.md), and the versioned results in `experiments/`.
+
 # Implementation progress — 9 September 2026
 
 ## Current version: 0.5.0 — contact-driven taste feedback

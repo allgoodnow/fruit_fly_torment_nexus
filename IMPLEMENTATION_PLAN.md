@@ -1,3 +1,5 @@
+> Historical development record. For the 1.0 release, see [README](README.md), [the user guide](docs/user-guide.md), and the versioned results in `experiments/`.
+
 **Fruit Fly Torment Nexus — implementation plan**
 
 Updated 9 September 2026. This is the authoritative execution plan, superseding BUILD_PLAN.md's implementation choices and the earlier 2D-first proposal. Version 0.5.0 retains shared-clock DNa02 neural steering and adds a visible food patch that drives the reference taste cohort from actual foot/ground contacts. Manual and sensory inputs have separate channels, with explicit release and overlap semantics. Native controls and causal food/feedback/silencing assays are implemented. Baseline walking, motor decoder gains and the pooled contact-to-taste mapping remain authored approximations. Food-seeking, neural initiation/stop, feeding behavior, the defensive/nociceptive/seizure experiments and complete checkpoints remain unfinished. See PROGRESS.md, docs/NEURAL_STEERING.md and docs/FOOD_FEEDBACK.md for measurements and limits.

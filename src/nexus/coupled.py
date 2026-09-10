@@ -32,6 +32,7 @@ class CoupledSession:
         self.protocol = None
         self.completed_protocol = None
         self.generation = 0
+        self.reposition_count = 0
         self.monitor = NeuralTelemetry(brain)
         self.recovery = RecoveryMonitor()
         self.sync_environment()
@@ -71,9 +72,16 @@ class CoupledSession:
             self.running, self.protocol = False, None
             self.completed_protocol = None
             self.generation += 1
+            self.reposition_count = 0
             if self.environment is not None:
                 self.environment.reset()
                 self.sync_environment()
+        elif kind == 'reposition_body':
+            self.body.reposition()
+            self.running = False
+            self.reposition_count += 1
+            self.recovery.body_repositioned(self.brain.step)
+            self.sync_environment()
         elif kind == 'stimulate':
             self.brain.stimulate(value['ids'], value['rate_hz'])
             self.protocol = None
@@ -230,6 +238,8 @@ class CoupledSession:
         neural['ground_behavior'] = self.behavior.output(self.baseline)
         neural['resume_after_protocol'] = self.resume_after_protocol
         neural['recovery'] = self.recovery.snapshot()
+        neural['reposition_count'] = self.reposition_count
+        neural['body_upright'] = self.body.upright() if hasattr(self.body, 'upright') else None
         body = self.body.telemetry()
         body.update(running=self.running, wander=False, drive=self.baseline, turn=motor['turn'],
                     generation=self.generation, realtime_factor=neural['realtime_factor'],
@@ -238,6 +248,7 @@ class CoupledSession:
                     environment=food)
         body['motor_effects'] = neural['motor_effects']
         body['ground_behavior'] = neural['ground_behavior']
+        body['reposition_count'] = self.reposition_count
         return {'telemetry': body, 'brain': neural}
 
 

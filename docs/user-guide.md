@@ -35,10 +35,15 @@ Set the baseline, stimulus, and after-release durations, then select a run butto
 Durations are simulation milliseconds; a slow computer can take longer in real time.
 The baseline releases existing manual interventions before the next input begins.
 
-- **Pause** stops advancement while preserving model state.
+- **Pause / Resume** stops or continues advancement while preserving model state.
 - **Release stimulation** clears manual inputs, silencing, and reduced inhibition.
   It preserves voltages, accumulated spikes, and delayed neural events. Activity
   and movement can therefore continue afterward.
+- **Reposition body only** restores an upright posture at the same ground location
+  and pauses. It preserves neural state, inputs, decoder state, simulation time,
+  and the pending sequence. The body walking controller is reinitialized; this is
+  manual posture assistance, not spontaneous biological recovery. The action is
+  always in the Body tab and appears in Experiments when the fly is overturned.
 - **Reset body + brain** reinitializes both models and their clocks.
 - **Enable motor response** controls the retreat/escape/disruption decoder. Neural activity
   continues when that decoder is disabled.
@@ -166,6 +171,24 @@ Meeting these operational thresholds is not biological recovery, subjective reli
 or zero activity. Losing any condition returns the monitor to observation. Paused
 wall-clock time does not count. Some tested disruption sequences remain active and
 overturned for at least ten seconds after release; the monitor does not force recovery.
+If the fly is stuck, use Reposition body only, then Resume. It can overturn again
+if neural disruption persists. Disable motor response to inspect activity without
+its body effects, or explicitly reset both models for a fresh trial. Repositioning
+is logged and restarts the posture-settling interval; it never clears neural activity.
+
+## Release and local files
+
+Version 1.0 targets Linux x86-64 and is tested on Fedora 44. Keep the executable
+and `_internal` directory together after extracting the archive. No runtime network
+connection is required. The first neural compilation can take longer than later
+loads. This CPU build is not guaranteed to run at real time. Other operating systems
+and Linux distribution versions have not been validated.
+
+The GUI stores caches and diagnostics in the platform application-data location,
+normally `~/.local/share/Nexus/Fruit Fly Torment Nexus/`. Unattended runs use the
+output directory you specify and cache under `~/.cache/fruit-fly-nexus/` unless
+standard XDG cache settings override it. Closing the app ends the current in-memory
+session; exported diagnostics and counts are not resumable checkpoints.
 
 ## Sources and attribution
 
