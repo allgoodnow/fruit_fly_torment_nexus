@@ -1,0 +1,98 @@
+{
+  "format": "nexus-ui-validation-1",
+  "version": "0.13.0",
+  "created_at": "2026-09-10T06:50:07.758384+00:00",
+  "success": true,
+  "unit_tests": {
+    "passed": 98,
+    "seconds": 9.49
+  },
+  "acceptance": {
+    "native": {
+      "checks": [
+        "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+        "offline Guide opens with model explanations and stimulation-label definitions",
+        "defensive button runs, releases on schedule, and reports measured responses",
+        "FEAR appears during input and clears after release",
+        "aversion button runs, releases on schedule, and reports measured responses",
+        "PAIN appears during input and clears after release",
+        "heat button runs, releases on schedule, and reports measured responses",
+        "HEAT appears during input and clears after release",
+        "seizure button runs, releases on schedule, and reports measured responses",
+        "SEIZURE appears during input and clears after release",
+        "heat_overload button runs, releases on schedule, and reports measured responses",
+        "BOILING appears during input and clears after release",
+        "threat and heat inputs coexist while paused",
+        "combined FEAR + BOILING display retains inputs while paused",
+        "release clears scenario inputs and overlays without advancing time",
+        "motor proxy ablation can be controlled from the native experiments tab"
+      ],
+      "sha256": "1c44572535f8881ed58373e1b9a720743fb3d0f7beef787a849e1c58b26fa2db"
+    },
+    "packaged": {
+      "checks": [
+        "MaleCNS loads 166700 neurons and matching real cell anchors; unmapped taste feedback stays disabled",
+        "offline Guide opens with model explanations and stimulation-label definitions",
+        "defensive button runs, releases on schedule, and reports measured responses",
+        "FEAR appears during input and clears after release",
+        "aversion button runs, releases on schedule, and reports measured responses",
+        "PAIN appears during input and clears after release",
+        "heat button runs, releases on schedule, and reports measured responses",
+        "HEAT appears during input and clears after release",
+        "seizure button runs, releases on schedule, and reports measured responses",
+        "SEIZURE appears during input and clears after release",
+        "heat_overload button runs, releases on schedule, and reports measured responses",
+        "BOILING appears during input and clears after release",
+        "threat and heat inputs coexist while paused",
+        "combined FEAR + BOILING display retains inputs while paused",
+        "release clears scenario inputs and overlays without advancing time",
+        "motor proxy ablation can be controlled from the native experiments tab"
+      ],
+      "sha256": "a7f33ed24f965cbcdc0961eb72275793ea001a08663ec1a3a96b304da3623ac3"
+    }
+  },
+  "changes": [
+    "Red current-stimulation display above both 3D views",
+    "Applied-input labels combine, retain paused configuration, and clear on release",
+    "Explanatory paragraphs moved into an offline Guide available from the title bar",
+    "Experiment controls simplified and made the default tab",
+    "White interface, black ordinary text and red event log retained"
+  ],
+  "model_changes": false,
+  "pain_movement_finding": {
+    "source": "experiments/nociception-v1-results.json",
+    "source_sha256": "cb5b22d1672cdb580b7526fd19dfa02186e50ed9e0d2f3dc0316eaa753a280a0",
+    "central_candidate_spikes_during_300ms_stimulation": [
+      32,
+      31,
+      32
+    ],
+    "giant_fiber_spikes": [
+      1,
+      1,
+      0
+    ],
+    "peak_disruption": [
+      0,
+      0,
+      0
+    ],
+    "body_comparison_source": "experiments/nociception-body-v1-results.json",
+    "maximum_trajectory_difference_mm": 0.08223355413946123,
+    "interpretation": "Existing motor decoder only weakly recruited; no new pain-to-avoidance motor mapping introduced."
+  },
+  "source_hashes": {
+    "src/nexus/brain/runtime.py": "1e2864bd7781a062abf3a125d01bd332543a70f60d1853e58deada75a6b15211",
+    "src/nexus/brain/motor.py": "999169bce017f8b511cddf3e322908ddde9d6be82724d0a1495c29263f54fd9a",
+    "src/nexus/brain/motor_effects.py": "a32d765adcd3c821436bc4b53c890e1657179aa19dee98d64b061ea897705b17",
+    "src/nexus/brain/scenarios.py": "4a1a832918dacccfbf7de4775aabb82f33dd1b0e4348349875d8fcd61cdd23fc",
+    "src/nexus/body.py": "a4621d534c8c99fd8b5136b1e6ac1273c7631e534727f8a74e864146b11060c9",
+    "src/nexus/coupled.py": "55c9b3c2c358a2027686e687f9c361f0083ac4b63a48c6f30f62f289c5ff5d1a",
+    "src/nexus/stimulation.py": "1addaf4ad6ecec754d33ccf516f77eb680e99843db5adb08343c734c6ac944c5",
+    "src/nexus/stimulation_banner.py": "d72ef2de127c05137e42cffa182548ab7c88f7e12a29cbf2f843e007280a551f",
+    "src/nexus/guide.py": "ece539d9836a0c3f0dd8f0f7e400c0396c0184fb68e41264ed676b78907a4022",
+    "src/nexus/app.py": "e0836b24bc4cb4fa259cf08b093e8a1f400e19ced842d0b1f11f61e77a748cda",
+    "src/nexus/intervention_panel.py": "111fc8c94b4108759ee944aac1581daff96f3e1b9629eb3cb6598d7315678754",
+    "docs/user-guide.md": "39b74b6b2cf9845bb8d01a3c638ce560e2a32c44d7aa728d2781bb7c6a2d738f"
+  }
+}

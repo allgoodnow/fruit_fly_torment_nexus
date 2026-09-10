@@ -35,15 +35,13 @@ class BrainPanel(QWidget):
         self.records = deque(maxlen=2000)
         self.intervention_seen = set()
         layout = QVBoxLayout(self)
-        note = QLabel(self.config.title+"\n"+("Shared clock · experimental DNa02 steering" if command_sink else "Brain and body currently run independently."))
-        note.setWordWrap(True)
-        layout.addWidget(note)
         self.load_button = QPushButton("Load brain")
         self.load_button.clicked.connect(self.load)
         if command_sink:
             self.load_button.setText('Loading shared simulation…')
             self.load_button.setEnabled(False)
         layout.addWidget(self.load_button)
+        self.load_button.setVisible(command_sink is None)
         self.status = QLabel("Brain not loaded")
         self.status.setWordWrap(True)
         layout.addWidget(self.status)
@@ -94,11 +92,8 @@ class BrainPanel(QWidget):
         silence.clicked.connect(self.silence)
         form.addRow(silence)
         controls.addWidget(selection)
-        experiment = QGroupBox('Network perturbation · experimental')
+        experiment = QGroupBox('Network inhibition')
         form = QFormLayout(experiment)
-        explanation = QLabel('Reduce inhibitory connection strength.\nNeeds ongoing input to start activity.\nSeizure dynamics are not yet validated.')
-        explanation.setWordWrap(True)
-        form.addRow(explanation)
         self.inhibition = QSpinBox()
         self.inhibition.setRange(0, 100)
         self.inhibition.setValue(25)
@@ -315,7 +310,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"0.12.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"0.13.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

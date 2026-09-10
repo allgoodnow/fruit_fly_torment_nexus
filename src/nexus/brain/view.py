@@ -28,9 +28,7 @@ class BrainView(QWidget):
         self.caption = QLabel('Loading cell positions…')
         self.caption.setWordWrap(True)
         layout.addWidget(self.caption)
-        hint = QLabel('Drag to orbit · Scroll to zoom · Red: spikes in last 150 ms\nBlack: stimulated targets · Each point is a cell anchor')
-        hint.setWordWrap(True)
-        layout.addWidget(hint)
+        self.gl.setToolTip('Drag to orbit · Scroll to zoom')
         self.anatomy = None
         self.active_count = 0
         self.unlocated_active = 0
@@ -43,7 +41,7 @@ class BrainView(QWidget):
             fit.setEnabled(False)
             return
         a = self.anatomy
-        self.heading.setText('BRAIN + VNC / MALECNS v1.0' if a.manifest['snapshot'] == 'male-cns:v1.0' else 'BRAIN / FLYWIRE v630')
+        self.heading.setText('BRAIN + VNC' if a.manifest['snapshot'] == 'male-cns:v1.0' else 'BRAIN')
         self.cloud = GLScatterPlotItem(pos=a.positions[a.valid], color=(.22, .24, .25, .12), size=1.25, pxMode=True, glOptions='translucent')
         self.gl.addItem(self.cloud)
         self.targets = GLScatterPlotItem(pos=np.empty((0, 3)), color=(0, 0, 0, .9), size=9, glOptions='translucent')
@@ -57,7 +55,7 @@ class BrainView(QWidget):
         home.clicked.connect(self.home)
         fit.clicked.connect(self.fit_all)
         self.home()
-        self.caption.setText(f'{a.valid.sum():,} positioned cells · {(~a.valid).sum()} unlocated\nBrain not loaded · no simulated activity yet')
+        self.caption.setText(f'{a.valid.sum():,} positioned cells')
 
     def home(self):
         male = self.anatomy.manifest['snapshot'] == 'male-cns:v1.0'
@@ -88,8 +86,7 @@ class BrainView(QWidget):
         indices = [self.anatomy.lookup[int(root)] for root in packet['stimulated_ids']]
         indices = [i for i in indices if self.anatomy.valid[i]]
         self.targets.setData(pos=self.anatomy.positions[indices])
-        self.caption.setText(f"{'Running' if packet['running'] else 'Paused'} · brain {packet['sim_time']:.3f} s · {self.active_count:,} recently active\n"
-                             f"{self.anatomy.valid.sum():,} positioned · {self.unlocated_active} active cells unlocated")
+        self.caption.setText(f"{self.active_count:,} active · {self.unlocated_active} unlocated")
 
     def diagnostics(self):
         return {'loaded': self.anatomy is not None, 'mapped': int(self.anatomy.valid.sum()) if self.anatomy else 0,

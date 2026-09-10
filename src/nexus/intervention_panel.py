@@ -10,9 +10,6 @@ class InterventionPanel(QWidget):
         self.brain_panel = brain_panel
         self.coupled = coupled
         layout = QVBoxLayout(self)
-        note = QLabel('EXPERIMENTS\nNeural responses are measurable.\nSubjective fear and pain are unverified.')
-        note.setWordWrap(True)
-        layout.addWidget(note)
         self.status = QLabel('Waiting for brain…' if coupled else 'Load the brain in the Brain tab first.')
         self.status.setWordWrap(True)
         layout.addWidget(self.status)
@@ -31,40 +28,27 @@ class InterventionPanel(QWidget):
             self.durations.append(spin)
         controls.addWidget(phases)
         self.buttons = {}
-        definitions = [('defensive', 'Fear / threat', 'Looming-pathway input; engineered escape response.'),
-                       ('aversion', 'Pain pathway / candidate proxy',
-                        (f'Stimulates {brain_panel.config.nociception_count} mapped abdominal md candidates.\nNociception model remains experimental.' if brain_panel.config.nociception_count else 'Stimulates GNG121 (CB0059 counterpart) candidates.\nPeripheral nociception is not yet connected.' if brain_panel.config.experimental else 'Stimulates CB0059 central aversion candidates.\nPeripheral nociception is not yet connected.')),
-                       ('seizure', 'Seizure-like experiment',
-                        'Reduced inhibition with neural input.\nMotor disruption is an authored decoder.')]
-        for name, title, detail in definitions:
-            group = QGroupBox(title)
-            form = QFormLayout(group)
-            explanation = QLabel(detail)
-            explanation.setWordWrap(True)
-            form.addRow(explanation)
-            button = QPushButton('Run '+('threat experiment' if name == 'defensive' else
-                                        'aversion proxy' if name == 'aversion' else 'network / motor disruption'))
+        definitions = [('defensive', 'Fear'), ('aversion', 'Pain'), ('seizure', 'Seizure')]
+        for name, title in definitions:
+            button = QPushButton('Run '+title.lower())
+            button.setMinimumHeight(36)
             button.clicked.connect(lambda checked=False, name=name: self.run(name))
             self.buttons[name] = button
-            form.addRow(button)
-            controls.addWidget(group)
-        heat = QGroupBox('Heat scenario')
+            controls.addWidget(button)
+        heat = QGroupBox('Heat')
         form = QFormLayout(heat)
         self.temperature = QSpinBox()
         self.temperature.setRange(20, 100)
         self.temperature.setValue(40)
         self.temperature.setSuffix(' °C nominal')
         form.addRow(self.temperature)
-        note = QLabel('Warmth-cell input saturates at 40°C.\n100°C is a scenario label; tissue damage and\nthermal short-circuits are not modeled.')
-        note.setWordWrap(True)
-        form.addRow(note)
-        for name, label in [('heat', 'Run heat input'), ('heat_overload', 'Run 100°C + network overload')]:
+        for name, label in [('heat', 'Run heat input'), ('heat_overload', 'Run boiling')]:
             button = QPushButton(label)
             button.clicked.connect(lambda checked=False, name=name: self.run(name))
             self.buttons[name] = button
             form.addRow(button)
         controls.addWidget(heat)
-        self.motor_enabled = QCheckBox('Enable escape / disruption motor proxy')
+        self.motor_enabled = QCheckBox('Enable motor response')
         self.motor_enabled.setChecked(True)
         self.motor_enabled.setVisible(coupled)
         self.motor_enabled.toggled.connect(lambda value: brain_panel.send('motor_effects_enabled', value))
@@ -77,12 +61,9 @@ class InterventionPanel(QWidget):
         self.pause = QPushButton('Pause')
         self.pause.clicked.connect(lambda: brain_panel.send('running', False))
         controls.addWidget(self.pause)
-        self.release = QPushButton('Release inputs and network overlays')
+        self.release = QPushButton('Release stimulation')
         self.release.clicked.connect(lambda: brain_panel.send('release'))
         controls.addWidget(self.release)
-        note = QLabel('Release preserves neural state; activity and\nmovement may continue. Reset reinitializes both.')
-        note.setWordWrap(True)
-        controls.addWidget(note)
         reset = QPushButton('Reset body + brain' if coupled else 'Reset brain')
         reset.clicked.connect(lambda: brain_panel.send('reset'))
         controls.addWidget(reset)
@@ -109,12 +90,4 @@ class InterventionPanel(QWidget):
         self.resume.blockSignals(True)
         self.resume.setChecked(packet.get('resume_after_protocol', False))
         self.resume.blockSignals(False)
-        circuits = ', '.join(packet['circuit_inputs']) or 'none'
-        temperature = packet['nominal_temperature_c']
-        self.status.setText(f"{'Running' if packet['running'] else 'Paused'} · {packet['sim_time']:.3f} s\n"
-                            f"Active circuit inputs: {circuits}\n"
-                            f"Inhibition remaining: {packet['inhibition_gain']*100:g} %\n"
-                            f"Heat: {str(temperature)+'°C nominal' if temperature is not None else 'off'}")
-        if effects:
-            self.status.setText(self.status.text()+f"\nEscape readout: {effects['escape_hz']:.1f} Hz"
-                                f"\nMotor disruption: {effects['disruption']*100:.0f} %")
+        self.status.setText(f"{'Running' if packet['running'] else 'Paused'} · {packet['sim_time']:.3f} s")

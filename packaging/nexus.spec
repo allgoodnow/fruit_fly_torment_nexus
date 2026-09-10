@@ -5,6 +5,7 @@ root = Path(SPECPATH).parent
 datas = collect_data_files("flygym") + collect_data_files("flygym_demo.complex_terrain")
 datas += copy_metadata("flygym", recursive=True)
 datas += [(str(root / "THIRD_PARTY_NOTICES.md"), ".")]
+datas += [(str(root / "docs/user-guide.md"), "docs")]
 datas += [(str(root / "licenses"), "licenses")]
 datas += [(str(root / "data/brain-v630"), "data/brain-v630")]
 datas += [(str(root / "data/brain-male-cns-v1.0-lif"), "data/brain-male-cns-v1.0-lif")]
@@ -23,4 +24,4 @@ a = Analysis(
 pyz = PYZ(a.pure)
 exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name="fruit-fly-nexus",
           debug=False, bootloader_ignore_signals=False, strip=False, upx=False, console=True)
-coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="FruitFlyNexus-0.12.0")
+coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="FruitFlyNexus-0.13.0")

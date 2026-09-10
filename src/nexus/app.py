@@ -87,6 +87,8 @@ def main():
     from nexus.brain.view import BrainView
     from nexus.food_panel import FoodPanel
     from nexus.intervention_panel import InterventionPanel
+    from nexus.stimulation_banner import StimulationBanner
+    from nexus.guide import GuideDialog
 
     try:
         config = model_config(default_pack(args.dataset))
@@ -186,11 +188,14 @@ def main():
             outer = QVBoxLayout(root)
             title = QLabel("FRUIT FLY TORMENT NEXUS")
             title.setStyleSheet("font-size: 22px; font-weight: 600; padding: 8px 0")
-            outer.addWidget(title)
-            badge = QLabel('RESEARCH PROTOTYPE  ·  Neural steering with a shared clock  ·  Experimental decoder + engineered gait' if coupled else
-                           "RESEARCH PROTOTYPE  ·  3D fly + whole-brain neural lab  ·  Body and brain run independently")
-            badge.setText(config.title+"  ·  "+badge.text())
-            outer.addWidget(badge)
+            header = QHBoxLayout()
+            header.addWidget(title, 1)
+            self.guide_button = QPushButton('Guide')
+            self.guide_button.clicked.connect(self.show_guide)
+            header.addWidget(self.guide_button)
+            outer.addLayout(header)
+            self.stimulation_banner = StimulationBanner()
+            outer.addWidget(self.stimulation_banner)
             split = QSplitter(Qt.Orientation.Horizontal)
             outer.addWidget(split, 1)
             scene_panel = QWidget()
@@ -202,7 +207,7 @@ def main():
             body_scene = QWidget()
             body_layout = QVBoxLayout(body_scene)
             body_layout.setContentsMargins(0, 0, 0, 0)
-            body_label = QLabel('BODY / NEUROMECHFLY')
+            body_label = QLabel('BODY')
             body_label.setMinimumHeight(35)
             body_layout.addWidget(body_label)
             body_layout.addWidget(self.viewport, 1)
@@ -212,13 +217,13 @@ def main():
             self.behavior_status = QLabel('Ground behavior loading…' if coupled else '')
             self.behavior_status.setWordWrap(True)
             body_layout.addWidget(self.behavior_status)
-            body_layout.addWidget(QLabel('Drag to orbit · Scroll to zoom\nCamera follows the fly'))
+            self.viewport.setToolTip('Drag to orbit · Scroll to zoom')
             scenes.addWidget(body_scene)
             self.brain_view = BrainView(config.directory)
             scenes.addWidget(self.brain_view)
             scenes.setSizes([520, 520])
             scene_layout.addWidget(scenes, 1)
-            self.graph = pg.PlotWidget(title="Leg oscillator magnitude — controller state, not neural spikes")
+            self.graph = pg.PlotWidget(title="Leg activity")
             self.graph.setMaximumHeight(180)
             self.graph.setLabel("bottom", "Simulated time", units="s")
             self.curves = [self.graph.plot(pen=pg.mkPen(c, width=1.5)) for c in
@@ -226,7 +231,7 @@ def main():
             self.graph_stack = QStackedWidget()
             self.graph_stack.setMaximumHeight(180)
             self.graph_stack.addWidget(self.graph)
-            self.brain_graph = pg.PlotWidget(title="Recent neural spikes · rows are model indices")
+            self.brain_graph = pg.PlotWidget(title="Neural activity")
             self.brain_graph.setLabel("bottom", "Brain time", units="s")
             self.brain_graph.setLabel("left", "Neuron index")
             self.brain_points = self.brain_graph.plot(pen=None,symbol='o',symbolSize=2,symbolBrush='#b91c1c',symbolPen=None)
@@ -258,10 +263,6 @@ def main():
             self.wander.setChecked(True)
             self.wander.toggled.connect(lambda checked: self.send('autonomous' if coupled else 'wander', checked))
             form.addRow(self.wander)
-            if coupled:
-                note = QLabel('Explore, turn, and rest. Authored behavior;\nneural responses take priority.')
-                note.setWordWrap(True)
-                form.addRow(note)
             self.drive = QSlider(Qt.Orientation.Horizontal)
             self.drive.setRange(0, 130)
             self.drive.setValue(100)
@@ -286,18 +287,7 @@ def main():
             self.metrics = QLabel("Waiting for physics state")
             self.metrics.setWordWrap(True)
             controls.addWidget(self.metrics)
-            brain = QGroupBox("Brain integration")
-            brain_layout = QVBoxLayout(brain)
-            pending = QLabel('DNa02 neural activity changes left/right walking drive. Open the Brain tab to stimulate either side.\n\n'
-                             'Baseline walking and leg rhythms are engineered. Contact with food drives the reference taste cells through a pooled proxy.\n\n'
-                             'Run, Pause, Step and Reset affect both models.' if coupled else
-                             "Open the Brain tab for neural controls.\n\nThe walking body still uses its engineered controller. Neural output is not mapped to movement yet.")
-            if coupled and not config.food_available:
-                pending.setText('DNa02 activity changes left/right walking drive. Baseline walking and leg rhythms are engineered.\n\nMaleCNS includes the VNC, but its neurons are not yet mapped directly to leg muscles. Food feedback awaits a sugar-cell mapping.\n\nRun, Pause, Step and Reset affect both models.')
-            pending.setWordWrap(True)
-            brain_layout.addWidget(pending)
-            controls.addWidget(brain)
-            scene_layout.addWidget(QLabel("SESSION EVENTS / BODY + BRAIN"))
+            scene_layout.addWidget(QLabel("SESSION EVENTS"))
             self.log = QTextEdit()
             self.log.setObjectName('eventLog')
             self.log.setReadOnly(True)
@@ -332,7 +322,7 @@ def main():
             self.tabs.addTab(experiment_scroll, 'Experiments')
             self.tabs.currentChanged.connect(lambda index: self.graph_stack.setCurrentIndex(0 if index == 0 else 1))
             if coupled:
-                self.tabs.setCurrentIndex(1)
+                self.tabs.setCurrentIndex(2)
             split.addWidget(self.tabs)
             split.setSizes([1100, 360])
             self.setCentralWidget(root)
@@ -390,7 +380,15 @@ def main():
         def camera_move(self, dx, dy, zoom):
             self.camera_delta = [a+b for a, b in zip(self.camera_delta, (dx, dy, zoom))]
 
+        def show_guide(self):
+            if not hasattr(self, 'guide_dialog'):
+                self.guide_dialog = GuideDialog(self)
+            self.guide_dialog.show()
+            self.guide_dialog.raise_()
+            self.guide_dialog.activateWindow()
+
         def brain_snapshot(self,t):
+            self.stimulation_banner.update_snapshot(t)
             self.brain_view.update_snapshot(t)
             self.brain_points.setData([s*.0001 for s in t['raster_steps']], t['raster_indices'])
             self.brain_graph.setXRange(max(0,t['sim_time']-.5),max(.1,t['sim_time']),padding=0)
@@ -448,8 +446,7 @@ def main():
                     food = packet['telemetry'].get('environment')
                     if food:
                         self.food_panel.receive(food)
-                        self.food_status.setText(f"Food: {'present' if food['present'] else 'removed'} · Foot contact: {'yes' if food['contact'] else 'no'}\n"
-                                                 f"Taste input: {'active' if food['active'] else 'off'} · Exposure: {food['active_seconds']:.3f} s")
+                        self.food_status.setText(f"Food: {'present' if food['present'] else 'removed'} · Contact: {'yes' if food['contact'] else 'no'}")
                         for event in food['events']:
                             key = (packet['telemetry']['generation'], json.dumps(event, sort_keys=True))
                             if key not in self.world_log_seen:
@@ -466,10 +463,10 @@ def main():
                     self.viewport.image = QImage(image.data, w, h, 3*w, QImage.Format.Format_RGB888).copy()
                     self.viewport.update()
                     self.frame_count += 1
-                self.status.setText("Running" if t["running"] else "Paused — model state preserved")
+                self.status.setText("Running" if t["running"] else "Paused")
                 behavior = t.get('ground_behavior')
                 if behavior:
-                    self.behavior_status.setText(f"Ground behavior: {behavior['state']} · authored controller")
+                    self.behavior_status.setText(f"Behavior: {behavior['state']}")
                     old_behavior = previous.get('ground_behavior', {})
                     if behavior['state'] != old_behavior.get('state') or t['generation'] != previous.get('generation'):
                         self.log.append(f"BODY {t['sim_time']:.3f}s · {behavior['state']}")
@@ -504,6 +501,7 @@ def main():
 
         def fail(self, message):
             self.failed = True
+            self.stimulation_banner.unavailable()
             self.status.setText("Simulation stopped — see diagnostic details")
             self.log.append(message)
             (data_dir / "last-error.txt").write_text(message)
@@ -513,7 +511,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.12.0", "started_at": self.started_at,
+            return {"version": "0.13.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": coupled, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -957,6 +955,14 @@ def main():
                 for spin, value in zip(panel.durations, [100, 500, 200]):
                     spin.setValue(value)
                 self.response_cases = ['defensive', 'aversion', 'heat', 'seizure', 'heat_overload']
+                self.show_guide()
+                guide_text = self.guide_dialog.browser.toPlainText()
+                if 'scenario names' not in guide_text or 'Release and settling' not in guide_text:
+                    self.smoke_finish(False)
+                    return
+                self.guide_dialog.grab().save(str(data_dir/'guide.png'))
+                self.guide_dialog.close()
+                self.smoke_checks.append('offline Guide opens with model explanations and stimulation-label definitions')
                 self.response_index = 0
                 self.smoke_stage = 1
             elif self.smoke_stage == 1:
@@ -964,11 +970,13 @@ def main():
                 self.response_temperature = None
                 self.response_max_active = 0
                 self.response_active_capture = False
+                self.response_labels_seen = set()
                 name = self.response_cases[self.response_index]
                 panel.buttons[name].click()
                 self.smoke_stage = 2
             elif self.smoke_stage == 2:
                 effects = t['motor_effects']
+                self.response_labels_seen.update(self.stimulation_banner.labels)
                 self.response_max_active = max(self.response_max_active, self.brain_view.active_count)
                 if config.experimental and self.brain_view.active_count and not self.response_active_capture:
                     self.grab().save(str(data_dir / (self.response_cases[self.response_index]+'-active.png')))
@@ -982,6 +990,9 @@ def main():
                     return
                 name = self.response_cases[self.response_index]
                 success = t['sim_time'] == .8 and not t['running'] and t['inhibition_gain'] == 1 and not t['circuit_inputs']
+                expected_label = {'defensive': 'FEAR', 'aversion': 'PAIN', 'heat': 'HEAT',
+                                  'seizure': 'SEIZURE', 'heat_overload': 'BOILING'}[name]
+                success &= expected_label in self.response_labels_seen and self.stimulation_banner.readout.text() == 'NONE'
                 if name == 'defensive':
                     success &= self.response_escape > .1 and self.response_offset > .02
                 elif name == 'aversion':
@@ -999,6 +1010,7 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append(name+' button runs, releases on schedule, and reports measured responses')
+                self.smoke_checks.append(expected_label+' appears during input and clears after release')
                 self.grab().save(str(data_dir / (name+'-app.png')))
                 panel.grab().save(str(data_dir / 'experiment-controls.png'))
                 self.response_generation = t['generation']+1
@@ -1017,10 +1029,12 @@ def main():
                     self.brain_panel.send('inhibition_gain', .25)
                     self.smoke_stage = 4
             elif self.smoke_stage == 4 and t['inhibition_gain'] == .25 and len(t['circuit_inputs']) == 2:
-                if t['sim_time'] != 0:
+                if (t['sim_time'] != 0 or self.stimulation_banner.labels != ('FEAR', 'BOILING')
+                        or 'PAUSED' not in self.stimulation_banner.clock.text()):
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('threat and heat inputs coexist while paused')
+                self.smoke_checks.append('combined FEAR + BOILING display retains inputs while paused')
                 panel.release.click()
                 self.smoke_stage = 5
             elif self.smoke_stage == 5 and not t['circuit_inputs'] and t['inhibition_gain'] == 1:

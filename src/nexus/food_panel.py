@@ -45,9 +45,8 @@ class FoodPanel(QGroupBox):
         demo.clicked.connect(lambda: send('food_demo'))
         demo.setEnabled(available)
         form.addRow(demo)
-        note = QLabel('Foot contact drives a pooled taste-input proxy.\nManual inputs and food inputs remain separate.' if available else 'Food remains physical. Taste feedback is unavailable\nuntil MaleCNS sugar cells are mapped.')
-        note.setWordWrap(True)
-        form.addRow(note)
+        if not available:
+            self.feedback.setToolTip('Not mapped for MaleCNS yet. See Guide.')
 
     def receive(self, food):
         for widget, value in ((self.present, food['present']), (self.feedback, food['enabled'])):
