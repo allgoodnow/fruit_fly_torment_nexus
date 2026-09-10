@@ -1,0 +1,94 @@
+{
+  "format": "nexus-descending-evidence-1",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "annotation_sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2",
+  "manifest_sha256": "5da5a8821f56f456ffac846957c346cecd8050b8d98e0ea69358556bc3db1adf",
+  "mdn_annotations": [
+    {
+      "bodyId": 10763,
+      "type": "MDN",
+      "somaSide": "R",
+      "mancType": "MDN",
+      "flywireType": "MDN"
+    },
+    {
+      "bodyId": 11288,
+      "type": "MDN",
+      "somaSide": "L",
+      "mancType": "MDN",
+      "flywireType": "MDN"
+    },
+    {
+      "bodyId": 11332,
+      "type": "MDN",
+      "somaSide": "R",
+      "mancType": "MDN",
+      "flywireType": "MDN"
+    },
+    {
+      "bodyId": 12348,
+      "type": "MDN",
+      "somaSide": "L",
+      "mancType": "MDN",
+      "flywireType": "MDN"
+    }
+  ],
+  "lbl40_annotations": [
+    {
+      "bodyId": 801214,
+      "type": "LBL40",
+      "somaSide": "R",
+      "mancType": "LBL40",
+      "flywireType": null
+    },
+    {
+      "bodyId": 801246,
+      "type": "LBL40",
+      "somaSide": "L",
+      "mancType": "LBL40",
+      "flywireType": null
+    }
+  ],
+  "mdn_to_lbl40_edges": [
+    {
+      "pre": 10763,
+      "post": 801246,
+      "contacts": 129,
+      "model_weight_mv": 35.475
+    },
+    {
+      "pre": 11288,
+      "post": 801214,
+      "contacts": 121,
+      "model_weight_mv": 33.275000000000006
+    },
+    {
+      "pre": 11332,
+      "post": 801246,
+      "contacts": 117,
+      "model_weight_mv": 32.175000000000004
+    },
+    {
+      "pre": 12348,
+      "post": 801214,
+      "contacts": 96,
+      "model_weight_mv": 26.400000000000002
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.nature.com/articles/s41467-020-19936-x",
+      "supports": "MDN command role in backward walking and LBL40 leg premotor involvement."
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12636578/",
+      "supports": "Abdominal md stimulation elicits rapid forward locomotion without consistent directional turning; current model retreat is a mismatch."
+    }
+  ],
+  "limitations": [
+    "Type correspondence and synapses do not validate firing dynamics.",
+    "Leg trajectories and rate-to-command mapping remain engineered.",
+    "No subjective-state inference."
+  ]
+}

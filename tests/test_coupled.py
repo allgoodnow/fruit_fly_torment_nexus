@@ -80,24 +80,24 @@ def test_neural_release_preserves_clocks_and_baseline_and_rejected_sequence_pres
     assert session.protocol is None and brain.time == .01
 
 
-def test_aversion_interrupts_rest_and_motor_ablation_preserves_neural_state():
-    from test_scenarios import brain as circuit_brain
+def test_descending_command_interrupts_rest_and_motor_ablation_preserves_neural_state():
+    from test_descending import brain as circuit_brain, MDN
     sessions = [CoupledSession(circuit_brain(), ClockBody(), autonomous=True) for _ in range(2)]
     for index, s in enumerate(sessions):
         s.behavior.phase, s.behavior.remaining = 'resting', 2.
         s.command('motor_effects_enabled', index == 0)
-        s.command('circuit', {'name': 'aversion_proxy', 'rate_hz': 100})
+        s.command('stimulate', {'ids': MDN, 'rate_hz': 100})
         s.advance(3000)
     active, blocked = sessions
     assert active.behavior.interrupted and not blocked.behavior.interrupted
     assert not active.body.commands[-1][1].get('resting')
     assert blocked.body.commands[-1][1]['resting']
     motor = active.motor_output(active.behavior.output(1.))
-    assert motor['drive'] < .6 and motor['avoidance_turn'] > .4
+    assert motor['drive'] < -.6 and motor['turn'] == 0
     np.testing.assert_array_equal(active.brain.counts, blocked.brain.counts)
     np.testing.assert_array_equal(active.brain.v, blocked.brain.v)
     active.command('neural_release')
     active.advance(10000)
-    assert active.motor_effects.output()['avoidance'] == 0
+    assert active.motor_effects.output()['retreat'] == 0
     assert not active.behavior.interrupted
     assert active.body.commands[-1][1]['resting']

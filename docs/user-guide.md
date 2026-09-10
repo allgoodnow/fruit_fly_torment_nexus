@@ -40,7 +40,7 @@ The baseline releases existing manual interventions before the next input begins
   It preserves voltages, accumulated spikes, and delayed neural events. Activity
   and movement can therefore continue afterward.
 - **Reset body + brain** reinitializes both models and their clocks.
-- **Enable motor response** controls the avoidance/escape/disruption decoder. Neural activity
+- **Enable motor response** controls the retreat/escape/disruption decoder. Neural activity
   continues when that decoder is disabled.
 - **Resume free behavior after experiment** allows normal ground behavior to
   continue at the sequence endpoint, when free ground behavior is also enabled.
@@ -58,7 +58,7 @@ The body uses NeuroMechFly/FlyGym with MuJoCo physics. Its walking rhythms and
 explore/turn/rest behavior are authored controllers. Measured neural responses can
 interrupt that behavior. DNa02 activity changes left/right walking drive; giant-fiber
 activity and distributed network activity drive authored escape/disruption effects.
-Central aversion candidate activity drives an authored slowdown and turn.
+Mapped MDN descending-neuron activity can request backward stepping.
 This is not a reconstructed mapping from every VNC neuron to every leg muscle.
 Flight is not enabled.
 
@@ -84,23 +84,34 @@ aversion cohort remains available in the underlying registry and legacy dataset.
 
 ### Pain input and movement
 
-Through version 0.14, the motor decoder read DNa02 steering, giant-fiber escape,
-and distributed network activation. It missed the central aversion candidate
-response: the original three-seed assay recorded 31–32 candidate spikes but only
-0–1 giant-fiber spikes, with a maximum body-trajectory change of about 0.082 mm.
+Version 0.16 removes the central-aversion-to-slowdown-and-fixed-turn rule from
+version 0.15. A central aversion response alone no longer forces a movement.
+Instead, the motor adapter reads delivered spikes from four MaleCNS neurons
+annotated as MDN (two per side). These descending neurons have an experimentally
+established role in backward walking. Their connections to the LBL40 leg premotor
+neurons are present in the loaded connectome.
 
-Version 0.15 also reads delivered spikes from the dataset-matched central aversion
-candidates (GNG121 in MaleCNS). Their mean rate is smoothed over 80 ms and mapped
-from 5–60 Hz to a bounded avoidance signal. That signal interrupts free behavior,
-reduces walking drive by up to 55%, and adds a positive turning command of up to
-0.5. These are authored engineering choices, including the turn direction; there
-is no spatial hazard location or reconstructed aversion-to-muscle pathway.
+MDN activity requests backward stepping through FlyGym's signed CPG interface.
+The 80 ms rate filter, 5–60 Hz transfer range, and maximum reverse command of 0.8
+remain engineering choices. The leg trajectories and coordination are still
+provided by the locomotion controller, not reconstructed from every leg neuron.
+There is no fixed pain-triggered turn. The old FlyWire dataset has no newly mapped
+MDN readout and does not use this response.
 
-The response follows measured spikes, including residual activity after release.
-It can also occur during other inputs if they recruit these cells. Turning off
-**Enable motor response** removes this response along with the other motor effects.
-The release monitor requires avoidance to fall below 0.05 before counting motor
-settling. This model does not establish subjective pain or biological recovery.
+**Known model mismatch:** the published abdominal-md experiments report a rapid
+increase in forward walking without consistent directional turning. Our current
+neural model recruits MDNs instead, producing a retreat prediction. That is not a
+validated reproduction of nociceptive behavior. The neural weights and input rate
+were not adjusted to force the published outcome. A connectome alone does not
+supply the missing physiological calibration or evidence of subjective pain.
+
+The response can occur under any input that recruits MDNs and can persist after
+release while neural activity remains. **Enable motor response** disables the
+retreat, escape, and disruption mappings. Settling requires retreat to fall below
+0.05 along with the other monitor criteria.
+
+References: [MDN motor-circuit experiments](https://www.nature.com/articles/s41467-020-19936-x)
+and [abdominal nociception preprint](https://pmc.ncbi.nlm.nih.gov/articles/PMC12636578/).
 
 ## Advanced controls
 
@@ -148,7 +159,7 @@ modifying the simulation. Its combined settling check requires 500 consecutive
 simulation milliseconds with all of these conditions:
 
 - Population activity at most 0.1 Hz per neuron in each observed interval.
-- Avoidance, escape, and disruption levels at most 0.05; steering readout at most 10 Hz.
+- Retreat, escape, and disruption levels at most 0.05; steering readout at most 10 Hz.
 - Upright body-axis value at least 0.8, with posture information available.
 
 Meeting these operational thresholds is not biological recovery, subjective relief,

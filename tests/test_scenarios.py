@@ -108,27 +108,3 @@ def test_motor_proxy_uses_neural_counts_excludes_direct_input_and_supports_ablat
     assert effects.output()['disruption'] < .0001 and effects.output()['escape'] < .0001
     effects.reset()
     assert effects.output()['disruption'] == effects.output()['escape'] == 0
-
-
-def test_aversion_readout_obeys_spikes_output_gains_ablation_and_decay():
-    b = brain()
-    effects = MotorEffects(b)
-    counts, gains = np.zeros(len(b.counts)), np.ones(len(b.counts))
-    counts[effects.aversion] = 1
-    for _ in range(30):
-        effects.observe(counts, .01, gains, effects.aversion)
-    assert effects.output()['avoidance'] > .9
-    assert effects.output()['escape'] == effects.output()['disruption'] == 0
-    effects.avoidance_enabled = False
-    assert effects.output()['avoidance'] == 0
-    effects.avoidance_enabled = True
-    effects.enabled = False
-    assert effects.output()['avoidance'] == 0
-    assert effects.output()['aversion_hz'] > 0
-    effects.enabled = True
-    gains[effects.aversion] = 0
-    for _ in range(100):
-        effects.observe(counts, .01, gains, effects.aversion)
-    assert effects.output()['avoidance'] == 0
-    effects.reset()
-    assert effects.output()['aversion_hz'] == 0

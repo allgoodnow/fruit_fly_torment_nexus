@@ -472,7 +472,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "0.15.0", "started_at": self.started_at,
+            return {"version": "0.16.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": False, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -854,7 +854,8 @@ def main():
                 self.smoke_stage = 1
             elif self.smoke_stage == 1:
                 self.response_peak = self.response_escape = self.response_offset = 0.
-                self.response_avoidance = self.response_avoidance_turn = 0.
+                self.response_retreat = 0.
+                self.response_min_drive = 1.
                 self.response_temperature = None
                 self.response_max_active = 0
                 self.response_active_capture = False
@@ -871,8 +872,8 @@ def main():
                     self.response_active_capture = True
                 self.response_peak = max(self.response_peak, effects['disruption'])
                 self.response_escape = max(self.response_escape, effects['escape'])
-                self.response_avoidance = max(self.response_avoidance, effects['avoidance'])
-                self.response_avoidance_turn = max(self.response_avoidance_turn, t['motor_bridge']['avoidance_turn'])
+                self.response_retreat = max(self.response_retreat, effects['retreat'])
+                self.response_min_drive = min(self.response_min_drive, t['motor_bridge']['drive'])
                 self.response_offset = max(self.response_offset, self.telemetry['motor_offset_rms_rad'])
                 if t['nominal_temperature_c'] is not None:
                     self.response_temperature = t['nominal_temperature_c']
@@ -887,7 +888,8 @@ def main():
                     success &= self.response_escape > .1 and self.response_offset > .02
                 elif name == 'aversion':
                     success &= t['total_spikes'] > 0 and any(e.get('circuit') == config.pain_circuit for e in t['interventions'])
-                    success &= self.response_avoidance > .2 and self.response_avoidance_turn > .1
+                    if config.experimental:
+                        success &= self.response_retreat > .2 and self.response_min_drive < 0
                 elif name == 'heat':
                     success &= self.response_temperature == 40 and t['total_spikes'] > 1000
                 else:

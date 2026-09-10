@@ -60,6 +60,7 @@ def test_recorder_preserves_existing_state_and_exact_non_round_endpoint(tmp_path
     assert result['success'] and result['elapsed_ms'] == 23.1 and result['samples'] == 3
     trace = [json.loads(line) for line in (tmp_path/'run/trace.jsonl').read_text().splitlines()]
     assert [(r['from_ms'], r['to_ms']) for r in trace] == [(100., 110.), (110., 120.), (120., 123.1)]
+    assert sum(r['longitudinal_delta_mm'] for r in trace) == pytest.approx(.0231)
     counts = np.load(tmp_path/'run/counts.npz')
     np.testing.assert_array_equal(counts['start_counts'], starting)
     assert result['total_spikes'] == int((counts['end_counts']-counts['start_counts']).sum())

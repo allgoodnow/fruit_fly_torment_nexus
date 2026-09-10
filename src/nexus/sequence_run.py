@@ -58,6 +58,9 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
         session.command('protocol', description)
         with (output/'trace.jsonl').open('x') as stream:
             while session.running:
+                before_position = body.position()
+                forward = body.sim.mj_data.xmat[body.thorax_id].reshape(3, 3)[:2, 0].copy()
+                forward /= max(float(np.linalg.norm(forward)), 1e-9)
                 session.advance(100)
                 if (not np.isfinite(brain.v).all() or not np.isfinite(brain.g).all()
                         or not np.isfinite(body.sim.mj_data.qpos).all()
@@ -72,6 +75,7 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
                     'spikes': int(delta.sum()), 'active_cells': int(np.count_nonzero(delta)),
                     'population_hz_per_neuron': float(delta.sum()/seconds/len(delta)),
                     'position_mm': body.position().tolist(),
+                    'longitudinal_delta_mm': float(np.dot((body.position()-before_position)[:2], forward)),
                     'upright': float(body.sim.mj_data.xmat[body.thorax_id].reshape(3, 3)[2, 2]),
                     'joint_offset_rms_rad': body.motor_offset_rms,
                     'behavior': session.behavior.output(session.baseline),

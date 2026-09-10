@@ -1,0 +1,298 @@
+{
+  "format": "nexus-descending-body-assay-1",
+  "version": "0.16.0",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "duration_ms_per_trial": 2400,
+  "protocol_sha256": "6e3331560e0b7418254a56f16022203294ae69314e2be2ef6fe36725fbdd36b7",
+  "manifest_sha256": "5da5a8821f56f456ffac846957c346cecd8050b8d98e0ea69358556bc3db1adf",
+  "trials": [
+    {
+      "seed": 73100,
+      "condition": "intact",
+      "spikes": 38739,
+      "peak_descending_during_input": 1.0,
+      "minimum_drive_during_input": -0.8,
+      "backward_distance_during_input_mm": 0.8224973316895852,
+      "net_longitudinal_during_input_mm": -0.06553685655575925,
+      "final_descending": 0.0,
+      "minimum_upright": 0.9888256473778149,
+      "final_upright": 0.9999373073979052,
+      "final_behavior": "resting",
+      "recovery": "settled",
+      "final_position_mm": [
+        18.39722642269287,
+        -5.238277824859211,
+        1.0716976140971406
+      ],
+      "report_sha256": "e1fc15f7111998fdd5ab5d8a32cfec10b9c9546a618295677227204ad1aac590"
+    },
+    {
+      "seed": 73100,
+      "condition": "descending_blocked",
+      "spikes": 38739,
+      "peak_descending_during_input": 0.0,
+      "minimum_drive_during_input": 0.9682778817886468,
+      "backward_distance_during_input_mm": 0.0010402430459384993,
+      "net_longitudinal_during_input_mm": 4.048888842971122,
+      "final_descending": 0.0,
+      "minimum_upright": 0.9875208303891111,
+      "final_upright": 0.9981710617439057,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.71676317670274,
+        -9.676773594417948,
+        1.1102377394978695
+      ],
+      "report_sha256": "d5dc9fb9a67ec9b79294eaf9b1db49229fc75d4699185cada2698b8302967c9a"
+    },
+    {
+      "seed": 73100,
+      "condition": "source_outputs_blocked",
+      "spikes": 705,
+      "peak_descending_during_input": 0.0,
+      "minimum_drive_during_input": 1.0,
+      "backward_distance_during_input_mm": 0.0010423600425574775,
+      "net_longitudinal_during_input_mm": 4.074559546011183,
+      "final_descending": 0.0,
+      "minimum_upright": 0.987167150489532,
+      "final_upright": 0.9982898664389145,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.532470083396042,
+        -9.945125782085126,
+        1.1117360647096266
+      ],
+      "report_sha256": "7c8bfd782cc99677204d4fe7a686dafb9efdc14673cd37000259d0e0253cfc8a"
+    },
+    {
+      "seed": 73100,
+      "condition": "mdn_outputs_blocked",
+      "spikes": 34976,
+      "peak_descending_during_input": 0.0,
+      "minimum_drive_during_input": 0.9682778817886468,
+      "backward_distance_during_input_mm": 0.0010402430459384993,
+      "net_longitudinal_during_input_mm": 4.048888842971122,
+      "final_descending": 0.0,
+      "minimum_upright": 0.9875208303891111,
+      "final_upright": 0.9981710617439057,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.71676317670274,
+        -9.676773594417948,
+        1.1102377394978695
+      ],
+      "report_sha256": "55ab6b888ad4835cffe9e6e1cb960490a7d3faad5e1a7243df272dfcb7cdc97c"
+    },
+    {
+      "seed": 73100,
+      "condition": "baseline",
+      "spikes": 0,
+      "peak_descending_during_input": 0.0,
+      "minimum_drive_during_input": 1.0,
+      "backward_distance_during_input_mm": 0.0010423600425574775,
+      "net_longitudinal_during_input_mm": 4.074559546011183,
+      "final_descending": 0.0,
+      "minimum_upright": 0.987167150489532,
+      "final_upright": 0.9982898664389145,
+      "final_behavior": "exploring",
+      "recovery": "no_input_yet",
+      "final_position_mm": [
+        19.532470083396042,
+        -9.945125782085126,
+        1.1117360647096266
+      ],
+      "report_sha256": "323d5af4e24f64c485ce58adb717ae9f1da2e061b5543afbf391104fb6e512d3"
+    },
+    {
+      "seed": 73101,
+      "condition": "intact",
+      "spikes": 38434,
+      "peak_descending_during_input": 0.9761406871965955,
+      "minimum_drive_during_input": -0.7571184682469186,
+      "backward_distance_during_input_mm": 0.25517921787948816,
+      "net_longitudinal_during_input_mm": 0.702132974216638,
+      "final_descending": 0.0,
+      "minimum_upright": 0.9848628144948323,
+      "final_upright": 0.9904832093389921,
+      "final_behavior": "resting",
+      "recovery": "settled",
+      "final_position_mm": [
+        18.691038627882687,
+        -5.825947038911674,
+        1.1395802395189523
+      ],
+      "report_sha256": "df1a42bade223add0c18deac5e36230f9f678a833e85166bcaf40cf513c4408b"
+    },
+    {
+      "seed": 73101,
+      "condition": "descending_blocked",
+      "spikes": 38434,
+      "peak_descending_during_input": 0.0,
+      "minimum_drive_during_input": 0.9666930963125859,
+      "backward_distance_during_input_mm": 0.0010402430459384993,
+      "net_longitudinal_during_input_mm": 4.046856091055361,
+      "final_descending": 0.0,
+      "minimum_upright": 0.9882739301158106,
+      "final_upright": 0.9982779610091552,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.56509171300673,
+        -9.815767459526956,
+        1.106975763482122
+      ],
+      "report_sha256": "b3becad5e02ef8cca6145455866eeb9dc21015f53c7c2110a7c5f10f71111405"
+    },
+    {
+      "seed": 73102,
+      "condition": "intact",
+      "spikes": 37720,
+      "peak_descending_during_input": 0.8279103577121074,
+      "minimum_drive_during_input": -0.4905561931653287,
+      "backward_distance_during_input_mm": 0.23062447237976913,
+      "net_longitudinal_during_input_mm": 0.8154464712951139,
+      "final_descending": 0.0,
+      "minimum_upright": 0.988500764056031,
+      "final_upright": 0.9994936263978165,
+      "final_behavior": "resting",
+      "recovery": "settled",
+      "final_position_mm": [
+        18.847795630484395,
+        -5.689423211476083,
+        1.102623542066836
+      ],
+      "report_sha256": "5cbd8053dd86ab05d428aab888a419e9e9a270b4f64a62d00f66f77649785bc2"
+    },
+    {
+      "seed": 73102,
+      "condition": "descending_blocked",
+      "spikes": 37720,
+      "peak_descending_during_input": 0.0,
+      "minimum_drive_during_input": 0.983346548156293,
+      "backward_distance_during_input_mm": 0.0010423600425574775,
+      "net_longitudinal_during_input_mm": 4.053566865427683,
+      "final_descending": 0.0,
+      "minimum_upright": 0.9870943462833288,
+      "final_upright": 0.9982617055114993,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.55857570168449,
+        -9.953775187037747,
+        1.1119213915875046
+      ],
+      "report_sha256": "8a9ea7d52d5565f0018d79fb84e7dd9210e69f2527805ebeed0db1a0d65a1527"
+    }
+  ],
+  "comparisons": [
+    {
+      "seed": 73100,
+      "neural_counts_identical_with_descending_blocked": true,
+      "maximum_position_difference_mm": 6.053673619609573,
+      "matches_v014_neural_counts": true,
+      "baseline_trajectory_identical": true,
+      "net_displacement_during_reverse_command_mm": -0.8249995140279723,
+      "reverse_command_duration_ms": 250.0,
+      "settled_at_ms": 1060.0
+    },
+    {
+      "seed": 73101,
+      "neural_counts_identical_with_descending_blocked": true,
+      "maximum_position_difference_mm": 5.178676881928037,
+      "baseline_trajectory_identical": true,
+      "net_displacement_during_reverse_command_mm": -0.23975381366182455,
+      "reverse_command_duration_ms": 150.0,
+      "settled_at_ms": 1050.0
+    },
+    {
+      "seed": 73102,
+      "neural_counts_identical_with_descending_blocked": true,
+      "maximum_position_difference_mm": 5.25449964100705,
+      "baseline_trajectory_identical": true,
+      "net_displacement_during_reverse_command_mm": -0.11168146488238127,
+      "reverse_command_duration_ms": 150.0,
+      "settled_at_ms": 1060.0
+    }
+  ],
+  "interpretation": "MDN command-level retreat through the upstream signed CPG. Gains and leg controller remain engineered. Model recruitment of MDN differs from published md-evoked forward running; no claim of validated nociceptive behavior or subjective pain.",
+  "created_at": "2026-09-10T12:28:02.993790+00:00",
+  "unit_tests": {
+    "passed": 103,
+    "seconds": 8.96
+  },
+  "packaged_acceptance": {
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab"
+    ],
+    "sha256": "b732b086a129e55f7b67c43201f06dd762bebaf7aa472ca86ab4e67c52130bed",
+    "pain_check_requires_mdn_retreat_and_negative_drive": true
+  },
+  "packaged_sequence": {
+    "report_sha256": "860c959b0a1885ad242577acf9281715363b4ccb4f425903697c5d91e77ae85e",
+    "exact_trace_and_counts_match_source": true
+  },
+  "readout_evidence": {
+    "file": "experiments/descending-evidence-v1.json",
+    "sha256": "195f8521533a3b6fe9197ef7863caed489e563958c7aa93ed98d2b72f5223ba7"
+  },
+  "lbl40_readout_counts": {
+    "intact": [
+      17,
+      21
+    ],
+    "descending_blocked": [
+      17,
+      21
+    ],
+    "source_outputs_blocked": [
+      0,
+      0
+    ],
+    "mdn_outputs_blocked": [
+      1,
+      1
+    ]
+  },
+  "authored_mapping": {
+    "readout": "MaleCNS MDN delivered spikes; no aversion-to-turn mapping",
+    "smoothing_ms": 80,
+    "rate_range_hz": [
+      5,
+      60
+    ],
+    "maximum_reverse_command": 0.8,
+    "body_adapter": "upstream FlyGym signed CPG; no reconstructed muscle controller"
+  },
+  "known_mismatch": "Published abdominal-md stimulation produces rapid forward locomotion; this model and partial motor readout recruit retreat instead. Not a validated nociception simulation.",
+  "source_hashes": {
+    "src/nexus/brain/motor_effects.py": "b1a487e173bcc7975847c194ee6ba9644ab61f3f56a343a9e5d1d1f0308aa583",
+    "src/nexus/body.py": "7cb1e0d4a63d5ddb03e7782d6967eb1f08cd4421edc4c9f586a7ccbbf3cfdc08",
+    "src/nexus/coupled.py": "54792026fc4a4239f0042ee85419db68675abb55488f094087514950b4421570",
+    "src/nexus/recovery.py": "a3b945810a13ca3c6e7d514a9bc090f92fa5b2f8e9c822a5e4ac636dd839a7cd",
+    "src/nexus/sequence_run.py": "18771c9bcc999fe1b8aa0f64d614a9bd8cb3862deeef8b8dd19ba2ec084cee53",
+    "src/nexus/app.py": "a5daf7731f7286c080ee00444e304c0afc24ec16d850a8d577dc7a240537dc53",
+    "scripts/probe_descending_body.py": "6f82ce36bef0012a44248db437088e2ecf9ad5933dfb60c80da033097e49ae6f",
+    "scripts/audit_descending_pathway.py": "1f4a1d54b5e61e043f82e06fa92bfafe688b20c097388c4fc751b1c731512ea2",
+    "docs/user-guide.md": "ddacde0c17e8815495388cbbe03599f56fd5eb66559ac305b31986e11e06b6fa"
+  }
+}

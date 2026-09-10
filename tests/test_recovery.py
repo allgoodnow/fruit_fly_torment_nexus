@@ -10,9 +10,9 @@ from nexus.brain.motor import DNA02
 from test_coupled import ClockBody, small_brain
 
 
-def observe(monitor, end, *, spikes=0, upright=1., escape=0., disruption=0., steering=0., avoidance=0.):
+def observe(monitor, end, *, spikes=0, upright=1., escape=0., disruption=0., steering=0., retreat=0.):
     monitor.observe(end, spikes, 100, escape=escape, disruption=disruption,
-                    steering_hz=steering, upright=upright, avoidance=avoidance)
+                    steering_hz=steering, upright=upright, retreat=retreat)
 
 
 def released_monitor():
@@ -41,7 +41,7 @@ def test_release_never_claims_settling_and_paused_wall_time_does_not_count():
 
 
 @pytest.mark.parametrize('failure', [{'spikes': 10}, {'upright': -1}, {'upright': None},
-                                   {'escape': .1}, {'disruption': .1}, {'steering': 20}, {'avoidance': .1}])
+                                   {'escape': .1}, {'disruption': .1}, {'steering': 20}, {'retreat': .1}])
 def test_each_condition_independently_prevents_a_false_recovery(failure):
     m = released_monitor()
     for tick in range(200, 5300, 100):

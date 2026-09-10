@@ -123,12 +123,15 @@ class FlyBody:
         if not all(math.isfinite(float(v)) and 0 <= v <= 1 for v in (escape, disruption)):
             raise ValueError('Motor effects must be finite levels between zero and one')
         count = max(1, round(seconds / self.sim.timestep))
-        drive = float(np.clip(drive+.3*escape, 0.0, 1.3))
+        drive = float(np.clip(drive+.3*escape, -.8, 1.3))
         turn = float(np.clip(turn, -0.6, 0.6))
         for _ in range(count):
             # Authored exploration signal. This is deliberately not called a brain.
             steering = (0.22 * math.sin(self.time * 0.8) + 0.1 * math.sin(self.time * 2.1)) if wander else turn
-            signal = np.clip([drive + steering, drive - steering], 0.0, 1.5)
+            # Preserve the original nonnegative commands during forward walking.
+            # Signed upstream CPG frequencies reverse the step cycle for retreat.
+            signal = np.clip([drive + steering, drive - steering],
+                             -.8 if drive < 0 else 0., 0. if drive < 0 else 1.5)
             obs = HybridControllerObservation.from_sim(self.sim, self.fly.name)
             if resting and not (escape or disruption):
                 if self.rest_angles is None:
