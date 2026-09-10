@@ -76,6 +76,7 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
                     'joint_offset_rms_rad': body.motor_offset_rms,
                     'behavior': session.behavior.output(session.baseline),
                     'motor_effects': session.motor_effects.output(),
+                    'motor_command': session.motor_output(session.behavior.output(session.baseline)),
                     'recovery': session.recovery.status(),
                 }
                 stream.write(json.dumps(row, allow_nan=False)+'\n')

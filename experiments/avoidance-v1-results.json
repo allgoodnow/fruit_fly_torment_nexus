@@ -1,0 +1,268 @@
+{
+  "format": "nexus-avoidance-body-assay-1",
+  "version": "0.15.0",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "duration_ms_per_trial": 2400,
+  "protocol_sha256": "6e3331560e0b7418254a56f16022203294ae69314e2be2ef6fe36725fbdd36b7",
+  "manifest_sha256": "5da5a8821f56f456ffac846957c346cecd8050b8d98e0ea69358556bc3db1adf",
+  "trials": [
+    {
+      "seed": 73100,
+      "condition": "intact",
+      "spikes": 38739,
+      "peak_avoidance_during_input": 1.0,
+      "minimum_drive_during_input": 0.4484182901005074,
+      "peak_avoidance_turn": 0.5,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.9864409048981297,
+      "final_upright": 0.9983161007860897,
+      "final_behavior": "resting",
+      "recovery": "settled",
+      "final_position_mm": [
+        9.159866985483944,
+        -17.918096571368327,
+        1.0607400106844078
+      ],
+      "report_sha256": "500c056bb40f9a0e7be1dde684b04d80d6b767ffc1c14d8415a3180de46da1d5"
+    },
+    {
+      "seed": 73100,
+      "condition": "avoidance_blocked",
+      "spikes": 38739,
+      "peak_avoidance_during_input": 0.0,
+      "minimum_drive_during_input": 0.9682778817886468,
+      "peak_avoidance_turn": 0.0,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.9875208303891111,
+      "final_upright": 0.9981710617439057,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.71676317670274,
+        -9.676773594417948,
+        1.1102377394978695
+      ],
+      "report_sha256": "b04f8adc3aec0006fa14e70cf0c208c8dca5893ec39e49ddca83d93ab19ae63a"
+    },
+    {
+      "seed": 73100,
+      "condition": "source_outputs_blocked",
+      "spikes": 705,
+      "peak_avoidance_during_input": 0.0,
+      "minimum_drive_during_input": 1.0,
+      "peak_avoidance_turn": 0.0,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.987167150489532,
+      "final_upright": 0.9982898664389145,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.532470083396042,
+        -9.945125782085126,
+        1.1117360647096266
+      ],
+      "report_sha256": "167cb39c1f15ec37df1e757265120939ee0f4db133c7f25ad10079bac42fa1aa"
+    },
+    {
+      "seed": 73100,
+      "condition": "candidate_outputs_blocked",
+      "spikes": 39574,
+      "peak_avoidance_during_input": 0.0,
+      "minimum_drive_during_input": 0.9682778817886468,
+      "peak_avoidance_turn": 0.007955953370638433,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.9875208303891111,
+      "final_upright": 0.9982566802497335,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.596393855542996,
+        -9.809512270850314,
+        1.1121235130737797
+      ],
+      "report_sha256": "1bb8f992e3b26745bdaef0ed2c5b73bc27071d7604b3badd92d51d3449d5a1d2"
+    },
+    {
+      "seed": 73100,
+      "condition": "baseline",
+      "spikes": 0,
+      "peak_avoidance_during_input": 0.0,
+      "minimum_drive_during_input": 1.0,
+      "peak_avoidance_turn": 0.0,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.987167150489532,
+      "final_upright": 0.9982898664389145,
+      "final_behavior": "exploring",
+      "recovery": "no_input_yet",
+      "final_position_mm": [
+        19.532470083396042,
+        -9.945125782085126,
+        1.1117360647096266
+      ],
+      "report_sha256": "8d39b33a05a01a654fb0b2a2a56c91e98aa43cf6bf0b1872c7976e97994a274e"
+    },
+    {
+      "seed": 73101,
+      "condition": "intact",
+      "spikes": 38434,
+      "peak_avoidance_during_input": 0.9472694523878243,
+      "minimum_drive_during_input": 0.4770481231431293,
+      "peak_avoidance_turn": 0.47363472619391217,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.9860328533442163,
+      "final_upright": 0.9978661489241718,
+      "final_behavior": "resting",
+      "recovery": "settled",
+      "final_position_mm": [
+        8.127525200054063,
+        -18.75852421806885,
+        1.083189087347213
+      ],
+      "report_sha256": "99e8204312d9057f2bed69eaed58717cdb1cb2cacc5d60f44a8415e759b15a93"
+    },
+    {
+      "seed": 73101,
+      "condition": "avoidance_blocked",
+      "spikes": 38434,
+      "peak_avoidance_during_input": 0.0,
+      "minimum_drive_during_input": 0.9666930963125859,
+      "peak_avoidance_turn": 0.0,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.9882739301158106,
+      "final_upright": 0.9982779610091552,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.56509171300673,
+        -9.815767459526956,
+        1.106975763482122
+      ],
+      "report_sha256": "7efd1fc72eac89a41881606b9752afc6bdbf3613fe1374b22566a6f7f50b6eb6"
+    },
+    {
+      "seed": 73102,
+      "condition": "intact",
+      "spikes": 37720,
+      "peak_avoidance_during_input": 0.9080889090796284,
+      "minimum_drive_during_input": 0.4988681100870972,
+      "peak_avoidance_turn": 0.46087385429533423,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.9858454640393628,
+      "final_upright": 0.9999658397733913,
+      "final_behavior": "resting",
+      "recovery": "settled",
+      "final_position_mm": [
+        6.913267915882205,
+        -19.237994046098514,
+        1.053929576315408
+      ],
+      "report_sha256": "3ae360450268aea99ee3769b659e86274513b3bf557e94a292d88f489c0e768c"
+    },
+    {
+      "seed": 73102,
+      "condition": "avoidance_blocked",
+      "spikes": 37720,
+      "peak_avoidance_during_input": 0.0,
+      "minimum_drive_during_input": 0.983346548156293,
+      "peak_avoidance_turn": 0.0,
+      "final_avoidance": 0.0,
+      "minimum_upright": 0.9870943462833288,
+      "final_upright": 0.9982617055114993,
+      "final_behavior": "exploring",
+      "recovery": "settled",
+      "final_position_mm": [
+        19.55857570168449,
+        -9.953775187037747,
+        1.1119213915875046
+      ],
+      "report_sha256": "c06b97d4474ff0cc25b16055f7a92a03e6c8746276718419c5970e39206f87da"
+    }
+  ],
+  "comparisons": [
+    {
+      "seed": 73100,
+      "neural_counts_identical_with_avoidance_blocked": true,
+      "maximum_position_difference_mm": 14.917220356801913,
+      "matches_v014_neural_counts": true,
+      "baseline_trajectory_identical": true,
+      "position_difference_at_release_mm": 1.4792008940897459,
+      "avoidance_first_ms": 130.0,
+      "avoidance_last_ms": 550.0,
+      "settled_at_ms": 1050.0
+    },
+    {
+      "seed": 73101,
+      "neural_counts_identical_with_avoidance_blocked": true,
+      "maximum_position_difference_mm": 16.208359572899788,
+      "baseline_trajectory_identical": true,
+      "position_difference_at_release_mm": 1.5366257071962623,
+      "avoidance_first_ms": 130.0,
+      "avoidance_last_ms": 610.0,
+      "settled_at_ms": 1110.0
+    },
+    {
+      "seed": 73102,
+      "neural_counts_identical_with_avoidance_blocked": true,
+      "maximum_position_difference_mm": 17.148489249670135,
+      "baseline_trajectory_identical": true,
+      "position_difference_at_release_mm": 1.5473471833746766,
+      "avoidance_first_ms": 120.0,
+      "avoidance_last_ms": 610.0,
+      "settled_at_ms": 1110.0
+    }
+  ],
+  "interpretation": "Authored slowdown and turn driven by measured candidate spikes; not a validated biological avoidance gait or subjective-state measurement.",
+  "created_at": "2026-09-10T12:09:25.836731+00:00",
+  "unit_tests": {
+    "passed": 101,
+    "seconds": 8.91
+  },
+  "packaged_acceptance": {
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab"
+    ],
+    "sha256": "b32df6273c7107c2fa61086d0e40a7cc28013dff34cf9590cce4c930142c02fa",
+    "pain_check_requires_avoidance_and_turn": true
+  },
+  "packaged_sequence": {
+    "report_sha256": "cd0b0665842dddd9fd2e7fdffd0818352994fa51fcd75236fa47823f65c665f1",
+    "exact_trace_and_counts_match_source": true
+  },
+  "authored_mapping": {
+    "readout": "dataset-matched aversion_proxy delivered spikes",
+    "rate_smoothing_ms": 80,
+    "rate_range_hz": [
+      5,
+      60
+    ],
+    "maximum_drive_reduction": 0.55,
+    "maximum_positive_turn": 0.5,
+    "direction": "fixed convention; no spatial hazard localization"
+  },
+  "source_hashes": {
+    "src/nexus/brain/motor_effects.py": "1892a4742db516b5f65b5e65dfc464c22e559c2a245fb737fe0563565039ac0b",
+    "src/nexus/coupled.py": "874385eb4b91d4f0f12bc0b5fa568e3e3eeddd227c05bad759c8417202a022b3",
+    "src/nexus/recovery.py": "3b333ed3094a34b2f308568f5a3db577e13b905540fc5a96031c38595f2ffc32",
+    "src/nexus/sequence_run.py": "b8cba19ab9f16b010b7f78c380a247f79d7e7716427f023fd876bdb9b7573ea5",
+    "src/nexus/app.py": "0651a55ae245f52acfdcb6653644d5d2ae9fb0bfdd9fb70aa4d554668b319323",
+    "scripts/probe_avoidance_body.py": "6852adffecc6a549263f00ad9f4dd112e01d8a0f6a4092ec444617d2719be4d8",
+    "docs/user-guide.md": "342194abde0ebe2ffe07f5a43412fdb011de92238e7f87976acf8caca4c59a2a"
+  }
+}

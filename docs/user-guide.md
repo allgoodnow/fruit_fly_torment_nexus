@@ -40,7 +40,7 @@ The baseline releases existing manual interventions before the next input begins
   It preserves voltages, accumulated spikes, and delayed neural events. Activity
   and movement can therefore continue afterward.
 - **Reset body + brain** reinitializes both models and their clocks.
-- **Enable motor response** controls the escape/disruption decoder. Neural activity
+- **Enable motor response** controls the avoidance/escape/disruption decoder. Neural activity
   continues when that decoder is disabled.
 - **Resume free behavior after experiment** allows normal ground behavior to
   continue at the sequence endpoint, when free ground behavior is also enabled.
@@ -58,6 +58,7 @@ The body uses NeuroMechFly/FlyGym with MuJoCo physics. Its walking rhythms and
 explore/turn/rest behavior are authored controllers. Measured neural responses can
 interrupt that behavior. DNa02 activity changes left/right walking drive; giant-fiber
 activity and distributed network activity drive authored escape/disruption effects.
+Central aversion candidate activity drives an authored slowdown and turn.
 This is not a reconstructed mapping from every VNC neuron to every leg muscle.
 Flight is not enabled.
 
@@ -81,18 +82,25 @@ annotations. Ambiguous, missing, and unclassified matches were excluded. This is
 an experimental nociception pathway, not evidence of felt pain. The older central
 aversion cohort remains available in the underlying registry and legacy dataset.
 
-### Why pain input may barely change walking
+### Pain input and movement
 
-The current walking decoder reads DNa02 steering activity, giant-fiber escape
-activity, and distributed network activation. It does not directly translate the
-GNG121 central aversion candidate response into an avoidance gait. In the recorded
-three-seed sensory-input assay, the central candidates produced 31–32 spikes during
-stimulation, but the giant fibers produced only 0–1 spikes and the disruption
-readout remained zero. The physical paired test measured a maximum trajectory
-change of about 0.082 mm. The input can therefore activate the investigated pathway
-while producing little visible walking change. A stronger visible avoidance
-response would require a separately investigated or explicitly authored motor
-mapping; increasing the label's prominence does not change that mapping.
+Through version 0.14, the motor decoder read DNa02 steering, giant-fiber escape,
+and distributed network activation. It missed the central aversion candidate
+response: the original three-seed assay recorded 31–32 candidate spikes but only
+0–1 giant-fiber spikes, with a maximum body-trajectory change of about 0.082 mm.
+
+Version 0.15 also reads delivered spikes from the dataset-matched central aversion
+candidates (GNG121 in MaleCNS). Their mean rate is smoothed over 80 ms and mapped
+from 5–60 Hz to a bounded avoidance signal. That signal interrupts free behavior,
+reduces walking drive by up to 55%, and adds a positive turning command of up to
+0.5. These are authored engineering choices, including the turn direction; there
+is no spatial hazard location or reconstructed aversion-to-muscle pathway.
+
+The response follows measured spikes, including residual activity after release.
+It can also occur during other inputs if they recruit these cells. Turning off
+**Enable motor response** removes this response along with the other motor effects.
+The release monitor requires avoidance to fall below 0.05 before counting motor
+settling. This model does not establish subjective pain or biological recovery.
 
 ## Advanced controls
 
@@ -140,7 +148,7 @@ modifying the simulation. Its combined settling check requires 500 consecutive
 simulation milliseconds with all of these conditions:
 
 - Population activity at most 0.1 Hz per neuron in each observed interval.
-- Escape and disruption levels at most 0.05; steering readout at most 10 Hz.
+- Avoidance, escape, and disruption levels at most 0.05; steering readout at most 10 Hz.
 - Upright body-axis value at least 0.8, with posture information available.
 
 Meeting these operational thresholds is not biological recovery, subjective relief,

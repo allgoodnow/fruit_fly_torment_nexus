@@ -102,6 +102,8 @@ class CoupledSession:
             self.motor_effects.enabled = bool(value)
         elif kind == 'motor_effects_enabled':
             self.motor_effects.enabled = bool(value)
+        elif kind == 'avoidance_enabled':
+            self.motor_effects.avoidance_enabled = bool(value)
         elif kind == 'autonomous':
             self.behavior.enabled = bool(value)
         elif kind == 'resume_after_protocol':
@@ -176,7 +178,7 @@ class CoupledSession:
             self.decoder.observe(counts[self.decoder.indices], elapsed, gains)
             self.motor_effects.observe(counts, elapsed, self.brain.output_gain, self.brain.inputs)
             effects = self.motor_effects.output()
-            interrupted = (effects['escape'] > .05 or effects['disruption'] > .05 or
+            interrupted = (effects['avoidance'] > .05 or effects['escape'] > .05 or effects['disruption'] > .05 or
                            (self.decoder.enabled and max(self.decoder.rates) > 10.))
             self.behavior.advance(elapsed, interrupted)
             behavior = self.behavior.output(self.baseline)
@@ -191,6 +193,7 @@ class CoupledSession:
                 raise RuntimeError('Body and brain clocks diverged')
             self.recovery.observe(self.brain.step, int(counts.sum()), len(counts),
                                   escape=effects['escape'], disruption=effects['disruption'],
+                                  avoidance=effects['avoidance'],
                                   steering_hz=float(max(self.decoder.rates)) if self.decoder.enabled else 0.,
                                   upright=self.body.upright() if hasattr(self.body, 'upright') else None)
             self.sync_environment()
@@ -202,11 +205,16 @@ class CoupledSession:
         self.sync_recovery()
 
     def motor_output(self, behavior):
-        motor = self.decoder.output(behavior['drive'])
+        avoidance = self.motor_effects.output()['avoidance']
+        motor = self.decoder.output(behavior['drive']*(1-.55*avoidance))
         motor['neural_turn'] = motor['turn']
-        motor['turn'] += behavior['turn']
-        motor['left_drive'] += behavior['turn']
-        motor['right_drive'] -= behavior['turn']
+        # Fixed positive turn is an authored convention: there is no spatial
+        # stimulus location from which a biologically directed turn can be read.
+        motor['avoidance_turn'] = .5*avoidance
+        turn = behavior['turn']+motor['avoidance_turn']
+        motor['turn'] += turn
+        motor['left_drive'] += turn
+        motor['right_drive'] -= turn
         return motor
 
     def snapshot(self):
