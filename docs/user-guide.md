@@ -12,8 +12,8 @@ The clock beside it uses simulation time.
 | FEAR | The looming-threat candidate circuit is being stimulated. |
 | PAIN | The nociception sensory candidates or the older central aversion candidates are being stimulated. |
 | SEIZURE | Inhibitory connection strength is reduced. The standard preset also supplies neural input. |
-| BOILING | The nominal 100°C warmth scenario is applied. The boiling preset also reduces inhibition; BOILING covers that combined preset. |
-| HEAT | Warmth input below the nominal boiling scenario, without reduced inhibition. |
+| BOILING | The nominal 100°C heat scenario is applied, including mapped thermal nociception when available. The boiling preset also reduces inhibition; BOILING covers that combined preset. |
+| HEAT | Heat input below the nominal boiling scenario, without reduced inhibition; high-temperature settings also recruit mapped nociceptive sensory cells. |
 | CUSTOM | Manually selected neurons are stimulated, outside a reduced-inhibition scenario. |
 | SILENCING | Selected neurons' outgoing effects are blocked. |
 | NONE | No monitored inputs or network overlays are currently applied. |
@@ -52,7 +52,7 @@ The baseline releases existing manual interventions before the next input begins
 
 The heat value is nominal. Warmth-cell input saturates at 40°C; selecting 100°C does
 not simulate tissue boiling, thermal damage, or short-circuits. The boiling preset
-adds an authored reduction of inhibition to the warmth input.
+adds an authored reduction of inhibition to the heat inputs.
 
 ## Body, brain, and camera
 
@@ -72,9 +72,13 @@ neurons** and **25,582,938 directed connections** in the prepared model. The liv
 view includes brain and ventral nerve cord (VNC) cell anchors. It displays 140,638
 positioned cells; 26,062 lack the required position information. Points are cell
 anchors, not complete neuron shapes. Red points indicate spikes during the last
-150 simulation milliseconds; black points identify stimulated targets. The raster
-below shows spike times against model neuron indices. The Body tab's graph shows
-controller leg activity instead of neural spikes.
+150 simulation milliseconds; black points identify stimulated targets. The graph
+below shows mean firing rate across all neurons in 10 ms simulation-time bins,
+retaining the last five simulated seconds. Every spike contributes, including
+those omitted from the bounded raw raster in diagnostics. Silent intervals remain
+visible as zero activity. Pause holds the data; reset clears it. This is a population
+spike rate, not an EEG or a readout of subjective feelings. The Body tab's graph
+shows controller leg activity instead of neural spikes.
 
 The neural dynamics are an experimental, unfitted leaky integrate-and-fire model.
 Synaptic signs, connection scaling, delays, and decoder gains are model assumptions;
@@ -86,6 +90,32 @@ mapped from a published MANC cohort through the official MaleCNS cross-specimen
 annotations. Ambiguous, missing, and unclassified matches were excluded. This is
 an experimental nociception pathway, not evidence of felt pain. The older central
 aversion cohort remains available in the underlying registry and legacy dataset.
+
+### Heat input and nociception
+
+Version 1.1 adds a separate thermal input to the 24 mapped abdominal md sensory
+cells in the current MaleCNS pack. The adult-fly study reports md responses to
+noxious heat at 40°C. This supports including those cells in the heat pathway.
+It does not provide a calibrated spike-rate curve for this simulator.
+[Study](https://doi.org/10.1101/2025.10.28.684868)
+
+The scenario uses 40°C as an explicit gate and the existing nociception input
+rate of 100 Hz at or above it. Both are approximation choices: the gate is not a
+measured universal biological threshold, and input Hz is not pain intensity.
+The warmth-cell input remains unchanged. Neither input grows further above
+40°C; 100°C still does not model tissue damage or actual thermal conduction.
+The separate reduced-inhibition overlay remains part of the BOILING preset.
+
+Cooling or clearing temperature removes the heat-driven md input while preserving
+any separately applied PAIN input. Overlapping inputs use the greater rate, never
+two independent pulses per cell and tick. Direct warmth-cell stimulation replaces
+the temperature scenario and clears its thermal md input. Release clears both
+intervention channels without resetting neural state. Legacy packs without a mapped
+md cohort keep their original warmth-only behavior.
+
+The HEAT and BOILING labels include this thermal pathway; they do not add a second
+PAIN label. Exported telemetry identifies the thermal targets and rate separately.
+The motor adapter receives only the resulting neural activity.
 
 ### Pain input and movement
 
@@ -178,11 +208,12 @@ is logged and restarts the posture-settling interval; it never clears neural act
 
 ## Release and local files
 
-Version 1.0 targets Linux x86-64 and is tested on Fedora 44. Keep the executable
+The version 1.1 download targets Linux x86-64. Fedora 44 is the automated test
+platform; macOS application use has also been reported by the maintainer. Keep the executable
 and `_internal` directory together after extracting the archive. No runtime network
 connection is required. The first neural compilation can take longer than later
 loads. This CPU build is not guaranteed to run at real time. Other operating systems
-and Linux distribution versions have not been validated.
+and Linux distribution versions are not covered by the packaged acceptance checks.
 
 The GUI stores caches and diagnostics in the platform application-data location,
 normally `~/.local/share/Nexus/Fruit Fly Torment Nexus/`. Unattended runs use the

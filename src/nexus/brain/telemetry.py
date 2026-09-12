@@ -3,6 +3,7 @@ import hashlib
 import time
 import numpy as np
 from .targets import readout_ids
+from .runtime import ACTIVITY_BIN_STEPS, ACTIVITY_BINS, DT_MS
 
 
 class NeuralTelemetry:
@@ -24,6 +25,9 @@ class NeuralTelemetry:
         raster = list(brain.history)[-2500:]
         active = np.flatnonzero((brain.last_spike >= brain.step-1500) & (brain.last_spike <= brain.step))
         i = self.mn9
+        activity = [(end, count, ACTIVITY_BIN_STEPS) for end, count in brain.activity]
+        if brain.activity_pending_ticks:
+            activity.append((brain.step, brain.activity_pending_spikes, brain.activity_pending_ticks))
         result = {'sim_time': brain.time, 'tick': brain.step, 'running': running, 'generation': generation,
                   'neuron_order_sha256': self.order_hash, 'dataset': brain.graph.snapshot,
                   'model': brain.graph.model,
@@ -45,9 +49,20 @@ class NeuralTelemetry:
                   'silenced_count': int((brain.output_gain==0).sum()),
                   'inhibition_gain': brain.inhibition_gain,
                   'nominal_temperature_c': brain.nominal_temperature,
+                  'thermal_nociception': {
+                      'ids': [str(brain.graph.ids[i]) for i in brain.thermal_nociception_inputs],
+                      'rate_hz': brain.thermal_nociception_rate},
                   'circuit_inputs': {name: {'ids': [str(brain.graph.ids[i]) for i in targets], 'rate_hz': rate}
                                      for name, (targets, rate) in brain.circuit_inputs.items()},
                   'population_hz_per_neuron': float(delta.sum()/duration/len(brain.counts)) if duration else 0.,
+                  'population_activity': {
+                      'bin_ms': ACTIVITY_BIN_STEPS*DT_MS,
+                      'window_ms': ACTIVITY_BINS*ACTIVITY_BIN_STEPS*DT_MS,
+                      'end_steps': [end for end, count, span in activity],
+                      'spikes': [count for end, count, span in activity],
+                      'durations_ms': [span*DT_MS for end, count, span in activity],
+                      'rates_hz_per_neuron': [count/(span*DT_MS/1000*len(brain.counts))
+                                              for end, count, span in activity]},
                   'protocol': None if not protocol else {'name': protocol.description.get('name', 'Sequence'),
                                                        'completed': protocol.completed, 'event_cursor': protocol.cursor},
                   'raster_steps': [s for s,j in raster], 'raster_indices': [j for s,j in raster],

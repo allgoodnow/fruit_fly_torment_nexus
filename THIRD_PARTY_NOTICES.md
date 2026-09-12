@@ -76,3 +76,8 @@ experiment files. MaleCNS attribution is in `licenses/MaleCNS/NOTICE`.
 The food/taste proxy was removed from the application in version 0.14. Version 1.0
 uses the MaleCNS model and source-matched MDN motor readout described in the user
 guide. Body repositioning is application-authored manual assistance.
+
+Version 1.1 includes heat-driven input to the mapped md sensory candidates,
+motivated by the noxious-heat response reported in the cited nociception study.
+The temperature gate and input rates are application assumptions, not fitted
+physiological parameters or a thermal-damage model.

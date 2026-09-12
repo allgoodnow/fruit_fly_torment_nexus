@@ -19,6 +19,8 @@ from numba import njit
 DT_MS = 0.1
 DELAY_STEPS = 18
 REFRACTORY_STEPS = 22
+ACTIVITY_BIN_STEPS = 100  # 10 ms, independent of worker / GUI refresh intervals.
+ACTIVITY_BINS = 500       # Five simulated seconds, including silent intervals.
 
 
 @njit(cache=not getattr(sys, "frozen", False), fastmath=False)
@@ -32,6 +34,7 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
     spike_ids = np.empty(capacity, dtype=np.int32)
     spike_steps = np.empty(capacity, dtype=np.int64)
     recorded = 0
+    spikes_per_step = np.empty(steps, dtype=np.int32)
     em = math.exp(-DT_MS / 20.0)
     eg = math.exp(-DT_MS / 5.0)
     coupling = (em - eg) / 3.0
@@ -56,6 +59,7 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
                 spike_ids[recorded % capacity] = i
                 spike_steps[recorded % capacity] = tick
                 recorded += 1
+        spikes_per_step[local] = queue_size[future]
         for j in range(queue_size[slot]):
             pre = queue[slot, j]
             gain = output_gain[pre]
@@ -86,7 +90,7 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
         slot = (max(0, recorded-capacity) + j) % capacity
         chronological_ids[j] = spike_ids[slot]
         chronological_steps[j] = spike_steps[slot]
-    return chronological_ids, chronological_steps, trace, recorded-size
+    return chronological_ids, chronological_steps, trace, recorded-size, spikes_per_step
 
 
 @dataclass
@@ -180,6 +184,7 @@ class Brain:
         self.queue_size = np.zeros(DELAY_STEPS + 1, dtype=np.int32)
         self.counts = np.zeros(n, dtype=np.int64)
         self.history = deque(maxlen=history_limit)
+        self.activity = deque(maxlen=ACTIVITY_BINS)
         self.events = deque(maxlen=2000)
         self.seed = seed
         self.inputs = np.array([], dtype=np.int32)
@@ -216,6 +221,8 @@ class Brain:
         self.manual_rate = 0.
         self.circuit_inputs.clear()
         self.nominal_temperature = None
+        self.thermal_nociception_inputs = np.array([], dtype=np.int32)
+        self.thermal_nociception_rate = 0.
         self._refresh_inputs()
         self.output_gain.fill(1)
         self.inhibition_gain = 1.
@@ -284,17 +291,37 @@ class Brain:
             self.circuit_inputs.pop(name, None)
         if name == 'warmth':
             self.nominal_temperature = None
+            self.thermal_nociception_inputs = np.array([], dtype=np.int32)
+            self.thermal_nociception_rate = 0.
         self._refresh_inputs()
         self.events.append({'kind': 'circuit_input', 'time': self.time, 'circuit': name,
                             'rate_hz': rate, 'ids': [str(self.graph.ids[i]) for i in targets]})
 
-    def set_heat(self, temperature):
+    def validate_heat(self, temperature):
         from .circuits import heat_rate
         value, rate = (None, 0.) if temperature is None else heat_rate(temperature)
+        self.validate_circuit('warmth', rate)
+        targets, nociception_rate = np.array([], dtype=np.int32), 0.
+        available = (self.graph.snapshot == 'male-cns:v1.0' and self.graph.circuits is not None
+                     and 'nociception_proxy' in self.graph.circuits['circuits'])
+        # Jones et al. (2025), doi:10.1101/2025.10.28.684868, reports md
+        # responses to 40 C heat. This conservative scenario gate and the
+        # existing 100 Hz input are NOT a fitted thermal transfer function.
+        if available and value is not None and value >= 40:
+            targets, nociception_rate = self.validate_circuit('nociception_proxy', 100.)
+        return value, rate, targets, nociception_rate
+
+    def set_heat(self, temperature):
+        value, rate, targets, nociception_rate = self.validate_heat(temperature)
         self.set_circuit_input('warmth', rate)
         self.nominal_temperature = value
+        self.thermal_nociception_inputs = targets
+        self.thermal_nociception_rate = nociception_rate
+        self._refresh_inputs()
         self.events.append({'kind': 'heat_scenario', 'time': self.time, 'nominal_celsius': value,
-                            'rate_hz': rate, 'mapping': 'warmth-input-proxy-v1',
+                            'rate_hz': rate, 'mapping': 'warmth-and-md-input-v2',
+                            'nociception_ids': [str(self.graph.ids[i]) for i in targets],
+                            'nociception_rate_hz': nociception_rate,
                             'thermal_damage_modeled': False})
 
     def _refresh_inputs(self):
@@ -308,6 +335,10 @@ class Brain:
             targets, rate = self.circuit_inputs[name]
             for i in targets:
                 rates[int(i)] = max(rates.get(int(i), 0.), rate)
+        # Heat-driven md input is independent of the direct PAIN circuit input.
+        # Cooling removes only this channel; overlapping rates use max, not sum.
+        for i in self.thermal_nociception_inputs:
+            rates[int(i)] = max(rates.get(int(i), 0.), self.thermal_nociception_rate)
         self.refractory[self.inputs] = REFRACTORY_STEPS
         self.inputs = np.array(list(rates), dtype=np.int32)
         self.rates = np.array(list(rates.values()), dtype=np.float64)
@@ -338,7 +369,11 @@ class Brain:
         self.manual_rate = self.sensory_rate = 0.
         self.circuit_inputs = {}
         self.nominal_temperature = None
+        self.thermal_nociception_inputs = np.array([], dtype=np.int32)
+        self.thermal_nociception_rate = 0.
         self.history.clear()
+        self.activity.clear()
+        self.activity_pending_ticks = self.activity_pending_spikes = 0
         self.events.clear()
 
     def advance(self, seconds, *, input_events=None, trace_ids=()):
@@ -364,4 +399,15 @@ class Brain:
         if not np.isfinite(self.v).all() or not np.isfinite(self.g).all():
             raise RuntimeError("Non-finite neural state")
         self.history.extend(zip(result[1].tolist(), result[0].tolist()))
+        # Count every spike before raster truncation. Keep complete time bins,
+        # even across protocol boundaries and arbitrarily sized advance calls.
+        cursor = 0
+        while cursor < steps:
+            take = min(ACTIVITY_BIN_STEPS-self.activity_pending_ticks, steps-cursor)
+            self.activity_pending_spikes += int(result[4][cursor:cursor+take].sum())
+            self.activity_pending_ticks += take
+            cursor += take
+            if self.activity_pending_ticks == ACTIVITY_BIN_STEPS:
+                self.activity.append((self.step-steps+cursor, self.activity_pending_spikes))
+                self.activity_pending_ticks = self.activity_pending_spikes = 0
         return {"indices": result[0], "steps": result[1], "voltage_mv": result[2], "unrecorded_spikes": result[3]}

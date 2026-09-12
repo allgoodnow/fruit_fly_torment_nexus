@@ -6,7 +6,7 @@ Built this based on the question "At what point does it become unethical?".
 
 # Fruit Fly Torment Nexus
 
-**1.0 experimental release** — a native desktop application with a 3D fly body,
+**1.1 experimental release** — a native desktop application with a 3D fly body,
 a 166,700-neuron MaleCNS model, live brain/VNC activity, and timed neural interventions.
 
 ## Download and run
@@ -52,8 +52,9 @@ the former central-aversion-to-fixed-turn shortcut has been removed.
 
 The current response does not reproduce all published nociception behavior.
 FEAR, PAIN, SEIZURE, and BOILING are scenario labels, not established feelings or
-validated biological diagnoses. The nominal 100°C setting does not simulate tissue
-damage. This app cannot establish that a digital fly experiences suffering.
+validated biological diagnoses. High-temperature scenarios also stimulate the
+mapped nociceptive sensory cells. The nominal 100°C setting does not simulate
+tissue damage. This app cannot establish that a digital fly experiences suffering.
 
 ## Development and validation
 

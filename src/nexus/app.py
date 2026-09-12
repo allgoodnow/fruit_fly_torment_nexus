@@ -84,6 +84,7 @@ def main():
     from nexus.intervention_panel import InterventionPanel
     from nexus.stimulation_banner import StimulationBanner
     from nexus.guide import GuideDialog
+    from nexus.neural_activity import NeuralActivityPlot
 
     try:
         config = model_config(default_pack(args.dataset))
@@ -222,10 +223,7 @@ def main():
             self.graph_stack = QStackedWidget()
             self.graph_stack.setMaximumHeight(180)
             self.graph_stack.addWidget(self.graph)
-            self.brain_graph = pg.PlotWidget(title="Neural activity")
-            self.brain_graph.setLabel("bottom", "Brain time", units="s")
-            self.brain_graph.setLabel("left", "Neuron index")
-            self.brain_points = self.brain_graph.plot(pen=None,symbol='o',symbolSize=2,symbolBrush='#b91c1c',symbolPen=None)
+            self.brain_graph = NeuralActivityPlot()
             self.graph_stack.addWidget(self.brain_graph)
             scene_layout.addWidget(self.graph_stack)
             split.addWidget(scene_panel)
@@ -370,8 +368,7 @@ def main():
         def brain_snapshot(self,t):
             self.stimulation_banner.update_snapshot(t)
             self.brain_view.update_snapshot(t)
-            self.brain_points.setData([s*.0001 for s in t['raster_steps']], t['raster_indices'])
-            self.brain_graph.setXRange(max(0,t['sim_time']-.5),max(.1,t['sim_time']),padding=0)
+            self.brain_graph.update_snapshot(t)
 
         def send(self, kind, value=None):
             if not self.ready or self.failed:
@@ -480,7 +477,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "1.0.0", "started_at": self.started_at,
+            return {"version": "1.1.0", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": False, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,
@@ -868,6 +865,7 @@ def main():
                 self.response_max_active = 0
                 self.response_active_capture = False
                 self.response_labels_seen = set()
+                self.response_thermal_cells = 0
                 name = self.response_cases[self.response_index]
                 panel.buttons[name].click()
                 self.smoke_stage = 2
@@ -885,6 +883,8 @@ def main():
                 self.response_offset = max(self.response_offset, self.telemetry['motor_offset_rms_rad'])
                 if t['nominal_temperature_c'] is not None:
                     self.response_temperature = t['nominal_temperature_c']
+                self.response_thermal_cells = max(self.response_thermal_cells,
+                                                  len(t['thermal_nociception']['ids']))
                 if not (t.get('protocol') or {}).get('completed'):
                     return
                 name = self.response_cases[self.response_index]
@@ -892,6 +892,9 @@ def main():
                 expected_label = {'defensive': 'FEAR', 'aversion': 'PAIN', 'heat': 'HEAT',
                                   'seizure': 'SEIZURE', 'heat_overload': 'BOILING'}[name]
                 success &= expected_label in self.response_labels_seen and self.stimulation_banner.readout.text() == 'NONE'
+                success &= not t['thermal_nociception']['ids']
+                if config.experimental and name in ('heat', 'heat_overload'):
+                    success &= self.response_thermal_cells == config.nociception_count
                 if name == 'defensive':
                     success &= self.response_escape > .1 and self.response_offset > .02
                 elif name == 'aversion':
@@ -910,8 +913,17 @@ def main():
                 if config.experimental and not self.response_max_active:
                     self.smoke_finish(False)
                     return
+                activity = t['population_activity']
+                x, y = self.brain_graph.curve.getData()
+                if (sum(activity['spikes']) != t['total_spikes'] or len(x) != 80
+                        or not all(abs(a-b) < 1e-12 for a,b in zip(y, activity['rates_hz_per_neuron']))):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append(name+' activity graph retains all spike counts across the trial')
                 self.smoke_checks.append(name+' button runs, releases on schedule, and reports measured responses')
                 self.smoke_checks.append(expected_label+' appears during input and clears after release')
+                if config.experimental and name in ('heat', 'heat_overload'):
+                    self.smoke_checks.append(name+' recruits mapped thermal nociception cells and releases them on schedule')
                 self.grab().save(str(data_dir / (name+'-app.png')))
                 panel.grab().save(str(data_dir / 'experiment-controls.png'))
                 self.response_generation = t['generation']+1

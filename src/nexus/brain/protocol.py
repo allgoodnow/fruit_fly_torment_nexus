@@ -51,9 +51,7 @@ class Protocol:
             elif action == 'circuit':
                 brain.validate_circuit(item['name'], item['rate_hz'])
             elif action == 'heat':
-                from .circuits import heat_rate
-                _, rate = (None, 0.) if item['celsius'] is None else heat_rate(item['celsius'])
-                brain.validate_circuit('warmth', rate)
+                brain.validate_heat(item['celsius'])
             elif action != "release":
                 raise ValueError(f"Unknown protocol action: {action}")
             self.commands.append((at, deepcopy(item)))

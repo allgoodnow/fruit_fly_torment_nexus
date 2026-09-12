@@ -1,0 +1,348 @@
+{
+  "version": "1.1.0",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "duration_ms_per_trial": 700,
+  "trials": [
+    {
+      "seed": 73100,
+      "condition": "heat",
+      "total_spikes": 289803,
+      "md_spikes": 698,
+      "mdn_spikes": 7,
+      "maximum_retreat": 0.2578608046813526,
+      "maximum_disruption": 0.21668754657433553,
+      "minimum_upright": 0.8512778108267618,
+      "final_upright": 0.9970806145110159,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "66602ef9e7752a6139d34bb09e8e2bae57a729462996415196454c1416e8af50"
+    },
+    {
+      "seed": 73100,
+      "condition": "md_outputs_blocked",
+      "total_spikes": 284800,
+      "md_spikes": 703,
+      "mdn_spikes": 0,
+      "maximum_retreat": 0.0,
+      "maximum_disruption": 0.20455373869324192,
+      "minimum_upright": 0.8496974306873643,
+      "final_upright": 0.9974691273446485,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "58dc189ce45d6bf799519bff28fbcf2f708c09005ff3c14c6c6063d5bca8f76a"
+    },
+    {
+      "seed": 73100,
+      "condition": "motor_blocked",
+      "total_spikes": 289803,
+      "md_spikes": 698,
+      "mdn_spikes": 7,
+      "maximum_retreat": 0.0,
+      "maximum_disruption": 0.0,
+      "minimum_upright": 0.987167150489532,
+      "final_upright": 0.9906999131538375,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "8db073b8ccbae9e14b4349ce73621f4bf5e9c7088dae5bbddecc735cdf66c301"
+    },
+    {
+      "seed": 73100,
+      "condition": "warmth_only",
+      "total_spikes": 283481,
+      "md_spikes": 0,
+      "mdn_spikes": 3,
+      "maximum_retreat": 0.056770607473538896,
+      "maximum_disruption": 0.200630190155793,
+      "minimum_upright": 0.8454607692823769,
+      "final_upright": 0.9973687549193432,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "bf47b68f2cd5a9f8cf99b2f66ffc5efc7009ec04f8e9a373278301fa1635a572"
+    },
+    {
+      "seed": 73101,
+      "condition": "heat",
+      "total_spikes": 291612,
+      "md_spikes": 736,
+      "mdn_spikes": 8,
+      "maximum_retreat": 0.2924436063671537,
+      "maximum_disruption": 0.21845946743480082,
+      "minimum_upright": 0.8456715770191708,
+      "final_upright": 0.9974607229991447,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "479f872f39bb3455d7ea5af400a0cfac65f5066fd5790c7fab7190c3b2e06714"
+    },
+    {
+      "seed": 73101,
+      "condition": "md_outputs_blocked",
+      "total_spikes": 283933,
+      "md_spikes": 741,
+      "mdn_spikes": 3,
+      "maximum_retreat": 0.06932240556646076,
+      "maximum_disruption": 0.19934798789428032,
+      "minimum_upright": 0.8460693285917169,
+      "final_upright": 0.9973943855172916,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "fe06f76d0e06af80cb0bc3a831888dddbbe9748b2265fc190a228af52fb5d474"
+    },
+    {
+      "seed": 73101,
+      "condition": "motor_blocked",
+      "total_spikes": 291612,
+      "md_spikes": 736,
+      "mdn_spikes": 8,
+      "maximum_retreat": 0.0,
+      "maximum_disruption": 0.0,
+      "minimum_upright": 0.987167150489532,
+      "final_upright": 0.9906999131538375,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "1114a6374377b5fb215545783a74d3b4c18fd1e627854f6934bbfa849655acd0"
+    },
+    {
+      "seed": 73101,
+      "condition": "warmth_only",
+      "total_spikes": 286222,
+      "md_spikes": 0,
+      "mdn_spikes": 4,
+      "maximum_retreat": 0.12273290439164464,
+      "maximum_disruption": 0.20501108933337941,
+      "minimum_upright": 0.8500848689753833,
+      "final_upright": 0.9971184013004788,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "27d04ea498b0cbd4b6d7a8986b2ed3b90ee385c6f250ea04a16a62a71a1719bf"
+    },
+    {
+      "seed": 73102,
+      "condition": "heat",
+      "total_spikes": 290496,
+      "md_spikes": 748,
+      "mdn_spikes": 7,
+      "maximum_retreat": 0.2578608046813526,
+      "maximum_disruption": 0.22421392141761104,
+      "minimum_upright": 0.855082173970027,
+      "final_upright": 0.9970118912910307,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "37a01c5af1810e1ff9e5b044fc23ef3a6a7dfac55d18f021b96a9139c4081723"
+    },
+    {
+      "seed": 73102,
+      "condition": "md_outputs_blocked",
+      "total_spikes": 284636,
+      "md_spikes": 751,
+      "mdn_spikes": 0,
+      "maximum_retreat": 0.0,
+      "maximum_disruption": 0.20559901708190256,
+      "minimum_upright": 0.8525588970375222,
+      "final_upright": 0.9977379339013415,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "f5697023eabfe0f78c11307cbcd9314766eba13cdede3ce4ed6cdeb27a463082"
+    },
+    {
+      "seed": 73102,
+      "condition": "motor_blocked",
+      "total_spikes": 290496,
+      "md_spikes": 748,
+      "mdn_spikes": 7,
+      "maximum_retreat": 0.0,
+      "maximum_disruption": 0.0,
+      "minimum_upright": 0.987167150489532,
+      "final_upright": 0.9906999131538375,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "b9b0e52b4edc422779f75599747f5c2bdce6a6370152de73fa1eeb439d4dbccb"
+    },
+    {
+      "seed": 73102,
+      "condition": "warmth_only",
+      "total_spikes": 284534,
+      "md_spikes": 0,
+      "mdn_spikes": 4,
+      "maximum_retreat": 0.11645700534518372,
+      "maximum_disruption": 0.20348073259917426,
+      "minimum_upright": 0.8557198975618557,
+      "final_upright": 0.9966282057944902,
+      "final_recovery_phase": "observing",
+      "inputs_released": true,
+      "thermal_channel_released": true,
+      "report_sha256": "4c7019f9105b04ffbefc1b14ddf715ef41dd76164e88a858df5ff01839083168"
+    }
+  ],
+  "comparisons": [
+    {
+      "seed": 73100,
+      "motor_blockade_preserves_exact_neural_counts": true,
+      "downstream_cells_with_changed_counts_on_md_output_blockade": 7610,
+      "maximum_body_position_difference_on_md_output_blockade_mm": 3.1604045923691415
+    },
+    {
+      "seed": 73101,
+      "motor_blockade_preserves_exact_neural_counts": true,
+      "downstream_cells_with_changed_counts_on_md_output_blockade": 8198,
+      "maximum_body_position_difference_on_md_output_blockade_mm": 0.8945031521205713
+    },
+    {
+      "seed": 73102,
+      "motor_blockade_preserves_exact_neural_counts": true,
+      "downstream_cells_with_changed_counts_on_md_output_blockade": 7761,
+      "maximum_body_position_difference_on_md_output_blockade_mm": 3.1786374686742116
+    }
+  ],
+  "stimulus": {
+    "nominal_celsius": 40,
+    "warmth_rate_hz": 300,
+    "md_rate_hz": 100,
+    "md_cells": 24
+  },
+  "manifest_sha256": "5da5a8821f56f456ffac846957c346cecd8050b8d98e0ea69358556bc3db1adf",
+  "source": "https://doi.org/10.1101/2025.10.28.684868",
+  "limits": [
+    "40 C is a scenario gate based on a reported experimental condition, not a measured universal threshold.",
+    "Input rates are engineering choices, not fitted physiology or subjective pain.",
+    "Warmth-only comparison changes random draw allocation; matched md-output blockade is the causal control.",
+    "Body control remains engineered; 300 ms after release is not a recovery certification."
+  ],
+  "graph_instrumentation_regression": [
+    {
+      "trial": "73100-heat",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "9e393d98f18761bdecbdd0d55f9f72f6905600e2d5d8a977b36b31917977c112"
+    },
+    {
+      "trial": "73100-md_outputs_blocked",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "fe3d69229ba11fde0b7ca52a7639bd6864855c2b90123576f42dc90083aee9e2"
+    },
+    {
+      "trial": "73100-motor_blocked",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "9f6631b63f392b981b1fb46e97d178006016b0d76634d0cc30d99c941e1e1075"
+    },
+    {
+      "trial": "73100-warmth_only",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "a58833e0b4b799611fd0369c2c19a471e35b11947c97992f919c0bef36dd3250"
+    },
+    {
+      "trial": "73101-heat",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "8dbd6103424b2e87e0e359904d1d3ab9805cb25fd14e1a7cf21243edb11aaf0c"
+    },
+    {
+      "trial": "73101-md_outputs_blocked",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "a03e3f57a8756da179528da955a4694d9767cf03cf31f2796e500b796449e411"
+    },
+    {
+      "trial": "73101-motor_blocked",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "79e0550af7b0fdb5245ae7c3c39c532a5acc7722a9ff1cc9c2c6adaecf550a9c"
+    },
+    {
+      "trial": "73101-warmth_only",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "16e6422687ce2879e1aef044145c2709c066b6211b8ac947fc9718bd27bc57e1"
+    },
+    {
+      "trial": "73102-heat",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "cf88d7e09471268db9b66099ebf5d91718f48778e3aaccc8f3ab7b6c20c8d807"
+    },
+    {
+      "trial": "73102-md_outputs_blocked",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "2eec77cb26f066d5f0edffacd24ddd23015823028416c3af0cee573d704be48a"
+    },
+    {
+      "trial": "73102-motor_blocked",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "732c72c139ce5899ac9579cc6722078e7a179f6475e28aaee0836ebcb76ee7bd"
+    },
+    {
+      "trial": "73102-warmth_only",
+      "all_neural_counts_identical": true,
+      "all_recorded_body_and_neural_metrics_identical": true,
+      "trace_sha256": "c3cf4427e756fafb403e061248d83edcf1cb96033d6c4b7bb4910e07e0a5101b"
+    }
+  ],
+  "automated_tests": {
+    "passed": 115,
+    "failed": 0,
+    "wall_seconds": 11.88
+  },
+  "source_sha256": {
+    "src/nexus/brain/runtime.py": "54013a03bcc49f1f57470c1866f898d3ab8b289c95c9a496adc15a531853e27f",
+    "src/nexus/brain/protocol.py": "0def6632f047a4f226199051db4115abc24406dfcebb0319a23e408a0fdd518f",
+    "src/nexus/brain/telemetry.py": "5f0981cc27c549932b1391a7afb0922428411214e916ebd3e676ff9e890b1c20",
+    "src/nexus/brain/motor_effects.py": "b1a487e173bcc7975847c194ee6ba9644ab61f3f56a343a9e5d1d1f0308aa583",
+    "scripts/probe_thermal_nociception.py": "de34a18946a789b928f975556ae23cd655de71d6aebffc752d2a685322af2946",
+    "tests/test_thermal_nociception.py": "891abffe11508533d55c55db296284348e24ac14643c044a0f080fada9aec7ec",
+    "src/nexus/neural_activity.py": "f31a5f599bad7b1d4a6b38cc6b7f91850678cc99e02115fbddeea85bfc82a473",
+    "tests/test_neural_activity.py": "b1cdcaab85662d97819161d9971fbcbd93ecd12c94dbdbdb617c87f378084aa5",
+    "src/nexus/app.py": "54e563d5df43370523860b9ec91b7418265a42a99bed8b37e7144f05ff1188e3",
+    "docs/user-guide.md": "5a221c2cdf97aa3f9ca5fea9ddbc2b93625cd82354fa58ebfdeb0a8ca48388fa"
+  },
+  "packaged_gui": {
+    "success": true,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation"
+    ],
+    "report_sha256": "30b303c7648a29ca2de8892980729ae74db71d0235b45e8a14cb828e3eac4e17",
+    "heat_graph_screenshot_sha256": "b2e248f48fc5e13d4979257d8395183a12521a5685c77886d76cc42f266c7f90",
+    "platform": "Fedora 44 x86-64; native desktop"
+  }
+}
