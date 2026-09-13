@@ -17,7 +17,7 @@ def main():
     mp.freeze_support()
     parser = argparse.ArgumentParser()
     from nexus import __version__
-    parser.add_argument('--version', action='version', version='Fruit Fly Nexus '+__version__)
+    parser.add_argument('--version', action='version', version='Fruit Fly Torment Nexus '+__version__)
     parser.add_argument("--dataset", choices=["male-cns", "flywire-v630"], default="male-cns", help="Neural dataset; MaleCNS uses experimental LIF parameters")
     parser.add_argument('--run-sequence', type=Path, help='Run a saved sequence with full 3D physics without opening the GUI')
     parser.add_argument('--output-dir', type=Path, help='New folder for unattended sequence results')
@@ -38,7 +38,7 @@ def main():
             parser.error('--run-sequence requires --output-dir')
         if args.output_dir.exists():
             parser.error('Choose a new output folder; existing results are never overwritten')
-        cache = Path(os.environ.get('XDG_CACHE_HOME', Path.home()/'.cache'))/'fruit-fly-nexus'
+        cache = Path(os.environ.get('XDG_CACHE_HOME', Path.home()/'.cache'))/'fruit-fly-torment-nexus'
         for name, subdir in [('NUMBA_CACHE_DIR', 'numba'), ('MPLCONFIGDIR', 'matplotlib'),
                              ('FLYGYM_ASSET_CACHE_DIR', 'assets')]:
             os.environ.setdefault(name, str(cache/subdir))
@@ -164,7 +164,7 @@ def main():
             worker_args = (str(config.directory), self.commands, self.frames, self.events) if coupled else (self.commands, self.frames, self.events)
             self.process = self.ctx.Process(target=target, args=worker_args,
                                             kwargs={'autonomous': not args.smoke_test or bool(args.behavior_smoke_test), 'allow_experimental': config.experimental} if coupled else {},
-                                            name="Nexus simulation")
+                                            name="Fruit Fly Torment Nexus simulation")
             self.seq = 0
             self.records = deque(maxlen=2000)
             self.started_at = datetime.now(timezone.utc).isoformat()
@@ -477,7 +477,7 @@ def main():
                 self.brain_panel.fail(message)
 
         def diagnostics(self):
-            return {"version": "1.1.0", "started_at": self.started_at,
+            return {"version": "1.1.1", "started_at": self.started_at,
                     "model": "NeuroMechFly 2.1.0 / engineered hybrid locomotion",
                     "brain_connected": coupled, "sensory_feedback_connected": False, "telemetry": self.telemetry,
                     "events": list(self.records), "rendered_frames": self.frame_count,

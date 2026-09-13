@@ -175,7 +175,7 @@ neural state between stages; later responses can depend on earlier stimulation.
 The native executable can also run a protocol without opening the GUI:
 
 ```text
-fruit-fly-nexus \
+fruit-fly-torment-nexus \
   --run-sequence experiments/male-cns-continuous-sequence.json \
   --output-dir results/my-run
 ```
@@ -208,7 +208,7 @@ is logged and restarts the posture-settling interval; it never clears neural act
 
 ## Release and local files
 
-The version 1.1 download targets Linux x86-64. Fedora 44 is the automated test
+The version 1.1.1 download targets Linux x86-64. Fedora 44 is the automated test
 platform; macOS application use has also been reported by the maintainer. Keep the executable
 and `_internal` directory together after extracting the archive. No runtime network
 connection is required. The first neural compilation can take longer than later
@@ -217,7 +217,7 @@ and Linux distribution versions are not covered by the packaged acceptance check
 
 The GUI stores caches and diagnostics in the platform application-data location,
 normally `~/.local/share/Nexus/Fruit Fly Torment Nexus/`. Unattended runs use the
-output directory you specify and cache under `~/.cache/fruit-fly-nexus/` unless
+output directory you specify and cache under `~/.cache/fruit-fly-torment-nexus/` unless
 standard XDG cache settings override it. Closing the app ends the current in-memory
 session; exported diagnostics and counts are not resumable checkpoints.
 

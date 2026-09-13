@@ -196,7 +196,7 @@ class BrainPanel(QWidget):
         ctx = mp.get_context("spawn")
         self.commands,self.frames,self.events = ctx.Queue(maxsize=256),ctx.Queue(maxsize=2),ctx.Queue()
         self.process = ctx.Process(target=simulate_brain,args=(str(directory),self.commands,self.frames,self.events),
-                                   kwargs={"allow_experimental": self.config.experimental}, name="Nexus brain")
+                                   kwargs={"allow_experimental": self.config.experimental}, name="Fruit Fly Torment Nexus brain")
         self.process.start()
         self.load_button.setEnabled(False)
         self.status.setText("Loading connectivity and preparing runtime…")
@@ -308,7 +308,7 @@ class BrainPanel(QWidget):
         (self.data_dir / "brain-error.txt").write_text(message)
 
     def diagnostics(self):
-        return {"version":"1.1.0","brain_drives_body":self.telemetry.get('brain_drives_body', False),
+        return {"version":"1.1.1","brain_drives_body":self.telemetry.get('brain_drives_body', False),
                 "shared_clock":self.command_sink is not None,"telemetry":self.telemetry,"commands":list(self.records)}
 
     def export(self):

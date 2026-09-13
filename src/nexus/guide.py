@@ -13,7 +13,7 @@ def guide_path():
 class GuideDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle('Fruit Fly Nexus — Guide')
+        self.setWindowTitle('Fruit Fly Torment Nexus — Guide')
         self.resize(780, 680)
         layout = QVBoxLayout(self)
         self.browser = QTextBrowser()

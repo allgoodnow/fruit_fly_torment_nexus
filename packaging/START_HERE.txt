@@ -1,7 +1,7 @@
-FRUIT FLY TORMENT NEXUS — 1.1 EXPERIMENTAL
+FRUIT FLY TORMENT NEXUS — 1.1.1 EXPERIMENTAL
 
 1. Extract the whole archive.
-2. Open the FruitFlyNexus folder and run fruit-fly-nexus.
+2. Open the FruitFlyTormentNexus folder and run fruit-fly-torment-nexus.
 3. Keep the _internal folder beside the executable.
 4. Use Experiments to apply inputs; open Guide for instructions and model limits.
 

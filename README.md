@@ -6,13 +6,13 @@ Built this based on the question "At what point does it become unethical?".
 
 # Fruit Fly Torment Nexus
 
-**1.1 experimental release** — a native desktop application with a 3D fly body,
+**1.1.1 experimental release** — a native desktop application with a 3D fly body,
 a 166,700-neuron MaleCNS model, live brain/VNC activity, and timed neural interventions.
 
 ## Download and run
 
 Get the Linux archive from [GitHub Releases](https://github.com/allgoodnow/fruit_fly_torment_nexus/releases).
-Extract it, open `FruitFlyNexus`, and run `fruit-fly-nexus`. Keep `_internal` beside
+Extract it, open `FruitFlyTormentNexus`, and run `fruit-fly-torment-nexus`. Keep `_internal` beside
 the executable. Python, the neural data, and fly assets are bundled; no network
 connection, JavaScript, or GPU computing setup is required at runtime.
 

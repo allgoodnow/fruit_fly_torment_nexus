@@ -22,6 +22,6 @@ a = Analysis(
     noarchive=False,
 )
 pyz = PYZ(a.pure)
-exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name="fruit-fly-nexus",
+exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name="fruit-fly-torment-nexus",
           debug=False, bootloader_ignore_signals=False, strip=False, upx=False, console=True)
-coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="FruitFlyNexus-1.1.0")
+coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="FruitFlyTormentNexus-1.1.1")
