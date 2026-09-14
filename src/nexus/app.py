@@ -1162,6 +1162,39 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('Release disables visual feedback and preserves paused brain state')
+                if t['eye_feedback'].get('spatial_available'):
+                    self.vision_panel.command.emit('vision_video', str(args.vision_test_video.resolve()))
+                    self.smoke_stage = 25
+                    return
+                self.grab().save(str(data_dir/'final-app.png'))
+                self.smoke_finish(True)
+            elif self.smoke_stage == 25 and t['eye_feedback']['source'] == 'video':
+                self.vision_panel.mapping.setCurrentIndex(1)
+                self.smoke_stage = 26
+            elif self.smoke_stage == 26 and t['eye_feedback']['mapping_mode'] == 'spatial':
+                if t['running'] or t['eye_feedback']['enabled'] or t['eye_feedback']['rates_hz']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('spatial video mode is selectable and changing mapping pauses with input cleared')
+                self.vision_panel.feed.setChecked(True)
+                self.brain_panel.send('running', True)
+                self.smoke_stage = 27
+            elif self.smoke_stage == 27 and (t['eye_feedback'].get('video_frame') or 0) >= 2:
+                if not t['eye_feedback']['rates_hz'] or 'spatial-video-columns' not in t['eye_feedback']['mapping']:
+                    self.smoke_finish(False)
+                    return
+                self.brain_panel.send('running', False)
+                self.smoke_stage = 28
+            elif self.smoke_stage == 28 and not t['running']:
+                self.grab().save(str(data_dir/'spatial-active.png'))
+                self.smoke_checks.append('spatial video input reaches mapped photoreceptors and its state appears in the native panel')
+                self.vision_panel.eyes.click()
+                self.smoke_stage = 29
+            elif self.smoke_stage == 29 and t['eye_feedback']['source'] == 'eyes':
+                if t['eye_feedback']['mapping_mode'] != 'pooled' or t['eye_feedback']['rates_hz']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('switching to physical eye cameras clears spatial input and restores brightness mapping')
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 

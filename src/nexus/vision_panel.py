@@ -1,7 +1,7 @@
 """Compact display of the visual frame actually supplied to the brain."""
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QImage, QPainter
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFileDialog, QCheckBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFileDialog, QCheckBox, QComboBox
 
 
 class VisionPreview(QWidget):
@@ -52,9 +52,15 @@ class VisionPanel(QWidget):
         for button in [self.load, self.eyes, self.restart]:
             controls.addWidget(button)
         self.feed = QCheckBox('Feed to brain')
-        self.feed.setToolTip('Pooled brightness to R1-R6 photoreceptors. Enable, then run the simulation. See Guide.')
+        self.feed.setToolTip('Visual input to R1-R6 photoreceptors. Enable, then run the simulation. See Guide.')
         self.feed.toggled.connect(lambda checked: self.command.emit('eye_feedback', checked))
         controls.addWidget(self.feed)
+        self.mapping = QComboBox()
+        self.mapping.addItem('Brightness', 'pooled')
+        self.mapping.addItem('Spatial (exp.)', 'spatial')
+        self.mapping.setToolTip('Spatial video input uses inferred columns and an uncalibrated image projection. Changing mode pauses and releases visual input. See Guide.')
+        self.mapping.currentIndexChanged.connect(lambda: self.command.emit('vision_mapping', self.mapping.currentData()))
+        controls.addWidget(self.mapping)
         controls.addStretch(1)
         self.status = QLabel('Disabled')
         self.status.setToolTip('Playback follows simulation time, without audio.')
@@ -73,6 +79,10 @@ class VisionPanel(QWidget):
         self.feed.setChecked(state.get('enabled', False))
         self.feed.blockSignals(False)
         video = state.get('source') == 'video'
+        self.mapping.blockSignals(True)
+        self.mapping.setCurrentIndex(1 if state.get('mapping_mode') == 'spatial' else 0)
+        self.mapping.blockSignals(False)
+        self.mapping.setEnabled(video and state.get('spatial_available', False))
         self.restart.setEnabled(video)
         if pixels is not None:
             height, width, _ = pixels.shape

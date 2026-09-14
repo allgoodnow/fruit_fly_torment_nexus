@@ -292,6 +292,12 @@ features; the 1.1.1 download does not include them.
 5. **Use eyes** unloads the video. Enable input to sample the two cameras attached
    to the fly's head; the preview shows the left and right views together.
 
+For videos, the mapping selector offers **Brightness** and **Spatial (exp.)**.
+Brightness remains the default. Spatial mode requires the visual-column pack
+update described below. Changing mode pauses the simulation and disables visual
+input; enable **Feed to brain** and resume afterward. Restart retains the selected
+video mapping. Switching to physical eye cameras or resetting restores Brightness.
+
 **Release stimulation** disables visual input. Starting a prepared sequence also
 disables it, and visual input cannot be enabled during that sequence. Release the
 sequence before using vision again. **Reset body + brain** unloads the video and
@@ -301,8 +307,8 @@ paused; it does not label what the clip depicts. A black frame supplies zero inp
 
 Frames are sampled every 50 ms of simulated time. The local decoder produces
 RGB frames at 20 fps, at most 320 × 180 pixels, without audio. The displayed video
-frame is the frame used for input. Its average RGB intensity drives both eyes
-equally. Camera input instead averages each eye separately, excluding pixels
+frame is the frame used for input. In Brightness mode its average RGB intensity
+drives both eyes equally. Camera input averages each eye separately, excluding pixels
 outside FlyGym's retinal mask. Camera previews are reduced for display; the input
 uses the original masked frames. Camera rendering adds processing cost only when
 eye feedback is enabled. The camera implementation comes from
@@ -315,8 +321,8 @@ unequal coverage. We do not invent missing cells or balance the counts. The
 brightness-to-input mapping is an **unfitted linear 0–100 Hz proxy**. Overlapping
 manual and visual inputs use the maximum rate per cell, rather than adding rates.
 
-This is not retinotopic vision, fly spectral sensitivity, motion perception, or
-object recognition. R7/R8 color pathways receive no new direct light input.
+Pooled brightness does not encode image position. Neither mode models fly spectral
+sensitivity, motion detection, or object recognition. R7/R8 color pathways receive no new direct light input.
 Photoreceptors still use the generic spiking approximation. The downstream model
 lacks chloride reversal potentials: a full-field white test drove some targets
 to approximately −113 to −121 mV. Those uncalibrated voltages demonstrate a model
@@ -334,6 +340,57 @@ no excitation and fabricates no locations. The full target set contains 2,405
 cells, of which 738 have usable anchors. Missing anatomy and pooled brightness
 still limit how much spatial structure this view can show.
 The display checks are recorded in `experiments/vision-display-v2-results.json`.
+
+#### Experimental spatial video input
+
+This mode gives different input rates to photoreceptors according to local video
+brightness, rather than averaging the entire frame. The projection is a testable
+approximation, not a calibrated map of the fly's optical field of view.
+
+R1–R6 cells have no direct `assignedOlHex1/2` annotations in our source table.
+We infer a cell's column only when its same-eye L1 and L2 connections each have a
+unique strongest annotated column and both choose the same one. At least ten
+eligible synaptic contacts are required, with at least 90% supporting that column.
+Counts come from the original structural graph, independent of the current runtime
+weights. L1 and L2 carry official column annotations; the connection-based extension
+to R1–R6 is our inference. See the
+[MaleCNS column-assignment methods](https://pmc.ncbi.nlm.nih.gov/articles/PMC12636603/).
+
+This selects **1,071 left and 2,084 right R1–R6 cells**. They cover 290 left and 493
+right columns, out of 876 and 892 columns present in the eligible L1/L2 annotations.
+The remaining **222 photoreceptors receive no spatial-video drive**; they remain
+in the network and can receive other inputs. No missing cells or connections are
+invented. Source records and per-cell supporting contact counts are recorded in
+`experiments/visual-column-evidence-v1.json`.
+
+The projection draws each eye's hexagonal chart in the video plane using
+`x = sqrt(3)/2 × (hex1 − hex2)` and `y = −(hex1 + hex2)/2`. It centers that chart
+and scales its longest extent to a unit square, using the full annotated L1/L2
+grid, including columns with no selected photoreceptors. Each cell samples the
+video at its inferred column through bilinear interpolation. Both eyes receive
+the same video plane through their own charts; there is no stereo projection.
+Image intensity still maps linearly to 0–100 Hz. The axes, orientation, image aspect
+mapping, and field of view have not been registered to the specimen's optics.
+Physical eye cameras therefore continue using pooled brightness.
+
+This changes the **input**, not the scanned connection graph, synaptic weights,
+voltage display, or motor decoding. Equal-mean images can now activate different
+photoreceptor groups and produce different downstream voltage patterns. It does
+not yet supply ON/OFF adaptation, realistic graded photoreceptor transmission,
+direction-selective motion processing, object recognition, or autonomous navigation.
+The previously documented uncalibrated inhibitory voltages remain a limitation.
+
+Close the app and run `python scripts/install_visual_columns.py` after the eye-input
+installer. It checks annotation, structural graph, and runtime ordering before
+validating and selecting a new registry. Weights and anatomy are unchanged.
+Freshly prepared packs include this registry automatically.
+
+`python scripts/probe_spatial_vision.py --output-dir new-results-folder` compares
+equal-mean left-bright and right-bright clips in both input modes, with and without
+photoreceptor output, across three seeds. It checks neural differences, dark and
+excluded cells, shared body/brain timing, and input release at the end of playback.
+This test checks implemented spatial routing, not biological accuracy. Its results
+are stored in `experiments/spatial-vision-v1-results.json`.
 
 Different demonstrations can visualize different signals and representations.
 For example, [Flyvis](https://turagalab.github.io/flyvis/) implements a trained

@@ -283,6 +283,25 @@ class Brain:
         self.eye_inputs = candidate
         self._refresh_inputs()
 
+    def set_spatial_eye_input(self, brightness):
+        from ..retina import VisualColumns
+        if self.graph.snapshot != 'male-cns:v1.0':
+            raise ValueError('Spatial eye input requires MaleCNS photoreceptors')
+        mapping = VisualColumns(self.graph.circuits)
+        if set(brightness) != {'L', 'R'}:
+            raise ValueError('Both spatial eye inputs are required')
+        candidate = {}
+        for side in ['L', 'R']:
+            value = np.asarray(brightness[side], dtype=np.float64)
+            if (value.shape != (len(mapping.ids[side]),) or not np.isfinite(value).all()
+                    or ((value < 0) | (value > 1)).any()):
+                raise ValueError('Invalid spatial brightness values')
+            positive = value > 0
+            if positive.any():
+                candidate[side] = (self.resolve(mapping.ids[side])[positive], value[positive] * 100.)
+        self.eye_inputs = candidate
+        self._refresh_inputs()
+
     def set_sensory_input(self, ids, rate_hz):
         """Environmental input channel; overlapping manual/sensory rates use max."""
         targets = self.resolve(ids)
@@ -410,8 +429,8 @@ class Brain:
             rates[int(i)] = max(rates.get(int(i), 0.), self.sensory_rate)
         for side in sorted(self.eye_inputs):
             targets, rate = self.eye_inputs[side]
-            for i in targets:
-                rates[int(i)] = max(rates.get(int(i), 0.), rate)
+            for i, value in zip(targets, np.broadcast_to(rate, (len(targets),))):
+                rates[int(i)] = max(rates.get(int(i), 0.), float(value))
         for name in sorted(self.circuit_inputs):
             targets, rate = self.circuit_inputs[name]
             for i in targets:

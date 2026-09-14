@@ -102,6 +102,8 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
     if (neurons.type.eq('R1-R6') & neurons.superclass.eq('ol_sensory')).any():
         from .eyes import attach_eye_inputs
         registry = attach_eye_inputs(registry, neurons, nt_table, ids)
+        from .visual_columns import attach_visual_columns
+        registry = attach_visual_columns(registry, neurons, ids, offsets, posts, contacts)
     if nociception_cohort is not None:
         from .nociception import attach_cohort
         registry = attach_cohort(registry, nociception_cohort, ids, records[FILES['annotations']]['sha256'])

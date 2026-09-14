@@ -1,0 +1,415 @@
+{
+  "format": "nexus-spatial-vision-results-1",
+  "success": true,
+  "manifest_sha256": "0603c666252b4bee42db15955665c632296f5b95e463120593f22f62ae8c0ab9",
+  "image_means": {
+    "left": 127.5,
+    "right": 127.5
+  },
+  "trials": [
+    {
+      "seed": 73100,
+      "mode": "pooled",
+      "pattern": "left",
+      "output_blocked": false,
+      "total_spikes": 41991,
+      "inhibited_cells": 2160,
+      "minimum_mv": -84.13774503700463,
+      "video_frame": 4,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73100,
+      "mode": "pooled",
+      "pattern": "right",
+      "output_blocked": false,
+      "total_spikes": 41991,
+      "inhibited_cells": 2160,
+      "minimum_mv": -84.13774503700463,
+      "video_frame": 4,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73100,
+      "mode": "spatial",
+      "pattern": "left",
+      "output_blocked": false,
+      "total_spikes": 54528,
+      "inhibited_cells": 1462,
+      "minimum_mv": -102.38985364319423,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 53926,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73100,
+      "mode": "spatial",
+      "pattern": "right",
+      "output_blocked": false,
+      "total_spikes": 23361,
+      "inhibited_cells": 786,
+      "minimum_mv": -103.6126082255017,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 22800,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73100,
+      "mode": "spatial",
+      "pattern": "left",
+      "output_blocked": true,
+      "total_spikes": 54528,
+      "inhibited_cells": 0,
+      "minimum_mv": -52.0,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 53926,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73100,
+      "mode": "spatial",
+      "pattern": "right",
+      "output_blocked": true,
+      "total_spikes": 23361,
+      "inhibited_cells": 0,
+      "minimum_mv": -52.0,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 22800,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "mode": "pooled",
+      "pattern": "left",
+      "output_blocked": false,
+      "total_spikes": 41803,
+      "inhibited_cells": 2168,
+      "minimum_mv": -88.00050179605151,
+      "video_frame": 4,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "mode": "pooled",
+      "pattern": "right",
+      "output_blocked": false,
+      "total_spikes": 41803,
+      "inhibited_cells": 2168,
+      "minimum_mv": -88.00050179605151,
+      "video_frame": 4,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "mode": "spatial",
+      "pattern": "left",
+      "output_blocked": false,
+      "total_spikes": 54437,
+      "inhibited_cells": 1465,
+      "minimum_mv": -109.83918169837291,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 53886,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "mode": "spatial",
+      "pattern": "right",
+      "output_blocked": false,
+      "total_spikes": 23398,
+      "inhibited_cells": 785,
+      "minimum_mv": -99.67091090529792,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 22810,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "mode": "spatial",
+      "pattern": "left",
+      "output_blocked": true,
+      "total_spikes": 54437,
+      "inhibited_cells": 0,
+      "minimum_mv": -52.0,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 53886,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "mode": "spatial",
+      "pattern": "right",
+      "output_blocked": true,
+      "total_spikes": 23398,
+      "inhibited_cells": 0,
+      "minimum_mv": -52.0,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 22810,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "mode": "pooled",
+      "pattern": "left",
+      "output_blocked": false,
+      "total_spikes": 41865,
+      "inhibited_cells": 2166,
+      "minimum_mv": -85.09890092532825,
+      "video_frame": 4,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "mode": "pooled",
+      "pattern": "right",
+      "output_blocked": false,
+      "total_spikes": 41865,
+      "inhibited_cells": 2166,
+      "minimum_mv": -85.09890092532825,
+      "video_frame": 4,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "mode": "spatial",
+      "pattern": "left",
+      "output_blocked": false,
+      "total_spikes": 54391,
+      "inhibited_cells": 1461,
+      "minimum_mv": -106.32557110139291,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 53772,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "mode": "spatial",
+      "pattern": "right",
+      "output_blocked": false,
+      "total_spikes": 23512,
+      "inhibited_cells": 784,
+      "minimum_mv": -99.50214937232776,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 22933,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "mode": "spatial",
+      "pattern": "left",
+      "output_blocked": true,
+      "total_spikes": 54391,
+      "inhibited_cells": 0,
+      "minimum_mv": -52.0,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 53772,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "mode": "spatial",
+      "pattern": "right",
+      "output_blocked": true,
+      "total_spikes": 23512,
+      "inhibited_cells": 0,
+      "minimum_mv": -52.0,
+      "video_frame": 4,
+      "shared_clock": true,
+      "dark_input_spikes": 0,
+      "bright_input_spikes": 22933,
+      "excluded_input_spikes": 0,
+      "eof_released": true
+    }
+  ],
+  "comparisons": [
+    {
+      "seed": 73100,
+      "pooled_patterns_identical": true,
+      "spatial_patterns_distinct": true,
+      "cells_with_voltage_difference_over_0_5_mv": 2242,
+      "blockade_preserves_input_spikes": true
+    },
+    {
+      "seed": 73101,
+      "pooled_patterns_identical": true,
+      "spatial_patterns_distinct": true,
+      "cells_with_voltage_difference_over_0_5_mv": 2238,
+      "blockade_preserves_input_spikes": true
+    },
+    {
+      "seed": 73102,
+      "pooled_patterns_identical": true,
+      "spatial_patterns_distinct": true,
+      "cells_with_voltage_difference_over_0_5_mv": 2239,
+      "blockade_preserves_input_spikes": true
+    }
+  ],
+  "limits": [
+    "Column identities are inferred from L1/L2 agreement.",
+    "Video projection is uncalibrated; the physical eye cameras retain pooled input.",
+    "These tests establish spatial input routing, not object recognition or guided exploration.",
+    "Generic spiking photoreceptors and unbounded inhibitory current remain unfitted."
+  ],
+  "automated_tests": {
+    "passed": 180,
+    "final_spatial_tests_passed": 6
+  },
+  "native_gui": {
+    "success": true,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "approach geometry advances with brain time and releases both visual inputs",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation",
+      "neural walking mode removes scheduled walking and reports quiet-brain idle",
+      "mapped BDN2 input produces measured forward drive in the native app",
+      "release preserves the paused walking readout and shared clock",
+      "reset clears walking activity while preserving the selected control mode",
+      "video loads paused with a decoded preview and no neural input",
+      "video brightness drives photoreceptor spikes and the live activity graph",
+      "measured voltage response is visible and display switching preserves paused activity",
+      "enlarged vision preview has controls to its left",
+      "paused video frame is stable and disabling feedback clears visual input",
+      "restart rewinds the video without resetting the brain clock",
+      "end of video automatically releases visual input",
+      "actual left/right eye cameras feed the brain and appear in the vision panel",
+      "Release disables visual feedback and preserves paused brain state",
+      "spatial video mode is selectable and changing mapping pauses with input cleared",
+      "spatial video input reaches mapped photoreceptors and its state appears in the native panel",
+      "switching to physical eye cameras clears spatial input and restores brightness mapping"
+    ]
+  },
+  "user_video_comparison": {
+    "pooled": {
+      "frame": 10,
+      "rate_ranges_hz": {
+        "L": [
+          92.1352873093682,
+          92.1352873093682
+        ],
+        "R": [
+          92.1352873093682,
+          92.1352873093682
+        ]
+      },
+      "voltage_cells": 726,
+      "preview_size": [
+        426,
+        188
+      ]
+    },
+    "spatial": {
+      "frame": 10,
+      "rate_ranges_hz": {
+        "L": [
+          69.13086204296361,
+          99.81617647058823
+        ],
+        "R": [
+          58.71371546607449,
+          99.51016904395887
+        ]
+      },
+      "voltage_cells": 707,
+      "preview_size": [
+        426,
+        188
+      ]
+    },
+    "success": true,
+    "screenshots_visually_checked": [
+      "spatial.png"
+    ],
+    "note": "Local simulator recording; not included in the repository. Mode comparisons measured at the same decoded frame."
+  },
+  "packaging_selection": {
+    "validates_without_old_registries": true,
+    "selected_files": [
+      "ids.npy",
+      "offsets.npy",
+      "posts.npy",
+      "weights-b330cd6b3bd5f4146b95925532097aeaf4ad2c08bc9b090d923f3da2527721f2.npy",
+      "circuits-31b6951c3c2a93be.json",
+      "manifest.json"
+    ],
+    "local_bundle_rebuilt": false
+  },
+  "cohort_counts": {
+    "L": 1071,
+    "R": 2084
+  },
+  "weights_unchanged_from_v7": true,
+  "implementation_sha256": {
+    "src/nexus/datasets/visual_columns.py": "0e2d0212231f8aa61fbb2ff0cf5ddf383ececed930e22ea4d6d79097e98d6c53",
+    "src/nexus/retina.py": "d7fc45982dece1643680a0d1a6db88dcc9e160fae7566579feb2a8ff1d4d6cd8",
+    "src/nexus/vision.py": "a42d403f8fb3ccaa6bdc5aa8b645882eddbc9ff8475f62b888eb516f84f05479",
+    "src/nexus/vision_panel.py": "b4bfd0c30ffa944a91255563a17507da9be8a552b834f89c5a75bece47b7fa25",
+    "src/nexus/brain/runtime.py": "785e45d40db8f5c59b1c00edeb79d7717ab518a55e625f64a6857929c07b9b9c",
+    "src/nexus/coupled.py": "1d1f7634ed5f7e4898bc300290a7d8281981f5d56e016fdaa4ea028dcb49263d",
+    "src/nexus/app.py": "76d88064160c351e89712c480ab4b4e4f2b7a5286c788606e58bfc5c70f35bd6",
+    "scripts/install_visual_columns.py": "2543b0587c36755bdfa84c5dcd9fc0475043f04c18114cd77d3bb93c1e23888d",
+    "scripts/probe_spatial_vision.py": "6711dae562dd3bb74338b7c4a7f02bd20223f963000480768208824f4af120f0"
+  }
+}

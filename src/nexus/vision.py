@@ -21,6 +21,8 @@ class EyeFeedback:
         self.preview = None
         self.video_origin = brain.step
         registry = brain.graph.circuits or {}
+        from .retina import VisualColumns
+        self.spatial = VisualColumns(registry) if 'visual_columns' in registry else None
         self.available = (brain.graph.snapshot == 'male-cns:v1.0'
                           and all(registry.get('circuits', {}).get(k, {}).get('ids')
                                   for k in ['eye_left', 'eye_right'])
@@ -32,6 +34,7 @@ class EyeFeedback:
             self.video.close()
             self.video = None
         self.preview = None
+        self.mapping_mode = 'pooled'
         self.enabled = False
         self.next_sample = self.brain.step
         self.sample_step = None
@@ -75,6 +78,7 @@ class EyeFeedback:
             self.video.close()
             self.video = None
         self.preview = None
+        self.mapping_mode = 'pooled'
         self.sample_step = None
         self.brightness = None
         self.samples = 0
@@ -84,6 +88,15 @@ class EyeFeedback:
         if self.video is None:
             raise ValueError('Load a video first')
         self.load_video(self.video.path)
+
+    def set_mapping(self, mode):
+        if mode not in ('pooled', 'spatial'):
+            raise ValueError('Unknown visual input mapping')
+        if mode == 'spatial' and (self.video is None or self.spatial is None):
+            raise ValueError('Spatial input requires a video and the visual-column pack update')
+        self.configure(False)
+        self.mapping_mode = mode
+        self.brightness = None
 
     def after_step(self, ticks):
         # Turning feedback off freezes video position even if the body still runs.
@@ -109,8 +122,13 @@ class EyeFeedback:
                     return step
                 self.preview = frame
                 value = np.full(2, frame.mean() / 255.)
-            self.brain.set_eye_input(value)
-            self.brightness = [float(x) for x in value]
+            if self.video is not None and self.mapping_mode == 'spatial':
+                values = self.spatial.sample(frame)
+                self.brain.set_spatial_eye_input(values)
+                self.brightness = [float(values[s].mean()) for s in ['L', 'R']]
+            else:
+                self.brain.set_eye_input(value)
+                self.brightness = [float(x) for x in value]
             self.sample_step = self.brain.step
             self.next_sample = self.brain.step + SAMPLE_TICKS
             self.samples += 1
@@ -126,8 +144,14 @@ class EyeFeedback:
                 'video_frame': self.video.index if self.video is not None else None,
                 'video_ended': self.video.ended if self.video is not None else False,
                 'error': self.error,
-                'rates_hz': {side: rate for side, (_, rate) in self.brain.eye_inputs.items()},
-                'mapping': 'pooled-eye-brightness-v1; unfitted 0-100 Hz R1-R6 input'}
+                'rates_hz': {side: float(np.asarray(rate).mean()) for side, (_, rate) in self.brain.eye_inputs.items()},
+                'rate_ranges_hz': {side: [float(np.min(rate)), float(np.max(rate))]
+                                   for side, (_, rate) in self.brain.eye_inputs.items()},
+                'spatial_available': self.spatial is not None,
+                'mapping_mode': self.mapping_mode,
+                'mapping': ('spatial-video-columns-v1; inferred columns, uncalibrated projection, 0-100 Hz'
+                            if self.mapping_mode == 'spatial' else
+                            'pooled-eye-brightness-v1; unfitted 0-100 Hz R1-R6 input')}
 
     def close(self):
         if self.video is not None:

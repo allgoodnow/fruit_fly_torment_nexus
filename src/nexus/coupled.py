@@ -130,6 +130,9 @@ class CoupledSession:
         elif kind == 'vision_restart':
             self.eyes.restart_video()
             self.running = False
+        elif kind == 'vision_mapping':
+            self.eyes.set_mapping(value)
+            self.running = False
         elif kind == 'bridge_enabled':
             self.decoder.enabled = bool(value)
             self.motor_effects.enabled = bool(value)

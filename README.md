@@ -76,8 +76,9 @@ The enlarged preview places its controls on the left. The brain view shows
 spikes alongside signed voltage changes, including inhibition that does not fire
 spikes; its selector can return to spikes only.
 Load a video, enable **Feed to brain**, then run the simulation. Playback follows
-simulation time. This first stage maps pooled brightness to R1–R6 photoreceptors;
-it does not yet model spatial vision or recognize video content. See the
+simulation time. **Brightness** supplies pooled input; **Spatial (exp.)** samples
+different image regions at inferred R1–R6 visual columns. This experimental
+projection is uncalibrated and does not recognize video content. See the
 [visual input guide](docs/user-guide.md#visual-input-development-toward-12).
 
 The prepared workspace runs with `./run.sh`. Large neural packs are excluded from
