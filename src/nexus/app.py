@@ -257,18 +257,25 @@ def main():
             self.wander.setChecked(True)
             self.wander.toggled.connect(lambda checked: self.send('autonomous' if coupled else 'wander', checked))
             form.addRow(self.wander)
+            self.neural_walking = QCheckBox('Neural walking drive (experimental)')
+            self.neural_walking.setVisible(coupled)
+            self.neural_walking.setEnabled(coupled and config.forward_walking_available)
+            self.neural_walking.setToolTip('BDN2 activity supplies forward drive. Quiet neurons may mean no walking. Leg coordination still uses a controller; see Guide.')
+            self.neural_walking.toggled.connect(lambda checked: self.send('neural_walking', checked))
+            form.addRow(self.neural_walking)
             self.drive = QSlider(Qt.Orientation.Horizontal)
             self.drive.setRange(0, 130)
             self.drive.setValue(100)
             self.drive.valueChanged.connect(lambda value: self.send("drive", value/100))
-            form.addRow("Baseline walking drive" if coupled else "Stride drive", self.drive)
+            self.drive.setToolTip('In neural walking mode this scales the measured BDN2 drive; it does not supply baseline excitation.')
+            form.addRow("Walking drive" if coupled else "Stride drive", self.drive)
             self.turn = QSlider(Qt.Orientation.Horizontal)
             self.turn.setRange(-60, 60)
             self.turn.valueChanged.connect(lambda value: self.send("turn", value/100))
             form.addRow("L / R bias", self.turn)
             if coupled:
                 self.turn.setEnabled(False)
-            self.release = QPushButton("Restore baseline walking drive" if coupled else "Restore default motor input")
+            self.release = QPushButton("Restore walking drive" if coupled else "Restore default motor input")
             self.release.clicked.connect(lambda: self.send("release"))
             form.addRow(self.release)
             controls.addWidget(motor)
@@ -447,6 +454,12 @@ def main():
                         slider.setValue(round(value*100))
                         slider.blockSignals(False)
                 self.turn.setEnabled(not coupled and not t["wander"])
+                if coupled:
+                    neural_walking = t.get('neural_walking', False)
+                    self.neural_walking.blockSignals(True)
+                    self.neural_walking.setChecked(neural_walking)
+                    self.neural_walking.blockSignals(False)
+                    self.wander.setEnabled(not neural_walking)
                 x, y, z = t["position_mm"]
                 self.metrics.setText(f"Simulation: {t['sim_time']:.3f} s\nRate: {t['realtime_factor']:.2f}× real time\n"
                                      f"Position: {x:.2f}, {y:.2f}, {z:.2f} mm\n"
@@ -1005,6 +1018,48 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('experiment control resumes and pauses the shared simulation')
+                if config.forward_walking_available:
+                    self.tabs.setCurrentIndex(0)
+                    self.neural_walking.setChecked(True)
+                    self.smoke_stage = 12
+                    return
+                self.grab().save(str(data_dir/'final-app.png'))
+                self.smoke_finish(True)
+            elif self.smoke_stage == 12 and t.get('neural_walking'):
+                if (t['motor_bridge']['drive'] != 0 or t['ground_behavior']['state'] != 'neural idle'
+                        or self.wander.isEnabled() or not self.neural_walking.isChecked()):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('neural walking mode removes scheduled walking and reports quiet-brain idle')
+                self.walking_test_start = t['sim_time']
+                self.brain_panel.send('stimulate', {'ids': t['walking_decoder']['ids'], 'rate_hz': 200})
+                self.brain_panel.send('running', True)
+                self.smoke_stage = 13
+            elif self.smoke_stage == 13 and t['sim_time'] >= self.walking_test_start + .1:
+                if t['walking_decoder']['drive'] <= 0:
+                    self.smoke_finish(False)
+                    return
+                self.brain_panel.send('running', False)
+                self.smoke_stage = 14
+            elif self.smoke_stage == 14 and not t['running']:
+                self.walking_test_rate = t['walking_decoder']['rate_hz']
+                self.walking_test_time = t['sim_time']
+                self.smoke_checks.append('mapped BDN2 input produces measured forward drive in the native app')
+                self.brain_panel.send('release')
+                self.smoke_stage = 15
+            elif self.smoke_stage == 15 and not t['manual_ids']:
+                if t['walking_decoder']['rate_hz'] != self.walking_test_rate or t['sim_time'] != self.walking_test_time:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('release preserves the paused walking readout and shared clock')
+                self.reset_generation = t['generation'] + 1
+                self.reset_button.click()
+                self.smoke_stage = 16
+            elif self.smoke_stage == 16 and t['generation'] == self.reset_generation:
+                if not t['neural_walking'] or t['walking_decoder']['drive'] != 0 or t['total_spikes']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('reset clears walking activity while preserving the selected control mode')
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 

@@ -95,6 +95,9 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
     if neurons.type.eq('LC4').any():
         from .looming import attach_velocity_circuit
         registry = attach_velocity_circuit(registry, neurons, ids)
+    if neurons.type.eq('DNg100').any():
+        from .walking import attach_forward_readout
+        registry = attach_forward_readout(registry, neurons, ids)
     if nociception_cohort is not None:
         from .nociception import attach_cohort
         registry = attach_cohort(registry, nociception_cohort, ids, records[FILES['annotations']]['sha256'])

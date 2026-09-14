@@ -22,6 +22,7 @@ class ModelConfig:
     right_ids: tuple[str, ...]
     food_available: bool
     nociception_count: int = 0
+    forward_walking_available: bool = False
 
     @property
     def pain_circuit(self):
@@ -58,4 +59,5 @@ def model_config(directory):
                        f"Warmth sensory cells ({len(registry['circuits']['warmth']['ids'])})", tuple(registry['circuits']['warmth']['ids']),
                        tuple(readouts['mn9']), tuple(readouts['steering_left']),
                        tuple(readouts['steering_right']), False,
-                       len(registry['circuits'].get('nociception_proxy', {}).get('ids', [])))
+                       len(registry['circuits'].get('nociception_proxy', {}).get('ids', [])),
+                       len(readouts.get('forward_walking', [])) == 2)

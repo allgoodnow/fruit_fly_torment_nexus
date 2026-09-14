@@ -62,6 +62,9 @@ Development toward **1.2.0** adds a changing approaching-threat input, with sepa
 LPLC2 size and LC4 expansion-speed pathways. The 1.1.1 download retains its original
 constant input. See the [guide](docs/user-guide.md#approaching-threats-development-toward-12)
 for the new model assumptions and the local pack update.
+An experimental BDN2 walking-drive mode also separates neural forward commands
+from the scheduled exploration controller. It is groundwork for autonomous
+exploration; quiet neurons currently remain still in this mode.
 
 The prepared workspace runs with `./run.sh`. Large neural packs are excluded from
 Git; they are supplied in the release under `_internal/data/`. A source checkout

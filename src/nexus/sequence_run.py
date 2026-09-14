@@ -42,6 +42,7 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
             json.dumps(description, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
         'provenance': provenance or {}, 'sample_interval_ms': 10,
         'motor_bridge_enabled': session.decoder.enabled and session.motor_effects.enabled,
+        'neural_walking': session.neural_walking,
         'environment': session.environment.snapshot() if session.environment else None,
         'limitations': [
             'Experimental neural dynamics and authored motor decoder; subjective states are unverified.',
@@ -79,9 +80,10 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
                     'longitudinal_delta_mm': float(np.dot((body.position()-before_position)[:2], forward)),
                     'upright': float(body.sim.mj_data.xmat[body.thorax_id].reshape(3, 3)[2, 2]),
                     'joint_offset_rms_rad': body.motor_offset_rms,
-                    'behavior': session.behavior.output(session.baseline),
+                    'behavior': session.ground_output(),
+                    'walking_decoder': session.walking_decoder.output(session.baseline),
                     'motor_effects': session.motor_effects.output(),
-                    'motor_command': session.motor_output(session.behavior.output(session.baseline)),
+                    'motor_command': session.motor_output(session.ground_output()),
                     'recovery': session.recovery.status(),
                 }
                 stream.write(json.dumps(row, allow_nan=False)+'\n')

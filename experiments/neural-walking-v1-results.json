@@ -1,0 +1,221 @@
+{
+  "format": "nexus-neural-walking-results-1",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "manifest_sha256": "ad750ace492bfac1166f11b8fedb5363324658690b4bb0d17999f72d4265082e",
+  "duration_ms_per_trial": 700,
+  "trials": [
+    {
+      "seed": 73100,
+      "condition": "quiet",
+      "total_spikes": 0,
+      "bdn2_spikes": [
+        0,
+        0
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "condition": "bdn2_input",
+      "total_spikes": 32185,
+      "bdn2_spikes": [
+        52,
+        76
+      ],
+      "maximum_forward_drive_during_input": 1.3,
+      "longitudinal_displacement_during_input_mm": 1.3440213231543652,
+      "minimum_upright": 0.9974336103826791,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "condition": "bdn2_blocked",
+      "total_spikes": 141,
+      "bdn2_spikes": [
+        61,
+        80
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "condition": "motor_blocked",
+      "total_spikes": 32185,
+      "bdn2_spikes": [
+        52,
+        76
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "quiet",
+      "total_spikes": 0,
+      "bdn2_spikes": [
+        0,
+        0
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "bdn2_input",
+      "total_spikes": 25566,
+      "bdn2_spikes": [
+        67,
+        49
+      ],
+      "maximum_forward_drive_during_input": 1.3,
+      "longitudinal_displacement_during_input_mm": 1.9539093988951441,
+      "minimum_upright": 0.9931229477867053,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "bdn2_blocked",
+      "total_spikes": 124,
+      "bdn2_spikes": [
+        71,
+        53
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "motor_blocked",
+      "total_spikes": 25566,
+      "bdn2_spikes": [
+        67,
+        49
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "quiet",
+      "total_spikes": 0,
+      "bdn2_spikes": [
+        0,
+        0
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "bdn2_input",
+      "total_spikes": 20275,
+      "bdn2_spikes": [
+        57,
+        55
+      ],
+      "maximum_forward_drive_during_input": 1.3,
+      "longitudinal_displacement_during_input_mm": 1.981161361326893,
+      "minimum_upright": 0.9947434276599562,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "bdn2_blocked",
+      "total_spikes": 119,
+      "bdn2_spikes": [
+        60,
+        59
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "motor_blocked",
+      "total_spikes": 20275,
+      "bdn2_spikes": [
+        57,
+        55
+      ],
+      "maximum_forward_drive_during_input": 0.0,
+      "longitudinal_displacement_during_input_mm": -5.743535582835706e-09,
+      "minimum_upright": 0.9998454328164328,
+      "authored_behavior_elapsed_s": 0.0,
+      "inputs_released": true
+    }
+  ],
+  "comparisons": [
+    {
+      "seed": 73100,
+      "comparison": "bdn2_blocked",
+      "identical_input_random_draws": true,
+      "maximum_body_difference_mm": 2.187433862058737
+    },
+    {
+      "seed": 73100,
+      "comparison": "motor_blocked",
+      "identical_input_random_draws": true,
+      "maximum_body_difference_mm": 2.187433862058737
+    },
+    {
+      "seed": 73101,
+      "comparison": "bdn2_blocked",
+      "identical_input_random_draws": true,
+      "maximum_body_difference_mm": 2.5046224767929712
+    },
+    {
+      "seed": 73101,
+      "comparison": "motor_blocked",
+      "identical_input_random_draws": true,
+      "maximum_body_difference_mm": 2.5046224767929712
+    },
+    {
+      "seed": 73102,
+      "comparison": "bdn2_blocked",
+      "identical_input_random_draws": true,
+      "maximum_body_difference_mm": 4.1370354544487515
+    },
+    {
+      "seed": 73102,
+      "comparison": "motor_blocked",
+      "identical_input_random_draws": true,
+      "maximum_body_difference_mm": 4.1370354544487515
+    }
+  ],
+  "limits": [
+    "The experiment supplies BDN2 input; it does not demonstrate spontaneous exploration.",
+    "Direct descending readout and FlyGym coordination bypass a reconstructed VNC-to-muscle pathway.",
+    "Rate filter and motor gains are engineered. Output blockade ends at release."
+  ],
+  "settling_monitor_fix_preserves_exact_neural_counts_and_body_positions": true
+}

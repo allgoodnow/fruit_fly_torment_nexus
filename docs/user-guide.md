@@ -124,6 +124,48 @@ Mapped MDN descending-neuron activity can request backward stepping.
 This is not a reconstructed mapping from every VNC neuron to every leg muscle.
 Flight is not enabled.
 
+### Neural walking drive (development toward 1.2)
+
+The Body tab's **Neural walking drive (experimental)** option replaces the
+scheduled explore/turn/rest drive with a readout of two mapped BDN2 neurons
+(MaleCNS DNg100, IDs 10045 and 10056). DNa02 still influences steering and MDN
+activity can request retreat. The default remains the existing ground controller.
+
+Experiments associate BDN2 with forward walking initiation and speed. The official
+MaleCNS annotations explicitly identify both DNg100 cells as BDN2.
+[Study](https://doi.org/10.1038/s41586-024-07854-7)
+The mapping audit is in `experiments/walking-evidence-v1.json`.
+
+This option is a **motor-readout experiment, not spontaneous exploration**.
+The current LIF model has no background excitation, so without input its quiet
+neurons remain quiet. No random drive is injected to hide that limitation.
+Body-to-brain sensory feedback and suitable ongoing neural dynamics are still
+needed for an exploration loop driven by the network.
+
+The decoder filters delivered BDN2 spikes over 100 ms and averages both cells.
+100 Hz mean activity supplies unit forward drive; the walking-drive slider scales
+that gain. These are engineering choices. Outgoing silencing also suppresses the
+readout. Quiet forward/retreat/escape/disruption levels below 0.01 select a resting
+pose. FlyGym still coordinates the legs, and the existing escape/disruption
+waveforms remain authored. This does not reconstruct individual motor-neuron
+activation of muscles.
+
+The mode switch preserves the brain, input settings, and clock. The ordinary
+exploration schedule is held while the mode is active. Pause holds neural drive;
+Release preserves its filtered activity, which can decay as simulation continues.
+Reset clears activity while retaining the selected mode. Existing packs without
+the bilateral readout disable this option; there is no fallback to foreign IDs.
+
+Run `python scripts/install_walking_readout.py` to add the readout to a local pack
+using its original official annotations in `data/raw/male-cns-v1.0/`. The installer
+checks the annotation hash and bilateral identity, preserves previous circuits,
+and switches to a content-addressed registry. Freshly prepared packs include it.
+
+Use `scripts/probe_neural_walking.py --output-dir new-results-folder` to compare
+quiet, BDN2 stimulation, BDN2 output blockade, and motor-bridge blockade with three
+seeds. This assay supplies neural input explicitly; successful walking in it does
+not establish autonomous exploration.
+
 The default neural dataset is **MaleCNS v1.0**, containing **166,700 classified
 neurons** and **25,582,938 directed connections** in the prepared model. The live
 view includes brain and ventral nerve cord (VNC) cell anchors. It displays 140,638
@@ -252,6 +294,7 @@ simulation milliseconds with all of these conditions:
 
 - Population activity at most 0.1 Hz per neuron in each observed interval.
 - Retreat, escape, and disruption levels at most 0.05; steering readout at most 10 Hz.
+  In neural walking mode, forward drive must also be at most 0.05.
 - Upright body-axis value at least 0.8, with posture information available.
 
 Meeting these operational thresholds is not biological recovery, subjective relief,

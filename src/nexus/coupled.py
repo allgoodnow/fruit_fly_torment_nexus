@@ -7,6 +7,7 @@ from queue import Empty
 
 from .brain.motor import SteeringDecoder
 from .brain.motor_effects import MotorEffects
+from .brain.walking import WalkingDecoder
 from .brain.protocol import Protocol
 from .brain.telemetry import NeuralTelemetry
 from .worker import put_latest
@@ -24,6 +25,8 @@ class CoupledSession:
         self.environment = environment
         self.decoder = SteeringDecoder(brain)
         self.motor_effects = MotorEffects(brain)
+        self.walking_decoder = WalkingDecoder(brain)
+        self.neural_walking = False
         self.behavior = GroundBehavior(enabled=autonomous)
         self.resume_after_protocol = autonomous
         self.coupling_ticks = coupling_ticks
@@ -66,6 +69,7 @@ class CoupledSession:
             self.body.reset()
             self.decoder.reset()
             self.motor_effects.reset()
+            self.walking_decoder.reset()
             self.behavior.reset()
             self.monitor.reset(self.brain)
             self.recovery.reset()
@@ -111,6 +115,13 @@ class CoupledSession:
         elif kind == 'bridge_enabled':
             self.decoder.enabled = bool(value)
             self.motor_effects.enabled = bool(value)
+            self.walking_decoder.enabled = bool(value)
+        elif kind == 'neural_walking':
+            if not isinstance(value, bool):
+                raise ValueError('Neural walking must be enabled or disabled')
+            if value and not self.walking_decoder.output()['available']:
+                raise ValueError('This pack has no mapped bilateral BDN2 walking readout')
+            self.neural_walking = value
         elif kind == 'motor_effects_enabled':
             self.motor_effects.enabled = bool(value)
         elif kind == 'descending_enabled':
@@ -154,7 +165,7 @@ class CoupledSession:
         end = self.brain.step + ticks
         while self.brain.step < end:
             if self.protocol and self.protocol.completed:
-                if self.running and self.resume_after_protocol and self.behavior.enabled:
+                if self.running and self.resume_after_protocol and self.free_control_enabled:
                     self.protocol = None
                 else:
                     self.running = False
@@ -168,7 +179,7 @@ class CoupledSession:
                 self.protocol.advance(self.brain, 0)
                 if self.protocol.completed:
                     self.completed_protocol = self.protocol
-                    if self.running and self.resume_after_protocol and self.behavior.enabled:
+                    if self.running and self.resume_after_protocol and self.free_control_enabled:
                         self.protocol = None
                         continue
                     self.running = False
@@ -181,6 +192,7 @@ class CoupledSession:
                 step = min(step, self.brain.looming_input.end - before)
             self.sync_recovery()
             gains = self.brain.output_gain[self.decoder.indices].copy()
+            walking_gains = self.brain.output_gain[self.walking_decoder.indices].copy()
             directly_driven = self.brain.inputs.copy()
             # The protocol applies endpoint events on the next iteration, after
             # this body's interval has used the correct pre-event output gains.
@@ -190,12 +202,14 @@ class CoupledSession:
                 self.environment.active_seconds += elapsed
             counts = self.brain.counts-before_counts
             self.decoder.observe(counts[self.decoder.indices], elapsed, gains)
+            self.walking_decoder.observe(counts[self.walking_decoder.indices], elapsed, walking_gains)
             self.motor_effects.observe(counts, elapsed, self.brain.output_gain, directly_driven)
             effects = self.motor_effects.output()
             interrupted = (effects['retreat'] > .05 or effects['escape'] > .05 or effects['disruption'] > .05 or
                            (self.decoder.enabled and max(self.decoder.rates) > 10.))
-            self.behavior.advance(elapsed, interrupted)
-            behavior = self.behavior.output(self.baseline)
+            if not self.neural_walking:
+                self.behavior.advance(elapsed, interrupted)
+            behavior = self.ground_output()
             output = self.motor_output(behavior)
             extra = {'escape': effects['escape'], 'disruption': effects['disruption']}
             if not any(extra.values()):
@@ -208,6 +222,7 @@ class CoupledSession:
             self.recovery.observe(self.brain.step, int(counts.sum()), len(counts),
                                   escape=effects['escape'], disruption=effects['disruption'],
                                   retreat=effects['retreat'],
+                                  walking_drive=self.walking_decoder.output(self.baseline)['drive'] if self.neural_walking else 0.,
                                   steering_hz=float(max(self.decoder.rates)) if self.decoder.enabled else 0.,
                                   upright=self.body.upright() if hasattr(self.body, 'upright') else None)
             self.sync_environment()
@@ -215,8 +230,22 @@ class CoupledSession:
             self.protocol.advance(self.brain, 0)
             if self.protocol.completed:
                 self.completed_protocol = self.protocol
-                self.running = self.running and self.resume_after_protocol and self.behavior.enabled
+                self.running = self.running and self.resume_after_protocol and self.free_control_enabled
         self.sync_recovery()
+
+    @property
+    def free_control_enabled(self):
+        return self.neural_walking or self.behavior.enabled
+
+    def ground_output(self):
+        if not self.neural_walking:
+            return self.behavior.output(self.baseline)
+        forward = self.walking_decoder.output(self.baseline)
+        effects = self.motor_effects.output()
+        active = max(forward['drive'], effects['retreat'], effects['escape'], effects['disruption']) >= .01
+        return {'enabled': self.behavior.enabled, 'state': 'neural response' if active else 'neural idle',
+                'drive': forward['drive'] if active else 0., 'turn': 0., 'resting': not active,
+                'controller': 'BDN2 / DNa02 / MDN and escape readouts; engineered leg coordination'}
 
     def motor_output(self, behavior):
         retreat = self.motor_effects.output()['retreat']
@@ -233,15 +262,18 @@ class CoupledSession:
 
     def snapshot(self):
         neural = self.monitor.snapshot(self.brain, self.running, self.generation, self.protocol,
-                                       coupled=self.decoder.enabled or self.motor_effects.enabled)
+                                       coupled=self.decoder.enabled or self.motor_effects.enabled
+                                               or (self.neural_walking and self.walking_decoder.enabled))
         neural['shared_clock'] = True
         food = self.environment.snapshot() if self.environment is not None else None
         neural['environment'] = food
-        behavior = self.behavior.output(self.baseline)
+        behavior = self.ground_output()
         motor = self.motor_output(behavior)
         neural['motor_bridge'] = motor
         neural['motor_effects'] = self.motor_effects.output()
-        neural['ground_behavior'] = self.behavior.output(self.baseline)
+        neural['ground_behavior'] = self.ground_output()
+        neural['neural_walking'] = self.neural_walking
+        neural['walking_decoder'] = self.walking_decoder.output(self.baseline)
         neural['resume_after_protocol'] = self.resume_after_protocol
         neural['recovery'] = self.recovery.snapshot()
         neural['reposition_count'] = self.reposition_count
@@ -254,6 +286,10 @@ class CoupledSession:
                     environment=food)
         body['motor_effects'] = neural['motor_effects']
         body['ground_behavior'] = neural['ground_behavior']
+        body['neural_walking'] = self.neural_walking
+        body['walking_decoder'] = neural['walking_decoder']
+        if self.neural_walking:
+            body['mode'] = 'BDN2 forward / DNa02 steering / MDN retreat; engineered gait'
         body['reposition_count'] = self.reposition_count
         return {'telemetry': body, 'brain': neural}
 

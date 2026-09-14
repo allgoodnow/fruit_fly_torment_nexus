@@ -10,6 +10,7 @@ import math
 class RecoveryMonitor:
     RULES = {'neural_hz_per_neuron_max': .1, 'escape_max': .05,
              'disruption_max': .05, 'retreat_max': .05, 'steering_hz_max': 10.,
+             'walking_drive_max': .05,
              'upright_min': .8, 'hold_ms': 500.,
              'interpretation': 'Consecutive qualifying simulation intervals; not biological recovery or subjective relief.'}
 
@@ -47,11 +48,11 @@ class RecoveryMonitor:
             self.current.update(release_ms=tick/10, phase='observing', observed_until_ms=tick/10)
             self.event('release_observation', tick)
 
-    def observe(self, tick, spikes, neurons, *, escape, disruption, steering_hz, upright, retreat=0.):
+    def observe(self, tick, spikes, neurons, *, escape, disruption, steering_hz, upright, retreat=0., walking_drive=0.):
         elapsed = tick-self.last_tick
         if elapsed <= 0 or neurons <= 0 or spikes < 0:
             raise ValueError('Recovery observations require advancing time and valid counts')
-        if not all(math.isfinite(v) for v in (escape, disruption, steering_hz, retreat)):
+        if not all(math.isfinite(v) for v in (escape, disruption, steering_hz, retreat, walking_drive)):
             raise ValueError('Recovery readouts must be finite')
         if upright is not None and not math.isfinite(upright):
             raise ValueError('Posture must be finite when available')
@@ -63,6 +64,7 @@ class RecoveryMonitor:
         checks = {'neural': rate <= rules['neural_hz_per_neuron_max'],
                   'motor': escape <= rules['escape_max'] and disruption <= rules['disruption_max']
                            and retreat <= rules['retreat_max']
+                           and walking_drive <= rules['walking_drive_max']
                            and steering_hz <= rules['steering_hz_max'],
                   'posture': upright is not None and upright >= rules['upright_min']}
         checks['all'] = all(checks.values())
