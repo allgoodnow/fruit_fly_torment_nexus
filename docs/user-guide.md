@@ -298,6 +298,10 @@ update described below. Changing mode pauses the simulation and disables visual
 input; enable **Feed to brain** and resume afterward. Restart retains the selected
 video mapping. Switching to physical eye cameras or resetting restores Brightness.
 
+**Adapt to light** is an optional experimental response setting, off by default.
+It works with both video mappings and the physical eye cameras. Changing it pauses
+and releases visual input; enable **Feed to brain** and resume to apply it.
+
 **Release stimulation** disables visual input. Starting a prepared sequence also
 disables it, and visual input cannot be enabled during that sequence. Release the
 sequence before using vision again. **Reset body + brain** unloads the video and
@@ -376,7 +380,7 @@ Physical eye cameras therefore continue using pooled brightness.
 This changes the **input**, not the scanned connection graph, synaptic weights,
 voltage display, or motor decoding. Equal-mean images can now activate different
 photoreceptor groups and produce different downstream voltage patterns. It does
-not yet supply ON/OFF adaptation, realistic graded photoreceptor transmission,
+not yet supply an ON/OFF circuit, realistic graded photoreceptor transmission,
 direction-selective motion processing, object recognition, or autonomous navigation.
 The previously documented uncalibrated inhibitory voltages remain a limitation.
 
@@ -391,6 +395,52 @@ photoreceptor output, across three seeds. It checks neural differences, dark and
 excluded cells, shared body/brain timing, and input release at the end of playback.
 This test checks implemented spatial routing, not biological accuracy. Its results
 are stored in `experiments/spatial-vision-v1-results.json`.
+
+#### Experimental light adaptation
+
+The static input modes give the same brightness the same rate regardless of prior
+illumination. **Adapt to light** adds memory of recent brightness: a sustained
+bright patch progressively reduces its own input gain, while exposure to darkness
+restores sensitivity. Each inferred spatial input has its own state; pooled mode
+has one state per eye. A dark channel receives zero visual drive even while its
+adaptation state recovers. The displayed video remains the original input frame.
+
+Adaptation to background illumination is supported by intracellular recordings
+of Drosophila photoreceptors in
+[Juusola and Hardie (2001)](https://doi.org/10.1085/jgp.117.1.3).
+Our implementation is a small authored approximation, not a reproduction or fit
+of that study's data or phototransduction mechanisms.
+
+For normalized brightness `L`, the background state `A` follows
+`dA/dt = (L − A) / 250 ms`. Input is `100 × L / (1 + 3 × A)` Hz. Both the 250 ms
+time constant and strength 3 are **unfitted choices**. The initial background is
+zero. Constant white therefore starts at 100 Hz and approaches 25 Hz; black
+immediately supplies zero input. Darkness must actually be supplied while feedback
+is enabled for sensitivity to recover. Disabling input represents an experiment
+pause, not a simulated dark scene.
+
+The background integrates the previously sampled light analytically over elapsed
+exposure time. Rates update on the existing 50 ms visual sampling clock and are
+held between updates. Integer exposure ticks keep this independent of GUI refresh
+and simulation chunk sizes. Pause holds both input and adaptation; disabling
+feedback or releasing stimulation clears input and freezes adaptation even if
+the body continues. Loading/restarting a video, changing the mapping or adaptation
+setting, and switching sources clear the adaptation state. Restart retains its
+checkbox selection and the brain state. **Reset body + brain** also turns the
+checkbox off. A prepared sequence disables visual input as before.
+
+This can reduce sustained drive and its downstream inhibition. It does not impose
+a physiological voltage floor, change the current-based synapse model, or prevent
+excessive inhibition during initial bright input. It also does not add a dark-onset
+burst, calibrated contrast tuning, ON/OFF pathways, graded photoreceptor release,
+motion recognition, or biological vision-guided locomotion. Those limits remain
+separate from this input adaptation model.
+
+`python scripts/probe_light_adaptation.py --output-dir new-results-folder` runs
+a white/dark/white clip with static input, adaptation, and photoreceptor-output
+blockade across three seeds in the full body/brain simulation. The results in
+`experiments/light-adaptation-v1-results.json` test sustained response reduction,
+dark recovery, downstream sensitivity, shared timing, and release at playback end.
 
 Different demonstrations can visualize different signals and representations.
 For example, [Flyvis](https://turagalab.github.io/flyvis/) implements a trained

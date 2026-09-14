@@ -61,6 +61,10 @@ class VisionPanel(QWidget):
         self.mapping.setToolTip('Spatial video input uses inferred columns and an uncalibrated image projection. Changing mode pauses and releases visual input. See Guide.')
         self.mapping.currentIndexChanged.connect(lambda: self.command.emit('vision_mapping', self.mapping.currentData()))
         controls.addWidget(self.mapping)
+        self.adaptation = QCheckBox('Adapt to light')
+        self.adaptation.setToolTip('Experimental sensitivity reduction with sustained light. Unfitted parameters; see Guide. Changing this pauses and releases visual input.')
+        self.adaptation.toggled.connect(lambda checked: self.command.emit('vision_adaptation', checked))
+        controls.addWidget(self.adaptation)
         controls.addStretch(1)
         self.status = QLabel('Disabled')
         self.status.setToolTip('Playback follows simulation time, without audio.')
@@ -83,6 +87,9 @@ class VisionPanel(QWidget):
         self.mapping.setCurrentIndex(1 if state.get('mapping_mode') == 'spatial' else 0)
         self.mapping.blockSignals(False)
         self.mapping.setEnabled(video and state.get('spatial_available', False))
+        self.adaptation.blockSignals(True)
+        self.adaptation.setChecked(state.get('adaptation', {}).get('selected', False))
+        self.adaptation.blockSignals(False)
         self.restart.setEnabled(video)
         if pixels is not None:
             height, width, _ = pixels.shape

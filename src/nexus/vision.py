@@ -1,4 +1,4 @@
-"""Sample real eye cameras on the neural clock; map only pooled brightness."""
+"""Clocked video and eye-camera input, with optional spatial sampling and adaptation."""
 import numpy as np
 
 SAMPLE_TICKS = 500  # 50 ms of simulated time, independent of GUI refresh.
@@ -23,6 +23,8 @@ class EyeFeedback:
         registry = brain.graph.circuits or {}
         from .retina import VisualColumns
         self.spatial = VisualColumns(registry) if 'visual_columns' in registry else None
+        from .light_adaptation import LightAdaptation
+        self.adaptation = LightAdaptation()
         self.available = (brain.graph.snapshot == 'male-cns:v1.0'
                           and all(registry.get('circuits', {}).get(k, {}).get('ids')
                                   for k in ['eye_left', 'eye_right'])
@@ -35,6 +37,8 @@ class EyeFeedback:
             self.video = None
         self.preview = None
         self.mapping_mode = 'pooled'
+        self.adaptive = False
+        self.adaptation.reset()
         self.enabled = False
         self.next_sample = self.brain.step
         self.sample_step = None
@@ -67,6 +71,7 @@ class EyeFeedback:
         self.video = candidate
         self.preview = candidate.frame
         self.video_origin = self.brain.step
+        self.adaptation.reset()
         self.sample_step = None
         self.brightness = None
         self.samples = 0
@@ -74,6 +79,7 @@ class EyeFeedback:
 
     def use_eyes(self):
         self.configure(False)
+        self.adaptation.reset()
         if self.video is not None:
             self.video.close()
             self.video = None
@@ -97,11 +103,22 @@ class EyeFeedback:
         self.configure(False)
         self.mapping_mode = mode
         self.brightness = None
+        self.adaptation.reset()
+
+    def set_adaptation(self, enabled):
+        if not isinstance(enabled, bool):
+            raise ValueError('Light adaptation must be enabled or disabled')
+        self.configure(False)
+        self.adaptive = enabled
+        self.adaptation.reset()
+        self.brightness = None
 
     def after_step(self, ticks):
         # Turning feedback off freezes video position even if the body still runs.
         if self.video is not None and not self.enabled:
             self.video_origin += ticks
+        if self.enabled and self.adaptive:
+            self.adaptation.advance(ticks)
 
     def before_step(self, step):
         if not self.enabled:
@@ -124,11 +141,14 @@ class EyeFeedback:
                 value = np.full(2, frame.mean() / 255.)
             if self.video is not None and self.mapping_mode == 'spatial':
                 values = self.spatial.sample(frame)
-                self.brain.set_spatial_eye_input(values)
                 self.brightness = [float(values[s].mean()) for s in ['L', 'R']]
+                driven = self.adaptation.sample(values) if self.adaptive else values
+                self.brain.set_spatial_eye_input(driven)
             else:
-                self.brain.set_eye_input(value)
                 self.brightness = [float(x) for x in value]
+                values = {'L': np.asarray([value[0]]), 'R': np.asarray([value[1]])}
+                driven = self.adaptation.sample(values) if self.adaptive else values
+                self.brain.set_eye_input([float(driven[s][0]) for s in ['L', 'R']])
             self.sample_step = self.brain.step
             self.next_sample = self.brain.step + SAMPLE_TICKS
             self.samples += 1
@@ -149,6 +169,7 @@ class EyeFeedback:
                                    for side, (_, rate) in self.brain.eye_inputs.items()},
                 'spatial_available': self.spatial is not None,
                 'mapping_mode': self.mapping_mode,
+                'adaptation': {'selected': self.adaptive, **self.adaptation.snapshot()},
                 'mapping': ('spatial-video-columns-v1; inferred columns, uncalibrated projection, 0-100 Hz'
                             if self.mapping_mode == 'spatial' else
                             'pooled-eye-brightness-v1; unfitted 0-100 Hz R1-R6 input')}

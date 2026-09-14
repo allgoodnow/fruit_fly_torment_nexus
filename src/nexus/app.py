@@ -1195,6 +1195,38 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('switching to physical eye cameras clears spatial input and restores brightness mapping')
+                self.vision_panel.command.emit('vision_video', str(args.vision_test_video.resolve()))
+                self.smoke_stage = 30
+            elif self.smoke_stage == 30 and t['eye_feedback']['source'] == 'video':
+                self.vision_panel.adaptation.setChecked(True)
+                self.smoke_stage = 31
+            elif self.smoke_stage == 31 and t['eye_feedback']['adaptation']['selected']:
+                if t['running'] or t['eye_feedback']['enabled'] or t['eye_feedback']['rates_hz']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('light adaptation is selectable and changing it pauses with visual input released')
+                self.vision_panel.feed.setChecked(True)
+                self.brain_panel.send('running', True)
+                self.smoke_stage = 32
+            elif self.smoke_stage == 32 and (t['eye_feedback'].get('video_frame') or 0) >= 3:
+                if not 0 < t['eye_feedback']['rates_hz'].get('L', 0) < 90:
+                    self.smoke_finish(False)
+                    return
+                self.brain_panel.send('running', False)
+                self.smoke_stage = 33
+            elif self.smoke_stage == 33 and not t['running']:
+                self.adaptation_held_state = t['eye_feedback']['adaptation']
+                self.adaptation_held_time = t['sim_time']
+                self.smoke_checks.append('sustained video light reduces input through the adaptation model')
+                self.grab().save(str(data_dir/'adaptation-active.png'))
+                self.brain_panel.send('release')
+                self.smoke_stage = 34
+            elif self.smoke_stage == 34 and not t['eye_feedback']['enabled']:
+                if (t['sim_time'] != self.adaptation_held_time or t['eye_feedback']['rates_hz']
+                        or t['eye_feedback']['adaptation'] != self.adaptation_held_state):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('Release clears adaptive visual input while preserving the paused exposure state')
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 

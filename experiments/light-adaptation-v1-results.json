@@ -1,0 +1,235 @@
+{
+  "format": "nexus-light-adaptation-results-1",
+  "success": true,
+  "trials": [
+    {
+      "seed": 73100,
+      "condition": "static",
+      "initial_hz": 100.0,
+      "late_bright_hz": 100.0,
+      "after_dark_hz": 100.0,
+      "late_bright_minimum_target_mv": -115.79928942164344,
+      "late_bright_mean_target_mv": -64.9026727496496,
+      "minimum_target_mv": -124.83885940111007,
+      "late_bright_spikes": 31211,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73100,
+      "condition": "adaptive",
+      "initial_hz": 100.0,
+      "late_bright_hz": 26.47478262871078,
+      "after_dark_hz": 85.37255668395596,
+      "late_bright_minimum_target_mv": -71.84605239315269,
+      "late_bright_mean_target_mv": -55.417434490882655,
+      "minimum_target_mv": -102.18073524100697,
+      "late_bright_spikes": 8298,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73100,
+      "condition": "adaptive_blocked",
+      "initial_hz": 100.0,
+      "late_bright_hz": 26.47478262871078,
+      "after_dark_hz": 85.37255668395596,
+      "late_bright_minimum_target_mv": -52.0,
+      "late_bright_mean_target_mv": -52.0,
+      "minimum_target_mv": -52.0,
+      "late_bright_spikes": 8298,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "static",
+      "initial_hz": 100.0,
+      "late_bright_hz": 100.0,
+      "after_dark_hz": 100.0,
+      "late_bright_minimum_target_mv": -109.07486508583759,
+      "late_bright_mean_target_mv": -65.10984632088427,
+      "minimum_target_mv": -116.53858658873976,
+      "late_bright_spikes": 31538,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "adaptive",
+      "initial_hz": 100.0,
+      "late_bright_hz": 26.47478262871078,
+      "after_dark_hz": 85.37255668395596,
+      "late_bright_minimum_target_mv": -70.35831894527247,
+      "late_bright_mean_target_mv": -55.42647312174846,
+      "minimum_target_mv": -98.63287327914223,
+      "late_bright_spikes": 8500,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "adaptive_blocked",
+      "initial_hz": 100.0,
+      "late_bright_hz": 26.47478262871078,
+      "after_dark_hz": 85.37255668395596,
+      "late_bright_minimum_target_mv": -52.0,
+      "late_bright_mean_target_mv": -52.0,
+      "minimum_target_mv": -52.0,
+      "late_bright_spikes": 8500,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "static",
+      "initial_hz": 100.0,
+      "late_bright_hz": 100.0,
+      "after_dark_hz": 100.0,
+      "late_bright_minimum_target_mv": -110.42466005271501,
+      "late_bright_mean_target_mv": -65.00074380935546,
+      "minimum_target_mv": -117.55410230641111,
+      "late_bright_spikes": 31087,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "adaptive",
+      "initial_hz": 100.0,
+      "late_bright_hz": 26.47478262871078,
+      "after_dark_hz": 85.37255668395596,
+      "late_bright_minimum_target_mv": -78.20767864445588,
+      "late_bright_mean_target_mv": -55.52576182288587,
+      "minimum_target_mv": -106.60767987013736,
+      "late_bright_spikes": 8379,
+      "shared_clock": true,
+      "eof_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "adaptive_blocked",
+      "initial_hz": 100.0,
+      "late_bright_hz": 26.47478262871078,
+      "after_dark_hz": 85.37255668395596,
+      "late_bright_minimum_target_mv": -52.0,
+      "late_bright_mean_target_mv": -52.0,
+      "minimum_target_mv": -52.0,
+      "late_bright_spikes": 8379,
+      "shared_clock": true,
+      "eof_released": true
+    }
+  ],
+  "manifest_sha256": "0603c666252b4bee42db15955665c632296f5b95e463120593f22f62ae8c0ab9",
+  "mapping": "spatial",
+  "parameters": {
+    "tau_ms": 250.0,
+    "strength": 3.0,
+    "fitted": false
+  },
+  "limits": [
+    "Divisive input adaptation is an authored approximation, not a fitted retinal model.",
+    "No graded transmission, ON/OFF circuit reconstruction, chloride reversal, or object recognition.",
+    "Initial bright input can still over-hyperpolarize the unbounded-current neural model."
+  ],
+  "protocol": {
+    "white_ms": 700,
+    "dark_ms": 700,
+    "second_white_ms": 200,
+    "trial_ms": 1650,
+    "sample_interval_ms": 50,
+    "late_bright_rate_sample_ms": 650,
+    "late_bright_voltage_observation_ms": 700,
+    "after_dark_rate_sample_ms": 1400,
+    "late_bright_spike_window_ms": [
+      600,
+      700
+    ],
+    "voltage_minima": "Minimum over recorded 50 ms observations, not every integration step."
+  },
+  "automated_tests": {
+    "passed": 185
+  },
+  "native_gui": {
+    "success": true,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "approach geometry advances with brain time and releases both visual inputs",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation",
+      "neural walking mode removes scheduled walking and reports quiet-brain idle",
+      "mapped BDN2 input produces measured forward drive in the native app",
+      "release preserves the paused walking readout and shared clock",
+      "reset clears walking activity while preserving the selected control mode",
+      "video loads paused with a decoded preview and no neural input",
+      "video brightness drives photoreceptor spikes and the live activity graph",
+      "measured voltage response is visible and display switching preserves paused activity",
+      "enlarged vision preview has controls to its left",
+      "paused video frame is stable and disabling feedback clears visual input",
+      "restart rewinds the video without resetting the brain clock",
+      "end of video automatically releases visual input",
+      "actual left/right eye cameras feed the brain and appear in the vision panel",
+      "Release disables visual feedback and preserves paused brain state",
+      "spatial video mode is selectable and changing mapping pauses with input cleared",
+      "spatial video input reaches mapped photoreceptors and its state appears in the native panel",
+      "switching to physical eye cameras clears spatial input and restores brightness mapping",
+      "light adaptation is selectable and changing it pauses with visual input released",
+      "sustained video light reduces input through the adaptation model",
+      "Release clears adaptive visual input while preserving the paused exposure state"
+    ],
+    "screenshots_visually_checked": [
+      "adaptation-active.png"
+    ]
+  },
+  "static_regression": {
+    "success": true,
+    "comparison_commit": "78e7012",
+    "adaptation_selected": false,
+    "trials": [
+      {
+        "mode": "pooled",
+        "per_neuron_counts_voltages_currents_identical": true,
+        "random_state_identical": true
+      },
+      {
+        "mode": "spatial",
+        "per_neuron_counts_voltages_currents_identical": true,
+        "random_state_identical": true
+      }
+    ]
+  },
+  "weights_and_neural_kernel_changed": false,
+  "local_bundle_rebuilt": false,
+  "implementation_sha256": {
+    "src/nexus/light_adaptation.py": "aefd0bd52a83dea96cb43840b5906008e58a9a428c680d594dd92ac59b668375",
+    "src/nexus/vision.py": "ed92e6804a61c2b687e85f3de9520367b83258a67a6648f7f694484831b90601",
+    "src/nexus/vision_panel.py": "bf1c50eb40daa2dcc25a3789b6f53c74ca96c3dbc5879ef4ce48fbef4aabcf6f",
+    "src/nexus/coupled.py": "a02f23ca7b57329074308a6ddfcbfb2cc9757e3479951d11cf3c6bbff52f960f",
+    "src/nexus/app.py": "9c5ce820f931019c7635c8bd45d65733539e2b2aea38c974c8887cfe19cc4e18",
+    "scripts/probe_light_adaptation.py": "286f838c7c0d7e3b3f6839a032f9e388eb9641d828c18311bf087cc3ebb5b857",
+    "tests/test_light_adaptation.py": "49515295a5d949aa308c71cd1936b0ee7462a0f810cfc2d24de385373b1bee4b"
+  }
+}
