@@ -63,6 +63,9 @@ def simulate_brain(directory, commands, frames, events, *, allow_experimental=Fa
                     elif kind == 'inhibition_gain':
                         brain.set_inhibition_gain(value)
                         protocol = None
+                    elif kind == 'loom':
+                        brain.set_looming(value)
+                        protocol = None
                     elif kind == 'circuit':
                         brain.set_circuit_input(value['name'], value['rate_hz'])
                         protocol = None

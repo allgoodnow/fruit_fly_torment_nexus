@@ -1,0 +1,2531 @@
+{
+  "format": "nexus-looming-evidence-1",
+  "dataset": "male-cns:v1.0",
+  "annotation_source": {
+    "file": "body-annotations-male-cns-v1.0-minconf-0.5.feather",
+    "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather",
+    "bytes": 14483314,
+    "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2"
+  },
+  "manifest_sha256": "ce72fae02d14be03f85c5a52c2878167db02890fbc5623c06976a36d274bc7f5",
+  "cohorts": {
+    "looming": {
+      "count": 185,
+      "ids": [
+        11498,
+        12384,
+        13132,
+        13726,
+        13764,
+        14030,
+        14102,
+        14465,
+        15804,
+        17059,
+        17544,
+        17551,
+        17774,
+        17775,
+        17880,
+        17990,
+        18672,
+        18900,
+        18929,
+        18936,
+        19034,
+        19146,
+        19229,
+        19249,
+        19549,
+        19589,
+        19608,
+        19787,
+        19830,
+        19842,
+        19911,
+        20047,
+        20103,
+        20162,
+        20182,
+        20240,
+        20269,
+        20329,
+        20334,
+        20471,
+        20535,
+        20584,
+        20694,
+        20749,
+        20799,
+        21045,
+        21299,
+        21318,
+        21361,
+        21562,
+        21703,
+        21769,
+        21808,
+        21862,
+        21899,
+        22218,
+        22253,
+        22261,
+        22557,
+        22677,
+        23247,
+        23349,
+        23497,
+        23550,
+        23590,
+        23665,
+        23878,
+        23919,
+        24118,
+        24187,
+        24268,
+        24308,
+        24401,
+        24568,
+        24605,
+        24800,
+        24840,
+        25027,
+        25136,
+        25209,
+        25253,
+        25267,
+        25286,
+        25316,
+        25497,
+        25511,
+        25524,
+        25572,
+        25575,
+        25636,
+        25854,
+        26147,
+        26393,
+        26416,
+        26528,
+        26730,
+        26915,
+        27023,
+        27355,
+        27399,
+        27471,
+        27566,
+        27716,
+        27796,
+        28003,
+        28011,
+        28044,
+        28188,
+        28741,
+        28871,
+        29014,
+        29183,
+        29216,
+        29287,
+        29319,
+        29391,
+        29598,
+        29702,
+        29753,
+        29815,
+        29873,
+        29955,
+        29986,
+        30041,
+        30207,
+        30512,
+        30893,
+        30895,
+        30938,
+        31105,
+        31257,
+        31563,
+        31964,
+        31988,
+        32223,
+        32237,
+        32507,
+        32737,
+        33185,
+        33303,
+        33396,
+        33406,
+        33439,
+        33694,
+        33965,
+        34051,
+        34110,
+        34372,
+        34407,
+        34655,
+        34681,
+        35294,
+        35632,
+        35680,
+        35838,
+        35889,
+        37431,
+        37613,
+        37925,
+        38542,
+        39620,
+        40811,
+        40841,
+        41097,
+        50287,
+        55627,
+        95241,
+        100103,
+        111903,
+        112292,
+        129687,
+        134521,
+        514670,
+        515971,
+        517078,
+        517079,
+        517819,
+        518731,
+        520764,
+        521115,
+        524366,
+        525844,
+        531014,
+        533895,
+        536444
+      ],
+      "sides": {
+        "L": 94,
+        "R": 91
+      }
+    },
+    "looming_velocity": {
+      "count": 126,
+      "ids": [
+        12032,
+        12349,
+        12824,
+        14888,
+        15018,
+        16128,
+        16138,
+        16628,
+        16809,
+        16917,
+        17054,
+        17266,
+        17270,
+        17340,
+        17364,
+        17478,
+        17548,
+        17608,
+        17653,
+        17668,
+        17860,
+        17926,
+        17987,
+        18127,
+        18189,
+        18396,
+        18432,
+        18478,
+        19260,
+        19420,
+        19543,
+        19550,
+        19634,
+        19794,
+        19954,
+        20016,
+        20282,
+        20399,
+        20440,
+        20542,
+        20572,
+        20588,
+        20673,
+        20808,
+        20859,
+        20917,
+        20967,
+        20976,
+        21151,
+        21165,
+        21225,
+        21287,
+        21313,
+        21336,
+        21721,
+        21804,
+        22034,
+        22194,
+        22328,
+        22772,
+        22847,
+        22922,
+        22966,
+        22975,
+        23098,
+        23202,
+        23226,
+        23392,
+        23792,
+        23929,
+        24338,
+        24523,
+        25584,
+        26112,
+        27624,
+        27750,
+        27829,
+        28945,
+        28980,
+        29417,
+        29469,
+        29514,
+        29563,
+        30087,
+        30480,
+        30803,
+        31262,
+        31301,
+        31308,
+        31429,
+        32597,
+        33137,
+        34845,
+        35262,
+        35616,
+        37587,
+        38065,
+        77614,
+        81112,
+        100485,
+        107513,
+        111787,
+        511914,
+        512366,
+        512705,
+        514508,
+        514956,
+        515476,
+        515900,
+        516909,
+        517752,
+        518016,
+        518439,
+        518544,
+        518730,
+        518983,
+        519650,
+        519931,
+        520449,
+        524899,
+        526286,
+        527408,
+        530029,
+        532254,
+        533129,
+        535341
+      ],
+      "sides": {
+        "L": 71,
+        "R": 55
+      }
+    }
+  },
+  "giant_fiber_ids": [
+    10001,
+    10010
+  ],
+  "visual_to_gf_edges": [
+    {
+      "circuit": "looming",
+      "pre": 11498,
+      "post": 10010,
+      "contacts": 2,
+      "model_weight_mv": 0.55
+    },
+    {
+      "circuit": "looming",
+      "pre": 12384,
+      "post": 10010,
+      "contacts": 20,
+      "model_weight_mv": 5.5
+    },
+    {
+      "circuit": "looming",
+      "pre": 13132,
+      "post": 10010,
+      "contacts": 8,
+      "model_weight_mv": 2.2
+    },
+    {
+      "circuit": "looming",
+      "pre": 13726,
+      "post": 10010,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 13764,
+      "post": 10010,
+      "contacts": 6,
+      "model_weight_mv": 1.6500000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 14030,
+      "post": 10010,
+      "contacts": 4,
+      "model_weight_mv": 1.1
+    },
+    {
+      "circuit": "looming",
+      "pre": 14102,
+      "post": 10010,
+      "contacts": 27,
+      "model_weight_mv": 7.425000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 14465,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 15804,
+      "post": 10010,
+      "contacts": 33,
+      "model_weight_mv": 9.075000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 17059,
+      "post": 10010,
+      "contacts": 12,
+      "model_weight_mv": 3.3000000000000003
+    },
+    {
+      "circuit": "looming",
+      "pre": 17544,
+      "post": 10010,
+      "contacts": 9,
+      "model_weight_mv": 2.475
+    },
+    {
+      "circuit": "looming",
+      "pre": 17551,
+      "post": 10001,
+      "contacts": 37,
+      "model_weight_mv": 10.175
+    },
+    {
+      "circuit": "looming",
+      "pre": 17774,
+      "post": 10010,
+      "contacts": 19,
+      "model_weight_mv": 5.2250000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 17775,
+      "post": 10010,
+      "contacts": 44,
+      "model_weight_mv": 12.100000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 17880,
+      "post": 10010,
+      "contacts": 15,
+      "model_weight_mv": 4.125
+    },
+    {
+      "circuit": "looming",
+      "pre": 17990,
+      "post": 10010,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 18672,
+      "post": 10001,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming",
+      "pre": 18900,
+      "post": 10010,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 18929,
+      "post": 10001,
+      "contacts": 5,
+      "model_weight_mv": 1.375
+    },
+    {
+      "circuit": "looming",
+      "pre": 18936,
+      "post": 10010,
+      "contacts": 40,
+      "model_weight_mv": 11.0
+    },
+    {
+      "circuit": "looming",
+      "pre": 19034,
+      "post": 10001,
+      "contacts": 28,
+      "model_weight_mv": 7.700000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 19146,
+      "post": 10001,
+      "contacts": 34,
+      "model_weight_mv": 9.350000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 19229,
+      "post": 10001,
+      "contacts": 34,
+      "model_weight_mv": 9.350000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 19249,
+      "post": 10001,
+      "contacts": 1,
+      "model_weight_mv": 0.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 19549,
+      "post": 10001,
+      "contacts": 1,
+      "model_weight_mv": 0.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 19589,
+      "post": 10001,
+      "contacts": 20,
+      "model_weight_mv": 5.5
+    },
+    {
+      "circuit": "looming",
+      "pre": 19608,
+      "post": 10001,
+      "contacts": 49,
+      "model_weight_mv": 13.475000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 19787,
+      "post": 10010,
+      "contacts": 55,
+      "model_weight_mv": 15.125000000000002
+    },
+    {
+      "circuit": "looming",
+      "pre": 19830,
+      "post": 10010,
+      "contacts": 12,
+      "model_weight_mv": 3.3000000000000003
+    },
+    {
+      "circuit": "looming",
+      "pre": 19842,
+      "post": 10001,
+      "contacts": 5,
+      "model_weight_mv": 1.375
+    },
+    {
+      "circuit": "looming",
+      "pre": 19911,
+      "post": 10010,
+      "contacts": 10,
+      "model_weight_mv": 2.75
+    },
+    {
+      "circuit": "looming",
+      "pre": 20047,
+      "post": 10001,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming",
+      "pre": 20103,
+      "post": 10001,
+      "contacts": 48,
+      "model_weight_mv": 13.200000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 20162,
+      "post": 10001,
+      "contacts": 45,
+      "model_weight_mv": 12.375000000000002
+    },
+    {
+      "circuit": "looming",
+      "pre": 20182,
+      "post": 10001,
+      "contacts": 59,
+      "model_weight_mv": 16.225
+    },
+    {
+      "circuit": "looming",
+      "pre": 20240,
+      "post": 10010,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 20269,
+      "post": 10001,
+      "contacts": 53,
+      "model_weight_mv": 14.575000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 20329,
+      "post": 10010,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming",
+      "pre": 20334,
+      "post": 10001,
+      "contacts": 14,
+      "model_weight_mv": 3.8500000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 20471,
+      "post": 10001,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 20535,
+      "post": 10001,
+      "contacts": 37,
+      "model_weight_mv": 10.175
+    },
+    {
+      "circuit": "looming",
+      "pre": 20584,
+      "post": 10001,
+      "contacts": 8,
+      "model_weight_mv": 2.2
+    },
+    {
+      "circuit": "looming",
+      "pre": 20694,
+      "post": 10001,
+      "contacts": 19,
+      "model_weight_mv": 5.2250000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 20749,
+      "post": 10001,
+      "contacts": 12,
+      "model_weight_mv": 3.3000000000000003
+    },
+    {
+      "circuit": "looming",
+      "pre": 20799,
+      "post": 10010,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming",
+      "pre": 21045,
+      "post": 10001,
+      "contacts": 27,
+      "model_weight_mv": 7.425000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 21299,
+      "post": 10010,
+      "contacts": 8,
+      "model_weight_mv": 2.2
+    },
+    {
+      "circuit": "looming",
+      "pre": 21318,
+      "post": 10001,
+      "contacts": 4,
+      "model_weight_mv": 1.1
+    },
+    {
+      "circuit": "looming",
+      "pre": 21361,
+      "post": 10010,
+      "contacts": 34,
+      "model_weight_mv": 9.350000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 21562,
+      "post": 10001,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming",
+      "pre": 21703,
+      "post": 10001,
+      "contacts": 14,
+      "model_weight_mv": 3.8500000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 21769,
+      "post": 10001,
+      "contacts": 12,
+      "model_weight_mv": 3.3000000000000003
+    },
+    {
+      "circuit": "looming",
+      "pre": 21808,
+      "post": 10001,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 21862,
+      "post": 10001,
+      "contacts": 30,
+      "model_weight_mv": 8.25
+    },
+    {
+      "circuit": "looming",
+      "pre": 21899,
+      "post": 10001,
+      "contacts": 15,
+      "model_weight_mv": 4.125
+    },
+    {
+      "circuit": "looming",
+      "pre": 22218,
+      "post": 10001,
+      "contacts": 14,
+      "model_weight_mv": 3.8500000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 22253,
+      "post": 10010,
+      "contacts": 60,
+      "model_weight_mv": 16.5
+    },
+    {
+      "circuit": "looming",
+      "pre": 22261,
+      "post": 10001,
+      "contacts": 37,
+      "model_weight_mv": 10.175
+    },
+    {
+      "circuit": "looming",
+      "pre": 22557,
+      "post": 10010,
+      "contacts": 54,
+      "model_weight_mv": 14.850000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 22677,
+      "post": 10001,
+      "contacts": 9,
+      "model_weight_mv": 2.475
+    },
+    {
+      "circuit": "looming",
+      "pre": 23247,
+      "post": 10010,
+      "contacts": 31,
+      "model_weight_mv": 8.525
+    },
+    {
+      "circuit": "looming",
+      "pre": 23349,
+      "post": 10010,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 23497,
+      "post": 10001,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 23550,
+      "post": 10010,
+      "contacts": 31,
+      "model_weight_mv": 8.525
+    },
+    {
+      "circuit": "looming",
+      "pre": 23590,
+      "post": 10001,
+      "contacts": 33,
+      "model_weight_mv": 9.075000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 23665,
+      "post": 10010,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 23878,
+      "post": 10001,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming",
+      "pre": 23919,
+      "post": 10010,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming",
+      "pre": 24118,
+      "post": 10001,
+      "contacts": 35,
+      "model_weight_mv": 9.625
+    },
+    {
+      "circuit": "looming",
+      "pre": 24187,
+      "post": 10001,
+      "contacts": 48,
+      "model_weight_mv": 13.200000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 24268,
+      "post": 10001,
+      "contacts": 29,
+      "model_weight_mv": 7.9750000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 24308,
+      "post": 10010,
+      "contacts": 27,
+      "model_weight_mv": 7.425000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 24401,
+      "post": 10001,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming",
+      "pre": 24568,
+      "post": 10010,
+      "contacts": 39,
+      "model_weight_mv": 10.725000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 24605,
+      "post": 10010,
+      "contacts": 10,
+      "model_weight_mv": 2.75
+    },
+    {
+      "circuit": "looming",
+      "pre": 24800,
+      "post": 10001,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 24840,
+      "post": 10010,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 25027,
+      "post": 10010,
+      "contacts": 20,
+      "model_weight_mv": 5.5
+    },
+    {
+      "circuit": "looming",
+      "pre": 25136,
+      "post": 10010,
+      "contacts": 15,
+      "model_weight_mv": 4.125
+    },
+    {
+      "circuit": "looming",
+      "pre": 25209,
+      "post": 10010,
+      "contacts": 28,
+      "model_weight_mv": 7.700000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 25253,
+      "post": 10001,
+      "contacts": 32,
+      "model_weight_mv": 8.8
+    },
+    {
+      "circuit": "looming",
+      "pre": 25267,
+      "post": 10001,
+      "contacts": 7,
+      "model_weight_mv": 1.9250000000000003
+    },
+    {
+      "circuit": "looming",
+      "pre": 25286,
+      "post": 10010,
+      "contacts": 6,
+      "model_weight_mv": 1.6500000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 25316,
+      "post": 10001,
+      "contacts": 6,
+      "model_weight_mv": 1.6500000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 25497,
+      "post": 10001,
+      "contacts": 32,
+      "model_weight_mv": 8.8
+    },
+    {
+      "circuit": "looming",
+      "pre": 25511,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 25524,
+      "post": 10010,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 25572,
+      "post": 10010,
+      "contacts": 30,
+      "model_weight_mv": 8.25
+    },
+    {
+      "circuit": "looming",
+      "pre": 25575,
+      "post": 10010,
+      "contacts": 24,
+      "model_weight_mv": 6.6000000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 25636,
+      "post": 10001,
+      "contacts": 20,
+      "model_weight_mv": 5.5
+    },
+    {
+      "circuit": "looming",
+      "pre": 25854,
+      "post": 10010,
+      "contacts": 48,
+      "model_weight_mv": 13.200000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 26147,
+      "post": 10001,
+      "contacts": 42,
+      "model_weight_mv": 11.55
+    },
+    {
+      "circuit": "looming",
+      "pre": 26393,
+      "post": 10001,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming",
+      "pre": 26416,
+      "post": 10010,
+      "contacts": 13,
+      "model_weight_mv": 3.575
+    },
+    {
+      "circuit": "looming",
+      "pre": 26528,
+      "post": 10010,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 26730,
+      "post": 10001,
+      "contacts": 3,
+      "model_weight_mv": 0.8250000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 26915,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 27023,
+      "post": 10010,
+      "contacts": 11,
+      "model_weight_mv": 3.0250000000000004
+    },
+    {
+      "circuit": "looming",
+      "pre": 27355,
+      "post": 10010,
+      "contacts": 30,
+      "model_weight_mv": 8.25
+    },
+    {
+      "circuit": "looming",
+      "pre": 27399,
+      "post": 10010,
+      "contacts": 25,
+      "model_weight_mv": 6.875000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 27471,
+      "post": 10001,
+      "contacts": 17,
+      "model_weight_mv": 4.675000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 27566,
+      "post": 10001,
+      "contacts": 10,
+      "model_weight_mv": 2.75
+    },
+    {
+      "circuit": "looming",
+      "pre": 27716,
+      "post": 10010,
+      "contacts": 30,
+      "model_weight_mv": 8.25
+    },
+    {
+      "circuit": "looming",
+      "pre": 27796,
+      "post": 10010,
+      "contacts": 29,
+      "model_weight_mv": 7.9750000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 28003,
+      "post": 10001,
+      "contacts": 25,
+      "model_weight_mv": 6.875000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 28011,
+      "post": 10010,
+      "contacts": 27,
+      "model_weight_mv": 7.425000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 28044,
+      "post": 10001,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 28188,
+      "post": 10010,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming",
+      "pre": 28741,
+      "post": 10001,
+      "contacts": 28,
+      "model_weight_mv": 7.700000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 28871,
+      "post": 10001,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 29014,
+      "post": 10001,
+      "contacts": 31,
+      "model_weight_mv": 8.525
+    },
+    {
+      "circuit": "looming",
+      "pre": 29183,
+      "post": 10001,
+      "contacts": 13,
+      "model_weight_mv": 3.575
+    },
+    {
+      "circuit": "looming",
+      "pre": 29216,
+      "post": 10001,
+      "contacts": 17,
+      "model_weight_mv": 4.675000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 29287,
+      "post": 10001,
+      "contacts": 29,
+      "model_weight_mv": 7.9750000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 29319,
+      "post": 10010,
+      "contacts": 17,
+      "model_weight_mv": 4.675000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 29391,
+      "post": 10001,
+      "contacts": 32,
+      "model_weight_mv": 8.8
+    },
+    {
+      "circuit": "looming",
+      "pre": 29598,
+      "post": 10001,
+      "contacts": 14,
+      "model_weight_mv": 3.8500000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 29702,
+      "post": 10010,
+      "contacts": 33,
+      "model_weight_mv": 9.075000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 29753,
+      "post": 10010,
+      "contacts": 29,
+      "model_weight_mv": 7.9750000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 29815,
+      "post": 10010,
+      "contacts": 27,
+      "model_weight_mv": 7.425000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 29873,
+      "post": 10001,
+      "contacts": 16,
+      "model_weight_mv": 4.4
+    },
+    {
+      "circuit": "looming",
+      "pre": 29955,
+      "post": 10010,
+      "contacts": 29,
+      "model_weight_mv": 7.9750000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 29986,
+      "post": 10001,
+      "contacts": 18,
+      "model_weight_mv": 4.95
+    },
+    {
+      "circuit": "looming",
+      "pre": 30041,
+      "post": 10001,
+      "contacts": 12,
+      "model_weight_mv": 3.3000000000000003
+    },
+    {
+      "circuit": "looming",
+      "pre": 30207,
+      "post": 10001,
+      "contacts": 3,
+      "model_weight_mv": 0.8250000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 30512,
+      "post": 10010,
+      "contacts": 18,
+      "model_weight_mv": 4.95
+    },
+    {
+      "circuit": "looming",
+      "pre": 30893,
+      "post": 10010,
+      "contacts": 6,
+      "model_weight_mv": 1.6500000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 30895,
+      "post": 10010,
+      "contacts": 27,
+      "model_weight_mv": 7.425000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 30938,
+      "post": 10001,
+      "contacts": 23,
+      "model_weight_mv": 6.325
+    },
+    {
+      "circuit": "looming",
+      "pre": 31105,
+      "post": 10010,
+      "contacts": 9,
+      "model_weight_mv": 2.475
+    },
+    {
+      "circuit": "looming",
+      "pre": 31257,
+      "post": 10001,
+      "contacts": 19,
+      "model_weight_mv": 5.2250000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 31563,
+      "post": 10010,
+      "contacts": 64,
+      "model_weight_mv": 17.6
+    },
+    {
+      "circuit": "looming",
+      "pre": 31964,
+      "post": 10001,
+      "contacts": 44,
+      "model_weight_mv": 12.100000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 31988,
+      "post": 10001,
+      "contacts": 24,
+      "model_weight_mv": 6.6000000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 32223,
+      "post": 10010,
+      "contacts": 10,
+      "model_weight_mv": 2.75
+    },
+    {
+      "circuit": "looming",
+      "pre": 32237,
+      "post": 10010,
+      "contacts": 19,
+      "model_weight_mv": 5.2250000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 32507,
+      "post": 10001,
+      "contacts": 19,
+      "model_weight_mv": 5.2250000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 32737,
+      "post": 10010,
+      "contacts": 33,
+      "model_weight_mv": 9.075000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 33185,
+      "post": 10001,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming",
+      "pre": 33303,
+      "post": 10010,
+      "contacts": 24,
+      "model_weight_mv": 6.6000000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 33396,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 33406,
+      "post": 10010,
+      "contacts": 35,
+      "model_weight_mv": 9.625
+    },
+    {
+      "circuit": "looming",
+      "pre": 33439,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 33694,
+      "post": 10001,
+      "contacts": 11,
+      "model_weight_mv": 3.0250000000000004
+    },
+    {
+      "circuit": "looming",
+      "pre": 33965,
+      "post": 10010,
+      "contacts": 20,
+      "model_weight_mv": 5.5
+    },
+    {
+      "circuit": "looming",
+      "pre": 34051,
+      "post": 10010,
+      "contacts": 17,
+      "model_weight_mv": 4.675000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 34110,
+      "post": 10001,
+      "contacts": 16,
+      "model_weight_mv": 4.4
+    },
+    {
+      "circuit": "looming",
+      "pre": 34372,
+      "post": 10001,
+      "contacts": 9,
+      "model_weight_mv": 2.475
+    },
+    {
+      "circuit": "looming",
+      "pre": 34407,
+      "post": 10010,
+      "contacts": 40,
+      "model_weight_mv": 11.0
+    },
+    {
+      "circuit": "looming",
+      "pre": 34655,
+      "post": 10010,
+      "contacts": 33,
+      "model_weight_mv": 9.075000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 34681,
+      "post": 10001,
+      "contacts": 19,
+      "model_weight_mv": 5.2250000000000005
+    },
+    {
+      "circuit": "looming",
+      "pre": 35294,
+      "post": 10010,
+      "contacts": 11,
+      "model_weight_mv": 3.0250000000000004
+    },
+    {
+      "circuit": "looming",
+      "pre": 35632,
+      "post": 10001,
+      "contacts": 4,
+      "model_weight_mv": 1.1
+    },
+    {
+      "circuit": "looming",
+      "pre": 35680,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 35838,
+      "post": 10001,
+      "contacts": 4,
+      "model_weight_mv": 1.1
+    },
+    {
+      "circuit": "looming",
+      "pre": 35889,
+      "post": 10001,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 37431,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 37613,
+      "post": 10001,
+      "contacts": 5,
+      "model_weight_mv": 1.375
+    },
+    {
+      "circuit": "looming",
+      "pre": 37925,
+      "post": 10001,
+      "contacts": 9,
+      "model_weight_mv": 2.475
+    },
+    {
+      "circuit": "looming",
+      "pre": 38542,
+      "post": 10001,
+      "contacts": 5,
+      "model_weight_mv": 1.375
+    },
+    {
+      "circuit": "looming",
+      "pre": 39620,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 40811,
+      "post": 10010,
+      "contacts": 17,
+      "model_weight_mv": 4.675000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 40841,
+      "post": 10010,
+      "contacts": 23,
+      "model_weight_mv": 6.325
+    },
+    {
+      "circuit": "looming",
+      "pre": 41097,
+      "post": 10010,
+      "contacts": 39,
+      "model_weight_mv": 10.725000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 50287,
+      "post": 10001,
+      "contacts": 17,
+      "model_weight_mv": 4.675000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 55627,
+      "post": 10001,
+      "contacts": 16,
+      "model_weight_mv": 4.4
+    },
+    {
+      "circuit": "looming",
+      "pre": 95241,
+      "post": 10010,
+      "contacts": 11,
+      "model_weight_mv": 3.0250000000000004
+    },
+    {
+      "circuit": "looming",
+      "pre": 100103,
+      "post": 10010,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming",
+      "pre": 111903,
+      "post": 10010,
+      "contacts": 6,
+      "model_weight_mv": 1.6500000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 112292,
+      "post": 10010,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming",
+      "pre": 129687,
+      "post": 10010,
+      "contacts": 22,
+      "model_weight_mv": 6.050000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 134521,
+      "post": 10010,
+      "contacts": 18,
+      "model_weight_mv": 4.95
+    },
+    {
+      "circuit": "looming",
+      "pre": 514670,
+      "post": 10010,
+      "contacts": 37,
+      "model_weight_mv": 10.175
+    },
+    {
+      "circuit": "looming",
+      "pre": 515971,
+      "post": 10010,
+      "contacts": 45,
+      "model_weight_mv": 12.375000000000002
+    },
+    {
+      "circuit": "looming",
+      "pre": 517078,
+      "post": 10010,
+      "contacts": 15,
+      "model_weight_mv": 4.125
+    },
+    {
+      "circuit": "looming",
+      "pre": 517079,
+      "post": 10010,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 517819,
+      "post": 10010,
+      "contacts": 44,
+      "model_weight_mv": 12.100000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 518731,
+      "post": 10010,
+      "contacts": 48,
+      "model_weight_mv": 13.200000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 520764,
+      "post": 10010,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming",
+      "pre": 521115,
+      "post": 10010,
+      "contacts": 40,
+      "model_weight_mv": 11.0
+    },
+    {
+      "circuit": "looming",
+      "pre": 524366,
+      "post": 10010,
+      "contacts": 20,
+      "model_weight_mv": 5.5
+    },
+    {
+      "circuit": "looming",
+      "pre": 525844,
+      "post": 10010,
+      "contacts": 27,
+      "model_weight_mv": 7.425000000000001
+    },
+    {
+      "circuit": "looming",
+      "pre": 531014,
+      "post": 10010,
+      "contacts": 23,
+      "model_weight_mv": 6.325
+    },
+    {
+      "circuit": "looming",
+      "pre": 533895,
+      "post": 10010,
+      "contacts": 50,
+      "model_weight_mv": 13.750000000000002
+    },
+    {
+      "circuit": "looming",
+      "pre": 536444,
+      "post": 10010,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 12032,
+      "post": 10010,
+      "contacts": 62,
+      "model_weight_mv": 17.05
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 12349,
+      "post": 10010,
+      "contacts": 62,
+      "model_weight_mv": 17.05
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 12824,
+      "post": 10010,
+      "contacts": 58,
+      "model_weight_mv": 15.950000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 14888,
+      "post": 10010,
+      "contacts": 55,
+      "model_weight_mv": 15.125000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 15018,
+      "post": 10010,
+      "contacts": 40,
+      "model_weight_mv": 11.0
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 16128,
+      "post": 10001,
+      "contacts": 65,
+      "model_weight_mv": 17.875
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 16138,
+      "post": 10001,
+      "contacts": 52,
+      "model_weight_mv": 14.3
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 16628,
+      "post": 10001,
+      "contacts": 53,
+      "model_weight_mv": 14.575000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 16809,
+      "post": 10010,
+      "contacts": 40,
+      "model_weight_mv": 11.0
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 16917,
+      "post": 10010,
+      "contacts": 62,
+      "model_weight_mv": 17.05
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17054,
+      "post": 10001,
+      "contacts": 37,
+      "model_weight_mv": 10.175
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17266,
+      "post": 10001,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17270,
+      "post": 10010,
+      "contacts": 63,
+      "model_weight_mv": 17.325000000000003
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17340,
+      "post": 10010,
+      "contacts": 33,
+      "model_weight_mv": 9.075000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17364,
+      "post": 10001,
+      "contacts": 48,
+      "model_weight_mv": 13.200000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17478,
+      "post": 10010,
+      "contacts": 86,
+      "model_weight_mv": 23.650000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17548,
+      "post": 10001,
+      "contacts": 35,
+      "model_weight_mv": 9.625
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17608,
+      "post": 10010,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17653,
+      "post": 10010,
+      "contacts": 83,
+      "model_weight_mv": 22.825000000000003
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17668,
+      "post": 10001,
+      "contacts": 63,
+      "model_weight_mv": 17.325000000000003
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17860,
+      "post": 10001,
+      "contacts": 50,
+      "model_weight_mv": 13.750000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17926,
+      "post": 10001,
+      "contacts": 48,
+      "model_weight_mv": 13.200000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 17987,
+      "post": 10001,
+      "contacts": 39,
+      "model_weight_mv": 10.725000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 18127,
+      "post": 10001,
+      "contacts": 57,
+      "model_weight_mv": 15.675
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 18189,
+      "post": 10001,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 18396,
+      "post": 10010,
+      "contacts": 59,
+      "model_weight_mv": 16.225
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 18432,
+      "post": 10010,
+      "contacts": 52,
+      "model_weight_mv": 14.3
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 18478,
+      "post": 10010,
+      "contacts": 58,
+      "model_weight_mv": 15.950000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 19260,
+      "post": 10001,
+      "contacts": 37,
+      "model_weight_mv": 10.175
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 19420,
+      "post": 10001,
+      "contacts": 45,
+      "model_weight_mv": 12.375000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 19543,
+      "post": 10001,
+      "contacts": 49,
+      "model_weight_mv": 13.475000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 19550,
+      "post": 10001,
+      "contacts": 21,
+      "model_weight_mv": 5.775
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 19634,
+      "post": 10001,
+      "contacts": 56,
+      "model_weight_mv": 15.400000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 19794,
+      "post": 10001,
+      "contacts": 44,
+      "model_weight_mv": 12.100000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 19954,
+      "post": 10001,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20016,
+      "post": 10001,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20282,
+      "post": 10001,
+      "contacts": 35,
+      "model_weight_mv": 9.625
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20399,
+      "post": 10001,
+      "contacts": 62,
+      "model_weight_mv": 17.05
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20440,
+      "post": 10010,
+      "contacts": 45,
+      "model_weight_mv": 12.375000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20542,
+      "post": 10001,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20572,
+      "post": 10010,
+      "contacts": 55,
+      "model_weight_mv": 15.125000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20588,
+      "post": 10001,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20673,
+      "post": 10001,
+      "contacts": 44,
+      "model_weight_mv": 12.100000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20808,
+      "post": 10001,
+      "contacts": 42,
+      "model_weight_mv": 11.55
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20859,
+      "post": 10010,
+      "contacts": 81,
+      "model_weight_mv": 22.275000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20917,
+      "post": 10001,
+      "contacts": 42,
+      "model_weight_mv": 11.55
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20967,
+      "post": 10010,
+      "contacts": 38,
+      "model_weight_mv": 10.450000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 20976,
+      "post": 10010,
+      "contacts": 57,
+      "model_weight_mv": 15.675
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21151,
+      "post": 10001,
+      "contacts": 40,
+      "model_weight_mv": 11.0
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21165,
+      "post": 10001,
+      "contacts": 31,
+      "model_weight_mv": 8.525
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21225,
+      "post": 10001,
+      "contacts": 52,
+      "model_weight_mv": 14.3
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21287,
+      "post": 10001,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21313,
+      "post": 10001,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21336,
+      "post": 10001,
+      "contacts": 55,
+      "model_weight_mv": 15.125000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21721,
+      "post": 10010,
+      "contacts": 51,
+      "model_weight_mv": 14.025
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 21804,
+      "post": 10001,
+      "contacts": 48,
+      "model_weight_mv": 13.200000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22034,
+      "post": 10001,
+      "contacts": 42,
+      "model_weight_mv": 11.55
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22194,
+      "post": 10001,
+      "contacts": 59,
+      "model_weight_mv": 16.225
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22328,
+      "post": 10001,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22772,
+      "post": 10010,
+      "contacts": 62,
+      "model_weight_mv": 17.05
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22847,
+      "post": 10001,
+      "contacts": 67,
+      "model_weight_mv": 18.425
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22922,
+      "post": 10010,
+      "contacts": 52,
+      "model_weight_mv": 14.3
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22966,
+      "post": 10001,
+      "contacts": 61,
+      "model_weight_mv": 16.775000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 22975,
+      "post": 10001,
+      "contacts": 58,
+      "model_weight_mv": 15.950000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 23098,
+      "post": 10001,
+      "contacts": 32,
+      "model_weight_mv": 8.8
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 23202,
+      "post": 10010,
+      "contacts": 54,
+      "model_weight_mv": 14.850000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 23226,
+      "post": 10010,
+      "contacts": 52,
+      "model_weight_mv": 14.3
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 23392,
+      "post": 10001,
+      "contacts": 56,
+      "model_weight_mv": 15.400000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 23792,
+      "post": 10001,
+      "contacts": 52,
+      "model_weight_mv": 14.3
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 23929,
+      "post": 10001,
+      "contacts": 56,
+      "model_weight_mv": 15.400000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 24338,
+      "post": 10001,
+      "contacts": 63,
+      "model_weight_mv": 17.325000000000003
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 24523,
+      "post": 10010,
+      "contacts": 42,
+      "model_weight_mv": 11.55
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 25584,
+      "post": 10001,
+      "contacts": 30,
+      "model_weight_mv": 8.25
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 26112,
+      "post": 10001,
+      "contacts": 53,
+      "model_weight_mv": 14.575000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 27624,
+      "post": 10010,
+      "contacts": 51,
+      "model_weight_mv": 14.025
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 27750,
+      "post": 10010,
+      "contacts": 59,
+      "model_weight_mv": 16.225
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 27829,
+      "post": 10010,
+      "contacts": 64,
+      "model_weight_mv": 17.6
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 28945,
+      "post": 10001,
+      "contacts": 42,
+      "model_weight_mv": 11.55
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 28980,
+      "post": 10010,
+      "contacts": 51,
+      "model_weight_mv": 14.025
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 29417,
+      "post": 10010,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 29469,
+      "post": 10010,
+      "contacts": 73,
+      "model_weight_mv": 20.075000000000003
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 29514,
+      "post": 10010,
+      "contacts": 58,
+      "model_weight_mv": 15.950000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 29563,
+      "post": 10001,
+      "contacts": 40,
+      "model_weight_mv": 11.0
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 30087,
+      "post": 10010,
+      "contacts": 51,
+      "model_weight_mv": 14.025
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 30480,
+      "post": 10001,
+      "contacts": 45,
+      "model_weight_mv": 12.375000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 30803,
+      "post": 10001,
+      "contacts": 57,
+      "model_weight_mv": 15.675
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 31262,
+      "post": 10001,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 31301,
+      "post": 10010,
+      "contacts": 61,
+      "model_weight_mv": 16.775000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 31308,
+      "post": 10010,
+      "contacts": 43,
+      "model_weight_mv": 11.825000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 31429,
+      "post": 10010,
+      "contacts": 45,
+      "model_weight_mv": 12.375000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 32597,
+      "post": 10010,
+      "contacts": 69,
+      "model_weight_mv": 18.975
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 33137,
+      "post": 10010,
+      "contacts": 39,
+      "model_weight_mv": 10.725000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 34845,
+      "post": 10010,
+      "contacts": 51,
+      "model_weight_mv": 14.025
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 35262,
+      "post": 10010,
+      "contacts": 56,
+      "model_weight_mv": 15.400000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 35616,
+      "post": 10010,
+      "contacts": 61,
+      "model_weight_mv": 16.775000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 37587,
+      "post": 10010,
+      "contacts": 51,
+      "model_weight_mv": 14.025
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 38065,
+      "post": 10001,
+      "contacts": 36,
+      "model_weight_mv": 9.9
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 77614,
+      "post": 10010,
+      "contacts": 52,
+      "model_weight_mv": 14.3
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 81112,
+      "post": 10010,
+      "contacts": 55,
+      "model_weight_mv": 15.125000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 100485,
+      "post": 10010,
+      "contacts": 58,
+      "model_weight_mv": 15.950000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 107513,
+      "post": 10010,
+      "contacts": 39,
+      "model_weight_mv": 10.725000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 111787,
+      "post": 10010,
+      "contacts": 30,
+      "model_weight_mv": 8.25
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 511914,
+      "post": 10010,
+      "contacts": 54,
+      "model_weight_mv": 14.850000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 512366,
+      "post": 10010,
+      "contacts": 65,
+      "model_weight_mv": 17.875
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 512705,
+      "post": 10010,
+      "contacts": 53,
+      "model_weight_mv": 14.575000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 514508,
+      "post": 10010,
+      "contacts": 41,
+      "model_weight_mv": 11.275
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 514956,
+      "post": 10010,
+      "contacts": 60,
+      "model_weight_mv": 16.5
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 515476,
+      "post": 10010,
+      "contacts": 64,
+      "model_weight_mv": 17.6
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 515900,
+      "post": 10010,
+      "contacts": 54,
+      "model_weight_mv": 14.850000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 516909,
+      "post": 10010,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 517752,
+      "post": 10010,
+      "contacts": 55,
+      "model_weight_mv": 15.125000000000002
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 518016,
+      "post": 10010,
+      "contacts": 39,
+      "model_weight_mv": 10.725000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 518439,
+      "post": 10010,
+      "contacts": 82,
+      "model_weight_mv": 22.55
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 518544,
+      "post": 10010,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 518730,
+      "post": 10010,
+      "contacts": 51,
+      "model_weight_mv": 14.025
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 518983,
+      "post": 10010,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 519650,
+      "post": 10010,
+      "contacts": 46,
+      "model_weight_mv": 12.65
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 519931,
+      "post": 10010,
+      "contacts": 37,
+      "model_weight_mv": 10.175
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 520449,
+      "post": 10010,
+      "contacts": 42,
+      "model_weight_mv": 11.55
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 524899,
+      "post": 10010,
+      "contacts": 64,
+      "model_weight_mv": 17.6
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 526286,
+      "post": 10010,
+      "contacts": 32,
+      "model_weight_mv": 8.8
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 527408,
+      "post": 10001,
+      "contacts": 47,
+      "model_weight_mv": 12.925
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 530029,
+      "post": 10010,
+      "contacts": 62,
+      "model_weight_mv": 17.05
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 532254,
+      "post": 10010,
+      "contacts": 34,
+      "model_weight_mv": 9.350000000000001
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 533129,
+      "post": 10010,
+      "contacts": 69,
+      "model_weight_mv": 18.975
+    },
+    {
+      "circuit": "looming_velocity",
+      "pre": 535341,
+      "post": 10010,
+      "contacts": 32,
+      "model_weight_mv": 8.8
+    }
+  ],
+  "source": "https://doi.org/10.1016/j.cub.2019.01.079",
+  "limits": [
+    "Typed connections do not validate firing-rate dynamics.",
+    "Virtual approach envelopes are unfitted engineering choices.",
+    "Grounded motor response is authored; no retinal rendering or flight."
+  ]
+}

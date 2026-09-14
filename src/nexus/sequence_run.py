@@ -74,6 +74,7 @@ def record_sequence(session, description, output, *, provenance=None, progress=N
                     'from_ms': previous_step/10, 'to_ms': brain.step/10,
                     'spikes': int(delta.sum()), 'active_cells': int(np.count_nonzero(delta)),
                     'population_hz_per_neuron': float(delta.sum()/seconds/len(delta)),
+                    'looming_input': brain.looming_snapshot(),
                     'position_mm': body.position().tolist(),
                     'longitudinal_delta_mm': float(np.dot((body.position()-before_position)[:2], forward)),
                     'upright': float(body.sim.mj_data.xmat[body.thorax_id].reshape(3, 3)[2, 2]),

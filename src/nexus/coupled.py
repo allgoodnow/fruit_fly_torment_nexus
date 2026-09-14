@@ -97,6 +97,9 @@ class CoupledSession:
         elif kind == 'heat':
             self.brain.set_heat(value)
             self.protocol = None
+        elif kind == 'loom':
+            self.brain.set_looming(value)
+            self.protocol = None
         elif kind == 'neural_release':
             self.brain.release()
             self.protocol = None
@@ -174,8 +177,11 @@ class CoupledSession:
                     at = self.protocol.origin+self.protocol.commands[self.protocol.cursor][0]
                     step = min(step, at-before)
                 step = min(step, self.protocol.origin+self.protocol.duration-before)
+            if self.brain.looming_input:
+                step = min(step, self.brain.looming_input.end - before)
             self.sync_recovery()
             gains = self.brain.output_gain[self.decoder.indices].copy()
+            directly_driven = self.brain.inputs.copy()
             # The protocol applies endpoint events on the next iteration, after
             # this body's interval has used the correct pre-event output gains.
             self.brain.advance(step*.0001)
@@ -184,7 +190,7 @@ class CoupledSession:
                 self.environment.active_seconds += elapsed
             counts = self.brain.counts-before_counts
             self.decoder.observe(counts[self.decoder.indices], elapsed, gains)
-            self.motor_effects.observe(counts, elapsed, self.brain.output_gain, self.brain.inputs)
+            self.motor_effects.observe(counts, elapsed, self.brain.output_gain, directly_driven)
             effects = self.motor_effects.output()
             interrupted = (effects['retreat'] > .05 or effects['escape'] > .05 or effects['disruption'] > .05 or
                            (self.decoder.enabled and max(self.decoder.rates) > 10.))

@@ -15,7 +15,7 @@ def scenario_protocol(name, *, baseline_ms=100, stimulus_ms=500, recovery_ms=500
     onset, release = baseline_ms, baseline_ms+stimulus_ms
     events = [{'at_ms': 0, 'action': 'release'}]
     if name == 'defensive':
-        commands = [{'action': 'circuit', 'name': 'looming', 'rate_hz': 200}]
+        commands = [{'action': 'loom', 'duration_ms': stimulus_ms}]
         title = 'Looming-threat pathway / escape motor proxy'
     elif name == 'aversion':
         commands = [{'action': 'circuit', 'name': pain_circuit, 'rate_hz': 100 if pain_circuit == 'nociception_proxy' else 200}]

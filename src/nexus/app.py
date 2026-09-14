@@ -866,12 +866,17 @@ def main():
                 self.response_active_capture = False
                 self.response_labels_seen = set()
                 self.response_thermal_cells = 0
+                self.response_looming_angles = []
+                self.response_velocity_available = False
                 name = self.response_cases[self.response_index]
                 panel.buttons[name].click()
                 self.smoke_stage = 2
             elif self.smoke_stage == 2:
                 effects = t['motor_effects']
                 self.response_labels_seen.update(self.stimulation_banner.labels)
+                if t.get('looming_input'):
+                    self.response_looming_angles.append(t['looming_input']['angle_degrees'])
+                    self.response_velocity_available |= t['looming_input']['velocity_pathway_available']
                 self.response_max_active = max(self.response_max_active, self.brain_view.active_count)
                 if config.experimental and self.brain_view.active_count and not self.response_active_capture:
                     self.grab().save(str(data_dir / (self.response_cases[self.response_index]+'-active.png')))
@@ -893,10 +898,15 @@ def main():
                                   'seizure': 'SEIZURE', 'heat_overload': 'BOILING'}[name]
                 success &= expected_label in self.response_labels_seen and self.stimulation_banner.readout.text() == 'NONE'
                 success &= not t['thermal_nociception']['ids']
+                success &= t.get('looming_input') is None
                 if config.experimental and name in ('heat', 'heat_overload'):
                     success &= self.response_thermal_cells == config.nociception_count
                 if name == 'defensive':
                     success &= self.response_escape > .1 and self.response_offset > .02
+                    success &= (len(self.response_looming_angles) > 1
+                                and max(self.response_looming_angles) > min(self.response_looming_angles))
+                    if config.experimental:
+                        success &= self.response_velocity_available
                 elif name == 'aversion':
                     success &= t['total_spikes'] > 0 and any(e.get('circuit') == config.pain_circuit for e in t['interventions'])
                     if config.experimental:
@@ -922,6 +932,8 @@ def main():
                 self.smoke_checks.append(name+' activity graph retains all spike counts across the trial')
                 self.smoke_checks.append(name+' button runs, releases on schedule, and reports measured responses')
                 self.smoke_checks.append(expected_label+' appears during input and clears after release')
+                if name == 'defensive':
+                    self.smoke_checks.append('approach geometry advances with brain time and releases both visual inputs')
                 if config.experimental and name in ('heat', 'heat_overload'):
                     self.smoke_checks.append(name+' recruits mapped thermal nociception cells and releases them on schedule')
                 self.grab().save(str(data_dir / (name+'-app.png')))
@@ -938,12 +950,13 @@ def main():
                     self.smoke_stage = 1
                 else:
                     self.brain_panel.send('heat', 100)
-                    self.brain_panel.send('circuit', {'name': 'looming', 'rate_hz': 200})
+                    self.brain_panel.send('loom', 500)
                     self.brain_panel.send('inhibition_gain', .25)
                     self.smoke_stage = 4
-            elif self.smoke_stage == 4 and t['inhibition_gain'] == .25 and len(t['circuit_inputs']) == 2:
+            elif self.smoke_stage == 4 and t['inhibition_gain'] == .25 and t.get('looming_input'):
                 if (t['sim_time'] != 0 or self.stimulation_banner.labels != ('FEAR', 'BOILING')
-                        or 'PAUSED' not in self.stimulation_banner.clock.text()):
+                        or 'PAUSED' not in self.stimulation_banner.clock.text()
+                        or t['looming_input']['elapsed_ms'] != 0):
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('threat and heat inputs coexist while paused')
@@ -951,7 +964,7 @@ def main():
                 panel.release.click()
                 self.smoke_stage = 5
             elif self.smoke_stage == 5 and not t['circuit_inputs'] and t['inhibition_gain'] == 1:
-                if t['sim_time'] != 0 or t['nominal_temperature_c'] is not None:
+                if t['sim_time'] != 0 or t['nominal_temperature_c'] is not None or t.get('looming_input'):
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('release clears scenario inputs and overlays without advancing time')

@@ -58,6 +58,11 @@ tissue damage. This app cannot establish that a digital fly experiences sufferin
 
 ## Development and validation
 
+Development toward **1.2.0** adds a changing approaching-threat input, with separate
+LPLC2 size and LC4 expansion-speed pathways. The 1.1.1 download retains its original
+constant input. See the [guide](docs/user-guide.md#approaching-threats-development-toward-12)
+for the new model assumptions and the local pack update.
+
 The prepared workspace runs with `./run.sh`. Large neural packs are excluded from
 Git; they are supplied in the release under `_internal/data/`. A source checkout
 needs those two packs in `data/`, Python 3.12, and the dependencies in

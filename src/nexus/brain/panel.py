@@ -265,6 +265,10 @@ class BrainPanel(QWidget):
                     detail = f"{intervention['circuit']} input: {intervention['rate_hz']:g} Hz"
                 elif intervention['kind'] == 'heat_scenario':
                     detail = f"heat scenario: {intervention['nominal_celsius']}°C nominal · {intervention['rate_hz']:g} Hz"
+                elif intervention['kind'] == 'looming_input':
+                    detail = f"approaching threat: {intervention['duration_ms']:g} ms"
+                elif intervention['kind'] == 'looming_release':
+                    detail = 'approaching threat input ended'
                 self.session_event.emit(f"BRAIN {intervention['time']:.3f}s · {detail}")
         if len(self.intervention_seen) > 4000:
             self.intervention_seen = {(t['generation'], json.dumps(e, sort_keys=True)) for e in t['interventions']}

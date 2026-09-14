@@ -8,9 +8,8 @@
       "action": "release"
     },
     {
-      "action": "circuit",
-      "name": "looming",
-      "rate_hz": 200,
+      "action": "loom",
+      "duration_ms": 500,
       "at_ms": 100
     },
     {

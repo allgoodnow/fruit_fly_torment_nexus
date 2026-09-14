@@ -92,6 +92,9 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
         raise ValueError('Invalid structural adjacency')
     signs, labels = transmitter_signs(ids, pd.read_feather(raw/FILES['neurotransmitters']))
     registry = build_registry(neurons)
+    if neurons.type.eq('LC4').any():
+        from .looming import attach_velocity_circuit
+        registry = attach_velocity_circuit(registry, neurons, ids)
     if nociception_cohort is not None:
         from .nociception import attach_cohort
         registry = attach_cohort(registry, nociception_cohort, ids, records[FILES['annotations']]['sha256'])

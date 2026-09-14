@@ -8,7 +8,7 @@ def active_stimulation(packet):
     boiling = temperature is not None and temperature >= 100 and 'warmth' in circuits
     reduced = packet.get('inhibition_gain', 1) < 1
     labels = []
-    if 'looming' in circuits:
+    if circuits & {'looming', 'looming_velocity'} or packet.get('looming_input'):
         labels.append('FEAR')
     if circuits & {'aversion_proxy', 'nociception_proxy'}:
         labels.append('PAIN')

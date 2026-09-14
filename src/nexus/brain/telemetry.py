@@ -49,6 +49,7 @@ class NeuralTelemetry:
                   'silenced_count': int((brain.output_gain==0).sum()),
                   'inhibition_gain': brain.inhibition_gain,
                   'nominal_temperature_c': brain.nominal_temperature,
+                  'looming_input': brain.looming_snapshot(),
                   'thermal_nociception': {
                       'ids': [str(brain.graph.ids[i]) for i in brain.thermal_nociception_inputs],
                       'rate_hz': brain.thermal_nociception_rate},

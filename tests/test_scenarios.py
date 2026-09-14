@@ -70,6 +70,7 @@ def test_scenarios_match_exact_manual_execution_and_release(name):
         {'release': lambda: b.release(),
          'circuit': lambda: b.set_circuit_input(e['name'], e['rate_hz']),
          'heat': lambda: b.set_heat(e['celsius']),
+         'loom': lambda: b.set_looming(e['duration_ms']),
          'inhibition_gain': lambda: b.set_inhibition_gain(e['gain']),
          'stimulate': lambda: b.stimulate(e['ids'], e['rate_hz'])}[e['action']]()
         previous = e['at_ms']

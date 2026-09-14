@@ -9,7 +9,7 @@ The clock beside it uses simulation time.
 
 | Label | Applied model input |
 | --- | --- |
-| FEAR | The looming-threat candidate circuit is being stimulated. |
+| FEAR | A virtual approaching threat or constant input to a mapped looming pathway is active. |
 | PAIN | The nociception sensory candidates or the older central aversion candidates are being stimulated. |
 | SEIZURE | Inhibitory connection strength is reduced. The standard preset also supplies neural input. |
 | BOILING | The nominal 100°C heat scenario is applied, including mapped thermal nociception when available. The boiling preset also reduces inhibition; BOILING covers that combined preset. |
@@ -53,6 +53,63 @@ The baseline releases existing manual interventions before the next input begins
 The heat value is nominal. Warmth-cell input saturates at 40°C; selecting 100°C does
 not simulate tissue boiling, thermal damage, or short-circuits. The boiling preset
 adds an authored reduction of inhibition to the heat inputs.
+
+### Approaching threats (development toward 1.2)
+
+The source build's **Run fear** button now supplies one virtual approach over the
+selected stimulus duration. The released 1.1.1 binary uses constant LPLC2 input.
+The new input follows a constant-speed approach whose full apparent angle grows
+from 5° to 120°. A shorter duration gives faster angular expansion. This is a
+neural input scenario; there is no rendered predator or retinal image processing.
+
+The updated MaleCNS registry contains 185 LPLC2 and 126 LC4 cells. The source audit
+finds 311 direct connections from these cohorts to the two giant fibers, totaling
+11,224 synaptic contacts. Research supports LPLC2 size encoding and LC4 angular
+velocity encoding in this pathway. [Ache et al., 2019](https://doi.org/10.1016/j.cub.2019.01.079)
+The specimen-specific audit is in `experiments/looming-evidence-v1.json`.
+
+The simulator's LPLC2 input uses a Gaussian size envelope centered at 45° with
+20° width and 200 Hz peak. LC4 input is 0.2 times expansion speed in degrees/second,
+capped at 200 Hz. These values and angular endpoints are **unfitted engineering
+choices**, not the paper's fitted giant-fiber voltage model or measured sensory
+firing rates. Both cohorts receive uniform input; receptive-field position,
+retinal adaptation, and learned threat responses are not reconstructed.
+
+The profile is evaluated every 0.1 ms of neural time. Pause holds it, its endpoint
+removes the approach input, and Release clears it immediately. Neither action
+resets the neural state. Other active inputs survive the approach's automatic
+endpoint. Explicit constant looming commands replace the approach. Overlapping
+input sources use the highest rate per cell, without duplicate independent pulses.
+
+Diagnostics include `looming_input` with geometry, instantaneous rates, and LC4
+availability. Recorded traces include the same endpoint snapshot for each interval.
+Older packs without LC4 continue with the LPLC2 size channel and report LC4 as
+unavailable. No identifiers from another specimen are substituted. Flight remains
+disabled; the existing motor decoder reads resulting neural activity.
+
+To update a local MaleCNS pack from 1.1.1, place its exact official annotation file
+in `data/raw/male-cns-v1.0/` and run `python scripts/install_looming_circuit.py`.
+The script checks the source hash, verifies both visual pathways reach the mapped
+giant fibers, and switches the pack to a content-addressed registry. It preserves
+the previous registry, neural weights, and nociception cohort. Newly prepared
+packs include the LC4 mapping automatically.
+
+Saved protocols can use `{"at_ms": 100, "action": "loom", "duration_ms": 500}`.
+The approach must fit inside the protocol; a later Release can interrupt it.
+Legacy `circuit` commands keep their constant-rate behavior. New `loom` protocols
+require this source build or a later release, and cannot run in 1.1.1.
+
+`experiments/looming-v1-results.json` records 15 full brain/body trials: three seeds
+with normal approach, LPLC2 output blocked, LC4 output blocked, both blocked, and
+the motor bridge disabled. Blocking either cohort changes downstream activity
+and the body trajectory. Blocking both removes the escape decoder signal during
+input in all three seeds. Disabling the motor bridge preserves exact neural
+counts while changing movement. These checks establish causal effects inside
+this model, not biological fidelity.
+
+The blockade is removed with the input at 600 ms. Delayed spikes and retained
+neural state can then produce a short response. The report separates the input
+period from the 200 ms after release; whole-trial escape counts include both.
 
 ## Body, brain, and camera
 

@@ -52,6 +52,10 @@ class Protocol:
                 brain.validate_circuit(item['name'], item['rate_hz'])
             elif action == 'heat':
                 brain.validate_heat(item['celsius'])
+            elif action == 'loom':
+                duration, _ = brain.validate_looming(item['duration_ms'])
+                if at + duration > self.duration:
+                    raise ValueError('Approach extends beyond the protocol duration')
             elif action != "release":
                 raise ValueError(f"Unknown protocol action: {action}")
             self.commands.append((at, deepcopy(item)))
@@ -75,6 +79,8 @@ class Protocol:
                     brain.set_circuit_input(command['name'], command['rate_hz'])
                 elif command['action'] == 'heat':
                     brain.set_heat(command['celsius'])
+                elif command['action'] == 'loom':
+                    brain.set_looming(command['duration_ms'])
                 else:
                     brain.release()
                 self.cursor += 1

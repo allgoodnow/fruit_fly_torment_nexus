@@ -220,6 +220,8 @@ class Brain:
         self.manual_inputs = np.array([], dtype=np.int32)
         self.manual_rate = 0.
         self.circuit_inputs.clear()
+        self.looming_input = None
+        self.looming_targets = {}
         self.nominal_temperature = None
         self.thermal_nociception_inputs = np.array([], dtype=np.int32)
         self.thermal_nociception_rate = 0.
@@ -275,7 +277,7 @@ class Brain:
         raise ValueError(f'No mapped circuit {name!r} for dataset {self.graph.snapshot}')
 
     def validate_circuit(self, name, rate_hz):
-        if name not in ('looming', 'warmth', 'aversion_proxy', 'nociception_proxy'):
+        if name not in ('looming', 'looming_velocity', 'warmth', 'aversion_proxy', 'nociception_proxy'):
             raise ValueError('Unknown named input circuit')
         targets = self.resolve(self.circuit_ids(name))
         rate = float(rate_hz)
@@ -285,6 +287,9 @@ class Brain:
 
     def set_circuit_input(self, name, rate_hz):
         targets, rate = self.validate_circuit(name, rate_hz)
+        if name in ('looming', 'looming_velocity'):
+            self.looming_input = None
+            self.looming_targets = {}
         if rate:
             self.circuit_inputs[name] = (targets, rate)
         else:
@@ -296,6 +301,46 @@ class Brain:
         self._refresh_inputs()
         self.events.append({'kind': 'circuit_input', 'time': self.time, 'circuit': name,
                             'rate_hz': rate, 'ids': [str(self.graph.ids[i]) for i in targets]})
+
+    def validate_looming(self, duration_ms):
+        from .protocol import ticks
+        duration = ticks(duration_ms)
+        if not 1 <= duration <= 600000:
+            raise ValueError('Approach duration must be between 0.1 ms and 60 seconds')
+        targets = {'looming': self.resolve(self.circuit_ids('looming'))}
+        if self.graph.circuits and 'looming_velocity' in self.graph.circuits['circuits']:
+            targets['looming_velocity'] = self.resolve(self.circuit_ids('looming_velocity'))
+        if any(not len(group) for group in targets.values()):
+            raise ValueError('Approach requires nonempty mapped visual circuits')
+        return duration, targets
+
+    def set_looming(self, duration_ms):
+        from .looming import LoomingInput
+        duration, targets = self.validate_looming(duration_ms)
+        self.looming_input = LoomingInput(self.step, duration)
+        self.looming_targets = targets
+        for name in ('looming', 'looming_velocity'):
+            self.circuit_inputs.pop(name, None)
+        self._refresh_inputs()
+        self.events.append({'kind': 'looming_input', 'time': self.time,
+                            **self.looming_snapshot(),
+                            'ids': {name: [str(self.graph.ids[i]) for i in group]
+                                    for name, group in targets.items()}})
+
+    def looming_snapshot(self):
+        if self.looming_input is None:
+            return None
+        return self.looming_input.snapshot(self.step, 'looming_velocity' in self.looming_targets)
+
+    def _looming_rates(self, steps):
+        # Keep a fixed input order during the approach so seeded random draws
+        # are independent of worker chunk sizes and display refreshes.
+        rates = np.broadcast_to(self.base_rates, (len(steps), len(self.inputs))).copy()
+        _, _, size, speed = self.looming_input.sample(steps)
+        for name, profile in (('looming', size), ('looming_velocity', speed)):
+            columns = self.looming_columns.get(name, [])
+            rates[:, columns] = np.maximum(rates[:, columns], profile[:, None])
+        return rates
 
     def validate_heat(self, temperature):
         from .circuits import heat_rate
@@ -339,9 +384,17 @@ class Brain:
         # Cooling removes only this channel; overlapping rates use max, not sum.
         for i in self.thermal_nociception_inputs:
             rates[int(i)] = max(rates.get(int(i), 0.), self.thermal_nociception_rate)
+        for name in sorted(self.looming_targets):
+            for i in self.looming_targets[name]:
+                rates.setdefault(int(i), 0.)
         self.refractory[self.inputs] = REFRACTORY_STEPS
         self.inputs = np.array(list(rates), dtype=np.int32)
-        self.rates = np.array(list(rates.values()), dtype=np.float64)
+        self.base_rates = np.array(list(rates.values()), dtype=np.float64)
+        columns = {int(i): j for j, i in enumerate(self.inputs)}
+        self.looming_columns = {name: [columns[int(i)] for i in group]
+                                for name, group in self.looming_targets.items()}
+        self.rates = (self._looming_rates(np.array([self.step]))[0]
+                      if self.looming_input else self.base_rates.copy())
         self.refractory[self.inputs] = 0
 
     def silence(self, ids):
@@ -368,6 +421,11 @@ class Brain:
         self.sensory_inputs = np.array([], dtype=np.int32)
         self.manual_rate = self.sensory_rate = 0.
         self.circuit_inputs = {}
+        self.rates = np.array([], dtype=np.float64)
+        self.looming_input = None
+        self.looming_targets = {}
+        self.looming_columns = {}
+        self.base_rates = np.array([], dtype=np.float64)
         self.nominal_temperature = None
         self.thermal_nociception_inputs = np.array([], dtype=np.int32)
         self.thermal_nociception_rate = 0.
@@ -385,8 +443,22 @@ class Brain:
         traces = self.resolve(trace_ids)
         if len(traces) > 32:
             raise ValueError("At most 32 voltage traces per chunk")
+        if self.looming_input and self.step < self.looming_input.end < self.step + steps:
+            if input_events is not None:
+                raise ValueError('Split input replay at the approach endpoint, where targets change')
+            first_steps = self.looming_input.end - self.step
+            first = self.advance(first_steps * .0001, trace_ids=trace_ids)
+            second = self.advance((steps - first_steps) * .0001, trace_ids=trace_ids)
+            ids = np.concatenate([first['indices'], second['indices']])
+            times = np.concatenate([first['steps'], second['steps']])
+            return {'indices': ids[-20000:], 'steps': times[-20000:],
+                    'voltage_mv': np.concatenate([first['voltage_mv'], second['voltage_mv']]),
+                    'unrecorded_spikes': first['unrecorded_spikes'] + second['unrecorded_spikes']
+                                         + max(0, len(ids) - 20000)}
         if input_events is None:
-            events = self.rng.random((steps, len(self.inputs))) < self.rates * DT_MS / 1000
+            rates = (self._looming_rates(np.arange(self.step, self.step + steps))
+                     if self.looming_input else self.rates)
+            events = self.rng.random((steps, len(self.inputs))) < rates * DT_MS / 1000
         else:
             events = np.asarray(input_events, dtype=np.bool_)
             if events.shape != (steps, len(self.inputs)):
@@ -396,6 +468,14 @@ class Brain:
                           self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
                           self.step, self.inputs, events, traces)
         self.step += steps
+        if self.looming_input:
+            if self.step >= self.looming_input.end:
+                self.looming_input = None
+                self.looming_targets = {}
+                self._refresh_inputs()
+                self.events.append({'kind': 'looming_release', 'time': self.time})
+            else:
+                self.rates = self._looming_rates(np.array([self.step]))[0]
         if not np.isfinite(self.v).all() or not np.isfinite(self.g).all():
             raise RuntimeError("Non-finite neural state")
         self.history.extend(zip(result[1].tolist(), result[0].tolist()))
