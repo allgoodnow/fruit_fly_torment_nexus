@@ -22,4 +22,6 @@ def active_stimulation(packet):
         labels.append('CUSTOM')
     if packet.get('silenced_count', 0):
         labels.append('SILENCING')
+    if any(rate > 0 for rate in packet.get('eye_feedback', {}).get('rates_hz', {}).values()):
+        labels.append('VISION')
     return tuple(labels)

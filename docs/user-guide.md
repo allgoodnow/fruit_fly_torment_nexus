@@ -225,8 +225,9 @@ The magnitude still uses the inherited 0.275 mV per contact approximation, with
 the same generic LIF dynamics and delay. Photoreceptors normally use graded
 signaling; spike-triggered inhibitory currents here do not reconstruct that
 transmission, chloride reversal potentials, or calibrated receptor kinetics.
-This addition does not supply light input, working vision, or spontaneous
-exploration. The approaching-threat preset still directly drives LPLC2/LC4.
+The sign correction alone does not supply light input or spontaneous exploration.
+The optional brightness input below now drives mapped R1–R6 cells.
+The approaching-threat preset still directly drives LPLC2/LC4.
 The experimental reduced-inhibition control scales these negative weights too.
 
 Run `python scripts/install_receptor_signs.py` with the original structural pack
@@ -261,6 +262,69 @@ presynaptic output blockade reproduces the original zero-weight response. All fo
 preset comparisons retain identical per-neuron spike counts in these trials. The
 native app also passes 31 checks, including the activity graph and neural walking
 controls. These results describe this scoped sign change, not a validation of vision.
+
+### Visual input (development toward 1.2)
+
+The **FLY’S VISION** panel sits beneath the brain, beside the activity graph.
+It is available with the updated MaleCNS pack. These controls are source-development
+features; the 1.1.1 download does not include them.
+
+1. Choose **Load video…** and select a local MP4 (H.264 recommended). Loading pauses
+   the simulation and previews the first decoded frame, with visual input disabled.
+2. Enable **Feed to brain**, then **Run / Resume**. Both playback and visual input
+   follow the shared simulation clock. Slow simulation means slow playback.
+3. **Pause** holds the frame and current input. Disabling **Feed to brain** removes
+   that input and freezes playback, even if the body keeps running.
+4. At the end of the clip, visual input turns off automatically; the last frame
+   remains visible. **Restart** returns to frame zero and pauses, with input off.
+   It preserves the brain's state and elapsed time. Enable input and resume again.
+5. **Use eyes** unloads the video. Enable input to sample the two cameras attached
+   to the fly's head; the preview shows the left and right views together.
+
+**Release stimulation** disables visual input. Starting a prepared sequence also
+disables it, and visual input cannot be enabled during that sequence. Release the
+sequence before using vision again. **Reset body + brain** unloads the video and
+clears visual input. Failed playback releases visual input and reports an error.
+The red **VISION** label means a nonzero visual input is applied, including while
+paused; it does not label what the clip depicts. A black frame supplies zero input.
+
+Frames are sampled every 50 ms of simulated time. The local decoder produces
+RGB frames at 20 fps, at most 320 × 180 pixels, without audio. The displayed video
+frame is the frame used for input. Its average RGB intensity drives both eyes
+equally. Camera input instead averages each eye separately, excluding pixels
+outside FlyGym's retinal mask. Camera previews are reduced for display; the input
+uses the original masked frames. Camera rendering adds processing cost only when
+eye feedback is enabled. The camera implementation comes from
+[FlyGym's eye renderer](https://neuromechfly.org/api_reference/flygym/simulation/).
+
+The official MaleCNS annotations identify **1,112 left and 2,265 right R1–R6 cells**
+within the current pack. Selection requires the R1–R6 type, sensory classification,
+histamine consensus, and an unambiguous `rootSide`. This preserves the scan's
+unequal coverage. We do not invent missing cells or balance the counts. The
+brightness-to-input mapping is an **unfitted linear 0–100 Hz proxy**. Overlapping
+manual and visual inputs use the maximum rate per cell, rather than adding rates.
+
+This is not retinotopic vision, fly spectral sensitivity, motion perception, or
+object recognition. R7/R8 color pathways receive no new direct light input.
+Photoreceptors still use the generic spiking approximation. The downstream model
+lacks chloride reversal potentials: a full-field white test drove some targets
+to approximately −113 to −121 mV. Those uncalibrated voltages demonstrate a model
+limitation, not a physiological prediction. More realistic retinal and synaptic
+dynamics are needed before interpreting scene-guided behavior biologically.
+This update does not establish vision-driven exploration or subjective experience.
+
+With the app closed, run `python scripts/install_eye_inputs.py` to add the eye
+registry to an existing pack. It checks the original annotation and transmitter
+hashes against the structural manifest, validates a candidate pack, and selects
+the new registry without altering connections or weights. Restart the app after
+updating. Freshly prepared packs include these cohorts automatically.
+
+`python scripts/probe_vision.py --output-dir new-results-folder` tests a black/white
+MP4 in the full body/brain simulation, with matched photoreceptor-output blockade
+and input-off controls across three seeds, then tests actual eye-camera input.
+The versioned results are in `experiments/vision-v1-results.json`. Blockade preserves
+input spike draws while removing the measured downstream inhibition. This checks
+signal routing, not biological fidelity or scene understanding.
 
 ### Heat input and nociception
 

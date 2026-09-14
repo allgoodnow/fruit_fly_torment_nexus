@@ -24,6 +24,7 @@ def main():
     parser.add_argument('--seed', type=int, default=73100, help='Neural random seed for unattended sequences')
     parser.add_argument('--disable-motor-bridge', action='store_true', help='Unattended comparison with neural motor effects disabled')
     parser.add_argument("--male-cns-smoke-test", type=Path, help="Check MaleCNS controls, anatomy and shared-clock body")
+    parser.add_argument('--vision-test-video', type=Path, help='Local test clip for the MaleCNS GUI acceptance run')
     parser.add_argument("--smoke-test", type=Path, help="Run UI acceptance checks and write report/screenshot here")
     parser.add_argument("--brain-smoke-test", type=Path, help="Also exercise the real brain and timed sequence")
     parser.add_argument('--coupled-smoke-test', type=Path, help='Exercise shared-clock neural steering')
@@ -33,6 +34,8 @@ def main():
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
     args = parser.parse_args()
+    if args.vision_test_video and not args.male_cns_smoke_test:
+        parser.error('--vision-test-video requires --male-cns-smoke-test')
     if args.run_sequence:
         if not args.output_dir:
             parser.error('--run-sequence requires --output-dir')
@@ -85,6 +88,7 @@ def main():
     from nexus.stimulation_banner import StimulationBanner
     from nexus.guide import GuideDialog
     from nexus.neural_activity import NeuralActivityPlot
+    from nexus.vision_panel import VisionPanel
 
     try:
         config = model_config(default_pack(args.dataset))
@@ -225,7 +229,14 @@ def main():
             self.graph_stack.addWidget(self.graph)
             self.brain_graph = NeuralActivityPlot()
             self.graph_stack.addWidget(self.brain_graph)
-            scene_layout.addWidget(self.graph_stack)
+            activity_row = QHBoxLayout()
+            activity_row.addWidget(self.graph_stack, 3)
+            self.vision_panel = VisionPanel()
+            self.vision_panel.setMaximumHeight(180)
+            self.vision_panel.setVisible(coupled)
+            self.vision_panel.command.connect(self.send)
+            activity_row.addWidget(self.vision_panel, 1)
+            scene_layout.addLayout(activity_row)
             split.addWidget(scene_panel)
             side = QWidget()
             side.setMinimumWidth(280)
@@ -429,6 +440,12 @@ def main():
                     self.brain_panel.receive_snapshot(packet['brain'])
                 previous = self.telemetry
                 self.telemetry = t = packet["telemetry"]
+                if coupled:
+                    self.vision_panel.update_snapshot(t.get('eye_feedback', {}),
+                                                      packet.get('vision_pixels'), t['running'])
+                    vision_error = t.get('eye_feedback', {}).get('error')
+                    if vision_error and vision_error != previous.get('eye_feedback', {}).get('error'):
+                        self.log.append(vision_error)
                 image = packet["pixels"]
                 if image is not None:
                     h, w, _ = image.shape
@@ -1060,6 +1077,65 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('reset clears walking activity while preserving the selected control mode')
+                if args.vision_test_video:
+                    self.vision_panel.command.emit('vision_video', str(args.vision_test_video.resolve()))
+                    self.smoke_stage = 17
+                    return
+                self.grab().save(str(data_dir/'final-app.png'))
+                self.smoke_finish(True)
+            elif self.smoke_stage == 17 and t.get('eye_feedback', {}).get('source') == 'video':
+                if t['running'] or t['eye_feedback']['enabled'] or self.vision_panel.preview.image is None:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('video loads paused with a decoded preview and no neural input')
+                self.vision_panel.feed.setChecked(True)
+                self.brain_panel.send('running', True)
+                self.smoke_stage = 18
+            elif self.smoke_stage == 18 and t['sim_time'] >= .16:
+                if not t['total_spikes'] or not t.get('eye_feedback', {}).get('rates_hz'):
+                    self.smoke_finish(False)
+                    return
+                self.brain_panel.send('running', False)
+                self.smoke_stage = 19
+            elif self.smoke_stage == 19 and not t['running']:
+                self.smoke_checks.append('video brightness drives photoreceptor spikes and the live activity graph')
+                self.vision_test_frame = t['eye_feedback']['video_frame']
+                self.vision_test_time = t['sim_time']
+                self.grab().save(str(data_dir/'video-active.png'))
+                self.vision_panel.feed.setChecked(False)
+                self.smoke_stage = 20
+            elif self.smoke_stage == 20 and not t['eye_feedback']['enabled']:
+                if t['sim_time'] != self.vision_test_time or t['eye_feedback']['video_frame'] != self.vision_test_frame or t['eye_feedback']['rates_hz']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('paused video frame is stable and disabling feedback clears visual input')
+                self.vision_panel.restart.click()
+                self.smoke_stage = 21
+            elif self.smoke_stage == 21 and t['eye_feedback']['video_frame'] == 0:
+                self.smoke_checks.append('restart rewinds the video without resetting the brain clock')
+                self.vision_panel.feed.setChecked(True)
+                self.brain_panel.send('running', True)
+                self.smoke_stage = 22
+            elif self.smoke_stage == 22 and t.get('eye_feedback', {}).get('video_ended'):
+                if t['eye_feedback']['enabled'] or t['eye_feedback']['rates_hz']:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('end of video automatically releases visual input')
+                self.brain_panel.send('running', False)
+                self.vision_panel.eyes.click()
+                self.vision_panel.command.emit('eye_feedback', True)
+                self.brain_panel.send('step')
+                self.smoke_stage = 23
+            elif self.smoke_stage == 23 and t.get('eye_feedback', {}).get('source') == 'eyes' and t['eye_feedback'].get('samples', 0):
+                if not t['eye_feedback']['rates_hz'] or self.vision_panel.preview.image is None:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('actual left/right eye cameras feed the brain and appear in the vision panel')
+                self.grab().save(str(data_dir/'eyes-active.png'))
+                self.brain_panel.send('release')
+                self.smoke_stage = 24
+            elif self.smoke_stage == 24 and not t['eye_feedback']['enabled']:
+                self.smoke_checks.append('Release disables visual feedback and preserves paused brain state')
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 

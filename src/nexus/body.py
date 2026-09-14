@@ -23,6 +23,7 @@ from flygym_demo.complex_terrain import (
 class FlyBody:
     def __init__(self, *, render: bool = True, width: int = 960, height: int = 640):
         self.fly = make_locomotion_fly(name="nexus_fly", add_adhesion=True, colorize=True)
+        self.fly.add_vision()
         self.world = FlatGroundWorld()
         for texture in self.world.mjcf_root.textures:
             if texture.name == 'checker':
@@ -126,6 +127,13 @@ class FlyBody:
                 result.append({'foot': self.foot_geoms[other], 'position_mm': contact.pos.copy().tolist()})
         return result
 
+    def eye_brightness(self):
+        from .vision import pooled_brightness
+        frames = self.sim.get_raw_vision(self.fly.name)
+        # Small, exact sampled preview; never the spectator camera.
+        self.eye_preview = np.ascontiguousarray(np.concatenate([f[::4, ::4] for f in frames], axis=1))
+        return pooled_brightness(frames, self.sim.retina.ommatidia_id_map > 0)
+
     def food_position(self, placement):
         position = self.position()[:2]
         if placement == 'ahead':
@@ -219,6 +227,9 @@ class FlyBody:
         }
 
     def close(self):
+        if self.sim.eye_renderer is not None:
+            self.sim.eye_renderer.close()
+            self.sim.eye_renderer = None
         if self.renderer is not None:
             self.renderer.close()
             self.renderer = None

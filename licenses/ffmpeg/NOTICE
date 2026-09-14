@@ -1,0 +1,29 @@
+FFmpeg 7.0.2 Linux x86-64 static executable
+Distributed unmodified in the imageio-ffmpeg 0.6.0 wheel.
+Copyright (c) 2000-2024 the FFmpeg developers.
+License: GNU General Public License version 3 or later (see COPYING.GPLv3).
+
+Upstream binary distributor: https://johnvansickle.com/ffmpeg/
+Build information: https://johnvansickle.com/ffmpeg/release-readme.txt
+FFmpeg source tag: https://github.com/FFmpeg/FFmpeg/tree/n7.0.2
+FFmpeg release sources: https://ffmpeg.org/releases/ffmpeg-7.0.2.tar.xz
+Distributor source directory: https://johnvansickle.com/ffmpeg/release-source/
+The distributor directory currently lists older sources; it has not been verified
+as complete corresponding source for this static build and its linked libraries.
+This local development build is not a published binary release.
+
+The executable runs separately through pipes; the application does not link libav*.
+
+Binary SHA-256: e7e7fb30477f717e6f55f9180a70386c62677ef8a4d4d1a5d948f4098aa3eb99
+
+ffmpeg version 7.0.2-static https://johnvansickle.com/ffmpeg/  Copyright (c) 2000-2024 the FFmpeg developers
+built with gcc 8 (Debian 8.3.0-6)
+configuration: --enable-gpl --enable-version3 --enable-static --disable-debug --disable-ffplay --disable-indev=sndio --disable-outdev=sndio --cc=gcc --enable-fontconfig --enable-frei0r --enable-gnutls --enable-gmp --enable-libgme --enable-gray --enable-libaom --enable-libfribidi --enable-libass --enable-libvmaf --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-librubberband --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libvorbis --enable-libopus --enable-libtheora --enable-libvidstab --enable-libvo-amrwbenc --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libdav1d --enable-libxvid --enable-libzvbi --enable-libzimg
+libavutil      59.  8.100 / 59.  8.100
+libavcodec     61.  3.100 / 61.  3.100
+libavformat    61.  1.100 / 61.  1.100
+libavdevice    61.  1.100 / 61.  1.100
+libavfilter    10.  1.100 / 10.  1.100
+libswscale      8.  1.100 /  8.  1.100
+libswresample   5.  1.100 /  5.  1.100
+libpostproc    58.  1.100 / 58.  1.100

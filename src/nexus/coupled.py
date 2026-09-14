@@ -13,6 +13,7 @@ from .brain.telemetry import NeuralTelemetry
 from .worker import put_latest
 from .behavior import GroundBehavior
 from .recovery import RecoveryMonitor
+from .vision import EyeFeedback
 
 
 class CoupledSession:
@@ -38,6 +39,7 @@ class CoupledSession:
         self.reposition_count = 0
         self.monitor = NeuralTelemetry(brain)
         self.recovery = RecoveryMonitor()
+        self.eyes = EyeFeedback(brain, body)
         self.sync_environment()
 
     def sync_recovery(self):
@@ -73,6 +75,7 @@ class CoupledSession:
             self.behavior.reset()
             self.monitor.reset(self.brain)
             self.recovery.reset()
+            self.eyes.reset()
             self.running, self.protocol = False, None
             self.completed_protocol = None
             self.generation += 1
@@ -85,6 +88,7 @@ class CoupledSession:
             self.running = False
             self.reposition_count += 1
             self.recovery.body_repositioned(self.brain.step)
+            self.eyes.next_sample = self.brain.step
             self.sync_environment()
         elif kind == 'stimulate':
             self.brain.stimulate(value['ids'], value['rate_hz'])
@@ -105,13 +109,27 @@ class CoupledSession:
             self.brain.set_looming(value)
             self.protocol = None
         elif kind == 'neural_release':
+            self.eyes.configure(False)
             self.brain.release()
             self.protocol = None
         elif kind == 'release':
             self.baseline = 1.
         elif kind == 'protocol':
             candidate = Protocol(value, self.brain)
+            self.eyes.configure(False)
             self.protocol, self.running = candidate, True
+        elif kind == 'eye_feedback':
+            if value and self.protocol and not self.protocol.completed:
+                raise ValueError('Finish or release the prepared sequence before enabling visual input')
+            self.eyes.configure(value)
+        elif kind == 'vision_video':
+            self.eyes.load_video(value)
+            self.running = False
+        elif kind == 'vision_eyes':
+            self.eyes.use_eyes()
+        elif kind == 'vision_restart':
+            self.eyes.restart_video()
+            self.running = False
         elif kind == 'bridge_enabled':
             self.decoder.enabled = bool(value)
             self.motor_effects.enabled = bool(value)
@@ -190,6 +208,7 @@ class CoupledSession:
                 step = min(step, self.protocol.origin+self.protocol.duration-before)
             if self.brain.looming_input:
                 step = min(step, self.brain.looming_input.end - before)
+            step = self.eyes.before_step(step)
             self.sync_recovery()
             gains = self.brain.output_gain[self.decoder.indices].copy()
             walking_gains = self.brain.output_gain[self.walking_decoder.indices].copy()
@@ -217,6 +236,7 @@ class CoupledSession:
             if behavior['resting']:
                 extra = {'resting': True}
             self.body.advance(elapsed, drive=output['drive'], turn=output['turn'], wander=False, **extra)
+            self.eyes.after_step(self.brain.step - before)
             if abs(self.body.time-self.brain.time) > 1e-9:
                 raise RuntimeError('Body and brain clocks diverged')
             self.recovery.observe(self.brain.step, int(counts.sum()), len(counts),
@@ -265,6 +285,7 @@ class CoupledSession:
                                        coupled=self.decoder.enabled or self.motor_effects.enabled
                                                or (self.neural_walking and self.walking_decoder.enabled))
         neural['shared_clock'] = True
+        neural['eye_feedback'] = self.eyes.snapshot()
         food = self.environment.snapshot() if self.environment is not None else None
         neural['environment'] = food
         behavior = self.ground_output()
@@ -288,14 +309,16 @@ class CoupledSession:
         body['ground_behavior'] = neural['ground_behavior']
         body['neural_walking'] = self.neural_walking
         body['walking_decoder'] = neural['walking_decoder']
+        body['eye_feedback'] = neural['eye_feedback']
         if self.neural_walking:
             body['mode'] = 'BDN2 forward / DNa02 steering / MDN retreat; engineered gait'
         body['reposition_count'] = self.reposition_count
-        return {'telemetry': body, 'brain': neural}
+        return {'telemetry': body, 'brain': neural, 'vision_pixels': self.eyes.preview}
 
 
 def simulate_coupled(directory, commands, frames, events, *, render=True, autonomous=True, allow_experimental=False):
     body = None
+    session = None
     try:
         from .body import FlyBody
         from .brain.runtime import Brain, Connectome
@@ -358,6 +381,8 @@ def simulate_coupled(directory, commands, frames, events, *, render=True, autono
     except BaseException:
         events.put({'kind': 'error', 'message': traceback.format_exc()})
     finally:
+        if session is not None:
+            session.eyes.close()
         if body is not None:
             body.close()
         frames.cancel_join_thread()

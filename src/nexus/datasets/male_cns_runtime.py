@@ -90,7 +90,8 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
             or offsets[-1] != len(posts) or (np.diff(offsets) < 0).any()
             or len(contacts) != len(posts) or (posts.size and posts.max() >= len(ids))):
         raise ValueError('Invalid structural adjacency')
-    signs, labels = transmitter_signs(ids, pd.read_feather(raw/FILES['neurotransmitters']))
+    nt_table = pd.read_feather(raw/FILES['neurotransmitters'])
+    signs, labels = transmitter_signs(ids, nt_table)
     registry = build_registry(neurons)
     if neurons.type.eq('LC4').any():
         from .looming import attach_velocity_circuit
@@ -98,6 +99,9 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
     if neurons.type.eq('DNg100').any():
         from .walking import attach_forward_readout
         registry = attach_forward_readout(registry, neurons, ids)
+    if (neurons.type.eq('R1-R6') & neurons.superclass.eq('ol_sensory')).any():
+        from .eyes import attach_eye_inputs
+        registry = attach_eye_inputs(registry, neurons, nt_table, ids)
     if nociception_cohort is not None:
         from .nociception import attach_cohort
         registry = attach_cohort(registry, nociception_cohort, ids, records[FILES['annotations']]['sha256'])

@@ -232,6 +232,7 @@ class Brain:
         self.manual_inputs = np.array([], dtype=np.int32)
         self.manual_rate = 0.
         self.circuit_inputs.clear()
+        self.eye_inputs.clear()
         self.looming_input = None
         self.looming_targets = {}
         self.nominal_temperature = None
@@ -262,6 +263,25 @@ class Brain:
         self.events.append({'kind': 'inhibition_gain', 'time': self.time,
                             'gain': gain, 'scope': 'all_negative_edges',
                             'model_extension': 'negative-edge-gain-v1'})
+
+    def clear_eye_input(self):
+        if self.eye_inputs:
+            self.eye_inputs.clear()
+            self._refresh_inputs()
+
+    def set_eye_input(self, brightness):
+        value = np.asarray(brightness, dtype=np.float64)
+        if value.shape != (2,) or not np.isfinite(value).all() or ((value < 0) | (value > 1)).any():
+            raise ValueError('Eye brightness must contain two finite values in [0, 1]')
+        if self.graph.snapshot != 'male-cns:v1.0':
+            raise ValueError('Eye input requires mapped MaleCNS photoreceptors')
+        candidate = {}
+        for side, name, amount in zip(['L', 'R'], ['eye_left', 'eye_right'], value):
+            targets = self.resolve(self.circuit_ids(name))
+            if amount > 0:
+                candidate[side] = (targets, float(amount * 100.))
+        self.eye_inputs = candidate
+        self._refresh_inputs()
 
     def set_sensory_input(self, ids, rate_hz):
         """Environmental input channel; overlapping manual/sensory rates use max."""
@@ -388,6 +408,10 @@ class Brain:
         rates = {int(i): self.manual_rate for i in self.manual_inputs}
         for i in self.sensory_inputs:
             rates[int(i)] = max(rates.get(int(i), 0.), self.sensory_rate)
+        for side in sorted(self.eye_inputs):
+            targets, rate = self.eye_inputs[side]
+            for i in targets:
+                rates[int(i)] = max(rates.get(int(i), 0.), rate)
         for name in sorted(self.circuit_inputs):
             targets, rate = self.circuit_inputs[name]
             for i in targets:
@@ -433,6 +457,7 @@ class Brain:
         self.sensory_inputs = np.array([], dtype=np.int32)
         self.manual_rate = self.sensory_rate = 0.
         self.circuit_inputs = {}
+        self.eye_inputs = {}
         self.rates = np.array([], dtype=np.float64)
         self.looming_input = None
         self.looming_targets = {}

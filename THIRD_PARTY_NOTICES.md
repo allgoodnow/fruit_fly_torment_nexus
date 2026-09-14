@@ -21,6 +21,14 @@ Additional runtime dependencies and their installed license notices are collecte
 in `licenses/` by the packaging script. `requirements-lock.txt` records the
 development environment, including research and build tools not shipped in the app.
 
+Development toward 1.2 adds local video decoding through **imageio-ffmpeg 0.6.0**
+(BSD-2-Clause wrapper), https://github.com/imageio/imageio-ffmpeg.
+The Linux development bundle includes its unmodified **FFmpeg 7.0.2** static
+executable from https://johnvansickle.com/ffmpeg/, licensed GPL-3.0-or-later by
+the executable's own license notice. It runs as a separate process. Its license,
+binary checksum, build configuration, and upstream source references are recorded
+in `licenses/ffmpeg/`. The wrapper's license is in `licenses/imageio-ffmpeg/`.
+
 The neural model follows Philip Shiu and Nico Spiller's **Drosophila brain model**
 at https://github.com/philshiu/Drosophila_brain_model, commit
 `91bdd1e7dcf193f3e7ca5a8933497fcef63b7960` (MIT; copyright 2023 Philip Shiu and

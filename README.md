@@ -67,9 +67,15 @@ from the scheduled exploration controller. It is groundwork for autonomous
 exploration; quiet neurons currently remain still in this mode.
 The development brain pack also restores inhibitory signaling on 19,154 scanned
 photoreceptor connections in lamina and color pathways previously given zero weight.
-These corrections use specific transmitter/receptor evidence; retinal dynamics and working vision remain
-unmodeled. See the [guide](docs/user-guide.md#photoreceptor-connectivity-development-toward-12)
+These corrections use specific transmitter/receptor evidence; retinal dynamics remain
+unfitted. See the [guide](docs/user-guide.md#photoreceptor-connectivity-development-toward-12)
 for evidence, limits, and the local update.
+
+**FLY’S VISION** adds local MP4 input and a preview of the body's own eye cameras.
+Load a video, enable **Feed to brain**, then run the simulation. Playback follows
+simulation time. This first stage maps pooled brightness to R1–R6 photoreceptors;
+it does not yet model spatial vision or recognize video content. See the
+[visual input guide](docs/user-guide.md#visual-input-development-toward-12).
 
 The prepared workspace runs with `./run.sh`. Large neural packs are excluded from
 Git; they are supplied in the release under `_internal/data/`. A source checkout

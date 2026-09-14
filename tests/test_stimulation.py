@@ -21,6 +21,8 @@ def packet(*names, temperature=None, gain=1, **extra):
     (packet('looming', 'nociception_proxy', 'warmth', temperature=100, gain=.25), ('FEAR', 'PAIN', 'BOILING')),
     (packet('nociception_proxy', 'aversion_proxy'), ('PAIN',)),
     (packet(manual_ids=['1']), ('CUSTOM',)),
+    (packet(eye_feedback={'rates_hz': {'L': 50, 'R': 0}}), ('VISION',)),
+    (packet(eye_feedback={'rates_hz': {}}), ()),
     (packet(manual_ids=['1'], gain=.25), ('SEIZURE',)),
     (packet(sensory_ids=['1'], sensory_rate_hz=200, silenced_count=1), ('SILENCING',)),
     (packet(total_spikes=100000, motor_effects={'disruption': 1}, protocol={'name': 'Pain'}), ()),

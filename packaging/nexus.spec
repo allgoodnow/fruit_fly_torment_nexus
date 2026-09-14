@@ -4,6 +4,7 @@ from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, co
 
 root = Path(SPECPATH).parent
 datas = collect_data_files("flygym") + collect_data_files("flygym_demo.complex_terrain")
+datas += collect_data_files('imageio_ffmpeg')
 datas += copy_metadata("flygym", recursive=True)
 datas += [(str(root / "THIRD_PARTY_NOTICES.md"), ".")]
 datas += [(str(root / "docs/user-guide.md"), "docs")]

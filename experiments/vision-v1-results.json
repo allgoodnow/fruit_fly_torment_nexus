@@ -1,0 +1,316 @@
+{
+  "format": "nexus-vision-results-1",
+  "success": true,
+  "manifest_sha256": "5440485a26d41d623a855fe1b3503efc37d53c32b767af9074cf72f392963b8c",
+  "movie_sha256": "420ae322f90732106d6f5e133b996afe5715da950b204d23dc77a805e271a459",
+  "video_trials": [
+    {
+      "seed": 73100,
+      "condition": "video",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 33247,
+      "minimum_target_mv": -113.83718148069353,
+      "total_spikes": 33281,
+      "ended": true,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73100,
+      "condition": "photoreceptor_blocked",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 33247,
+      "minimum_target_mv": -52.0,
+      "total_spikes": 33281,
+      "ended": true,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73100,
+      "condition": "input_off",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 0,
+      "minimum_target_mv": -52.0,
+      "total_spikes": 0,
+      "ended": false,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73101,
+      "condition": "video",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 33344,
+      "minimum_target_mv": -120.58363267803091,
+      "total_spikes": 33385,
+      "ended": true,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73101,
+      "condition": "photoreceptor_blocked",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 33344,
+      "minimum_target_mv": -52.0,
+      "total_spikes": 33385,
+      "ended": true,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73101,
+      "condition": "input_off",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 0,
+      "minimum_target_mv": -52.0,
+      "total_spikes": 0,
+      "ended": false,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73102,
+      "condition": "video",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 33365,
+      "minimum_target_mv": -112.71624783396189,
+      "total_spikes": 33388,
+      "ended": true,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73102,
+      "condition": "photoreceptor_blocked",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 33365,
+      "minimum_target_mv": -52.0,
+      "total_spikes": 33388,
+      "ended": true,
+      "released": true,
+      "shared_clock": true
+    },
+    {
+      "seed": 73102,
+      "condition": "input_off",
+      "black_baseline_eye_spikes": 0,
+      "white_phase_eye_spikes": 0,
+      "minimum_target_mv": -52.0,
+      "total_spikes": 0,
+      "ended": false,
+      "released": true,
+      "shared_clock": true
+    }
+  ],
+  "camera_samples": [
+    {
+      "available": true,
+      "enabled": true,
+      "sample_ms": 0.0,
+      "sample_interval_ms": 50.0,
+      "samples": 1,
+      "brightness": [
+        0.7378503791193574,
+        0.7311804484705342
+      ],
+      "source": "eyes",
+      "video_name": null,
+      "video_frame": null,
+      "video_ended": false,
+      "error": null,
+      "rates_hz": {
+        "L": 73.78503791193573,
+        "R": 73.11804484705343
+      },
+      "mapping": "pooled-eye-brightness-v1; unfitted 0-100 Hz R1-R6 input"
+    },
+    {
+      "available": true,
+      "enabled": true,
+      "sample_ms": 50.0,
+      "sample_interval_ms": 50.0,
+      "samples": 2,
+      "brightness": [
+        0.7298280375760189,
+        0.732229482509907
+      ],
+      "source": "eyes",
+      "video_name": null,
+      "video_frame": null,
+      "video_ended": false,
+      "error": null,
+      "rates_hz": {
+        "L": 72.98280375760189,
+        "R": 73.22294825099071
+      },
+      "mapping": "pooled-eye-brightness-v1; unfitted 0-100 Hz R1-R6 input"
+    },
+    {
+      "available": true,
+      "enabled": true,
+      "sample_ms": 100.0,
+      "sample_interval_ms": 50.0,
+      "samples": 3,
+      "brightness": [
+        0.7372523841194218,
+        0.7376799028358877
+      ],
+      "source": "eyes",
+      "video_name": null,
+      "video_frame": null,
+      "video_ended": false,
+      "error": null,
+      "rates_hz": {
+        "L": 73.72523841194219,
+        "R": 73.76799028358877
+      },
+      "mapping": "pooled-eye-brightness-v1; unfitted 0-100 Hz R1-R6 input"
+    }
+  ],
+  "camera_total_spikes": 36797,
+  "limits": [
+    "Brightness-only visual input, not retinotopy, motion perception, or object recognition.",
+    "Videos are resampled to 20 Hz without audio and supplied equally to both eyes.",
+    "100 Hz at full white is unfitted; photoreceptors retain the generic spike model.",
+    "No chloride reversal potential: full-field input produces uncalibrated target voltages below -110 mV."
+  ],
+  "automated_tests": {
+    "passed": 171,
+    "command": "python -m pytest -q"
+  },
+  "native_gui": {
+    "success": true,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "approach geometry advances with brain time and releases both visual inputs",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation",
+      "neural walking mode removes scheduled walking and reports quiet-brain idle",
+      "mapped BDN2 input produces measured forward drive in the native app",
+      "release preserves the paused walking readout and shared clock",
+      "reset clears walking activity while preserving the selected control mode",
+      "video loads paused with a decoded preview and no neural input",
+      "video brightness drives photoreceptor spikes and the live activity graph",
+      "paused video frame is stable and disabling feedback clears visual input",
+      "restart rewinds the video without resetting the brain clock",
+      "end of video automatically releases visual input",
+      "actual left/right eye cameras feed the brain and appear in the vision panel",
+      "Release disables visual feedback and preserves paused brain state"
+    ],
+    "screenshots_visually_checked": [
+      "eyes-active.png"
+    ]
+  },
+  "packaged_gui": {
+    "success": true,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "approach geometry advances with brain time and releases both visual inputs",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation",
+      "neural walking mode removes scheduled walking and reports quiet-brain idle",
+      "mapped BDN2 input produces measured forward drive in the native app",
+      "release preserves the paused walking readout and shared clock",
+      "reset clears walking activity while preserving the selected control mode",
+      "video loads paused with a decoded preview and no neural input",
+      "video brightness drives photoreceptor spikes and the live activity graph",
+      "paused video frame is stable and disabling feedback clears visual input",
+      "restart rewinds the video without resetting the brain clock",
+      "end of video automatically releases visual input",
+      "actual left/right eye cameras feed the brain and appear in the vision panel",
+      "Release disables visual feedback and preserves paused brain state"
+    ],
+    "screenshots_visually_checked": [
+      "video-active.png"
+    ]
+  },
+  "packaging": {
+    "local_development_build": true,
+    "published_release": false,
+    "bundled_decoder_sha256": "e7e7fb30477f717e6f55f9180a70386c62677ef8a4d4d1a5d948f4098aa3eb99",
+    "bundled_decoder_executable": true,
+    "manifest_matches_tested_pack": true,
+    "decoder_corresponding_source_complete": false,
+    "decoder_source_note": "Upstream source directory is outdated; complete corresponding source must be supplied before binary distribution."
+  },
+  "implementation_sha256": {
+    "src/nexus/brain/runtime.py": "1fadfbbefee611e1651842f87f057f23b90a220614b853051f2881781d9b4b49",
+    "src/nexus/body.py": "64ce0fc23624380fc9a4ed3cf09a3779e7538617923e581fe8c086965cd6a276",
+    "src/nexus/coupled.py": "fd1594b7bfeb0271d2d5f63abab231c3a152575806d0b4d44fd64ead66171045",
+    "src/nexus/vision.py": "af9dd69930b66759c64f2bf0137f714a8297b2ae0c295a383d0487cffcff0964",
+    "src/nexus/video.py": "e63495ee026c51e0a0dc514980fe19922129f96a432f882f8189d95715e9360c",
+    "src/nexus/vision_panel.py": "b8bd6242f575a7bc3fb00c1504975821bbbac50e7375211ec377843cf5688455",
+    "src/nexus/datasets/eyes.py": "56c888bd04439315ad24ab8a4e4992e6d665d43f5d09e3fddbc04c99e91b4a2e",
+    "scripts/install_eye_inputs.py": "32544dfe163fbb1b94b346ad5eae9e81ef461690565e81981c767050325758d4",
+    "scripts/probe_vision.py": "dcb92ba38f751f22722ef3e6114e82d2544d365eeb78ad385301bc409d2de2ad"
+  },
+  "additional_local_video": {
+    "success": true,
+    "decoded_frames": 625,
+    "brightness_min": 0.7953428422294844,
+    "brightness_max": 0.9662746459694989,
+    "full_file_decoded": true,
+    "neural_test_ms": 2000,
+    "neural_spikes_at_2000_ms": 560295,
+    "preview_matches_neural_input": true,
+    "restart_preserves_brain": true,
+    "release_clears_input": true,
+    "independent_scenarios_not_triggered": true,
+    "source_size": [
+      1920,
+      1080
+    ],
+    "source_fps": 60,
+    "source_duration_seconds": 31.25,
+    "preview_visually_checked": true,
+    "note": "User-supplied simulator recording; media and private paths are not included. Entire file decoded; first two seconds tested in full neural/body simulation."
+  }
+}
