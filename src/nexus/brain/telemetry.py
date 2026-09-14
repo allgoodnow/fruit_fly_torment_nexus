@@ -5,6 +5,18 @@ import numpy as np
 from .targets import readout_ids
 from .runtime import ACTIVITY_BIN_STEPS, ACTIVITY_BINS, DT_MS
 
+VOLTAGE_REST_MV = -52.0
+VOLTAGE_THRESHOLD_MV = 0.5
+
+
+def membrane_activity(brain):
+    """Signed state relative to model rest, independent of spikes and input labels."""
+    deviation = brain.v - VOLTAGE_REST_MV
+    indices = np.flatnonzero(np.abs(deviation) >= VOLTAGE_THRESHOLD_MV)
+    return {'indices': indices.tolist(), 'delta_mv': deviation[indices].tolist(),
+            'rest_mv': VOLTAGE_REST_MV, 'threshold_mv': VOLTAGE_THRESHOLD_MV,
+            'minimum_mv': float(brain.v.min()), 'maximum_mv': float(brain.v.max())}
+
 
 class NeuralTelemetry:
     def __init__(self, brain):
@@ -32,6 +44,7 @@ class NeuralTelemetry:
                   'neuron_order_sha256': self.order_hash, 'dataset': brain.graph.snapshot,
                   'model': brain.graph.model,
                   'active_indices': active.tolist(), 'active_steps': brain.last_spike[active].tolist(),
+                  'membrane_activity': membrane_activity(brain),
                   'neurons': len(brain.graph.ids), 'edges': len(brain.graph.posts),
                   'total_spikes': int(brain.counts.sum()), 'window_spikes': int(delta.sum()),
                   'mn9_spikes': int(brain.counts[i].sum()) if len(i) else None,

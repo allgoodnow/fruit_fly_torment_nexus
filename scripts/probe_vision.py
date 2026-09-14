@@ -13,6 +13,7 @@ for name, folder in [('NUMBA_CACHE_DIR', 'numba'), ('MPLCONFIGDIR', 'matplotlib'
 import imageio_ffmpeg
 import numpy as np
 from nexus.brain.runtime import Brain, Connectome
+from nexus.brain.anatomy import Anatomy
 from nexus.body import FlyBody
 from nexus.coupled import CoupledSession
 
@@ -35,6 +36,7 @@ def main():
     make_movie(movie)
     pack = ROOT / 'data/brain-male-cns-v1.0-lif'
     graph = Connectome.load(pack, allow_experimental=True)
+    anatomy = Anatomy(pack)
     body = FlyBody(render=False)
     rows = []
     session = None
@@ -61,11 +63,14 @@ def main():
                     trace.append({'time_ms': brain.step / 10, 'vision': session.eyes.snapshot(),
                                   'eye_spikes': int(brain.counts[eyes].sum()),
                                   'minimum_target_mv': float(brain.v[targets].min()),
+                                  'visible_inhibited_targets': int(np.count_nonzero(
+                                      anatomy.valid[targets] & (brain.v[targets] <= -52.5))),
                                   'position_mm': body.position().tolist()})
                 row = {'seed': seed, 'condition': condition,
                        'black_baseline_eye_spikes': trace[9]['eye_spikes'],
                        'white_phase_eye_spikes': trace[19]['eye_spikes'] - trace[9]['eye_spikes'],
                        'minimum_target_mv': min(t['minimum_target_mv'] for t in trace),
+                       'maximum_visible_inhibited_targets': max(t['visible_inhibited_targets'] for t in trace),
                        'total_spikes': int(brain.counts.sum()),
                        'ended': bool(session.eyes.video.ended), 'released': not brain.eye_inputs,
                        'shared_clock': abs(body.time - brain.time) < 1e-9}
@@ -77,8 +82,10 @@ def main():
                     assert row['total_spikes'] == 0
                 if condition == 'video':
                     assert row['minimum_target_mv'] < -52.1
+                    assert row['maximum_visible_inhibited_targets'] > 0
                 else:
                     assert row['minimum_target_mv'] == -52.
+                    assert row['maximum_visible_inhibited_targets'] == 0
                 (args.output_dir / f'{seed}-{condition}.json').write_text(json.dumps(trace, indent=2) + '\n')
                 np.savez_compressed(args.output_dir / f'{seed}-{condition}.npz', counts=brain.counts, voltage=brain.v)
                 trials[condition] = brain.counts[eyes].copy(), brain.rng.bit_generator.state
@@ -103,6 +110,10 @@ def main():
                   'movie_sha256': hashlib.sha256(movie.read_bytes()).hexdigest(),
                   'video_trials': rows, 'camera_samples': samples,
                   'camera_total_spikes': int(brain.counts.sum()),
+                  'anatomical_coverage': {'photoreceptors': len(eyes),
+                                          'positioned_photoreceptors': int(anatomy.valid[eyes].sum()),
+                                          'inhibitory_targets': len(targets),
+                                          'positioned_inhibitory_targets': int(anatomy.valid[targets].sum())},
                   'limits': ['Brightness-only visual input, not retinotopy, motion perception, or object recognition.',
                              'Videos are resampled to 20 Hz without audio and supplied equally to both eyes.',
                              '100 Hz at full white is unfitted; photoreceptors retain the generic spike model.',

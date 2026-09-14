@@ -8,7 +8,7 @@ class VisionPreview(QWidget):
     def __init__(self):
         super().__init__()
         self.image = None
-        self.setMinimumSize(150, 70)
+        self.setMinimumSize(240, 135)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -28,17 +28,21 @@ class VisionPanel(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setMinimumWidth(245)
-        self.setMaximumWidth(360)
+        self.setMinimumWidth(395)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(8, 0, 0, 0)
         layout.setSpacing(3)
         title = QLabel("FLY’S VISION")
         title.setStyleSheet('font-weight: 600')
         layout.addWidget(title)
+        content = QHBoxLayout()
+        content.setSpacing(8)
+        controls = QVBoxLayout()
+        controls.setSpacing(4)
+        content.addLayout(controls)
         self.preview = VisionPreview()
-        layout.addWidget(self.preview, 1)
-        buttons = QHBoxLayout()
+        content.addWidget(self.preview, 1)
+        layout.addLayout(content, 1)
         self.load = QPushButton('Load video…')
         self.load.clicked.connect(self.pick_video)
         self.eyes = QPushButton('Use eyes')
@@ -46,12 +50,12 @@ class VisionPanel(QWidget):
         self.restart = QPushButton('Restart')
         self.restart.clicked.connect(lambda: self.command.emit('vision_restart', None))
         for button in [self.load, self.eyes, self.restart]:
-            buttons.addWidget(button)
-        layout.addLayout(buttons)
+            controls.addWidget(button)
         self.feed = QCheckBox('Feed to brain')
         self.feed.setToolTip('Pooled brightness to R1-R6 photoreceptors. Enable, then run the simulation. See Guide.')
         self.feed.toggled.connect(lambda checked: self.command.emit('eye_feedback', checked))
-        layout.addWidget(self.feed)
+        controls.addWidget(self.feed)
+        controls.addStretch(1)
         self.status = QLabel('Disabled')
         self.status.setToolTip('Playback follows simulation time, without audio.')
         layout.addWidget(self.status)

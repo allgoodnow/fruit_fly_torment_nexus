@@ -72,6 +72,9 @@ unfitted. See the [guide](docs/user-guide.md#photoreceptor-connectivity-developm
 for evidence, limits, and the local update.
 
 **FLY’S VISION** adds local MP4 input and a preview of the body's own eye cameras.
+The enlarged preview places its controls on the left. The brain view shows
+spikes alongside signed voltage changes, including inhibition that does not fire
+spikes; its selector can return to spikes only.
 Load a video, enable **Feed to brain**, then run the simulation. Playback follows
 simulation time. This first stage maps pooled brightness to R1–R6 photoreceptors;
 it does not yet model spatial vision or recognize video content. See the

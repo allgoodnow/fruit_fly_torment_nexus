@@ -220,19 +220,19 @@ def main():
             scenes.setSizes([520, 520])
             scene_layout.addWidget(scenes, 1)
             self.graph = pg.PlotWidget(title="Leg activity")
-            self.graph.setMaximumHeight(180)
+            self.graph.setMaximumHeight(230)
             self.graph.setLabel("bottom", "Simulated time", units="s")
             self.curves = [self.graph.plot(pen=pg.mkPen(c, width=1.5)) for c in
                            ("#1b1b1b", "#4c6378", "#745e46", "#256653", "#63517f", "#7a525a")]
             self.graph_stack = QStackedWidget()
-            self.graph_stack.setMaximumHeight(180)
+            self.graph_stack.setMaximumHeight(230)
             self.graph_stack.addWidget(self.graph)
             self.brain_graph = NeuralActivityPlot()
             self.graph_stack.addWidget(self.brain_graph)
             activity_row = QHBoxLayout()
-            activity_row.addWidget(self.graph_stack, 3)
+            activity_row.addWidget(self.graph_stack, 1)
             self.vision_panel = VisionPanel()
-            self.vision_panel.setMaximumHeight(180)
+            self.vision_panel.setMaximumHeight(230)
             self.vision_panel.setVisible(coupled)
             self.vision_panel.command.connect(self.send)
             activity_row.addWidget(self.vision_panel, 1)
@@ -1099,6 +1099,23 @@ def main():
                 self.smoke_stage = 19
             elif self.smoke_stage == 19 and not t['running']:
                 self.smoke_checks.append('video brightness drives photoreceptor spikes and the live activity graph')
+                voltage_count = self.brain_view.voltage_count
+                if not voltage_count:
+                    self.smoke_finish(False)
+                    return
+                self.brain_view.activity_mode.setCurrentIndex(1)
+                hidden = self.brain_view.voltage_count == 0
+                self.brain_view.activity_mode.setCurrentIndex(0)
+                if not hidden or self.brain_view.voltage_count != voltage_count:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('measured voltage response is visible and display switching preserves paused activity')
+                preview = self.vision_panel.preview
+                if (preview.width() < 300 or preview.height() < 135
+                        or self.vision_panel.load.geometry().right() >= preview.geometry().left()):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('enlarged vision preview has controls to its left')
                 self.vision_test_frame = t['eye_feedback']['video_frame']
                 self.vision_test_time = t['sim_time']
                 self.grab().save(str(data_dir/'video-active.png'))
@@ -1112,6 +1129,9 @@ def main():
                 self.vision_panel.restart.click()
                 self.smoke_stage = 21
             elif self.smoke_stage == 21 and t['eye_feedback']['video_frame'] == 0:
+                if t['sim_time'] != self.vision_test_time or t['running']:
+                    self.smoke_finish(False)
+                    return
                 self.smoke_checks.append('restart rewinds the video without resetting the brain clock')
                 self.vision_panel.feed.setChecked(True)
                 self.brain_panel.send('running', True)
@@ -1131,10 +1151,16 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('actual left/right eye cameras feed the brain and appear in the vision panel')
+                self.vision_release_time = t['sim_time']
+                self.vision_release_voltage = t['membrane_activity']
                 self.grab().save(str(data_dir/'eyes-active.png'))
                 self.brain_panel.send('release')
                 self.smoke_stage = 24
             elif self.smoke_stage == 24 and not t['eye_feedback']['enabled']:
+                if (t['running'] or t['sim_time'] != self.vision_release_time
+                        or t['membrane_activity'] != self.vision_release_voltage):
+                    self.smoke_finish(False)
+                    return
                 self.smoke_checks.append('Release disables visual feedback and preserves paused brain state')
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)

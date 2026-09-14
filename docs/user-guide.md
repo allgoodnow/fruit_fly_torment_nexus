@@ -171,7 +171,17 @@ neurons** and **25,582,938 directed connections** in the prepared model. The liv
 view includes brain and ventral nerve cord (VNC) cell anchors. It displays 140,638
 positioned cells; 26,062 lack the required position information. Points are cell
 anchors, not complete neuron shapes. Red points indicate spikes during the last
-150 simulation milliseconds; black points identify stimulated targets. The graph
+150 simulation milliseconds; black points identify stimulated targets. In the
+development build, **Spikes + voltage** also displays orange cells above the
+model's resting voltage and yellow cells below it. **Spikes only** restores the
+previous view. These are measured states from the simulation, not region animations
+or measured calcium signals. Changes smaller than 0.5 mV are omitted; color and
+point size saturate at a fixed 5 mV deviation from −52 mV. Display saturation never
+clips or changes the simulated voltage. The legend states what each color means.
+Hover over the counts for unlocated cells. Pause freezes both channels; release
+preserves the current state, and reset clears it.
+
+The graph
 below shows mean firing rate across all neurons in 10 ms simulation-time bins,
 retaining the last five simulated seconds. Every spike contributes, including
 those omitted from the bounded raw raster in diagnostics. Silent intervals remain
@@ -266,6 +276,7 @@ controls. These results describe this scoped sign change, not a validation of vi
 ### Visual input (development toward 1.2)
 
 The **FLY’S VISION** panel sits beneath the brain, beside the activity graph.
+The enlarged preview has its controls in a column on the left.
 It is available with the updated MaleCNS pack. These controls are source-development
 features; the 1.1.1 download does not include them.
 
@@ -312,6 +323,23 @@ to approximately −113 to −121 mV. Those uncalibrated voltages demonstrate a 
 limitation, not a physiological prediction. More realistic retinal and synaptic
 dynamics are needed before interpreting scene-guided behavior biologically.
 This update does not establish vision-driven exploration or subjective experience.
+
+The earlier spikes-only display hid most of this response. Only **13 of the 3,377
+R1–R6 inputs** have recorded cell anchors, and inhibition of downstream cells need
+not produce spikes. The voltage overlay now exposes that subthreshold response:
+the white-frame assay shows up to **732 positioned inhibitory targets** changing
+voltage, versus zero when photoreceptor output is blocked. Across nine trials,
+the previous spike counts and voltage minima remain identical. The display adds
+no excitation and fabricates no locations. The full target set contains 2,405
+cells, of which 738 have usable anchors. Missing anatomy and pooled brightness
+still limit how much spatial structure this view can show.
+The display checks are recorded in `experiments/vision-display-v2-results.json`.
+
+Different demonstrations can visualize different signals and representations.
+For example, [Flyvis](https://turagalab.github.io/flyvis/) implements a trained
+connectome-constrained visual network; our generic whole-CNS LIF model is not that
+trained network. A broad visual glow alone cannot establish that the underlying
+signal processing matches either model.
 
 With the app closed, run `python scripts/install_eye_inputs.py` to add the eye
 registry to an existing pack. It checks the original annotation and transmitter

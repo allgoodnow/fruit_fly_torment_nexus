@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 
 FADE_TICKS = 1500  # 150 ms of simulated time, independent of display frame rate.
+VOLTAGE_COLOR_SCALE_MV = 5.0  # Fixed display scale; never changes the neural state.
 
 
 class Anatomy:
@@ -51,3 +52,18 @@ class Anatomy:
         color[:, 3] = .25 + .75 * strength
         size = (3 + 3 * strength).astype(np.float32)
         return self.positions[indices[mapped]], color, size, int((recent & ~self.valid[indices]).sum())
+
+    def voltage_activity(self, indices, delta_mv):
+        indices = np.asarray(indices, dtype=np.int64)
+        delta = np.asarray(delta_mv, dtype=np.float64)
+        if (indices.ndim != 1 or delta.shape != indices.shape or not np.isfinite(delta).all()
+                or np.any(indices < 0) or np.any(indices >= len(self.ids))):
+            raise ValueError('Invalid voltage activity')
+        mapped = self.valid[indices]
+        values = delta[mapped]
+        strength = np.minimum(np.abs(values) / VOLTAGE_COLOR_SCALE_MV, 1.)
+        colors = np.empty((len(values), 4), dtype=np.float32)
+        colors[:, :3] = np.where((values < 0)[:, None], [1., .82, .02], [1., .28, 0.])
+        colors[:, 3] = .45 + .5 * strength
+        sizes = (4. + 3. * strength).astype(np.float32)
+        return self.positions[indices[mapped]], colors, sizes, int((~mapped).sum())
