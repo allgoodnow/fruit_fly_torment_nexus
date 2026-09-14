@@ -1,0 +1,41 @@
+{
+  "format": "nexus-histamine-evidence-1",
+  "dataset": "male-cns:v1.0",
+  "original_manifest_sha256": "ad750ace492bfac1166f11b8fedb5363324658690b4bb0d17999f72d4265082e",
+  "manifest_sha256": "875df0131515c7a45b5eb31eb35a5403b1e12ed84b8a091d59a7a23f284bb6b2",
+  "rollback_manifest": "manifest-before-histamine-ad750ace492bfac1166f11b8fedb5363324658690b4bb0d17999f72d4265082e.json",
+  "source_annotations": {
+    "file": "body-annotations-male-cns-v1.0-minconf-0.5.feather",
+    "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather",
+    "bytes": 14483314,
+    "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2"
+  },
+  "source_transmitters": {
+    "file": "body-neurotransmitters-male-cns-v1.0.feather",
+    "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-neurotransmitters-male-cns-v1.0.feather",
+    "bytes": 43282834,
+    "sha256": "95c9289220663abeb3409f3ad9e5a7f8a53f8093f5139d15502cd08da8879621"
+  },
+  "rule": {
+    "id": "histamine-R1-R6-to-L1-L2-ort-v1",
+    "presynaptic_type": "R1-R6",
+    "presynaptic_consensus_nt": "histamine",
+    "postsynaptic_types": [
+      "L1",
+      "L2"
+    ],
+    "sign": -1,
+    "receptor": "Ort / HCLA",
+    "source": "https://doi.org/10.1074/jbc.M207133200",
+    "edges": 6560,
+    "contacts": 211051,
+    "edge_indices_sha256": "0b08f070fec14ea129f5929ab5c50e5be1cd29efdbbcbbd115d98a688ceb6e5d",
+    "limitation": "Cell-type receptor evidence, not measured receptors in this specimen. Inherited LIF/contact scaling does not model graded photoreceptor release, chloride reversal potential, fitted kinetics, or working vision."
+  },
+  "neurons": 166700,
+  "edges": 25582938,
+  "changed_weights": 6560,
+  "topology_unchanged": true,
+  "original_weights_sha256": "b5263f47ea0d151d9818b577530ebee4caea871fb10706885325f545459a2b7d",
+  "weights_sha256": "371345fa7b7fec852e51a0f93970a2fe63e61953b6fddf02fb56cb275fbd8211"
+}

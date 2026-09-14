@@ -120,11 +120,16 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
                           'outgoing_edges': int(degree[(labels == label).to_numpy()].sum()),
                           'assigned_sign': MODEL_POLICY['nt_signs'][label]}
                    for label in sorted(labels.unique())}
+        from .histamine import select_edges, apply_override
+        edges = select_edges(ids, offsets, posts, neurons, labels)
+        model = apply_override(weights, contacts, edges,
+                               dict(MODEL_POLICY, transmitter_coverage=summary))
+        weights.flush()
         del weights
         (staging/'circuits.json').write_text(json.dumps(registry, indent=2)+'\n')
         manifest = {'format': 'nexus-connectome-1', 'snapshot': DATASET,
                     'neurons': len(ids), 'edges': len(posts), 'experimental': True,
-                    'model': dict(MODEL_POLICY, transmitter_coverage=summary),
+                    'model': model,
                     'source_structural_manifest': source,
                     'circuit_registry': 'circuits.json',
                     'files': {name: digest(staging/name) for name in

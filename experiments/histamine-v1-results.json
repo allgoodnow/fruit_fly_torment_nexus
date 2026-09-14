@@ -1,0 +1,317 @@
+{
+  "format": "nexus-histamine-results-1",
+  "success": true,
+  "manifest_sha256": "875df0131515c7a45b5eb31eb35a5403b1e12ed84b8a091d59a7a23f284bb6b2",
+  "neurons": 166700,
+  "edges": 25582938,
+  "changed_weights": 6560,
+  "topology_unchanged": true,
+  "photoreceptor_trials": [
+    {
+      "seed": 73100,
+      "condition": "original",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "condition": "repaired",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -59.926146101111584,
+      "total_spikes": 16,
+      "inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "condition": "blocked",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "original",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "repaired",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -63.62235321607084,
+      "total_spikes": 23,
+      "inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "condition": "blocked",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "original",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "repaired",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -61.053098885135995,
+      "total_spikes": 15,
+      "inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "condition": "blocked",
+      "photoreceptor_id": "99076",
+      "target_ids": [
+        "23633",
+        "24026",
+        "24934",
+        "30460"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true
+    }
+  ],
+  "scenario_comparisons": [
+    {
+      "seed": 73100,
+      "scenario": "defensive",
+      "original_spikes": 43397,
+      "repaired_spikes": 43397,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "scenario": "aversion",
+      "original_spikes": 24390,
+      "repaired_spikes": 24390,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "scenario": "seizure",
+      "original_spikes": 1611032,
+      "repaired_spikes": 1611032,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "scenario": "heat_overload",
+      "original_spikes": 1641168,
+      "repaired_spikes": 1641168,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "defensive",
+      "original_spikes": 44639,
+      "repaired_spikes": 44639,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "aversion",
+      "original_spikes": 24048,
+      "repaired_spikes": 24048,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "seizure",
+      "original_spikes": 1631702,
+      "repaired_spikes": 1631702,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "heat_overload",
+      "original_spikes": 1645390,
+      "repaired_spikes": 1645390,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "defensive",
+      "original_spikes": 42947,
+      "repaired_spikes": 42947,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "aversion",
+      "original_spikes": 23324,
+      "repaired_spikes": 23324,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "seizure",
+      "original_spikes": 1624087,
+      "repaired_spikes": 1624087,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "heat_overload",
+      "original_spikes": 1638695,
+      "repaired_spikes": 1638695,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    }
+  ],
+  "limits": [
+    "Direct 100 Hz photoreceptor stimulation is a sign assay, not a light-to-retina model.",
+    "Target hyperpolarization validates implemented inhibition, not measured physiology.",
+    "No graded retinal transmission, fitted receptor dynamics, spontaneous exploration, or subjective experience is established."
+  ],
+  "native_gui": {
+    "success": true,
+    "checks_passed": 31,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "approach geometry advances with brain time and releases both visual inputs",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation",
+      "neural walking mode removes scheduled walking and reports quiet-brain idle",
+      "mapped BDN2 input produces measured forward drive in the native app",
+      "release preserves the paused walking readout and shared clock",
+      "reset clears walking activity while preserving the selected control mode"
+    ],
+    "screenshots_visually_checked": [
+      "defensive-active.png"
+    ]
+  },
+  "packaging_selection": {
+    "success": true,
+    "selected_files": [
+      "anatomy-manifest.json",
+      "anatomy.npz",
+      "circuits-e11bd826e46f9c36.json",
+      "ids.npy",
+      "manifest.json",
+      "offsets.npy",
+      "posts.npy",
+      "weights-371345fa7b7fec852e51a0f93970a2fe63e61953b6fddf02fb56cb275fbd8211.npy"
+    ],
+    "brain_loads_without_rollback_files": true,
+    "weights_arrays": 1,
+    "note": "Resource-selection check; no release bundle was rebuilt."
+  }
+}

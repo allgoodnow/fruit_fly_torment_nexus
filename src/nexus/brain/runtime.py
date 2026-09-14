@@ -11,6 +11,7 @@ import math
 from pathlib import Path
 import json
 import hashlib
+import re
 import sys
 
 import numpy as np
@@ -21,6 +22,16 @@ DELAY_STEPS = 18
 REFRACTORY_STEPS = 22
 ACTIVITY_BIN_STEPS = 100  # 10 ms, independent of worker / GUI refresh intervals.
 ACTIVITY_BINS = 500       # Five simulated seconds, including silent intervals.
+
+
+def weights_filename(manifest):
+    """Legacy name or an immutable, checksum-addressed array inside this pack."""
+    name = manifest.get('weights_file', 'weights.npy')
+    if not isinstance(name, str) or not re.fullmatch(r'weights(?:-[0-9a-f]{64})?\.npy', name):
+        raise ValueError('Invalid brain-pack weights filename')
+    if name != 'weights.npy' and manifest.get('files', {}).get(name) != name[8:-4]:
+        raise ValueError('Weights filename does not match its checksum')
+    return name
 
 
 @njit(cache=not getattr(sys, "frozen", False), fastmath=False)
@@ -141,12 +152,13 @@ class Connectome:
             circuits = json.loads(path.read_text())
             if circuits.get('snapshot') != manifest['snapshot'] or circuits.get('format') != 'nexus-intervention-circuits-1':
                 raise ValueError('Circuit registry dataset mismatch')
-        for name in ("ids.npy", "offsets.npy", "posts.npy", "weights.npy"):
+        array_names = ("ids.npy", "offsets.npy", "posts.npy", weights_filename(manifest))
+        for name in array_names:
             with (directory / name).open("rb") as stream:
                 if hashlib.file_digest(stream, "sha256").hexdigest() != manifest["files"].get(name):
                     raise ValueError(f"Brain-pack checksum mismatch: {name}")
-        arrays = [np.load(directory / f"{name}.npy", mmap_mode="r", allow_pickle=False)
-                  for name in ("ids", "offsets", "posts", "weights")]
+        arrays = [np.load(directory / name, mmap_mode="r", allow_pickle=False)
+                  for name in array_names]
         ids, offsets, posts, weights = arrays
         if ids.dtype != np.int64 or offsets.dtype != np.int64 or posts.dtype != np.int32 or weights.dtype != np.float64:
             raise ValueError("Unexpected brain-pack array types")

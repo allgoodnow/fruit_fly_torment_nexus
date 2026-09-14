@@ -65,6 +65,11 @@ for the new model assumptions and the local pack update.
 An experimental BDN2 walking-drive mode also separates neural forward commands
 from the scheduled exploration controller. It is groundwork for autonomous
 exploration; quiet neurons currently remain still in this mode.
+The development brain pack also restores inhibitory signaling on 6,560 scanned
+photoreceptor-to-L1/L2 connections previously given zero weight. This is a narrow
+receptor-informed sign correction; retinal dynamics and working vision remain
+unmodeled. See the [guide](docs/user-guide.md#photoreceptor-connectivity-development-toward-12)
+for evidence, limits, and the local update.
 
 The prepared workspace runs with `./run.sh`. Large neural packs are excluded from
 Git; they are supplied in the release under `_internal/data/`. A source checkout

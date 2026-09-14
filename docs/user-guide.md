@@ -181,14 +181,62 @@ shows controller leg activity instead of neural spikes.
 
 The neural dynamics are an experimental, unfitted leaky integrate-and-fire model.
 Synaptic signs, connection scaling, delays, and decoder gains are model assumptions;
-they are not a biological validation of a living fly. Monoamine and histamine
-effects are omitted by the current sign policy, not biologically absent.
+they are not a biological validation of a living fly. The 1.1.1 release omits
+monoamine and histamine effects. The development policy includes the narrow
+histamine exception described below; other histamine and monoamine effects remain
+omitted, not biologically absent.
 
 The current PAIN preset stimulates 24 abdominal multidendritic sensory candidates
 mapped from a published MANC cohort through the official MaleCNS cross-specimen
 annotations. Ambiguous, missing, and unclassified matches were excluded. This is
 an experimental nociception pathway, not evidence of felt pain. The older central
 aversion cohort remains available in the underlying registry and legacy dataset.
+
+### Photoreceptor connectivity (development toward 1.2)
+
+The `male-cns-lamina-histamine-lif-v2` policy restores negative weights on existing
+histaminergic R1-R6 photoreceptor connections to L1/L2 lamina cells. These cells
+use the Ort/HCLA histamine-gated chloride receptor, supporting an inhibitory sign.
+[Gengs et al., 2002](https://doi.org/10.1074/jbc.M207133200)
+This is a cell-type inference applied to the scan; receptors were not measured
+at each synapse in this MaleCNS specimen.
+
+The audited pack changes **6,560 weights**, representing **211,051 scanned synaptic
+contacts**. Its 166,700 neurons and 25,582,938 connections are unchanged. R7/R8, T1,
+L3 targets, and other histamine connections remain outside this rule. There is no
+global histamine sign assignment. Manifest coverage records the default zero sign
+and the number of inhibitory exceptions separately.
+
+The magnitude still uses the inherited 0.275 mV per contact approximation, with
+the same generic LIF dynamics and delay. Photoreceptors normally use graded
+signaling; spike-triggered inhibitory currents here do not reconstruct that
+transmission, chloride reversal potentials, or calibrated receptor kinetics.
+This addition does not supply light input, working vision, or spontaneous
+exploration. The approaching-threat preset still directly drives LPLC2/LC4.
+The experimental reduced-inhibition control scales these negative weights too.
+
+Run `python scripts/install_histamine_signs.py` with the original structural pack
+and official annotations/transmitter files in their `data/` locations. The installer
+checks provenance, graph ordering, and the original weight policy; validates a
+complete candidate; then atomically selects an immutable weight file. It preserves
+the original weights and a `manifest-before-histamine-<checksum>.json` alongside
+them. Close the app before restoring that saved file as `manifest.json` to roll
+back. Already running sessions retain their loaded weights; restart to use an
+updated pack. Repeated installation is rejected. Freshly prepared packs apply
+the same rule automatically when matching edges exist.
+
+Run `python scripts/probe_histamine.py --output-dir new-results-folder` to compare
+the original and updated weights with identical input draws. It includes direct
+photoreceptor stimulation, output blockade, and comparisons across FEAR, PAIN,
+SEIZURE, and BOILING. Voltage changes test the implemented inhibitory connection;
+they do not establish biological accuracy or any subjective experience.
+
+The recorded assay in `experiments/histamine-v1-results.json` contains 33 full-network
+trials across three seeds. The selected photoreceptor now hyperpolarizes its targets;
+presynaptic output blockade reproduces the original zero-weight response. All four
+preset comparisons retain identical per-neuron spike counts in these trials. The
+native app also passes 31 checks, including the activity graph and neural walking
+controls. These results describe this scoped sign change, not a validation of vision.
 
 ### Heat input and nociception
 

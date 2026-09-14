@@ -67,6 +67,35 @@ def test_unknown_and_missing_transmitters_are_distinct():
         transmitter_signs(np.array([1, 3]), pd.concat([table, table]))
 
 
+def test_fresh_preparation_includes_receptor_exception(pack):
+    raw, structural = pack.parent / 'raw', pack.parent / 'structure'
+    annotation = pd.read_feather(raw / FILES['annotations'])
+    extra = pd.concat([annotation.iloc[:1]] * 3, ignore_index=True)
+    extra['bodyId'], extra['type'] = [111, 112, 113], ['R1-R6', 'L1', 'L2']
+    pd.concat([annotation, extra], ignore_index=True).to_feather(raw / FILES['annotations'])
+    nt = pd.read_feather(raw / FILES['neurotransmitters'])
+    extra_nt = pd.DataFrame({'body': [111, 112, 113],
+                             'consensus_nt': ['histamine', 'acetylcholine', 'acetylcholine']})
+    pd.concat([nt, extra_nt], ignore_index=True).to_feather(raw / FILES['neurotransmitters'])
+    arrays = {'ids': np.arange(101, 114, dtype=np.int64),
+              'offsets': np.array(list(range(11)) + [12, 12, 12], dtype=np.int64),
+              'posts': np.concatenate([np.load(structural / 'posts.npy'), np.array([11, 12], dtype=np.uint32)]),
+              'contacts': np.concatenate([np.load(structural / 'contacts.npy'), np.array([20, 30], dtype=np.uint32)])}
+    source = json.loads((structural / 'manifest.json').read_text())
+    for name, array in arrays.items():
+        np.save(structural / f'{name}.npy', array)
+        source['files'][f'{name}.npy']['sha256'] = digest(structural / f'{name}.npy')
+    for row in source['sources']['files']:
+        row['sha256'] = digest(raw / row['file'])
+    (structural / 'manifest.json').write_text(json.dumps(source))
+    output = pack.parent / 'fresh'
+    prepare_runtime(structural, raw, output)
+    graph = Connectome.load(output, allow_experimental=True)
+    np.testing.assert_array_equal(graph.weights[-2:], [-5.5, -8.25])
+    assert graph.model['edge_sign_overrides'][0]['edges'] == 2
+    assert graph.model['transmitter_coverage']['histamine']['omitted_edges'] == 1
+
+
 def test_circuit_release_and_rejected_old_ids_preserve_state(pack):
     brain = Brain(Connectome.load(pack, allow_experimental=True))
     brain.set_circuit_input('aversion_proxy', 200)
@@ -117,4 +146,32 @@ def test_registry_cannot_silently_cross_specimens(pack, mutation):
         (pack/'manifest.json').write_text(json.dumps(manifest))
     with pytest.raises(ValueError, match={'hash': 'checksum', 'snapshot': 'dataset mismatch',
                                         'foreign_id': 'missing or duplicated'}[mutation]):
+        Connectome.load(pack, allow_experimental=True)
+
+
+def test_content_addressed_weights_are_selected_and_verified(pack):
+    manifest = json.loads((pack / 'manifest.json').read_text())
+    original = np.load(pack / 'weights.npy')
+    updated = original * 2
+    np.save(pack / 'candidate.npy', updated)
+    checksum = digest(pack / 'candidate.npy')
+    name = f'weights-{checksum}.npy'
+    (pack / 'candidate.npy').rename(pack / name)
+    manifest['weights_file'] = name
+    manifest['files'][name] = checksum
+    (pack / 'manifest.json').write_text(json.dumps(manifest))
+    np.testing.assert_array_equal(Connectome.load(pack, allow_experimental=True).weights, updated)
+    np.testing.assert_array_equal(np.load(pack / 'weights.npy'), original)
+    np.save(pack / name, original)
+    with pytest.raises(ValueError, match='checksum mismatch'):
+        Connectome.load(pack, allow_experimental=True)
+
+
+@pytest.mark.parametrize('name', ['../weights.npy', '/tmp/weights.npy', 'weights-short.npy',
+                                  None, 'weights-' + '0' * 64 + '.npy'])
+def test_reject_unbound_weights_files(pack, name):
+    manifest = json.loads((pack / 'manifest.json').read_text())
+    manifest['weights_file'] = name
+    (pack / 'manifest.json').write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match='filename'):
         Connectome.load(pack, allow_experimental=True)
