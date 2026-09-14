@@ -17,7 +17,8 @@ RULE_ID = 'histamine-R1-R6-to-L1-L2-ort-v1'
 SOURCE = 'https://doi.org/10.1074/jbc.M207133200'
 
 
-def select_edges(ids, offsets, posts, neurons, labels):
+def select_edges(ids, offsets, posts, neurons, labels, *,
+                 presynaptic_types=('R1-R6',), postsynaptic_types=('L1', 'L2')):
     """Align annotations by ID, then select only scanned edges in the rule."""
     matched = neurons.loc[neurons.bodyId.isin(ids)]
     if matched.bodyId.duplicated().any():
@@ -29,8 +30,8 @@ def select_edges(ids, offsets, posts, neurons, labels):
         raise ValueError('Transmitter labels must be aligned to graph IDs')
     # Classified neurons can lack a specific type. They never match this rule.
     types = aligned.type.fillna('')
-    eligible = types.eq('R1-R6').to_numpy() & labels.eq('histamine').to_numpy()
-    targets = types.isin(['L1', 'L2']).to_numpy()
+    eligible = types.isin(presynaptic_types).to_numpy() & labels.eq('histamine').to_numpy()
+    targets = types.isin(postsynaptic_types).to_numpy()
     parts = []
     for pre in np.flatnonzero(eligible):
         start, end = int(offsets[pre]), int(offsets[pre + 1])
@@ -72,7 +73,7 @@ def apply_override(weights, contacts, edges, model):
     return result
 
 
-def upgrade_pack(pack, structural, raw):
+def upgrade_pack(pack, structural, raw, *, extended=False):
     """Validate a complete candidate before atomically activating its manifest.
 
     Existing arrays are never rewritten. A saved prior manifest and its weights
@@ -87,7 +88,8 @@ def upgrade_pack(pack, structural, raw):
     previous = (pack / 'manifest.json').read_bytes()
     manifest = json.loads(previous)
     graph = Connectome.load(pack, allow_experimental=True)
-    if graph.snapshot != DATASET or graph.model.get('id') != 'male-cns-fast-transmitter-lif-v1':
+    accepted = ['male-cns-fast-transmitter-lif-v1'] + ([POLICY_ID] if extended else [])
+    if graph.snapshot != DATASET or graph.model.get('id') not in accepted:
         raise ValueError('Upgrade requires the original MaleCNS model; it may already be installed')
     source = manifest['source_structural_manifest']
     if json.loads((structural / 'manifest.json').read_text()) != source:
@@ -106,6 +108,16 @@ def upgrade_pack(pack, structural, raw):
     neurons = pd.read_feather(raw / FILES['annotations'])
     signs, labels = transmitter_signs(graph.ids, pd.read_feather(raw / FILES['neurotransmitters']))
     edges = select_edges(graph.ids, graph.offsets, graph.posts, neurons, labels)
+    prior_edges = edges if graph.model['id'] == POLICY_ID else np.empty(0, dtype=np.int64)
+    groups = None
+    if extended:
+        from .receptor_signs import compile_rules, validate_prior_policy, apply_extended
+        validate_prior_policy(graph.model, contacts, prior_edges)
+        groups = compile_rules(graph.ids, graph.offsets, graph.posts, neurons, labels)
+        parts = [e for _, e in groups]
+        if graph.model['id'] != POLICY_ID:
+            parts.append(edges)
+        edges = np.sort(np.concatenate(parts))
     if not len(edges):
         raise ValueError('No scanned edges match the receptor rule')
     for first in range(0, len(graph.ids), 4096):
@@ -113,6 +125,8 @@ def upgrade_pack(pack, structural, raw):
         start, end = graph.offsets[[first, last]]
         expected = (contacts[start:end] * np.repeat(signs[first:last], np.diff(graph.offsets[first:last+1]))
                     .astype(np.float64) * graph.model['weight_per_contact_mv'])
+        restored = prior_edges[(prior_edges >= start) & (prior_edges < end)]
+        expected[restored - start] = -contacts[restored].astype(np.float64) * graph.model['weight_per_contact_mv']
         if not np.array_equal(graph.weights[start:end], expected):
             raise ValueError('Runtime weights differ from the original sign policy')
     with tempfile.TemporaryDirectory(prefix='.histamine-', dir=pack) as staging_name:
@@ -122,7 +136,11 @@ def upgrade_pack(pack, structural, raw):
             (staging / name).hardlink_to(pack / name)
         shutil.copyfile(pack / weights_filename(manifest), staging / 'weights.npy')
         weights = np.load(staging / 'weights.npy', mmap_mode='r+')
-        model = apply_override(weights, contacts, edges, graph.model)
+        if extended:
+            model = apply_extended(weights, contacts, graph.ids, graph.offsets, graph.posts,
+                                   neurons, labels, graph.model, groups=groups)
+        else:
+            model = apply_override(weights, contacts, edges, graph.model)
         weights.flush()
         del weights
         checksum = digest(staging / 'weights.npy')
@@ -148,7 +166,7 @@ def upgrade_pack(pack, structural, raw):
         else:
             (staging / name).rename(pack / name)
         (staging / 'manifest.json').replace(pack / 'manifest.json')
-    return candidate, {'format': 'nexus-histamine-evidence-1', 'dataset': DATASET,
+    report = {'format': 'nexus-histamine-evidence-1', 'dataset': DATASET,
                        'original_manifest_sha256': hashlib.sha256(previous).hexdigest(),
                        'manifest_sha256': digest(pack / 'manifest.json'),
                        'rollback_manifest': backup_name,
@@ -159,3 +177,12 @@ def upgrade_pack(pack, structural, raw):
                        'changed_weights': len(edges), 'topology_unchanged': True,
                        'original_weights_sha256': manifest['files'][weights_filename(manifest)],
                        'weights_sha256': checksum}
+    if extended:
+        report['format'] = 'nexus-receptor-sign-evidence-1'
+        report.pop('rule')
+        report['rules'] = model['edge_sign_overrides']
+        report['previous_model'] = graph.model['id']
+        report['model'] = model['id']
+        report['changed_edge_indices_sha256'] = hashlib.sha256(
+            np.asarray(edges, dtype='<i8').tobytes()).hexdigest()
+    return candidate, report

@@ -70,17 +70,17 @@ def test_unknown_and_missing_transmitters_are_distinct():
 def test_fresh_preparation_includes_receptor_exception(pack):
     raw, structural = pack.parent / 'raw', pack.parent / 'structure'
     annotation = pd.read_feather(raw / FILES['annotations'])
-    extra = pd.concat([annotation.iloc[:1]] * 3, ignore_index=True)
-    extra['bodyId'], extra['type'] = [111, 112, 113], ['R1-R6', 'L1', 'L2']
+    extra = pd.concat([annotation.iloc[:1]] * 4, ignore_index=True)
+    extra['bodyId'], extra['type'] = [111, 112, 113, 114], ['R1-R6', 'L1', 'L2', 'L3']
     pd.concat([annotation, extra], ignore_index=True).to_feather(raw / FILES['annotations'])
     nt = pd.read_feather(raw / FILES['neurotransmitters'])
-    extra_nt = pd.DataFrame({'body': [111, 112, 113],
-                             'consensus_nt': ['histamine', 'acetylcholine', 'acetylcholine']})
+    extra_nt = pd.DataFrame({'body': [111, 112, 113, 114],
+                             'consensus_nt': ['histamine', 'acetylcholine', 'acetylcholine', 'acetylcholine']})
     pd.concat([nt, extra_nt], ignore_index=True).to_feather(raw / FILES['neurotransmitters'])
-    arrays = {'ids': np.arange(101, 114, dtype=np.int64),
-              'offsets': np.array(list(range(11)) + [12, 12, 12], dtype=np.int64),
-              'posts': np.concatenate([np.load(structural / 'posts.npy'), np.array([11, 12], dtype=np.uint32)]),
-              'contacts': np.concatenate([np.load(structural / 'contacts.npy'), np.array([20, 30], dtype=np.uint32)])}
+    arrays = {'ids': np.arange(101, 115, dtype=np.int64),
+              'offsets': np.array(list(range(11)) + [13, 13, 13, 13], dtype=np.int64),
+              'posts': np.concatenate([np.load(structural / 'posts.npy'), np.array([11, 12, 13], dtype=np.uint32)]),
+              'contacts': np.concatenate([np.load(structural / 'contacts.npy'), np.array([20, 30, 40], dtype=np.uint32)])}
     source = json.loads((structural / 'manifest.json').read_text())
     for name, array in arrays.items():
         np.save(structural / f'{name}.npy', array)
@@ -91,8 +91,10 @@ def test_fresh_preparation_includes_receptor_exception(pack):
     output = pack.parent / 'fresh'
     prepare_runtime(structural, raw, output)
     graph = Connectome.load(output, allow_experimental=True)
-    np.testing.assert_array_equal(graph.weights[-2:], [-5.5, -8.25])
+    np.testing.assert_array_equal(graph.weights[-3:], [-5.5, -8.25, -11.0])
     assert graph.model['edge_sign_overrides'][0]['edges'] == 2
+    assert graph.model['edge_sign_overrides'][1]['edges'] == 1
+    assert graph.model['id'] == 'male-cns-visual-receptor-lif-v3'
     assert graph.model['transmitter_coverage']['histamine']['omitted_edges'] == 1
 
 

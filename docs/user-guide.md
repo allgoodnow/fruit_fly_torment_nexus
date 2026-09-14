@@ -194,18 +194,32 @@ aversion cohort remains available in the underlying registry and legacy dataset.
 
 ### Photoreceptor connectivity (development toward 1.2)
 
-The `male-cns-lamina-histamine-lif-v2` policy restores negative weights on existing
-histaminergic R1-R6 photoreceptor connections to L1/L2 lamina cells. These cells
-use the Ort/HCLA histamine-gated chloride receptor, supporting an inhibitory sign.
-[Gengs et al., 2002](https://doi.org/10.1074/jbc.M207133200)
-This is a cell-type inference applied to the scan; receptors were not measured
-at each synapse in this MaleCNS specimen.
+The current `male-cns-visual-receptor-lif-v3` policy assigns inhibitory signs to
+**19,154 scanned connections**, representing **312,624 synaptic contacts**. It
+preserves the previous 6,560 L1/L2 corrections and adds 12,594 connections. The
+166,700 neurons and 25,582,938 connections are unchanged. Each rule requires
+both exact annotated cell types and a histamine consensus label on the source cell.
 
-The audited pack changes **6,560 weights**, representing **211,051 scanned synaptic
-contacts**. Its 166,700 neurons and 25,582,938 connections are unchanged. R7/R8, T1,
-L3 targets, and other histamine connections remain outside this rule. There is no
-global histamine sign assignment. Manifest coverage records the default zero sign
-and the number of inhibitory exceptions separately.
+| Sending cells | Receiving cells | Restored connections | Evidence |
+| --- | --- | ---: | --- |
+| R1–R6 | L1, L2 | 6,560 | [Ort receptor](https://doi.org/10.1074/jbc.M207133200) |
+| R1–R6 | L3 | 3,076 | [HCLA expression in L1–L3](https://doi.org/10.1523/JNEUROSCI.1654-08.2008) |
+| R7p, R7y | Dm8a, Dm8b | 5,239 | [Ort-dependent Dm8 inhibition](https://doi.org/10.1016/j.cub.2021.01.105) |
+| R7p, R7y | Tm5a, Tm5b | 1,139 | [Ort-expressing Tm5 types](https://doi.org/10.1016/j.neuron.2008.08.010) |
+| R8p, R8y | L1, Tm5c, Tm9, Tm20 | 3,140 | [R8 receptor segregation](https://doi.org/10.1038/s41586-023-06681-6) |
+
+These are cell-type inferences, not receptor measurements at individual synapses
+in this specimen. Dm8a/b are connectomic subdivisions of Dm8; their correspondence
+with molecular yellow/pale subtypes remains uncertain. The rules do not equate
+those subtypes or enforce yellow/pale pairing. Tm5 correspondence and these mapping
+limits follow the [visual parts-list study](https://doi.org/10.1038/s41586-024-07981-1).
+
+R8 can release both histamine and acetylcholine. This policy models the dominant
+inhibitory component at the selected Ort targets; it omits the reported minor
+cholinergic component and does not enable the separate excitatory AMA pathway.
+It does not assign a global sign to R8. Ambiguous or dorsal R7/R8 annotations,
+T1, and unlisted histamine pathways remain excluded. Manifest coverage records
+the default zero sign and the inhibitory exceptions separately.
 
 The magnitude still uses the inherited 0.275 mV per contact approximation, with
 the same generic LIF dynamics and delay. Photoreceptors normally use graded
@@ -215,23 +229,33 @@ This addition does not supply light input, working vision, or spontaneous
 exploration. The approaching-threat preset still directly drives LPLC2/LC4.
 The experimental reduced-inhibition control scales these negative weights too.
 
-Run `python scripts/install_histamine_signs.py` with the original structural pack
+Run `python scripts/install_receptor_signs.py` with the original structural pack
 and official annotations/transmitter files in their `data/` locations. The installer
-checks provenance, graph ordering, and the original weight policy; validates a
+checks provenance, graph ordering, and the previous weight policy; validates a
 complete candidate; then atomically selects an immutable weight file. It preserves
 the original weights and a `manifest-before-histamine-<checksum>.json` alongside
 them. Close the app before restoring that saved file as `manifest.json` to roll
 back. Already running sessions retain their loaded weights; restart to use an
-updated pack. Repeated installation is rejected. Freshly prepared packs apply
-the same rule automatically when matching edges exist.
+updated pack. It accepts either the original policy or the L1/L2-only policy.
+Repeated installation is rejected. Freshly prepared packs apply the current rules
+automatically when matching edges exist. `install_histamine_signs.py` is retained
+only for reproducing the earlier L1/L2-only update.
 
-Run `python scripts/probe_histamine.py --output-dir new-results-folder` to compare
-the original and updated weights with identical input draws. It includes direct
-photoreceptor stimulation, output blockade, and comparisons across FEAR, PAIN,
+Run `python scripts/probe_receptor_signs.py --output-dir new-results-folder` to compare
+the previous and updated weights with identical input draws. It includes a direct
+photoreceptor assay for each added rule, output blockade, and comparisons across FEAR, PAIN,
 SEIZURE, and BOILING. Voltage changes test the implemented inhibitory connection;
 they do not establish biological accuracy or any subjective experience.
 
-The recorded assay in `experiments/histamine-v1-results.json` contains 33 full-network
+`experiments/receptor-sign-v1-results.json` records 60 full-network trials: three
+seeds with input, original weights, and output blockade for each added rule, plus
+paired runs of the four presets. Each tested visual pathway now hyperpolarizes
+its targets, and blockade removes that effect. Per-neuron spike counts in the
+four preset comparisons remain identical to the prior model. The update also
+passes 160 automated tests and 31 native GUI checks. It improves the visual
+connection model; it does not yet change how the default fly explores.
+
+The earlier L1/L2-only assay in `experiments/histamine-v1-results.json` contains 33 full-network
 trials across three seeds. The selected photoreceptor now hyperpolarizes its targets;
 presynaptic output blockade reproduces the original zero-weight response. All four
 preset comparisons retain identical per-neuron spike counts in these trials. The

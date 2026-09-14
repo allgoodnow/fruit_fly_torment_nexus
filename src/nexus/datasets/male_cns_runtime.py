@@ -120,9 +120,8 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
                           'outgoing_edges': int(degree[(labels == label).to_numpy()].sum()),
                           'assigned_sign': MODEL_POLICY['nt_signs'][label]}
                    for label in sorted(labels.unique())}
-        from .histamine import select_edges, apply_override
-        edges = select_edges(ids, offsets, posts, neurons, labels)
-        model = apply_override(weights, contacts, edges,
+        from .receptor_signs import apply_extended
+        model = apply_extended(weights, contacts, ids, offsets, posts, neurons, labels,
                                dict(MODEL_POLICY, transmitter_coverage=summary))
         weights.flush()
         del weights

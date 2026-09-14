@@ -18,29 +18,7 @@ from nexus.datasets.histamine import POLICY_ID
 from nexus.datasets.male_cns import digest
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--output-dir', type=Path, required=True)
-    args = parser.parse_args()
-    args.output_dir.mkdir(parents=True, exist_ok=False)
-    pack = ROOT / 'data/brain-male-cns-v1.0-lif'
-    evidence = json.loads((ROOT / 'experiments/histamine-evidence-v1.json').read_text())
-    if digest(pack / 'manifest.json') != evidence['manifest_sha256']:
-        raise ValueError('Active pack differs from the installation audit')
-    new = Connectome.load(pack, allow_experimental=True)
-    if new.model['id'] != POLICY_ID:
-        raise ValueError('Install the histamine policy first')
-    previous = json.loads((pack / evidence['rollback_manifest']).read_text())
-    path = pack / weights_filename(previous)
-    if digest(path) != evidence['original_weights_sha256']:
-        raise ValueError('Original weights changed')
-    old = replace(new, weights=np.load(path, mmap_mode='r'), model=previous['model'])
-    changed = np.flatnonzero(new.weights != old.weights)
-    if (len(changed) != evidence['changed_weights']
-            or hashlib.sha256(np.asarray(changed, dtype='<i8').tobytes()).hexdigest()
-            != evidence['rule']['edge_indices_sha256']):
-        raise ValueError('Weight differences do not match the audited edge set')
-    assert np.all(old.weights[changed] == 0) and np.all(new.weights[changed] < 0)
+def probe_pathway(old, new, changed, output, *, rule_id=None):
     pres = np.searchsorted(new.offsets, changed, side='right') - 1
     # Deterministic assay location: strongest total repaired input from one cell.
     pre = int(np.argmax(np.bincount(pres, weights=-new.weights[changed], minlength=len(new.ids))))
@@ -59,19 +37,77 @@ def main():
             brain.release()
             segments.append(brain.advance(.1, trace_ids=trace_ids)['voltage_mv'])
             trace = np.concatenate(segments)
-            np.savez_compressed(args.output_dir / f'{seed}-{condition}.npz', voltage_mv=trace,
+            np.savez_compressed(output / f'{seed}-{condition}.npz', voltage_mv=trace,
                                 counts=brain.counts, trace_ids=trace_ids)
             row = {'seed': seed, 'condition': condition, 'photoreceptor_id': str(graph.ids[pre]),
                    'target_ids': [str(i) for i in trace_ids], 'presynaptic_spikes': int(brain.counts[pre]),
                    'minimum_target_voltage_during_input_mv': float(segments[1].min()),
                    'total_spikes': int(brain.counts.sum()), 'inputs_released': len(brain.inputs) == 0}
             rows.append(row)
+            if rule_id is not None:
+                row['rule_id'] = rule_id
             trials[condition] = (trace, brain.counts.copy(), brain.rng.bit_generator.state)
             print(json.dumps(row), flush=True)
         np.testing.assert_array_equal(trials['original'][0], trials['blocked'][0])
         np.testing.assert_array_equal(trials['original'][0][:500], trials['repaired'][0][:500])
         assert np.min(trials['repaired'][0][500:2500] - trials['original'][0][500:2500]) < -.1
         assert all(trials[c][2] == trials['original'][2] for c in trials)
+    return rows
+
+
+def main(*, extended=False):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output-dir', type=Path, required=True)
+    args = parser.parse_args()
+    args.output_dir.mkdir(parents=True, exist_ok=False)
+    pack = ROOT / 'data/brain-male-cns-v1.0-lif'
+    evidence_name = 'receptor-sign-evidence-v1.json' if extended else 'histamine-evidence-v1.json'
+    evidence = json.loads((ROOT / 'experiments' / evidence_name).read_text())
+    if digest(pack / 'manifest.json') != evidence['manifest_sha256']:
+        raise ValueError('Active pack differs from the installation audit')
+    new = Connectome.load(pack, allow_experimental=True)
+    expected_policy = POLICY_ID
+    if extended:
+        from nexus.datasets.receptor_signs import POLICY_ID as expected_policy
+    if new.model['id'] != expected_policy:
+        raise ValueError('Install the corresponding receptor policy first')
+    previous_path = pack / evidence['rollback_manifest']
+    if digest(previous_path) != evidence['original_manifest_sha256']:
+        raise ValueError('Original manifest changed')
+    previous = json.loads(previous_path.read_text())
+    path = pack / weights_filename(previous)
+    if digest(path) != evidence['original_weights_sha256']:
+        raise ValueError('Original weights changed')
+    old = replace(new, weights=np.load(path, mmap_mode='r'), model=previous['model'])
+    changed = np.flatnonzero(new.weights != old.weights)
+    expected_hash = (evidence['changed_edge_indices_sha256'] if extended
+                     else evidence['rule']['edge_indices_sha256'])
+    if (len(changed) != evidence['changed_weights']
+            or hashlib.sha256(np.asarray(changed, dtype='<i8').tobytes()).hexdigest() != expected_hash):
+        raise ValueError('Weight differences do not match the audited edge set')
+    assert np.all(old.weights[changed] == 0) and np.all(new.weights[changed] < 0)
+    if extended:
+        import pandas as pd
+        from nexus.datasets.male_cns_runtime import transmitter_signs
+        from nexus.datasets.receptor_signs import compile_rules, edge_digest
+        raw = ROOT / 'data/raw/male-cns-v1.0'
+        for key in ['source_annotations', 'source_transmitters']:
+            if digest(raw / evidence[key]['file']) != evidence[key]['sha256']:
+                raise ValueError('Raw data changed since the receptor audit')
+        neurons = pd.read_feather(raw / evidence['source_annotations']['file'])
+        _, labels = transmitter_signs(new.ids, pd.read_feather(raw / evidence['source_transmitters']['file']))
+        groups = compile_rules(new.ids, new.offsets, new.posts, neurons, labels)
+        records = {r['id']: r for r in evidence['rules']}
+        rows = []
+        for rule, edges in groups:
+            if not len(edges):
+                continue
+            assert edge_digest(edges) == records[rule['id']]['edge_indices_sha256']
+            output = args.output_dir / rule['id']
+            output.mkdir()
+            rows.extend(probe_pathway(old, new, edges, output, rule_id=rule['id']))
+    else:
+        rows = probe_pathway(old, new, changed, args.output_dir)
     comparisons = []
     for seed in [73100, 73101, 73102]:
         for name in ['defensive', 'aversion', 'seizure', 'heat_overload']:
@@ -94,7 +130,7 @@ def main():
                    'identical_input_random_draws': True, 'finite_state_and_inputs_released': True}
             comparisons.append(row)
             print(json.dumps(row), flush=True)
-    report = {'format': 'nexus-histamine-results-1', 'success': True,
+    report = {'format': 'nexus-receptor-sign-results-1' if extended else 'nexus-histamine-results-1', 'success': True,
               'manifest_sha256': evidence['manifest_sha256'], 'neurons': len(new.ids),
               'edges': len(new.posts), 'changed_weights': len(changed), 'topology_unchanged': True,
               'photoreceptor_trials': rows, 'scenario_comparisons': comparisons,

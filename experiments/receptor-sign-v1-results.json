@@ -1,0 +1,941 @@
+{
+  "format": "nexus-receptor-sign-results-1",
+  "success": true,
+  "manifest_sha256": "a501695217d4deb814a2277310c6eed623f3adbf6c38ecb642b6dde06135c48a",
+  "neurons": 166700,
+  "edges": 25582938,
+  "changed_weights": 12594,
+  "topology_unchanged": true,
+  "photoreceptor_trials": [
+    {
+      "seed": 73100,
+      "condition": "original",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "repaired",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -56.30768809843019,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "blocked",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "original",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "repaired",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -58.316496313082006,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "blocked",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "original",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "repaired",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -56.92016243757395,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "blocked",
+      "photoreceptor_id": "79144",
+      "target_ids": [
+        "49638",
+        "50513",
+        "58269",
+        "61359",
+        "62695",
+        "69412",
+        "81069",
+        "83728",
+        "90302",
+        "114970",
+        "163617",
+        "548341"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R1-R6-to-L3-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "original",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "repaired",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -58.030763337802256,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "blocked",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "original",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "repaired",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -60.84309483831476,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "blocked",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "original",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "repaired",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -58.88822741260344,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "blocked",
+      "photoreceptor_id": "223268",
+      "target_ids": [
+        "68829",
+        "77690",
+        "78307",
+        "79248",
+        "92090",
+        "94420",
+        "125802",
+        "148961",
+        "155323",
+        "530504",
+        "545618",
+        "580176"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Dm8-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "original",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "repaired",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -56.30768809843019,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "blocked",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "original",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "repaired",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -58.316496313082006,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "blocked",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "original",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "repaired",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -56.92016243757395,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "blocked",
+      "photoreceptor_id": "136304",
+      "target_ids": [
+        "113265",
+        "123849",
+        "124669",
+        "138137",
+        "140021",
+        "571265"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R7py-to-Tm5ab-ort-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "original",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "repaired",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -56.30768809843019,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73100,
+      "condition": "blocked",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 16,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 16,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "original",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "repaired",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -58.316496313082006,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73101,
+      "condition": "blocked",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 23,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 23,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "original",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "repaired",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -56.92016243757395,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    },
+    {
+      "seed": 73102,
+      "condition": "blocked",
+      "photoreceptor_id": "188862",
+      "target_ids": [
+        "39722",
+        "49924",
+        "60974",
+        "63721",
+        "97278"
+      ],
+      "presynaptic_spikes": 15,
+      "minimum_target_voltage_during_input_mv": -52.0,
+      "total_spikes": 15,
+      "inputs_released": true,
+      "rule_id": "histamine-R8py-to-Ort-targets-v1"
+    }
+  ],
+  "scenario_comparisons": [
+    {
+      "seed": 73100,
+      "scenario": "defensive",
+      "original_spikes": 43397,
+      "repaired_spikes": 43397,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "scenario": "aversion",
+      "original_spikes": 24390,
+      "repaired_spikes": 24390,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "scenario": "seizure",
+      "original_spikes": 1611032,
+      "repaired_spikes": 1611032,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73100,
+      "scenario": "heat_overload",
+      "original_spikes": 1641168,
+      "repaired_spikes": 1641168,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "defensive",
+      "original_spikes": 44639,
+      "repaired_spikes": 44639,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "aversion",
+      "original_spikes": 24048,
+      "repaired_spikes": 24048,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "seizure",
+      "original_spikes": 1631702,
+      "repaired_spikes": 1631702,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73101,
+      "scenario": "heat_overload",
+      "original_spikes": 1645390,
+      "repaired_spikes": 1645390,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "defensive",
+      "original_spikes": 42947,
+      "repaired_spikes": 42947,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "aversion",
+      "original_spikes": 23324,
+      "repaired_spikes": 23324,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "seizure",
+      "original_spikes": 1624087,
+      "repaired_spikes": 1624087,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    },
+    {
+      "seed": 73102,
+      "scenario": "heat_overload",
+      "original_spikes": 1638695,
+      "repaired_spikes": 1638695,
+      "neurons_with_changed_counts": 0,
+      "identical_input_random_draws": true,
+      "finite_state_and_inputs_released": true
+    }
+  ],
+  "limits": [
+    "Direct 100 Hz photoreceptor stimulation is a sign assay, not a light-to-retina model.",
+    "Target hyperpolarization validates implemented inhibition, not measured physiology.",
+    "No graded retinal transmission, fitted receptor dynamics, spontaneous exploration, or subjective experience is established."
+  ],
+  "total_full_network_trials": 60,
+  "automated_tests_passed": 160,
+  "native_gui": {
+    "success": true,
+    "checks_passed": 31,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "approach geometry advances with brain time and releases both visual inputs",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation",
+      "neural walking mode removes scheduled walking and reports quiet-brain idle",
+      "mapped BDN2 input produces measured forward drive in the native app",
+      "release preserves the paused walking readout and shared clock",
+      "reset clears walking activity while preserving the selected control mode"
+    ],
+    "screenshots_visually_checked": [
+      "defensive-active.png"
+    ]
+  },
+  "packaging_selection": {
+    "success": true,
+    "selected_files": [
+      "anatomy-manifest.json",
+      "anatomy.npz",
+      "circuits-e11bd826e46f9c36.json",
+      "ids.npy",
+      "manifest.json",
+      "offsets.npy",
+      "posts.npy",
+      "weights-b330cd6b3bd5f4146b95925532097aeaf4ad2c08bc9b090d923f3da2527721f2.npy"
+    ],
+    "brain_loads_without_rollback_files": true,
+    "weights_arrays": 1,
+    "note": "Resource-selection check; no release bundle rebuilt."
+  },
+  "restored_connections_total": 19154,
+  "restored_contacts_total": 312624,
+  "implementation_sha256": {
+    "src/nexus/brain/runtime.py": "4c6518f3f2a843db27812412e29dee1ef665b8f64cc6bf5c49116ef15d2dc714",
+    "src/nexus/datasets/histamine.py": "7b899396d93fc9432b5db5d3e7a9754e3e47bddf1bd3615bacac89e0cf768939",
+    "src/nexus/datasets/receptor_signs.py": "2744fda6b7d5341d1445acf8a1e7d7b42e3fa1efb4dc06fa631f15ed46eafe37",
+    "src/nexus/datasets/male_cns_runtime.py": "a76a811e56a60d1f5003de40eb57dc891ef5f64b70d34da0a417c8f1aa28c831",
+    "scripts/probe_histamine.py": "bad1b7a1dea44d5789f1332e60e5a282ce04647e99cb1e4c8bde58ab42a95686",
+    "scripts/probe_receptor_signs.py": "14d9c7cb0e2f4a1647a05de14552e4ccd62e516e1c653784602d8c2e63388817"
+  }
+}
