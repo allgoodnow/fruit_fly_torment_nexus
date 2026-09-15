@@ -1259,6 +1259,51 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('Release clears relay baseline and its checkbox without resetting activity or time')
+                self.brain_panel.send('reset')
+                self.smoke_stage = 39
+            elif self.smoke_stage == 39 and t['sim_time'] == 0:
+                self.tabs.widget(1).ensureWidgetVisible(self.brain_panel.graded)
+                self.brain_panel.graded.setChecked(True)
+                self.smoke_stage = 40
+            elif self.smoke_stage == 40 and t['graded_relays']['enabled']:
+                if t['running'] or t['graded_relays']['cells'] != 3555 or self.brain_panel.background.isEnabled():
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('graded relays select the exact L1/L2 cohort and exclude the tonic baseline experiment')
+                self.vision_panel.command.emit('vision_video', str(args.vision_test_video.resolve()))
+                self.smoke_stage = 41
+            elif self.smoke_stage == 41 and t['eye_feedback']['source'] == 'video':
+                self.vision_panel.feed.setChecked(True)
+                self.brain_panel.send('running', True)
+                self.smoke_stage = 42
+            elif self.smoke_stage == 42 and (t['eye_feedback'].get('video_frame') or 0) >= 3:
+                self.brain_panel.send('running', False)
+                self.smoke_stage = 43
+            elif self.smoke_stage == 43 and not t['running']:
+                if (t['graded_relays']['relay_spikes'] != 0 or t['graded_relays']['histamine_affected_cells'] == 0
+                        or t['graded_relays']['mean_release_equivalent_hz'] <= 0 or self.brain_panel.graded.isEnabled()):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('video changes graded relay state without relay spikes and mode changes are locked after time advances')
+                self.graded_held_time = t['sim_time']
+                self.graded_held_state = t['graded_relays']
+                self.grab().save(str(data_dir/'graded-relays-active.png'))
+                self.brain_panel.send('release')
+                self.smoke_stage = 44
+            elif self.smoke_stage == 44 and not t['eye_feedback']['enabled']:
+                if (t['sim_time'] != self.graded_held_time or t['graded_relays'] != self.graded_held_state
+                        or self.stimulation_banner.readout.text() != 'BASELINE'):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('Release clears video input while preserving the selected graded model and its paused state')
+                self.brain_panel.send('reset')
+                self.smoke_stage = 45
+            elif self.smoke_stage == 45 and t['sim_time'] == 0:
+                if (t['graded_relays']['enabled'] or t['graded_relays']['histamine_affected_cells']
+                        or self.brain_panel.graded.isChecked() or not self.brain_panel.graded.isEnabled()):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('Reset clears graded dynamics and restores model selection')
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 

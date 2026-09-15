@@ -85,6 +85,10 @@ and restores it during darkness. Its parameters remain an unfitted approximation
 The Brain tab also offers **Visual relay baseline (exp.)**, a controlled tonic-drive
 experiment for testing downstream visual responses. It is off by default and
 does not reproduce whole-brain spontaneous activity.
+Alternatively, **Graded visual relays (exp.)** lets identified L1/L2 cells transmit
+voltage-dependent signals without spikes. Select it after Reset, before running.
+This mode adds an experimental histamine reversal potential on their R1–R6 inputs;
+it is not a calibrated visual system. See the Guide for the required pack update.
 
 The prepared workspace runs with `./run.sh`. Large neural packs are excluded from
 Git; they are supplied in the release under `_internal/data/`. A source checkout

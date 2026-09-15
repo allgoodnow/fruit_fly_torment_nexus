@@ -44,7 +44,7 @@ class CoupledSession:
         self.sync_environment()
 
     def sync_recovery(self):
-        active = (self.brain.background_enabled or bool(self.brain.inputs.size) or self.brain.inhibition_gain != 1
+        active = (self.brain.graded_enabled or self.brain.background_enabled or bool(self.brain.inputs.size) or self.brain.inhibition_gain != 1
                   or bool((self.brain.output_gain != 1).any()))
         self.recovery.controls(self.brain.step, active)
 
@@ -102,6 +102,10 @@ class CoupledSession:
             self.protocol = None
         elif kind == 'relay_background':
             self.brain.set_relay_background(value)
+            self.running = False
+            self.protocol = None
+        elif kind == 'graded_relays':
+            self.brain.set_graded_relays(value)
             self.running = False
             self.protocol = None
         elif kind == 'circuit':

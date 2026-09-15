@@ -44,6 +44,7 @@ class NeuralTelemetry:
                   'neuron_order_sha256': self.order_hash, 'dataset': brain.graph.snapshot,
                   'model': brain.graph.model,
                   'relay_background': brain.background_snapshot(),
+                  'graded_relays': brain.graded_snapshot(),
                   'active_indices': active.tolist(), 'active_steps': brain.last_spike[active].tolist(),
                   'membrane_activity': membrane_activity(brain),
                   'neurons': len(brain.graph.ids), 'edges': len(brain.graph.posts),

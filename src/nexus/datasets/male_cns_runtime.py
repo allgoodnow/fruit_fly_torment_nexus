@@ -104,6 +104,8 @@ def prepare_runtime(structural, raw, output, *, nociception_cohort=None):
         registry = attach_eye_inputs(registry, neurons, nt_table, ids)
         from .visual_columns import attach_visual_columns
         registry = attach_visual_columns(registry, neurons, ids, offsets, posts, contacts)
+        from .graded_relays import attach_graded_relays
+        registry = attach_graded_relays(registry, neurons, ids)
     if nociception_cohort is not None:
         from .nociception import attach_cohort
         registry = attach_cohort(registry, nociception_cohort, ids, records[FILES['annotations']]['sha256'])

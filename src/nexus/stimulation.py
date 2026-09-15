@@ -24,6 +24,6 @@ def active_stimulation(packet):
         labels.append('SILENCING')
     if any(rate > 0 for rate in packet.get('eye_feedback', {}).get('rates_hz', {}).values()):
         labels.append('VISION')
-    if packet.get('relay_background', {}).get('enabled'):
+    if packet.get('relay_background', {}).get('enabled') or packet.get('graded_relays', {}).get('enabled'):
         labels.append('BASELINE')
     return tuple(labels)

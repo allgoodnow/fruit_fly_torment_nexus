@@ -113,6 +113,11 @@ class BrainPanel(QWidget):
         self.background.setVisible(self.config.experimental)
         self.background.toggled.connect(lambda value: self.send('relay_background', value))
         controls.addWidget(self.background)
+        self.graded = QCheckBox('Graded visual relays (exp.)')
+        self.graded.setToolTip('Select after Reset, before running. L1/L2 send voltage-dependent output without spikes. Unfitted release and reversal parameters. Release stops inputs but keeps this model; Reset clears it. See Guide.')
+        self.graded.setVisible(self.config.experimental)
+        self.graded.toggled.connect(lambda value: self.send('graded_relays', value))
+        controls.addWidget(self.graded)
         release = QPushButton("Release manual interventions" if command_sink else "Release all interventions")
         release.clicked.connect(lambda: self.send("release"))
         controls.addWidget(release)
@@ -294,6 +299,15 @@ class BrainPanel(QWidget):
         self.background.blockSignals(True)
         self.background.setChecked(t.get('relay_background', {}).get('enabled', False))
         self.background.blockSignals(False)
+        graded = t.get('graded_relays', {})
+        self.background.setEnabled(not graded.get('enabled', False))
+        self.graded.blockSignals(True)
+        self.graded.setChecked(graded.get('enabled', False))
+        self.graded.blockSignals(False)
+        self.graded.setEnabled(graded.get('available', False) and t['sim_time'] == 0
+                               and not t.get('relay_background', {}).get('enabled', False))
+        if graded.get('enabled', False):
+            self.status.setText(self.status.text() + ' · graded relays on')
         if t['protocol']:
             self.status.setText(self.status.text()+f"\nSequence {'complete' if t['protocol']['completed'] else 'active'}")
         self.run_button.blockSignals(True)

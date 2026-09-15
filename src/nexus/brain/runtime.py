@@ -37,7 +37,8 @@ def weights_filename(manifest):
 @njit(cache=not getattr(sys, "frozen", False), fastmath=False)
 def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
              output_gain, inhibition_gain, queue, queue_size, counts, step, inputs, input_events,
-             trace_ids, background_enabled, background):
+             trace_ids, background_enabled, background, graded_enabled, graded_mask,
+             graded_indices, histamine_sources, histamine_g, graded_queue):
     steps = len(input_events)
     trace = np.empty((steps, len(trace_ids)), dtype=np.float64)
     # Output bounded by one chunk, not total lifetime.
@@ -55,7 +56,14 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
         for i in range(len(v)):
             enabled[i] = tick - last_spike[i] >= refractory[i]
             if enabled[i]:
-                v[i] = -52.0 + (v[i] + 52.0) * em + g[i] * coupling
+                if graded_enabled and graded_mask[i]:
+                    # Frozen conductance over this 0.1 ms integration interval.
+                    h = histamine_g[i]
+                    equilibrium = (-52.0 + g[i] - 70.0 * h) / (1.0 + h)
+                    v[i] = equilibrium + (v[i] - equilibrium) * math.exp(-DT_MS * (1.0 + h) / 20.0)
+                    histamine_g[i] *= eg
+                else:
+                    v[i] = -52.0 + (v[i] + 52.0) * em + g[i] * coupling
                 if background_enabled:
                     v[i] += background[i] * (1.0 - em)
                 g[i] *= eg
@@ -63,7 +71,7 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
         future = (tick + DELAY_STEPS) % len(queue_size)
         queue_size[future] = 0
         for i in range(len(v)):
-            if enabled[i] and v[i] > -45.0:
+            if enabled[i] and v[i] > -45.0 and not (graded_enabled and graded_mask[i]):
                 enabled[i] = False
                 last_spike[i] = tick
                 counts[i] += 1
@@ -83,8 +91,31 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
                         weight = weights[edge]
                         if weight < 0:
                             weight *= inhibition_gain
-                        g[post] += weight * gain
+                        if graded_enabled and graded_mask[post] and histamine_sources[pre] and weight < 0:
+                            # Match the old current scale at -52 mV; E_Cl=-70 mV is unfitted.
+                            histamine_g[post] += -weight * gain / 18.0
+                        else:
+                            g[post] += weight * gain
         queue_size[slot] = 0
+        if graded_enabled:
+            # Analog release packets every 1 ms, with the existing 1.8 ms delay.
+            # They are synaptic charge, never counted or rendered as spikes.
+            for j in range(len(graded_indices)):
+                pre = graded_indices[j]
+                release = graded_queue[slot, j]
+                graded_queue[slot, j] = 0.0
+                gain = output_gain[pre]
+                if release != 0.0 and gain != 0.0:
+                    for edge in range(offsets[pre], offsets[pre + 1]):
+                        post = posts[edge]
+                        if enabled[post]:
+                            weight = weights[edge]
+                            if weight < 0:
+                                weight *= inhibition_gain
+                            g[post] += weight * gain * release
+                if tick % 10 == 0:
+                    # 20 equivalent events/s at rest, 0..40 range over -57..-47 mV.
+                    graded_queue[future, j] = .02 * min(2.0, max(0.0, 1.0 + (v[pre] + 52.0) / 5.0))
         # N=1 PoissonInput is Bernoulli(rate*dt); it acts in the synapses slot.
         for j in range(len(inputs)):
             i = inputs[j]
@@ -176,6 +207,9 @@ class Connectome:
             known = set(ids.tolist())
             targets = [group['ids'] for group in circuits['circuits'].values()]
             targets.extend(circuits['readouts'].values())
+            if 'graded_relays' in circuits:
+                from ..datasets.graded_relays import relay_ids
+                targets.append(relay_ids(circuits))
             for group in targets:
                 parsed = [int(i) for i in group]
                 if not parsed or len(set(parsed)) != len(parsed) or not set(parsed) <= known:
@@ -203,6 +237,11 @@ class Brain:
         self.seed = seed
         self.background = np.zeros(n, dtype=np.float64)
         self.background_targets = None
+        self.graded_mask = np.zeros(n, dtype=np.bool_)
+        self.histamine_sources = np.zeros(n, dtype=np.bool_)
+        self.histamine_g = np.zeros(n, dtype=np.float64)
+        self.graded_indices = np.array([], dtype=np.int32)
+        self.graded_queue = np.zeros((DELAY_STEPS + 1, 0), dtype=np.float64)
         self.inputs = np.array([], dtype=np.int32)
         self.rates = np.array([], dtype=np.float64)
         self.reset()
@@ -252,6 +291,8 @@ class Brain:
         """Unfitted tonic-current experiment on negative R1–R6 targets only."""
         if not isinstance(enabled, bool):
             raise ValueError('Relay background must be enabled or disabled')
+        if enabled and self.graded_enabled:
+            raise ValueError('Tonic relay bias and graded relays are separate experiments; reset first')
         if enabled and self.background_targets is None:
             registry = self.graph.circuits or {}
             groups = registry.get('circuits', {})
@@ -278,6 +319,41 @@ class Brain:
                 'target_count': len(self.background_targets) if self.background_targets is not None else 0,
                 'bias_mv_range': [8., 10.], 'parameters_fitted': False,
                 'scope': 'negative-weight targets of mapped R1-R6; not whole-brain baseline'}
+
+    def set_graded_relays(self, enabled):
+        if not isinstance(enabled, bool):
+            raise ValueError('Graded relays must be enabled or disabled')
+        if self.step != 0:
+            raise ValueError('Reset before changing the visual relay model')
+        if enabled and self.background_enabled:
+            raise ValueError('Turn off tonic relay baseline before selecting graded relays')
+        if enabled and not len(self.graded_indices):
+            from ..datasets.graded_relays import relay_ids
+            registry = self.graph.circuits or {}
+            indices = self.resolve(relay_ids(registry))
+            groups = registry.get('circuits', {})
+            if not all(groups.get(key, {}).get('ids') for key in ('eye_left', 'eye_right')):
+                raise ValueError('Graded relays require mapped photoreceptors')
+            eyes = self.resolve(groups['eye_left']['ids'] + groups['eye_right']['ids'])
+            if np.intersect1d(indices, eyes).size:
+                raise ValueError('Photoreceptor and relay cohorts overlap')
+            self.graded_indices = indices
+            self.graded_mask[indices] = True
+            self.histamine_sources[eyes] = True
+            self.graded_queue = np.zeros((DELAY_STEPS + 1, len(indices)), dtype=np.float64)
+        self.graded_enabled = enabled
+        self.events.append({'kind': 'graded_relays', 'time': self.time, 'enabled': enabled})
+
+    def graded_snapshot(self):
+        return {'enabled': self.graded_enabled,
+                'available': 'graded_relays' in (self.graph.circuits or {}),
+                'model': 'L1-L2-graded-release-v1', 'cells': len(self.graded_indices),
+                'relay_spikes': int(self.counts[self.graded_indices].sum()),
+                'mean_release_equivalent_hz': (float(np.clip(1. + (self.v[self.graded_indices] + 52.) / 5., 0., 2.).mean() * 20.)
+                                               if self.graded_enabled else 0.),
+                'histamine_affected_cells': int(np.count_nonzero(self.histamine_g)),
+                'release_equivalent_hz_at_rest': 20., 'release_sample_ms': 1.,
+                'histamine_reversal_mv': -70., 'parameters_fitted': False}
 
     @staticmethod
     def validate_inhibition_gain(value):
@@ -495,6 +571,9 @@ class Brain:
 
     def reset(self):
         self.background_enabled = False
+        self.graded_enabled = False
+        self.histamine_g.fill(0)
+        self.graded_queue.fill(0)
         self.step = 0
         self.v.fill(-52)
         self.g.fill(0)
@@ -559,7 +638,9 @@ class Brain:
         result = _advance(self.v, self.g, self.last_spike, self.refractory, self.enabled,
                           self.graph.offsets, self.graph.posts, self.graph.weights,
                           self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
-                          self.step, self.inputs, events, traces, self.background_enabled, self.background)
+                          self.step, self.inputs, events, traces, self.background_enabled, self.background,
+                          self.graded_enabled, self.graded_mask, self.graded_indices, self.histamine_sources,
+                          self.histamine_g, self.graded_queue)
         self.step += steps
         if self.looming_input:
             if self.step >= self.looming_input.end:
@@ -569,7 +650,8 @@ class Brain:
                 self.events.append({'kind': 'looming_release', 'time': self.time})
             else:
                 self.rates = self._looming_rates(np.array([self.step]))[0]
-        if not np.isfinite(self.v).all() or not np.isfinite(self.g).all():
+        if (not np.isfinite(self.v).all() or not np.isfinite(self.g).all()
+                or (self.graded_enabled and not np.isfinite(self.histamine_g).all())):
             raise RuntimeError("Non-finite neural state")
         self.history.extend(zip(result[1].tolist(), result[0].tolist()))
         # Count every spike before raster truncation. Keep complete time bins,

@@ -487,6 +487,77 @@ light modulates downstream spiking within visual circuitry; this does not establ
 central-brain or motor-pathway recruitment. Video EOF clears visual input but
 leaves the separately selected baseline enabled until Release or deselection.
 
+#### Experimental graded visual relays
+
+**Graded visual relays (exp.)** in the Brain tab is an alternative to the tonic
+relay-baseline experiment. Select **Reset body + brain**, enable the graded mode,
+then load/enable visual input and run. The two experiments cannot be combined.
+The relay model can only be changed at simulation time zero; its checkbox becomes
+unavailable after time advances. Reset turns it off and permits selection again.
+It is off by default and works with pooled/spatial video input, light adaptation,
+and the existing pooled eye-camera input.
+
+This mode changes the dynamics of the exact annotated L1/L2 cells, rather than
+stimulating them to force spike output. [Pang et al. (2025)](https://doi.org/10.1016/j.cub.2024.11.064)
+identifies these as non-spiking visual interneurons and studies their voltage
+responses. Our type selection follows that evidence; the numerical implementation
+below is **not fitted to the study's recordings or its recurrent model**.
+
+The pack update selects exact `type` L1/L2, matching `instance` L1_L/L1_R/L2_L/L2_R,
+and `superclass` ol_intrinsic. It contains 884 left and 892 right L1 cells, and 886
+left and 893 right L2 cells: **3,555 cells**. No cell is added, repositioned, or
+assigned a type by a name prefix. This includes identified cells with incomplete
+photoreceptor input in the reconstruction. The weights and connections do not
+change. The selection audit is `experiments/graded-relay-evidence-v1.json`.
+
+Selected cells retain continuous membrane voltage but do not emit threshold spikes
+or undergo spike resets. Their outgoing release follows
+`r(V) = 20 × clamp(1 + (V + 52) / 5, 0, 2)` equivalent events/second. At the model's
+resting voltage, output is nonzero; hyperpolarization reduces it and depolarization
+increases it, bounded between 0 and 40. This is a rate-equivalent way to reuse
+existing synaptic weight units, **not actual spikes or measured vesicle counts**.
+The 20/s gain, voltage range and saturation are unfitted choices.
+
+Analog release is sampled every 1 ms of simulation time and delivered after the
+existing 1.8 ms delay. Each packet adds `weight × r × 0.001` to a postsynaptic
+current state, respecting output silencing, inhibition gain and the receiving
+cell's refractory state. Packets are excluded from the spike raster, spike counts,
+and red spike highlights. Yellow/orange voltage changes continue showing actual
+model voltages. Sampling follows integer neural ticks, independently of GUI refresh.
+
+Negative R1–R6 input onto selected relays is converted to a decaying inhibitory
+conductance `h`, rather than an unbounded negative current. A delivered negative
+weight adds `−weight × output_gain / 18` to `h`, which decays with a 5 ms time
+constant. The membrane equation is
+`20 ms × dV/dt = −52 − V + g + h × (−70 − V)`.
+Each 0.1 ms voltage step uses the exact solution with that step's current and
+conductance held constant, then decays them. The **−70 mV reversal value is an
+unfitted assumption**. The factor 18 matches the previous inhibitory current's
+scale at −52 mV. This bounds the isolated R1–R6 conductance's effect as voltage
+approaches its reversal; it is not a hard voltage clamp. Other negative currents,
+including elsewhere in the network, remain unbounded and can still produce
+unphysiological voltages. R1–R6 cells themselves still use the Poisson/spiking proxy.
+
+**Release** clears imposed inputs and silencing but keeps the selected graded
+dynamics, their pending release, voltage and conductance state. Nonzero resting
+release remains part of this model, so **BASELINE** remains in the banner after
+video input stops. Reset clears the dynamics and the model selection. The recovery
+monitor does not report an inputs-off recovery while this baseline mode remains on.
+This is visual-circuit resting release, not whole-brain spontaneous activity.
+
+With the app closed, run `python scripts/install_graded_relays.py` to update an
+existing local MaleCNS pack. It verifies annotations against the pack's source
+checksum, validates the new registry and selects it atomically. The checkbox stays
+unavailable with older packs. Fresh preparation includes the cohort automatically.
+
+`python scripts/probe_graded_relays.py --output-dir new-results-folder` runs paired
+dark and dark/gray/dark videos with photoreceptor/relay-output blockade controls
+across three seeds. `experiments/graded-relays-v1-results.json` records zero relay
+spikes alongside downstream voltage and spike-count changes. These checks establish
+transmission in the implementation, not scene recognition, calibrated ON/OFF
+processing, central-brain recruitment or autonomous walking. Most downstream cells
+still use the generic spiking model, and their graded dynamics remain unmodeled.
+
 Different demonstrations can visualize different signals and representations.
 For example, [Flyvis](https://turagalab.github.io/flyvis/) implements a trained
 connectome-constrained visual network; our generic whole-CNS LIF model is not that

@@ -67,6 +67,10 @@ def simulate_brain(directory, commands, frames, events, *, allow_experimental=Fa
                         brain.set_relay_background(value)
                         running = False
                         protocol = None
+                    elif kind == 'graded_relays':
+                        brain.set_graded_relays(value)
+                        running = False
+                        protocol = None
                     elif kind == 'loom':
                         brain.set_looming(value)
                         protocol = None
