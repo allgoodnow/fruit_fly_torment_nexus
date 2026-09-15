@@ -1,5 +1,10 @@
 # Third-party software
 
+The standalone photoreceptor membrane research component adapts **Zhuoyi Song /
+JuusolaLab's 2017 Drosophila model** (GPL-3.0). Its pinned source, attribution,
+modifications and license are recorded in `licenses/photoreceptor/`. It is not
+currently imported by the application or included in its active visual pathway.
+
 This application uses **NeuroMechFly / FlyGym 2.1.0** from
 https://github.com/NeLy-EPFL/flygym, pinned to commit
 `38c8ec61034cd59bc5ba0de20688d4a3c0000d60` (Apache-2.0).

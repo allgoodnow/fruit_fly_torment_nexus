@@ -1,0 +1,60 @@
+{
+  "format": "nexus-photoreceptor-membrane-results-1",
+  "success": true,
+  "source_commit": "a4453f7e47abf2ea2a924c376d4c1c157c6011e2",
+  "source_sha256": {
+    "wt_cc_model_pump.m": "5bd6a223f52a2fcd8c86b38c7ccc065fef12c6d111a9d5de0df768ab74cc3767",
+    "NaCaPump_Body.m": "fde20f79cf84fff8fc9bceab3ff7b5e599eae8250dcf4a2a382694a17355f495",
+    "NaKPump.m": "e2b0ddc3e93ca7bbdb1db50260f3b1d8157c2c9152404deacffa379150358622",
+    "Vol_FeedbackCluster.m": "47eac23a5295081ac933feffcc9ef46809b1cafad97e3d69ce92163b033dbfa6"
+  },
+  "parameter_set": "BG1",
+  "integration_dt_ms": 0.1,
+  "reference": "Pinned MATLAB scalar expressions evaluated in Python; adaptive SciPy DOP853",
+  "derivative_states_checked": 64,
+  "maximum_absolute_derivative_difference": 6.394884621840902e-14,
+  "current_pulse_trials": [
+    {
+      "current_na": 0.0,
+      "max_voltage_error_mv": 3.0004183599885437e-06,
+      "minimum_mv": -70.08358836255175,
+      "maximum_mv": -70.00795603771789
+    },
+    {
+      "current_na": 0.05,
+      "max_voltage_error_mv": 3.0004183599885437e-06,
+      "minimum_mv": -70.08358836255175,
+      "maximum_mv": -69.4562945360869
+    },
+    {
+      "current_na": 0.2,
+      "max_voltage_error_mv": 3.0004183599885437e-06,
+      "minimum_mv": -70.08358836255175,
+      "maximum_mv": -67.80237352676622
+    },
+    {
+      "current_na": 1.0,
+      "max_voltage_error_mv": 1.5632577209601095e-05,
+      "minimum_mv": -70.08358836255175,
+      "maximum_mv": -59.03100557745331
+    },
+    {
+      "current_na": 3.0,
+      "max_voltage_error_mv": 6.540188417147874e-05,
+      "minimum_mv": -70.08358836255175,
+      "maximum_mv": -37.32575559991362
+    }
+  ],
+  "cpu_benchmark": {
+    "cells": 3377,
+    "simulated_ms": 10,
+    "wall_seconds": 0.24407765900105005,
+    "includes_compilation": false
+  },
+  "limits": [
+    "Membrane subsystem only; no photon-absorption or quantum-bump model.",
+    "No RGB-to-current calibration or voltage-to-histamine transfer is supplied.",
+    "Numerical agreement is not validation against biological recordings or a MATLAB execution.",
+    "Not enabled in the application; does not change brain state, video processing or movement."
+  ]
+}
