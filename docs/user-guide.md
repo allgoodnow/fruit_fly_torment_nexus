@@ -137,8 +137,9 @@ MaleCNS annotations explicitly identify both DNg100 cells as BDN2.
 The mapping audit is in `experiments/walking-evidence-v1.json`.
 
 This option is a **motor-readout experiment, not spontaneous exploration**.
-The current LIF model has no background excitation, so without input its quiet
-neurons remain quiet. No random drive is injected to hide that limitation.
+The default LIF model has no background excitation, so without input its quiet
+neurons remain quiet. The optional visual-relay baseline experiment below adds
+limited tonic drive; it does not establish spontaneous walking.
 Body-to-brain sensory feedback and suitable ongoing neural dynamics are still
 needed for an exploration loop driven by the network.
 
@@ -441,6 +442,50 @@ a white/dark/white clip with static input, adaptation, and photoreceptor-output
 blockade across three seeds in the full body/brain simulation. The results in
 `experiments/light-adaptation-v1-results.json` test sustained response reduction,
 dark recovery, downstream sensitivity, shared timing, and release at playback end.
+
+#### Experimental visual relay baseline
+
+In the **Brain** tab, enable **Visual relay baseline (exp.)**, then run. Changing
+this setting pauses the simulation. **BASELINE** appears in the red stimulation
+banner while it is enabled; combined video input displays **VISION + BASELINE**.
+It is off by default. Release and reset both disable it. Turning it off or releasing
+it preserves voltages, previously delivered synaptic currents, spike history and
+time, so activity can persist briefly afterward. Reset clears those states too.
+Prepared sequences with a release event clear it at that event.
+
+This is a controlled drive experiment, **not a whole-brain resting-state model**.
+The target set is the unique postsynaptic cells on negative-weight edges from
+the pack's mapped R1–R6 photoreceptors: 2,405 cells in the current pack. No direct
+drive is added to other cells. Their responses must travel through the existing
+weighted connections. Output silencing still blocks transmission from the
+selected neurons. Directly biased cells are excluded from the motor-disruption
+decoder's downstream-recruitment count.
+
+Each target receives a constant depolarizing bias equivalent to an 8–10 mV shift
+in its passive equilibrium voltage. Values are drawn uniformly once with a
+separate seed-derived random generator and stay fixed across reset/re-enabling.
+They do not consume the photoreceptor input's random stream. The bias adds
+`bias × (1 − exp(−dt / 20 ms))` to the existing voltage update outside refractory
+periods. Ordinary thresholds, refractory rules and synaptic delays still apply;
+this does not inject forced spikes. The bias range and heterogeneity are unfitted
+engineering choices, not measured cellular resting potentials or ongoing noise.
+
+The purpose is to test a specific bottleneck: inhibition of an otherwise silent
+relay cannot decrease its spike output. Ongoing activity gives visual inhibition
+an output to modulate. Real L1/L2 cells are non-spiking and carry graded signals,
+as studied by [Pang et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC11769683/).
+This experiment retains our spiking approximation. It does **not** supply that
+graded transmission, physiological reversal potentials, calibrated spontaneous
+activity, ON/OFF computation, or brain-driven exploration.
+
+`python scripts/probe_relay_background.py --output-dir new-results-folder` compares
+a dark video with a dark/gray/dark video, photoreceptor-output blockade, and
+relay-output blockade across three seeds. The 300–600 ms stimulus window is
+compared against the same time window in the dark control. Results and anatomical
+categories are in `experiments/relay-background-v1-results.json`. In these tests,
+light modulates downstream spiking within visual circuitry; this does not establish
+central-brain or motor-pathway recruitment. Video EOF clears visual input but
+leaves the separately selected baseline enabled until Release or deselection.
 
 Different demonstrations can visualize different signals and representations.
 For example, [Flyvis](https://turagalab.github.io/flyvis/) implements a trained

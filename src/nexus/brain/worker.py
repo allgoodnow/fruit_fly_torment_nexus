@@ -63,6 +63,10 @@ def simulate_brain(directory, commands, frames, events, *, allow_experimental=Fa
                     elif kind == 'inhibition_gain':
                         brain.set_inhibition_gain(value)
                         protocol = None
+                    elif kind == 'relay_background':
+                        brain.set_relay_background(value)
+                        running = False
+                        protocol = None
                     elif kind == 'loom':
                         brain.set_looming(value)
                         protocol = None

@@ -1227,6 +1227,38 @@ def main():
                     self.smoke_finish(False)
                     return
                 self.smoke_checks.append('Release clears adaptive visual input while preserving the paused exposure state')
+                self.tabs.setCurrentIndex(1)
+                self.tabs.widget(1).ensureWidgetVisible(self.brain_panel.background)
+                self.brain_panel.background.setChecked(True)
+                self.smoke_stage = 35
+            elif self.smoke_stage == 35 and t['relay_background']['enabled']:
+                if t['running'] or t['relay_background']['target_count'] != 2405:
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('visual relay baseline is selectable, pauses, and targets the graph-derived cohort')
+                self.background_start_time = t['sim_time']
+                self.background_start_spikes = t['total_spikes']
+                self.brain_panel.send('running', True)
+                self.smoke_stage = 36
+            elif self.smoke_stage == 36 and t['sim_time'] >= self.background_start_time + .2:
+                self.brain_panel.send('running', False)
+                self.smoke_stage = 37
+            elif self.smoke_stage == 37 and not t['running']:
+                if t['total_spikes'] <= self.background_start_spikes or self.stimulation_banner.readout.text() != 'BASELINE':
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('relay baseline produces measured spikes without video input and appears in the banner')
+                self.background_held_time = t['sim_time']
+                self.background_held_spikes = t['total_spikes']
+                self.grab().save(str(data_dir/'relay-background-active.png'))
+                self.brain_panel.send('release')
+                self.smoke_stage = 38
+            elif self.smoke_stage == 38 and not t['relay_background']['enabled']:
+                if (t['sim_time'] != self.background_held_time or t['total_spikes'] != self.background_held_spikes
+                        or self.brain_panel.background.isChecked() or self.stimulation_banner.readout.text() != 'NONE'):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('Release clears relay baseline and its checkbox without resetting activity or time')
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 

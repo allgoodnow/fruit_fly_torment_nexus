@@ -1,0 +1,316 @@
+{
+  "format": "nexus-relay-background-results-1",
+  "success": true,
+  "trials": [
+    {
+      "seed": 73100,
+      "condition": "baseline_dark",
+      "relay_cells": 2405,
+      "total_spikes": 57493,
+      "downstream_spikes": 6367,
+      "downstream_spiking_cells": 336,
+      "minimum_sampled_mv": -92.46351736503581,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73100,
+      "condition": "video",
+      "relay_cells": 2405,
+      "total_spikes": 92395,
+      "downstream_spikes": 5060,
+      "downstream_spiking_cells": 403,
+      "minimum_sampled_mv": -92.46351736503581,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73100,
+      "condition": "photoreceptors_blocked",
+      "relay_cells": 2405,
+      "total_spikes": 104784,
+      "downstream_spikes": 6367,
+      "downstream_spiking_cells": 336,
+      "minimum_sampled_mv": -92.46351736503581,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73100,
+      "condition": "relays_blocked",
+      "relay_cells": 2405,
+      "total_spikes": 69505,
+      "downstream_spikes": 0,
+      "downstream_spiking_cells": 0,
+      "minimum_sampled_mv": -52.0,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73101,
+      "condition": "baseline_dark",
+      "relay_cells": 2405,
+      "total_spikes": 57304,
+      "downstream_spikes": 6383,
+      "downstream_spiking_cells": 345,
+      "minimum_sampled_mv": -94.16625783116486,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73101,
+      "condition": "video",
+      "relay_cells": 2405,
+      "total_spikes": 92082,
+      "downstream_spikes": 5132,
+      "downstream_spiking_cells": 417,
+      "minimum_sampled_mv": -89.85058405265104,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73101,
+      "condition": "photoreceptors_blocked",
+      "relay_cells": 2405,
+      "total_spikes": 104271,
+      "downstream_spikes": 6383,
+      "downstream_spiking_cells": 345,
+      "minimum_sampled_mv": -94.16625783116486,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73101,
+      "condition": "relays_blocked",
+      "relay_cells": 2405,
+      "total_spikes": 69307,
+      "downstream_spikes": 0,
+      "downstream_spiking_cells": 0,
+      "minimum_sampled_mv": -52.0,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73102,
+      "condition": "baseline_dark",
+      "relay_cells": 2405,
+      "total_spikes": 57114,
+      "downstream_spikes": 6214,
+      "downstream_spiking_cells": 320,
+      "minimum_sampled_mv": -95.09352227742214,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73102,
+      "condition": "video",
+      "relay_cells": 2405,
+      "total_spikes": 91841,
+      "downstream_spikes": 4900,
+      "downstream_spiking_cells": 375,
+      "minimum_sampled_mv": -95.09352227742214,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73102,
+      "condition": "photoreceptors_blocked",
+      "relay_cells": 2405,
+      "total_spikes": 104207,
+      "downstream_spikes": 6214,
+      "downstream_spiking_cells": 320,
+      "minimum_sampled_mv": -95.09352227742214,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    },
+    {
+      "seed": 73102,
+      "condition": "relays_blocked",
+      "relay_cells": 2405,
+      "total_spikes": 69441,
+      "downstream_spikes": 0,
+      "downstream_spiking_cells": 0,
+      "minimum_sampled_mv": -52.0,
+      "shared_clock": true,
+      "eof_released_visual_input": true,
+      "baseline_remains_at_eof": true
+    }
+  ],
+  "comparisons": [
+    {
+      "seed": 73100,
+      "window_ms": [
+        300,
+        600
+      ],
+      "baseline_relay_spikes": 16327,
+      "video_relay_spikes": 5874,
+      "baseline_downstream_spikes": 2045,
+      "video_downstream_spikes": 787,
+      "downstream_cells_with_changed_spike_count": 380,
+      "changed_cells_by_superclass": {
+        "ol_intrinsic": 379,
+        "visual_centrifugal": 1
+      },
+      "photoreceptor_block_restores_nonphotoreceptor_state_exactly": true,
+      "photoreceptor_block_preserves_input_spikes_and_rng": true,
+      "relay_block_removes_downstream_spikes": true
+    },
+    {
+      "seed": 73101,
+      "window_ms": [
+        300,
+        600
+      ],
+      "baseline_relay_spikes": 16323,
+      "video_relay_spikes": 5930,
+      "baseline_downstream_spikes": 2074,
+      "video_downstream_spikes": 815,
+      "downstream_cells_with_changed_spike_count": 386,
+      "changed_cells_by_superclass": {
+        "ol_intrinsic": 385,
+        "visual_centrifugal": 1
+      },
+      "photoreceptor_block_restores_nonphotoreceptor_state_exactly": true,
+      "photoreceptor_block_preserves_input_spikes_and_rng": true,
+      "relay_block_removes_downstream_spikes": true
+    },
+    {
+      "seed": 73102,
+      "window_ms": [
+        300,
+        600
+      ],
+      "baseline_relay_spikes": 16260,
+      "video_relay_spikes": 5865,
+      "baseline_downstream_spikes": 1975,
+      "video_downstream_spikes": 727,
+      "downstream_cells_with_changed_spike_count": 348,
+      "changed_cells_by_superclass": {
+        "ol_intrinsic": 347,
+        "visual_centrifugal": 1
+      },
+      "photoreceptor_block_restores_nonphotoreceptor_state_exactly": true,
+      "photoreceptor_block_preserves_input_spikes_and_rng": true,
+      "relay_block_removes_downstream_spikes": true
+    }
+  ],
+  "manifest_sha256": "0603c666252b4bee42db15955665c632296f5b95e463120593f22f62ae8c0ab9",
+  "annotation_sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2",
+  "parameters": {
+    "bias_mv_range": [
+      8,
+      10
+    ],
+    "fitted": false,
+    "mapping": "spatial",
+    "light_adaptation": false,
+    "input_gray_rgb": 128,
+    "trial_ms": 950
+  },
+  "limits": [
+    "Tonic drive is applied to negative-weight R1-R6 targets only, not the whole brain.",
+    "Relay neurons still use a spiking proxy; no graded release or reversal potentials were added.",
+    "These are causal routing checks, not biological calibration, visual recognition or spontaneous exploration."
+  ],
+  "automated_tests": {
+    "passed": 189
+  },
+  "baseline_off_regression": {
+    "success": true,
+    "comparison_commit": "0d95250",
+    "mode": "baseline enabled then disabled before advancing",
+    "input": "pooled eyes 40/70 Hz for 350 ms",
+    "identical": [
+      "voltages",
+      "synaptic currents",
+      "spike counts",
+      "last spike times",
+      "delay queue",
+      "input random state"
+    ],
+    "reference_execution": "JIT disk cache disabled for the dynamically loaded prior source; numerical implementation unchanged."
+  },
+  "weights_changed": false,
+  "local_bundle_rebuilt": false,
+  "implementation_sha256": {
+    "src/nexus/brain/runtime.py": "4a1d8045e635052b6aa1d730072bb34aaee5708470fa3f112a28dcfc9fa80cdc",
+    "src/nexus/brain/telemetry.py": "e8f8d2fa63e03380051b80075c0aef6165108dd0233d69f836ab80ea5e4a9971",
+    "src/nexus/brain/panel.py": "ffcf5bbf09a1238a6727e51070b7d8d62bd9b4ab73e378e7c4489ec3339787c3",
+    "src/nexus/brain/worker.py": "5103ff2938941ab7dd2c4e1100c64123e3124de8528156c8bcae5eb75a6fd734",
+    "src/nexus/coupled.py": "d5a8c9792c1cba16153d20784b01a4f7bf22e2366536fc8daadbda8823113e16",
+    "src/nexus/stimulation.py": "e2bec1e257aa5dbd0715abc0e2942cdbd4bb3305d4372367ae122eaaabbf5fc9",
+    "src/nexus/app.py": "e85033c8f093d77c1a5c284520997681fbced07d9c2fca7f09d196f575b50041",
+    "scripts/probe_relay_background.py": "ab3895fabe0b6a789e0bb28304edf3ccb4095f51fa6b232647095c71b17cdda8",
+    "tests/test_relay_background.py": "184388a0663525d06d36bcaef774109830dbc2873d07432c3f3a674daf5b4d2b"
+  },
+  "native_gui": {
+    "success": true,
+    "checks": [
+      "MaleCNS loads 166700 neurons and matching cell anchors; no food patch or taste feedback",
+      "offline Guide opens with model explanations and stimulation-label definitions",
+      "defensive activity graph retains all spike counts across the trial",
+      "defensive button runs, releases on schedule, and reports measured responses",
+      "FEAR appears during input and clears after release",
+      "approach geometry advances with brain time and releases both visual inputs",
+      "aversion activity graph retains all spike counts across the trial",
+      "aversion button runs, releases on schedule, and reports measured responses",
+      "PAIN appears during input and clears after release",
+      "heat activity graph retains all spike counts across the trial",
+      "heat button runs, releases on schedule, and reports measured responses",
+      "HEAT appears during input and clears after release",
+      "heat recruits mapped thermal nociception cells and releases them on schedule",
+      "seizure activity graph retains all spike counts across the trial",
+      "seizure button runs, releases on schedule, and reports measured responses",
+      "SEIZURE appears during input and clears after release",
+      "heat_overload activity graph retains all spike counts across the trial",
+      "heat_overload button runs, releases on schedule, and reports measured responses",
+      "BOILING appears during input and clears after release",
+      "heat_overload recruits mapped thermal nociception cells and releases them on schedule",
+      "threat and heat inputs coexist while paused",
+      "combined FEAR + BOILING display retains inputs while paused",
+      "release clears scenario inputs and overlays without advancing time",
+      "motor proxy ablation can be controlled from the native experiments tab",
+      "body reposition preserves neural inputs, spikes and time, restores posture and pauses",
+      "reset clears both models after assisted reposition",
+      "experiment control resumes and pauses the shared simulation",
+      "neural walking mode removes scheduled walking and reports quiet-brain idle",
+      "mapped BDN2 input produces measured forward drive in the native app",
+      "release preserves the paused walking readout and shared clock",
+      "reset clears walking activity while preserving the selected control mode",
+      "video loads paused with a decoded preview and no neural input",
+      "video brightness drives photoreceptor spikes and the live activity graph",
+      "measured voltage response is visible and display switching preserves paused activity",
+      "enlarged vision preview has controls to its left",
+      "paused video frame is stable and disabling feedback clears visual input",
+      "restart rewinds the video without resetting the brain clock",
+      "end of video automatically releases visual input",
+      "actual left/right eye cameras feed the brain and appear in the vision panel",
+      "Release disables visual feedback and preserves paused brain state",
+      "spatial video mode is selectable and changing mapping pauses with input cleared",
+      "spatial video input reaches mapped photoreceptors and its state appears in the native panel",
+      "switching to physical eye cameras clears spatial input and restores brightness mapping",
+      "light adaptation is selectable and changing it pauses with visual input released",
+      "sustained video light reduces input through the adaptation model",
+      "Release clears adaptive visual input while preserving the paused exposure state",
+      "visual relay baseline is selectable, pauses, and targets the graph-derived cohort",
+      "relay baseline produces measured spikes without video input and appears in the banner",
+      "Release clears relay baseline and its checkbox without resetting activity or time"
+    ],
+    "screenshots_visually_checked": [
+      "relay-background-active.png"
+    ],
+    "status_label_followup_checked": true
+  }
+}

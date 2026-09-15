@@ -108,6 +108,11 @@ class BrainPanel(QWidget):
         self.perturb_status = QLabel('Applied inhibition: 100 %')
         form.addRow(self.perturb_status)
         controls.addWidget(experiment)
+        self.background = QCheckBox('Visual relay baseline (exp.)')
+        self.background.setToolTip('Unfitted tonic drive to inhibitory photoreceptor targets. Changes pause the simulation; Release clears it. Not whole-brain spontaneous activity. See Guide.')
+        self.background.setVisible(self.config.experimental)
+        self.background.toggled.connect(lambda value: self.send('relay_background', value))
+        controls.addWidget(self.background)
         release = QPushButton("Release manual interventions" if command_sink else "Release all interventions")
         release.clicked.connect(lambda: self.send("release"))
         controls.addWidget(release)
@@ -282,8 +287,13 @@ class BrainPanel(QWidget):
                           'response_returned': 'Activity or posture no longer meets the settling check'}[event['kind']]
                 self.session_event.emit(f"BODY + BRAIN {event['time']:.3f}s · {detail}")
         active = len(t['stimulated_ids'])
-        self.status.setText(f"{'Running' if t['running'] else 'Paused'} · {active} stimulated · {t['silenced_count']} silenced")
+        self.status.setText(f"{'Running' if t['running'] else 'Paused'} · {active} pulse inputs · {t['silenced_count']} silenced")
+        if t.get('relay_background', {}).get('enabled'):
+            self.status.setText(self.status.text() + ' · relay baseline on')
         self.perturb_status.setText(f"Applied inhibition: {t['inhibition_gain']*100:g} %")
+        self.background.blockSignals(True)
+        self.background.setChecked(t.get('relay_background', {}).get('enabled', False))
+        self.background.blockSignals(False)
         if t['protocol']:
             self.status.setText(self.status.text()+f"\nSequence {'complete' if t['protocol']['completed'] else 'active'}")
         self.run_button.blockSignals(True)

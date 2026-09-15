@@ -43,6 +43,7 @@ class NeuralTelemetry:
         result = {'sim_time': brain.time, 'tick': brain.step, 'running': running, 'generation': generation,
                   'neuron_order_sha256': self.order_hash, 'dataset': brain.graph.snapshot,
                   'model': brain.graph.model,
+                  'relay_background': brain.background_snapshot(),
                   'active_indices': active.tolist(), 'active_steps': brain.last_spike[active].tolist(),
                   'membrane_activity': membrane_activity(brain),
                   'neurons': len(brain.graph.ids), 'edges': len(brain.graph.posts),

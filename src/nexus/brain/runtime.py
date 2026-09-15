@@ -37,7 +37,7 @@ def weights_filename(manifest):
 @njit(cache=not getattr(sys, "frozen", False), fastmath=False)
 def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
              output_gain, inhibition_gain, queue, queue_size, counts, step, inputs, input_events,
-             trace_ids):
+             trace_ids, background_enabled, background):
     steps = len(input_events)
     trace = np.empty((steps, len(trace_ids)), dtype=np.float64)
     # Output bounded by one chunk, not total lifetime.
@@ -56,6 +56,8 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
             enabled[i] = tick - last_spike[i] >= refractory[i]
             if enabled[i]:
                 v[i] = -52.0 + (v[i] + 52.0) * em + g[i] * coupling
+                if background_enabled:
+                    v[i] += background[i] * (1.0 - em)
                 g[i] *= eg
         # Deliver spikes after the threshold pass, exactly as in Brian's schedule.
         future = (tick + DELAY_STEPS) % len(queue_size)
@@ -199,6 +201,8 @@ class Brain:
         self.activity = deque(maxlen=ACTIVITY_BINS)
         self.events = deque(maxlen=2000)
         self.seed = seed
+        self.background = np.zeros(n, dtype=np.float64)
+        self.background_targets = None
         self.inputs = np.array([], dtype=np.int32)
         self.rates = np.array([], dtype=np.float64)
         self.reset()
@@ -229,6 +233,7 @@ class Brain:
         self.events.append({"kind": "stimulate", "time": self.time, "ids": [str(self.graph.ids[i]) for i in targets], "rate_hz": rate})
 
     def release(self):
+        self.background_enabled = False
         self.manual_inputs = np.array([], dtype=np.int32)
         self.manual_rate = 0.
         self.circuit_inputs.clear()
@@ -242,6 +247,37 @@ class Brain:
         self.output_gain.fill(1)
         self.inhibition_gain = 1.
         self.events.append({"kind": "release", "time": self.time})
+
+    def set_relay_background(self, enabled):
+        """Unfitted tonic-current experiment on negative R1–R6 targets only."""
+        if not isinstance(enabled, bool):
+            raise ValueError('Relay background must be enabled or disabled')
+        if enabled and self.background_targets is None:
+            registry = self.graph.circuits or {}
+            groups = registry.get('circuits', {})
+            if self.graph.snapshot != 'male-cns:v1.0' or not all(
+                    groups.get(key, {}).get('ids') for key in ('eye_left', 'eye_right')):
+                raise ValueError('Relay background requires mapped MaleCNS eye inputs')
+            eyes = self.resolve(groups['eye_left']['ids'] + groups['eye_right']['ids'])
+            targets = np.unique(np.concatenate([
+                self.graph.posts[self.graph.offsets[i]:self.graph.offsets[i+1]][
+                    self.graph.weights[self.graph.offsets[i]:self.graph.offsets[i+1]] < 0]
+                for i in eyes]))
+            if not len(targets):
+                raise ValueError('No inhibitory photoreceptor targets in this pack')
+            # Independent stream; input Poisson draws and current state are untouched.
+            # A spread of biases avoids imposing a single common firing period.
+            values = np.random.default_rng(np.random.SeedSequence([self.seed, 7341])).uniform(8., 10., len(targets))
+            self.background[targets] = values
+            self.background_targets = targets
+        self.background_enabled = enabled
+        self.events.append({'kind': 'relay_background', 'time': self.time, 'enabled': enabled})
+
+    def background_snapshot(self):
+        return {'enabled': self.background_enabled, 'model': 'relay-tonic-current-v1',
+                'target_count': len(self.background_targets) if self.background_targets is not None else 0,
+                'bias_mv_range': [8., 10.], 'parameters_fitted': False,
+                'scope': 'negative-weight targets of mapped R1-R6; not whole-brain baseline'}
 
     @staticmethod
     def validate_inhibition_gain(value):
@@ -458,6 +494,7 @@ class Brain:
         self.events.append({"kind": "silence_outgoing", "time": self.time, "ids": [str(self.graph.ids[i]) for i in targets]})
 
     def reset(self):
+        self.background_enabled = False
         self.step = 0
         self.v.fill(-52)
         self.g.fill(0)
@@ -522,7 +559,7 @@ class Brain:
         result = _advance(self.v, self.g, self.last_spike, self.refractory, self.enabled,
                           self.graph.offsets, self.graph.posts, self.graph.weights,
                           self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
-                          self.step, self.inputs, events, traces)
+                          self.step, self.inputs, events, traces, self.background_enabled, self.background)
         self.step += steps
         if self.looming_input:
             if self.step >= self.looming_input.end:

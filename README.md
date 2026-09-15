@@ -82,6 +82,9 @@ projection is uncalibrated and does not recognize video content. See the
 [visual input guide](docs/user-guide.md#visual-input-development-toward-12).
 Optional **Adapt to light** reduces sensitivity during sustained illumination
 and restores it during darkness. Its parameters remain an unfitted approximation.
+The Brain tab also offers **Visual relay baseline (exp.)**, a controlled tonic-drive
+experiment for testing downstream visual responses. It is off by default and
+does not reproduce whole-brain spontaneous activity.
 
 The prepared workspace runs with `./run.sh`. Large neural packs are excluded from
 Git; they are supplied in the release under `_internal/data/`. A source checkout

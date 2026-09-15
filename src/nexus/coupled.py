@@ -4,6 +4,7 @@ import time
 import traceback
 from collections import deque
 from queue import Empty
+import numpy as np
 
 from .brain.motor import SteeringDecoder
 from .brain.motor_effects import MotorEffects
@@ -43,7 +44,7 @@ class CoupledSession:
         self.sync_environment()
 
     def sync_recovery(self):
-        active = (bool(self.brain.inputs.size) or self.brain.inhibition_gain != 1
+        active = (self.brain.background_enabled or bool(self.brain.inputs.size) or self.brain.inhibition_gain != 1
                   or bool((self.brain.output_gain != 1).any()))
         self.recovery.controls(self.brain.step, active)
 
@@ -98,6 +99,10 @@ class CoupledSession:
             self.protocol = None
         elif kind == 'inhibition_gain':
             self.brain.set_inhibition_gain(value)
+            self.protocol = None
+        elif kind == 'relay_background':
+            self.brain.set_relay_background(value)
+            self.running = False
             self.protocol = None
         elif kind == 'circuit':
             self.brain.set_circuit_input(value['name'], value['rate_hz'])
@@ -219,6 +224,8 @@ class CoupledSession:
             gains = self.brain.output_gain[self.decoder.indices].copy()
             walking_gains = self.brain.output_gain[self.walking_decoder.indices].copy()
             directly_driven = self.brain.inputs.copy()
+            if self.brain.background_enabled:
+                directly_driven = np.union1d(directly_driven, self.brain.background_targets)
             # The protocol applies endpoint events on the next iteration, after
             # this body's interval has used the correct pre-event output gains.
             self.brain.advance(step*.0001)
