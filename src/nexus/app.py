@@ -1266,10 +1266,11 @@ def main():
                 self.brain_panel.graded.setChecked(True)
                 self.smoke_stage = 40
             elif self.smoke_stage == 40 and t['graded_relays']['enabled']:
-                if t['running'] or t['graded_relays']['cells'] != 3555 or self.brain_panel.background.isEnabled():
+                expected = 10925 if t['graded_relays']['model'] == 'lamina-medulla-graded-release-v2' else 3555
+                if t['running'] or t['graded_relays']['cells'] != expected or self.brain_panel.background.isEnabled():
                     self.smoke_finish(False)
                     return
-                self.smoke_checks.append('graded relays select the exact L1/L2 cohort and exclude the tonic baseline experiment')
+                self.smoke_checks.append('graded relays select the audited visual cohort and exclude the tonic baseline experiment')
                 self.vision_panel.command.emit('vision_video', str(args.vision_test_video.resolve()))
                 self.smoke_stage = 41
             elif self.smoke_stage == 41 and t['eye_feedback']['source'] == 'video':
@@ -1280,7 +1281,7 @@ def main():
                 self.brain_panel.send('running', False)
                 self.smoke_stage = 43
             elif self.smoke_stage == 43 and not t['running']:
-                if (t['graded_relays']['relay_spikes'] != 0 or t['graded_relays']['histamine_affected_cells'] == 0
+                if (t['graded_relays']['relay_spikes'] != 0 or t['graded_relays']['inhibition_affected_cells'] == 0
                         or t['graded_relays']['mean_release_equivalent_hz'] <= 0 or self.brain_panel.graded.isEnabled()):
                     self.smoke_finish(False)
                     return
@@ -1299,7 +1300,7 @@ def main():
                 self.brain_panel.send('reset')
                 self.smoke_stage = 45
             elif self.smoke_stage == 45 and t['sim_time'] == 0:
-                if (t['graded_relays']['enabled'] or t['graded_relays']['histamine_affected_cells']
+                if (t['graded_relays']['enabled'] or t['graded_relays']['inhibition_affected_cells']
                         or self.brain_panel.graded.isChecked() or not self.brain_panel.graded.isEnabled()):
                     self.smoke_finish(False)
                     return

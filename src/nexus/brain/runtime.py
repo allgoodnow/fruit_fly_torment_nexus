@@ -38,7 +38,8 @@ def weights_filename(manifest):
 def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
              output_gain, inhibition_gain, queue, queue_size, counts, step, inputs, input_events,
              trace_ids, background_enabled, background, graded_enabled, graded_mask,
-             graded_indices, histamine_sources, histamine_g, graded_queue):
+             graded_indices, histamine_sources, histamine_g, graded_queue,
+             bounded_synapses, excitation_g):
     steps = len(input_events)
     trace = np.empty((steps, len(trace_ids)), dtype=np.float64)
     # Output bounded by one chunk, not total lifetime.
@@ -56,7 +57,15 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
         for i in range(len(v)):
             enabled[i] = tick - last_spike[i] >= refractory[i]
             if enabled[i]:
-                if graded_enabled and graded_mask[i]:
+                if bounded_synapses:
+                    # All synaptic input in this experimental variant is conductance based.
+                    h, e = histamine_g[i], excitation_g[i]
+                    total = 1.0 + h + e
+                    equilibrium = (-52.0 - 70.0 * h) / total
+                    v[i] = equilibrium + (v[i] - equilibrium) * math.exp(-DT_MS * total / 20.0)
+                    histamine_g[i] *= eg
+                    excitation_g[i] *= eg
+                elif graded_enabled and graded_mask[i]:
                     # Frozen conductance over this 0.1 ms integration interval.
                     h = histamine_g[i]
                     equilibrium = (-52.0 + g[i] - 70.0 * h) / (1.0 + h)
@@ -91,7 +100,12 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
                         weight = weights[edge]
                         if weight < 0:
                             weight *= inhibition_gain
-                        if graded_enabled and graded_mask[post] and histamine_sources[pre] and weight < 0:
+                        if bounded_synapses:
+                            if weight < 0:
+                                histamine_g[post] += -weight * gain / 18.0
+                            else:
+                                excitation_g[post] += weight * gain / 52.0
+                        elif graded_enabled and graded_mask[post] and histamine_sources[pre] and weight < 0:
                             # Match the old current scale at -52 mV; E_Cl=-70 mV is unfitted.
                             histamine_g[post] += -weight * gain / 18.0
                         else:
@@ -112,7 +126,13 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
                             weight = weights[edge]
                             if weight < 0:
                                 weight *= inhibition_gain
-                            g[post] += weight * gain * release
+                            if bounded_synapses:
+                                if weight < 0:
+                                    histamine_g[post] += -weight * gain * release / 18.0
+                                else:
+                                    excitation_g[post] += weight * gain * release / 52.0
+                            else:
+                                g[post] += weight * gain * release
                 if tick % 10 == 0:
                     # 20 equivalent events/s at rest, 0..40 range over -57..-47 mV.
                     graded_queue[future, j] = .02 * min(2.0, max(0.0, 1.0 + (v[pre] + 52.0) / 5.0))
@@ -125,6 +145,9 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
             i = queue[future, j]
             v[i] = -52.0
             g[i] = 0.0
+            if bounded_synapses:
+                histamine_g[i] = 0.0
+                excitation_g[i] = 0.0
         for j in range(len(trace_ids)):
             trace[local, j] = v[trace_ids[j]]
     size = min(recorded, capacity)
@@ -240,6 +263,7 @@ class Brain:
         self.graded_mask = np.zeros(n, dtype=np.bool_)
         self.histamine_sources = np.zeros(n, dtype=np.bool_)
         self.histamine_g = np.zeros(n, dtype=np.float64)
+        self.excitation_g = np.zeros(n, dtype=np.float64)
         self.graded_indices = np.array([], dtype=np.int32)
         self.graded_queue = np.zeros((DELAY_STEPS + 1, 0), dtype=np.float64)
         self.inputs = np.array([], dtype=np.int32)
@@ -342,16 +366,22 @@ class Brain:
             self.histamine_sources[eyes] = True
             self.graded_queue = np.zeros((DELAY_STEPS + 1, len(indices)), dtype=np.float64)
         self.graded_enabled = enabled
+        self.bounded_synapses = enabled and (self.graph.circuits or {}).get('graded_relays', {}).get('synapse_model') == 'conductance-v1'
         self.events.append({'kind': 'graded_relays', 'time': self.time, 'enabled': enabled})
 
     def graded_snapshot(self):
         return {'enabled': self.graded_enabled,
                 'available': 'graded_relays' in (self.graph.circuits or {}),
-                'model': 'L1-L2-graded-release-v1', 'cells': len(self.graded_indices),
+                'model': ('lamina-medulla-graded-release-v2'
+                          if (self.graph.circuits or {}).get('graded_relays', {}).get('format') == 'nexus-graded-relays-2'
+                          else 'L1-L2-graded-release-v1'), 'cells': len(self.graded_indices),
                 'relay_spikes': int(self.counts[self.graded_indices].sum()),
                 'mean_release_equivalent_hz': (float(np.clip(1. + (self.v[self.graded_indices] + 52.) / 5., 0., 2.).mean() * 20.)
                                                if self.graded_enabled else 0.),
-                'histamine_affected_cells': int(np.count_nonzero(self.histamine_g)),
+                'inhibition_affected_cells': int(np.count_nonzero(self.histamine_g[self.graded_indices])),
+                'bounded_synapses': self.bounded_synapses,
+                'synapse_scope': 'whole network' if self.bounded_synapses else 'R1-R6 to L1/L2 only',
+                'excitation_reversal_mv': 0. if self.bounded_synapses else None,
                 'release_equivalent_hz_at_rest': 20., 'release_sample_ms': 1.,
                 'histamine_reversal_mv': -70., 'parameters_fitted': False}
 
@@ -572,7 +602,9 @@ class Brain:
     def reset(self):
         self.background_enabled = False
         self.graded_enabled = False
+        self.bounded_synapses = False
         self.histamine_g.fill(0)
+        self.excitation_g.fill(0)
         self.graded_queue.fill(0)
         self.step = 0
         self.v.fill(-52)
@@ -640,7 +672,7 @@ class Brain:
                           self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
                           self.step, self.inputs, events, traces, self.background_enabled, self.background,
                           self.graded_enabled, self.graded_mask, self.graded_indices, self.histamine_sources,
-                          self.histamine_g, self.graded_queue)
+                          self.histamine_g, self.graded_queue, self.bounded_synapses, self.excitation_g)
         self.step += steps
         if self.looming_input:
             if self.step >= self.looming_input.end:
@@ -653,6 +685,8 @@ class Brain:
         if (not np.isfinite(self.v).all() or not np.isfinite(self.g).all()
                 or (self.graded_enabled and not np.isfinite(self.histamine_g).all())):
             raise RuntimeError("Non-finite neural state")
+        if self.bounded_synapses and not np.isfinite(self.excitation_g).all():
+            raise RuntimeError('Non-finite excitatory conductance')
         self.history.extend(zip(result[1].tolist(), result[0].tolist()))
         # Count every spike before raster truncation. Keep complete time bins,
         # even across protocol boundaries and arbitrarily sized advance calls.

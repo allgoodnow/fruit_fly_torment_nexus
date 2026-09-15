@@ -114,7 +114,7 @@ class BrainPanel(QWidget):
         self.background.toggled.connect(lambda value: self.send('relay_background', value))
         controls.addWidget(self.background)
         self.graded = QCheckBox('Graded visual relays (exp.)')
-        self.graded.setToolTip('Select after Reset, before running. L1/L2 send voltage-dependent output without spikes. Unfitted release and reversal parameters. Release stops inputs but keeps this model; Reset clears it. See Guide.')
+        self.graded.setToolTip('Select after Reset, before running. Audited visual cells send graded output. The extended pack also uses whole-network conductance synapses. Parameters are unfitted. Release keeps this model; Reset clears it. See Guide.')
         self.graded.setVisible(self.config.experimental)
         self.graded.toggled.connect(lambda value: self.send('graded_relays', value))
         controls.addWidget(self.graded)

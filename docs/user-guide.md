@@ -489,6 +489,11 @@ leaves the separately selected baseline enabled until Release or deselection.
 
 #### Experimental graded visual relays
 
+The current extended pack adds Mi1/Tm3/Tm1/Tm2 and whole-network conductance
+synapses, as described below under **Extended medulla transmission**. The L1/L2
+mechanism and v1 results in this section describe the earlier model, which remains
+available with `python scripts/install_graded_relays.py --lamina-only`.
+
 **Graded visual relays (exp.)** in the Brain tab is an alternative to the tonic
 relay-baseline experiment. Select **Reset body + brain**, enable the graded mode,
 then load/enable visual input and run. The two experiments cannot be combined.
@@ -546,7 +551,8 @@ monitor does not report an inputs-off recovery while this baseline mode remains 
 This is visual-circuit resting release, not whole-brain spontaneous activity.
 
 With the app closed, run `python scripts/install_graded_relays.py` to update an
-existing local MaleCNS pack. It verifies annotations against the pack's source
+existing local MaleCNS pack to the extended model described below. Add
+`--lamina-only` for the earlier L1/L2 version. It verifies annotations against the pack's source
 checksum, validates the new registry and selects it atomically. The checkbox stays
 unavailable with older packs. Fresh preparation includes the cohort automatically.
 
@@ -557,6 +563,61 @@ spikes alongside downstream voltage and spike-count changes. These checks establ
 transmission in the implementation, not scene recognition, calibrated ON/OFF
 processing, central-brain recruitment or autonomous walking. Most downstream cells
 still use the generic spiking model, and their graded dynamics remain unmodeled.
+
+#### Extended medulla transmission
+
+The extended graded mode uses the same checkbox and reset-before-selection flow.
+It adds exact Mi1, Tm3, Tm1 and Tm2 cells to the non-spiking relay set. These types
+carry graded visual signals in [Yang et al. (2016)](https://doi.org/10.1016/j.cell.2016.05.031).
+That supports the type selection, **not the shared numerical release curve** used
+here. Type-specific time constants, nonlinearities, spatial compartments and
+calcium dynamics have not been fitted or reconstructed.
+
+The additional cohorts contain 1,773 Mi1, 2,054 Tm3, 1,777 Tm1 and 1,766 Tm2 cells,
+for **10,925 graded cells including L1/L2**. Selection again requires the exact
+type, matching left/right instance and ol_intrinsic superclass. The audit is
+`experiments/graded-relay-evidence-v2.json`. All these cells use the existing
+0–40 equivalent-events/s bounded release function; their analog output is not
+counted as spikes. No new light input is applied directly to medulla or central
+cells, and scanned connections and weights are unchanged.
+
+Simply extending the older current-based model produced voltages below −200 mV
+in an initial check. The extended mode therefore also changes **all network
+synapses to conductance-based input while enabled**, including ordinary spiking
+connections. This is a material experimental model change, not just a new cohort.
+Positive weights add `weight × output_gain / 52` to excitatory conductance `e`;
+negative weights add `−weight × output_gain × inhibition_gain / 18` to inhibitory
+conductance `h`. Graded packets multiply these increments by `release_rate × 0.001`.
+The divisors match the old current scale at the −52 mV resting voltage.
+
+The membrane equation becomes
+`20 ms × dV/dt = −52 − V + e × (0 − V) + h × (−70 − V)`.
+Both conductances decay with a 5 ms time constant. Each 0.1 ms voltage update
+analytically approaches the conductance-weighted equilibrium, holding conductances
+constant for that step. Synaptic-only voltage dynamics therefore stay between
+−70 and 0 mV when starting in that interval, without a hard clipping operation.
+Spiking cells retain their threshold, reset, delay, and refractory behavior; their
+conductances clear on spike reset as the old current did. Direct externally imposed
+input pulses remain voltage jumps and can exceed this passive interval.
+
+The −70/0 mV reversal potentials, common decay time, release strengths and shared
+transmitter signs are **unfitted assumptions**. In particular, this does not
+establish that every inhibitory transmitter in every cell has the same reversal.
+The original current model and the earlier lamina-only graded mode retain their
+previous behavior. Turning the checkbox off requires Reset after time has advanced.
+As before, Release removes imposed inputs but retains the selected model and its
+ongoing graded release; Reset clears all conductances and disables it.
+
+`python scripts/probe_medulla_relays.py --output-dir new-results-folder` runs dark
+and dark/gray/dark videos across three seeds, with matched medulla-output blockade,
+photoreceptor-output blockade and all-relay-output blockade. It compares the same
+300–600 ms window in both videos, checks passive voltage bounds, zero graded-cell
+spikes, shared body/brain timing and release at video end. Results are stored in
+`experiments/medulla-relays-v1-results.json`. Photoreceptor blockade checks whether
+the video effect travels through its neural inputs; medulla blockade tests the
+added stage's contribution. Central or descending responses in this assay establish
+propagation within this implementation, **not recognition, calibrated motion
+selectivity, real-world behavior or subjective experience**.
 
 Different demonstrations can visualize different signals and representations.
 For example, [Flyvis](https://turagalab.github.io/flyvis/) implements a trained
