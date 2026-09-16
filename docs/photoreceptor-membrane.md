@@ -117,9 +117,12 @@ or body. It supports short offline experiments, not a real-time performance clai
 ## What this does not establish
 
 The authors' complete light-response model also includes photon absorption and
-stochastic biochemical events within microvilli. Those components are not
-implemented here. The membrane and channel-current feedback alone do not
-reproduce the full phototransduction/adaptation model.
+stochastic biochemical events within microvilli. A separate
+[offline photon-to-voltage component](phototransduction.md) now implements the
+source's reaction network with an explicitly different event scheduler. It has
+not been validated as a reproduction of the complete published simulator.
+The membrane and channel-current feedback alone do not reproduce the full
+phototransduction/adaptation model.
 
 An MP4 supplies pixel values, not measured photon flux or current. Connecting
 this subsystem to video requires an explicit optical/light-to-current model.

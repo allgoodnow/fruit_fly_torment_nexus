@@ -40,7 +40,7 @@ def expression(text):
         if not isinstance(node, allowed):
             raise ValueError('Unsupported source expression')
         if isinstance(node, ast.Call) and (not isinstance(node.func, ast.Name)
-                or node.func.id not in ('exp', 'sqrt', 'max', 'y', 'param')):
+                or node.func.id not in ('exp', 'sqrt', 'log', 'max', 'y', 'z', 'para', 'param')):
             raise ValueError('Unsupported source call')
     return compile(tree, '<pinned MATLAB expression>', 'eval')
 
