@@ -56,9 +56,12 @@ Fast calcium is refreshed once per event preparation, including preparation
 after photon arrival; it is not continuously integrated or solved to a fixed
 point. Because its update is mixed with stochastic reactions, this is not
 claimed to be an exact Gillespie solution of a fully specified continuous
-biochemical system. Timing and population response distributions still need
-comparison with the original simulator and physiological data before this
-variant can be treated as calibrated.
+biochemical system. A direct timing comparison against the original cascade
+running in GNU Octave found substantially larger integrated channel responses
+in this variant, plus a reproducible duplicate-input defect in the upstream
+loop. See the [timing audit](phototransduction-timing-audit.md). The variant is
+not a calibrated reproduction; population responses and physiological accuracy
+remain unvalidated.
 
 The event generator is NumPy's seeded default generator, not MATLAB's original
 MT19937 stream. Random draws, molecular state, pending events and membrane

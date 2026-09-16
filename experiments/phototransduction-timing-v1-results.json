@@ -1,0 +1,5159 @@
+{
+  "format": "nexus-phototransduction-timing-audit-2",
+  "execution_success": true,
+  "source_commit": "a4453f7e47abf2ea2a924c376d4c1c157c6011e2",
+  "source_sha256": {
+    "Initial_PR_Goodaa1new.m": "0977e2a54feedea0b9c50130bdeae8c5a63dba06b7b66a9a44045ea88924f892",
+    "RandomBumpModel_GillespieD_Continue_TRPLa.m": "4bdfda06813c992a24a2c2d6d9b150fb0ca7b6d526b745abc9bc8bbd9eafb987",
+    "TRP_Rev_GHK_online.m": "72445ed44e095572dc14e3c2a56981f49696972b259ceaa311055b1d721547cf",
+    "Gillespie_sim_b2p3_Skew_speed205.m": "39bc3d350f415be3ac13b955bc97c3622eb4dcd3f90a4ac74d1d6b3e51ca6e9b",
+    "NaCaPump.m": "b69814e82750c96f4f9d1b3098bb341263b2a0b6cdf20449e10f7d683080a223"
+  },
+  "octave_version": "10.3.0",
+  "python_model": "source-reaction-network-continuous-events-v1",
+  "repeats_per_condition_per_model": 32,
+  "duration_ms": 300,
+  "arrival_times_ms": {
+    "dark": [],
+    "single": [
+      20
+    ],
+    "paired_20ms": [
+      20,
+      40
+    ],
+    "paired_100ms": [
+      20,
+      120
+    ]
+  },
+  "wall_seconds": 91.36356069899995,
+  "comparison_grid_ms": [
+    1,
+    299,
+    1
+  ],
+  "source_input_anomalies": [
+    {
+      "condition": "single",
+      "seed_label": 77121,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 33.0,
+        "sampled_latency_ms": 13.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": true
+    }
+  ],
+  "groups": {
+    "dark": {
+      "upstream_octave": {
+        "trials": 32,
+        "responded": 0,
+        "peak_open_channels": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "sampled_latency_ms": null
+      },
+      "python_continuous": {
+        "trials": 32,
+        "responded": 0,
+        "peak_open_channels": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "sampled_latency_ms": null
+      }
+    },
+    "single": {
+      "upstream_octave": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 9.34375,
+          "median": 9.0,
+          "q25": 7.75,
+          "q75": 11.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 26.28125,
+          "median": 27.0,
+          "q25": 23.0,
+          "q75": 29.25
+        },
+        "sampled_latency_ms": {
+          "mean": 17.6875,
+          "median": 18.0,
+          "q25": 12.75,
+          "q75": 21.25
+        }
+      },
+      "python_continuous": {
+        "trials": 32,
+        "responded": 31,
+        "peak_open_channels": {
+          "mean": 10.46875,
+          "median": 11.0,
+          "q25": 8.0,
+          "q75": 14.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 47.28125,
+          "median": 49.5,
+          "q25": 44.75,
+          "q75": 53.25
+        },
+        "sampled_latency_ms": {
+          "mean": 15.451612903225806,
+          "median": 16.0,
+          "q25": 12.5,
+          "q75": 18.5
+        }
+      }
+    },
+    "paired_20ms": {
+      "upstream_octave": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 9.40625,
+          "median": 9.0,
+          "q25": 7.0,
+          "q75": 11.25
+        },
+        "channel_area_channel_ms": {
+          "mean": 24.84375,
+          "median": 25.0,
+          "q25": 20.75,
+          "q75": 29.0
+        },
+        "sampled_latency_ms": {
+          "mean": 17.65625,
+          "median": 18.0,
+          "q25": 12.75,
+          "q75": 21.25
+        }
+      },
+      "python_continuous": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 12.0625,
+          "median": 12.5,
+          "q25": 9.75,
+          "q75": 14.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 50.0,
+          "median": 49.5,
+          "q25": 47.0,
+          "q75": 55.0
+        },
+        "sampled_latency_ms": {
+          "mean": 16.15625,
+          "median": 16.0,
+          "q25": 12.75,
+          "q75": 19.0
+        }
+      }
+    },
+    "paired_100ms": {
+      "upstream_octave": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 9.34375,
+          "median": 9.0,
+          "q25": 7.75,
+          "q75": 11.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 26.28125,
+          "median": 27.0,
+          "q25": 23.0,
+          "q75": 29.25
+        },
+        "sampled_latency_ms": {
+          "mean": 17.6875,
+          "median": 18.0,
+          "q25": 12.75,
+          "q75": 21.25
+        }
+      },
+      "python_continuous": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 10.9375,
+          "median": 11.5,
+          "q25": 8.0,
+          "q75": 14.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 48.9375,
+          "median": 49.5,
+          "q25": 46.0,
+          "q75": 53.25
+        },
+        "sampled_latency_ms": {
+          "mean": 18.53125,
+          "median": 16.0,
+          "q25": 12.75,
+          "q75": 19.0
+        }
+      }
+    }
+  },
+  "trials": [
+    {
+      "condition": "dark",
+      "seed_label": 77100,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77100,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77101,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77101,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77102,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77102,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77103,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77103,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77104,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77104,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77105,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77105,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77106,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77106,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77107,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77107,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77108,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77108,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77109,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77109,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77110,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77110,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77111,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77111,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77112,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77112,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77113,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77113,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77114,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77114,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77115,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77115,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77116,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77116,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77117,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77117,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77118,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77118,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77119,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77119,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77120,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77120,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77121,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77121,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77122,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77122,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77123,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77123,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77124,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77124,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77125,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77125,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77126,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77126,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77127,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77127,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77128,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77128,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77129,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77129,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77130,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77130,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77131,
+      "model": "upstream_octave",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 0.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "dark",
+      "seed_label": 77131,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77100,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 15.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77100,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 57.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 54.6,
+        "first_response_sample_ms": 32.4,
+        "sampled_latency_ms": 12.399999999999999
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77101,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 27.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 27.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77101,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 53.0,
+      "first_response_sample_ms": 28.0,
+      "sampled_latency_ms": 8.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 53.6,
+        "first_response_sample_ms": 27.6,
+        "sampled_latency_ms": 7.600000000000001
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77102,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 35.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 35.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77102,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 53.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 48.7,
+        "first_response_sample_ms": 34.7,
+        "sampled_latency_ms": 14.700000000000003
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77103,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 27.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 27.0,
+        "first_response_sample_ms": 35.0,
+        "sampled_latency_ms": 15.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77103,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 52.0,
+      "first_response_sample_ms": 34.0,
+      "sampled_latency_ms": 14.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 51.900000000000006,
+        "first_response_sample_ms": 33.800000000000004,
+        "sampled_latency_ms": 13.800000000000004
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77104,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77104,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 41.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 41.300000000000004,
+        "first_response_sample_ms": 38.5,
+        "sampled_latency_ms": 18.5
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77105,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77105,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 48.7,
+        "first_response_sample_ms": 28.400000000000002,
+        "sampled_latency_ms": 8.400000000000002
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77106,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 25.0,
+      "first_response_sample_ms": 41.0,
+      "sampled_latency_ms": 21.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 25.0,
+        "first_response_sample_ms": 41.0,
+        "sampled_latency_ms": 21.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77106,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 6.0,
+      "channel_area_channel_ms": 41.0,
+      "first_response_sample_ms": 47.0,
+      "sampled_latency_ms": 27.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 6.0,
+        "channel_area_channel_ms": 43.0,
+        "first_response_sample_ms": 46.1,
+        "sampled_latency_ms": 26.1
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77107,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 33.0,
+      "first_response_sample_ms": 44.0,
+      "sampled_latency_ms": 24.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 33.0,
+        "first_response_sample_ms": 44.0,
+        "sampled_latency_ms": 24.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77107,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 43.0,
+      "sampled_latency_ms": 23.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 49.6,
+        "first_response_sample_ms": 43.0,
+        "sampled_latency_ms": 23.0
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77108,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 36.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 36.0,
+        "first_response_sample_ms": 39.0,
+        "sampled_latency_ms": 19.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77108,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 50.0,
+      "first_response_sample_ms": 45.0,
+      "sampled_latency_ms": 25.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 49.400000000000006,
+        "first_response_sample_ms": 44.2,
+        "sampled_latency_ms": 24.200000000000003
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77109,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 27.0,
+        "sampled_latency_ms": 7.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77109,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 16.0,
+      "channel_area_channel_ms": 54.0,
+      "first_response_sample_ms": 28.0,
+      "sampled_latency_ms": 8.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 55.6,
+        "first_response_sample_ms": 27.3,
+        "sampled_latency_ms": 7.300000000000001
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77110,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 21.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 21.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77110,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 17.0,
+      "channel_area_channel_ms": 59.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 21.0,
+        "channel_area_channel_ms": 59.300000000000004,
+        "first_response_sample_ms": 38.900000000000006,
+        "sampled_latency_ms": 18.900000000000006
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77111,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 17.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 17.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77111,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 5.0,
+      "channel_area_channel_ms": 33.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 6.0,
+        "channel_area_channel_ms": 31.5,
+        "first_response_sample_ms": 39.900000000000006,
+        "sampled_latency_ms": 19.900000000000006
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77112,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 16.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 16.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77112,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 54.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 16.0,
+        "channel_area_channel_ms": 52.7,
+        "first_response_sample_ms": 38.0,
+        "sampled_latency_ms": 18.0
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77113,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 30.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 30.0,
+        "first_response_sample_ms": 33.0,
+        "sampled_latency_ms": 13.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77113,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 54.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 54.7,
+        "first_response_sample_ms": 32.1,
+        "sampled_latency_ms": 12.100000000000001
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77114,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77114,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 51.0,
+      "first_response_sample_ms": 34.0,
+      "sampled_latency_ms": 14.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 49.5,
+        "first_response_sample_ms": 33.300000000000004,
+        "sampled_latency_ms": 13.300000000000004
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77115,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 29.0,
+        "sampled_latency_ms": 9.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77115,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 41.0,
+      "sampled_latency_ms": 21.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 47.400000000000006,
+        "first_response_sample_ms": 40.400000000000006,
+        "sampled_latency_ms": 20.400000000000006
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77116,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77116,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 60.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 58.900000000000006,
+        "first_response_sample_ms": 37.0,
+        "sampled_latency_ms": 17.0
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77117,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 37.0,
+        "sampled_latency_ms": 17.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77117,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 48.6,
+        "first_response_sample_ms": 31.700000000000003,
+        "sampled_latency_ms": 11.700000000000003
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77118,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 13.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77118,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 16.0,
+      "channel_area_channel_ms": 52.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 16.0,
+        "channel_area_channel_ms": 53.6,
+        "first_response_sample_ms": 38.300000000000004,
+        "sampled_latency_ms": 18.300000000000004
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77119,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 30.0,
+      "first_response_sample_ms": 54.0,
+      "sampled_latency_ms": 34.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 30.0,
+        "first_response_sample_ms": 54.0,
+        "sampled_latency_ms": 34.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77119,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 46.300000000000004,
+        "first_response_sample_ms": 26.5,
+        "sampled_latency_ms": 6.5
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77120,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 49.0,
+      "sampled_latency_ms": 29.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 49.0,
+        "sampled_latency_ms": 29.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77120,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 6.0,
+      "channel_area_channel_ms": 41.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 40.6,
+        "first_response_sample_ms": 28.200000000000003,
+        "sampled_latency_ms": 8.200000000000003
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77121,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 33.0,
+        "sampled_latency_ms": 13.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": true
+    },
+    {
+      "condition": "single",
+      "seed_label": 77121,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 16.0,
+      "channel_area_channel_ms": 57.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 56.800000000000004,
+        "first_response_sample_ms": 35.9,
+        "sampled_latency_ms": 15.899999999999999
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77122,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77122,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 62.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 64.10000000000001,
+        "first_response_sample_ms": 37.2,
+        "sampled_latency_ms": 17.200000000000003
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77123,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 27.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 27.0,
+        "first_response_sample_ms": 39.0,
+        "sampled_latency_ms": 19.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77123,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 50.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 48.6,
+        "first_response_sample_ms": 36.7,
+        "sampled_latency_ms": 16.700000000000003
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77124,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 43.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 43.0,
+        "first_response_sample_ms": 30.0,
+        "sampled_latency_ms": 10.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77124,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 1.0,
+      "channel_area_channel_ms": 34.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 1.0,
+        "channel_area_channel_ms": 34.7,
+        "first_response_sample_ms": 34.300000000000004,
+        "sampled_latency_ms": 14.300000000000004
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77125,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 32.0,
+      "first_response_sample_ms": 45.0,
+      "sampled_latency_ms": 25.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 32.0,
+        "first_response_sample_ms": 45.0,
+        "sampled_latency_ms": 25.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77125,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 46.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 46.1,
+        "first_response_sample_ms": 35.9,
+        "sampled_latency_ms": 15.899999999999999
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77126,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 20.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 20.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77126,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 49.1,
+        "first_response_sample_ms": 29.8,
+        "sampled_latency_ms": 9.8
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77127,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 19.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 19.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77127,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 51.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 50.5,
+        "first_response_sample_ms": 37.6,
+        "sampled_latency_ms": 17.6
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77128,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 14.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 14.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77128,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 4.0,
+      "channel_area_channel_ms": 37.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 4.0,
+        "channel_area_channel_ms": 38.5,
+        "first_response_sample_ms": 28.5,
+        "sampled_latency_ms": 8.5
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77129,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 27.0,
+        "sampled_latency_ms": 7.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77129,
+      "model": "python_continuous",
+      "responded": false,
+      "peak_open_channels": 0.0,
+      "channel_area_channel_ms": 0.0,
+      "first_response_sample_ms": null,
+      "sampled_latency_ms": null,
+      "native_grid": {
+        "responded": false,
+        "peak_open_channels": 0.0,
+        "channel_area_channel_ms": 0.0,
+        "first_response_sample_ms": null,
+        "sampled_latency_ms": null
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77130,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 6.0,
+      "channel_area_channel_ms": 17.0,
+      "first_response_sample_ms": 48.0,
+      "sampled_latency_ms": 28.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 6.0,
+        "channel_area_channel_ms": 17.0,
+        "first_response_sample_ms": 48.0,
+        "sampled_latency_ms": 28.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77130,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 5.0,
+      "channel_area_channel_ms": 37.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 37.300000000000004,
+        "first_response_sample_ms": 36.2,
+        "sampled_latency_ms": 16.200000000000003
+      }
+    },
+    {
+      "condition": "single",
+      "seed_label": 77131,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 32.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 32.0,
+        "first_response_sample_ms": 30.0,
+        "sampled_latency_ms": 10.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "single",
+      "seed_label": 77131,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 46.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 48.900000000000006,
+        "first_response_sample_ms": 32.300000000000004,
+        "sampled_latency_ms": 12.300000000000004
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77100,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 15.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77100,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 57.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 55.2,
+        "first_response_sample_ms": 32.4,
+        "sampled_latency_ms": 12.399999999999999
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77101,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 18.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 18.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77101,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 50.0,
+      "first_response_sample_ms": 28.0,
+      "sampled_latency_ms": 8.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 50.1,
+        "first_response_sample_ms": 27.6,
+        "sampled_latency_ms": 7.600000000000001
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77102,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 27.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 27.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77102,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 50.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 50.300000000000004,
+        "first_response_sample_ms": 34.7,
+        "sampled_latency_ms": 14.700000000000003
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77103,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 31.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 31.0,
+        "first_response_sample_ms": 35.0,
+        "sampled_latency_ms": 15.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77103,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 34.0,
+      "sampled_latency_ms": 14.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 49.800000000000004,
+        "first_response_sample_ms": 33.800000000000004,
+        "sampled_latency_ms": 13.800000000000004
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77104,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77104,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 40.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 40.6,
+        "first_response_sample_ms": 38.5,
+        "sampled_latency_ms": 18.5
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77105,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77105,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 48.7,
+        "first_response_sample_ms": 28.400000000000002,
+        "sampled_latency_ms": 8.400000000000002
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77106,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 21.0,
+      "first_response_sample_ms": 41.0,
+      "sampled_latency_ms": 21.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 21.0,
+        "first_response_sample_ms": 41.0,
+        "sampled_latency_ms": 21.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77106,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 23.0,
+      "channel_area_channel_ms": 71.0,
+      "first_response_sample_ms": 51.0,
+      "sampled_latency_ms": 31.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 23.0,
+        "channel_area_channel_ms": 66.4,
+        "first_response_sample_ms": 50.900000000000006,
+        "sampled_latency_ms": 30.900000000000006
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77107,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 20.0,
+      "first_response_sample_ms": 43.0,
+      "sampled_latency_ms": 23.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 20.0,
+        "first_response_sample_ms": 43.0,
+        "sampled_latency_ms": 23.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77107,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 57.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 58.2,
+        "first_response_sample_ms": 41.1,
+        "sampled_latency_ms": 21.1
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77108,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 34.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 34.0,
+        "first_response_sample_ms": 39.0,
+        "sampled_latency_ms": 19.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77108,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 18.0,
+      "channel_area_channel_ms": 55.0,
+      "first_response_sample_ms": 46.0,
+      "sampled_latency_ms": 26.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 21.0,
+        "channel_area_channel_ms": 55.800000000000004,
+        "first_response_sample_ms": 46.0,
+        "sampled_latency_ms": 26.0
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77109,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 27.0,
+        "sampled_latency_ms": 7.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77109,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 16.0,
+      "channel_area_channel_ms": 54.0,
+      "first_response_sample_ms": 28.0,
+      "sampled_latency_ms": 8.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 54.7,
+        "first_response_sample_ms": 27.3,
+        "sampled_latency_ms": 7.300000000000001
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77110,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 25.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 13.0,
+        "channel_area_channel_ms": 25.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77110,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 18.0,
+      "channel_area_channel_ms": 59.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 21.0,
+        "channel_area_channel_ms": 59.300000000000004,
+        "first_response_sample_ms": 38.900000000000006,
+        "sampled_latency_ms": 18.900000000000006
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77111,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 17.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 17.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77111,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 38.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 35.6,
+        "first_response_sample_ms": 39.900000000000006,
+        "sampled_latency_ms": 19.900000000000006
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77112,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 18.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 18.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77112,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 55.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 55.300000000000004,
+        "first_response_sample_ms": 38.0,
+        "sampled_latency_ms": 18.0
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77113,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 13.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 33.0,
+        "sampled_latency_ms": 13.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77113,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 53.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 53.900000000000006,
+        "first_response_sample_ms": 32.1,
+        "sampled_latency_ms": 12.100000000000001
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77114,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 25.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 25.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77114,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 34.0,
+      "sampled_latency_ms": 14.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 49.1,
+        "first_response_sample_ms": 33.300000000000004,
+        "sampled_latency_ms": 13.300000000000004
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77115,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 29.0,
+        "sampled_latency_ms": 9.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77115,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 41.0,
+      "sampled_latency_ms": 21.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 47.2,
+        "first_response_sample_ms": 40.300000000000004,
+        "sampled_latency_ms": 20.300000000000004
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77116,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77116,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 60.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 58.1,
+        "first_response_sample_ms": 37.0,
+        "sampled_latency_ms": 17.0
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77117,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 30.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 30.0,
+        "first_response_sample_ms": 37.0,
+        "sampled_latency_ms": 17.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77117,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 48.300000000000004,
+        "first_response_sample_ms": 31.700000000000003,
+        "sampled_latency_ms": 11.700000000000003
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77118,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 13.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77118,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 17.0,
+      "channel_area_channel_ms": 53.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 54.900000000000006,
+        "first_response_sample_ms": 38.300000000000004,
+        "sampled_latency_ms": 18.300000000000004
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77119,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 21.0,
+      "first_response_sample_ms": 48.0,
+      "sampled_latency_ms": 28.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 21.0,
+        "first_response_sample_ms": 48.0,
+        "sampled_latency_ms": 28.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77119,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 46.300000000000004,
+        "first_response_sample_ms": 26.5,
+        "sampled_latency_ms": 6.5
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77120,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 19.0,
+      "first_response_sample_ms": 52.0,
+      "sampled_latency_ms": 32.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 19.0,
+        "first_response_sample_ms": 52.0,
+        "sampled_latency_ms": 32.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77120,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 44.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 45.300000000000004,
+        "first_response_sample_ms": 28.200000000000003,
+        "sampled_latency_ms": 8.200000000000003
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77121,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 33.0,
+        "sampled_latency_ms": 13.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77121,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 17.0,
+      "channel_area_channel_ms": 60.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 19.0,
+        "channel_area_channel_ms": 59.7,
+        "first_response_sample_ms": 35.9,
+        "sampled_latency_ms": 15.899999999999999
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77122,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 25.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 25.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77122,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 56.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 16.0,
+        "channel_area_channel_ms": 60.7,
+        "first_response_sample_ms": 37.2,
+        "sampled_latency_ms": 17.200000000000003
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77123,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 25.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 25.0,
+        "first_response_sample_ms": 39.0,
+        "sampled_latency_ms": 19.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77123,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 50.900000000000006,
+        "first_response_sample_ms": 36.7,
+        "sampled_latency_ms": 16.700000000000003
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77124,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 47.0,
+        "first_response_sample_ms": 30.0,
+        "sampled_latency_ms": 10.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77124,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 1.0,
+      "channel_area_channel_ms": 20.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 1.0,
+        "channel_area_channel_ms": 20.5,
+        "first_response_sample_ms": 34.300000000000004,
+        "sampled_latency_ms": 14.300000000000004
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77125,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 48.0,
+      "sampled_latency_ms": 28.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 48.0,
+        "sampled_latency_ms": 28.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77125,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 55.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 53.900000000000006,
+        "first_response_sample_ms": 35.9,
+        "sampled_latency_ms": 15.899999999999999
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77126,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 22.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 22.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77126,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 49.1,
+        "first_response_sample_ms": 29.8,
+        "sampled_latency_ms": 9.8
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77127,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 6.0,
+      "channel_area_channel_ms": 17.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 6.0,
+        "channel_area_channel_ms": 17.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77127,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 52.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 49.1,
+        "first_response_sample_ms": 37.6,
+        "sampled_latency_ms": 17.6
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77128,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 5.0,
+      "channel_area_channel_ms": 8.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 5.0,
+        "channel_area_channel_ms": 8.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77128,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 4.0,
+      "channel_area_channel_ms": 37.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 4.0,
+        "channel_area_channel_ms": 37.9,
+        "first_response_sample_ms": 28.5,
+        "sampled_latency_ms": 8.5
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77129,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 27.0,
+        "sampled_latency_ms": 7.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77129,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 15.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 54.0,
+      "sampled_latency_ms": 34.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 16.0,
+        "channel_area_channel_ms": 47.6,
+        "first_response_sample_ms": 54.0,
+        "sampled_latency_ms": 34.0
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77130,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 16.0,
+      "first_response_sample_ms": 48.0,
+      "sampled_latency_ms": 28.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 16.0,
+        "first_response_sample_ms": 48.0,
+        "sampled_latency_ms": 28.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77130,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 46.6,
+        "first_response_sample_ms": 36.2,
+        "sampled_latency_ms": 16.200000000000003
+      }
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77131,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 32.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 32.0,
+        "first_response_sample_ms": 30.0,
+        "sampled_latency_ms": 10.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed_label": 77131,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 46.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 47.1,
+        "first_response_sample_ms": 32.300000000000004,
+        "sampled_latency_ms": 12.300000000000004
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77100,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 15.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77100,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 57.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 54.6,
+        "first_response_sample_ms": 32.4,
+        "sampled_latency_ms": 12.399999999999999
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77101,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 27.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 27.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77101,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 53.0,
+      "first_response_sample_ms": 28.0,
+      "sampled_latency_ms": 8.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 53.6,
+        "first_response_sample_ms": 27.6,
+        "sampled_latency_ms": 7.600000000000001
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77102,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 35.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 35.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77102,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 53.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 48.7,
+        "first_response_sample_ms": 34.7,
+        "sampled_latency_ms": 14.700000000000003
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77103,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 27.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 27.0,
+        "first_response_sample_ms": 35.0,
+        "sampled_latency_ms": 15.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77103,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 52.0,
+      "first_response_sample_ms": 34.0,
+      "sampled_latency_ms": 14.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 51.900000000000006,
+        "first_response_sample_ms": 33.800000000000004,
+        "sampled_latency_ms": 13.800000000000004
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77104,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77104,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 41.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 41.300000000000004,
+        "first_response_sample_ms": 38.5,
+        "sampled_latency_ms": 18.5
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77105,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77105,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 48.7,
+        "first_response_sample_ms": 28.400000000000002,
+        "sampled_latency_ms": 8.400000000000002
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77106,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 25.0,
+      "first_response_sample_ms": 41.0,
+      "sampled_latency_ms": 21.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 25.0,
+        "first_response_sample_ms": 41.0,
+        "sampled_latency_ms": 21.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77106,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 6.0,
+      "channel_area_channel_ms": 41.0,
+      "first_response_sample_ms": 47.0,
+      "sampled_latency_ms": 27.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 6.0,
+        "channel_area_channel_ms": 43.0,
+        "first_response_sample_ms": 46.1,
+        "sampled_latency_ms": 26.1
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77107,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 33.0,
+      "first_response_sample_ms": 44.0,
+      "sampled_latency_ms": 24.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 33.0,
+        "first_response_sample_ms": 44.0,
+        "sampled_latency_ms": 24.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77107,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 43.0,
+      "sampled_latency_ms": 23.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 49.6,
+        "first_response_sample_ms": 43.0,
+        "sampled_latency_ms": 23.0
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77108,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 36.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 36.0,
+        "first_response_sample_ms": 39.0,
+        "sampled_latency_ms": 19.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77108,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 50.0,
+      "first_response_sample_ms": 45.0,
+      "sampled_latency_ms": 25.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 49.400000000000006,
+        "first_response_sample_ms": 44.2,
+        "sampled_latency_ms": 24.200000000000003
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77109,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 29.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 29.0,
+        "first_response_sample_ms": 27.0,
+        "sampled_latency_ms": 7.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77109,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 16.0,
+      "channel_area_channel_ms": 54.0,
+      "first_response_sample_ms": 28.0,
+      "sampled_latency_ms": 8.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 55.6,
+        "first_response_sample_ms": 27.3,
+        "sampled_latency_ms": 7.300000000000001
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77110,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 21.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 21.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77110,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 17.0,
+      "channel_area_channel_ms": 59.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 21.0,
+        "channel_area_channel_ms": 59.300000000000004,
+        "first_response_sample_ms": 38.900000000000006,
+        "sampled_latency_ms": 18.900000000000006
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77111,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 17.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 17.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77111,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 5.0,
+      "channel_area_channel_ms": 33.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 6.0,
+        "channel_area_channel_ms": 31.5,
+        "first_response_sample_ms": 39.900000000000006,
+        "sampled_latency_ms": 19.900000000000006
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77112,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 16.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 16.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77112,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 54.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 16.0,
+        "channel_area_channel_ms": 52.7,
+        "first_response_sample_ms": 38.0,
+        "sampled_latency_ms": 18.0
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77113,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 30.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 30.0,
+        "first_response_sample_ms": 33.0,
+        "sampled_latency_ms": 13.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77113,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 54.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 54.7,
+        "first_response_sample_ms": 32.1,
+        "sampled_latency_ms": 12.100000000000001
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77114,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77114,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 51.0,
+      "first_response_sample_ms": 34.0,
+      "sampled_latency_ms": 14.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 49.5,
+        "first_response_sample_ms": 33.300000000000004,
+        "sampled_latency_ms": 13.300000000000004
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77115,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 29.0,
+        "sampled_latency_ms": 9.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77115,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 41.0,
+      "sampled_latency_ms": 21.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 47.400000000000006,
+        "first_response_sample_ms": 40.400000000000006,
+        "sampled_latency_ms": 20.400000000000006
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77116,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77116,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 60.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 58.900000000000006,
+        "first_response_sample_ms": 37.0,
+        "sampled_latency_ms": 17.0
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77117,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 37.0,
+        "sampled_latency_ms": 17.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77117,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 48.6,
+        "first_response_sample_ms": 31.700000000000003,
+        "sampled_latency_ms": 11.700000000000003
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77118,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 26.0,
+      "first_response_sample_ms": 32.0,
+      "sampled_latency_ms": 12.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 13.0,
+        "channel_area_channel_ms": 26.0,
+        "first_response_sample_ms": 32.0,
+        "sampled_latency_ms": 12.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77118,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 16.0,
+      "channel_area_channel_ms": 52.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 16.0,
+        "channel_area_channel_ms": 53.6,
+        "first_response_sample_ms": 38.300000000000004,
+        "sampled_latency_ms": 18.300000000000004
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77119,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 30.0,
+      "first_response_sample_ms": 54.0,
+      "sampled_latency_ms": 34.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 30.0,
+        "first_response_sample_ms": 54.0,
+        "sampled_latency_ms": 34.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77119,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 46.300000000000004,
+        "first_response_sample_ms": 26.5,
+        "sampled_latency_ms": 6.5
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77120,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 49.0,
+      "sampled_latency_ms": 29.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 12.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 49.0,
+        "sampled_latency_ms": 29.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77120,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 6.0,
+      "channel_area_channel_ms": 41.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 40.6,
+        "first_response_sample_ms": 28.200000000000003,
+        "sampled_latency_ms": 8.200000000000003
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77121,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 33.0,
+        "sampled_latency_ms": 13.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 2.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77121,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 16.0,
+      "channel_area_channel_ms": 57.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 56.800000000000004,
+        "first_response_sample_ms": 35.9,
+        "sampled_latency_ms": 15.899999999999999
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77122,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 28.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 28.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77122,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 13.0,
+      "channel_area_channel_ms": 62.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 17.0,
+        "channel_area_channel_ms": 64.10000000000001,
+        "first_response_sample_ms": 37.2,
+        "sampled_latency_ms": 17.200000000000003
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77123,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 27.0,
+      "first_response_sample_ms": 39.0,
+      "sampled_latency_ms": 19.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 27.0,
+        "first_response_sample_ms": 39.0,
+        "sampled_latency_ms": 19.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77123,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 50.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 48.6,
+        "first_response_sample_ms": 36.7,
+        "sampled_latency_ms": 16.700000000000003
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77124,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 43.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 43.0,
+        "first_response_sample_ms": 30.0,
+        "sampled_latency_ms": 10.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77124,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 1.0,
+      "channel_area_channel_ms": 34.0,
+      "first_response_sample_ms": 35.0,
+      "sampled_latency_ms": 15.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 1.0,
+        "channel_area_channel_ms": 34.7,
+        "first_response_sample_ms": 34.300000000000004,
+        "sampled_latency_ms": 14.300000000000004
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77125,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 7.0,
+      "channel_area_channel_ms": 32.0,
+      "first_response_sample_ms": 45.0,
+      "sampled_latency_ms": 25.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 32.0,
+        "first_response_sample_ms": 45.0,
+        "sampled_latency_ms": 25.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77125,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 46.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 46.1,
+        "first_response_sample_ms": 35.9,
+        "sampled_latency_ms": 15.899999999999999
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77126,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 20.0,
+      "first_response_sample_ms": 36.0,
+      "sampled_latency_ms": 16.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 8.0,
+        "channel_area_channel_ms": 20.0,
+        "first_response_sample_ms": 36.0,
+        "sampled_latency_ms": 16.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77126,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 8.0,
+      "channel_area_channel_ms": 49.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 49.1,
+        "first_response_sample_ms": 29.8,
+        "sampled_latency_ms": 9.8
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77127,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 19.0,
+      "first_response_sample_ms": 42.0,
+      "sampled_latency_ms": 22.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 19.0,
+        "first_response_sample_ms": 42.0,
+        "sampled_latency_ms": 22.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77127,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 14.0,
+      "channel_area_channel_ms": 51.0,
+      "first_response_sample_ms": 38.0,
+      "sampled_latency_ms": 18.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 15.0,
+        "channel_area_channel_ms": 50.5,
+        "first_response_sample_ms": 37.6,
+        "sampled_latency_ms": 17.6
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77128,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 11.0,
+      "channel_area_channel_ms": 14.0,
+      "first_response_sample_ms": 40.0,
+      "sampled_latency_ms": 20.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 11.0,
+        "channel_area_channel_ms": 14.0,
+        "first_response_sample_ms": 40.0,
+        "sampled_latency_ms": 20.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77128,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 4.0,
+      "channel_area_channel_ms": 43.0,
+      "first_response_sample_ms": 29.0,
+      "sampled_latency_ms": 9.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 4.0,
+        "channel_area_channel_ms": 44.800000000000004,
+        "first_response_sample_ms": 28.5,
+        "sampled_latency_ms": 8.5
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77129,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 10.0,
+      "channel_area_channel_ms": 23.0,
+      "first_response_sample_ms": 27.0,
+      "sampled_latency_ms": 7.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 10.0,
+        "channel_area_channel_ms": 23.0,
+        "first_response_sample_ms": 27.0,
+        "sampled_latency_ms": 7.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77129,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 15.0,
+      "channel_area_channel_ms": 47.0,
+      "first_response_sample_ms": 134.0,
+      "sampled_latency_ms": 114.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 16.0,
+        "channel_area_channel_ms": 47.6,
+        "first_response_sample_ms": 134.0,
+        "sampled_latency_ms": 114.0
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77130,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 6.0,
+      "channel_area_channel_ms": 17.0,
+      "first_response_sample_ms": 48.0,
+      "sampled_latency_ms": 28.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 6.0,
+        "channel_area_channel_ms": 17.0,
+        "first_response_sample_ms": 48.0,
+        "sampled_latency_ms": 28.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77130,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 5.0,
+      "channel_area_channel_ms": 37.0,
+      "first_response_sample_ms": 37.0,
+      "sampled_latency_ms": 17.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 7.0,
+        "channel_area_channel_ms": 37.300000000000004,
+        "first_response_sample_ms": 36.2,
+        "sampled_latency_ms": 16.200000000000003
+      }
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77131,
+      "model": "upstream_octave",
+      "responded": true,
+      "peak_open_channels": 9.0,
+      "channel_area_channel_ms": 32.0,
+      "first_response_sample_ms": 30.0,
+      "sampled_latency_ms": 10.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 9.0,
+        "channel_area_channel_ms": 32.0,
+        "first_response_sample_ms": 30.0,
+        "sampled_latency_ms": 10.0
+      },
+      "returned_rows": 300,
+      "maximum_active_rhodopsin": 1.0,
+      "rhodopsin_exceeds_supplied_photons": false
+    },
+    {
+      "condition": "paired_100ms",
+      "seed_label": 77131,
+      "model": "python_continuous",
+      "responded": true,
+      "peak_open_channels": 12.0,
+      "channel_area_channel_ms": 46.0,
+      "first_response_sample_ms": 33.0,
+      "sampled_latency_ms": 13.0,
+      "native_grid": {
+        "responded": true,
+        "peak_open_channels": 14.0,
+        "channel_area_channel_ms": 48.900000000000006,
+        "first_response_sample_ms": 32.300000000000004,
+        "sampled_latency_ms": 12.300000000000004
+      }
+    }
+  ],
+  "groups_excluding_observed_input_anomalies": {
+    "dark": {
+      "upstream_octave": {
+        "trials": 32,
+        "responded": 0,
+        "peak_open_channels": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "sampled_latency_ms": null
+      },
+      "python_continuous": {
+        "trials": 32,
+        "responded": 0,
+        "peak_open_channels": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 0.0,
+          "median": 0.0,
+          "q25": 0.0,
+          "q75": 0.0
+        },
+        "sampled_latency_ms": null
+      }
+    },
+    "single": {
+      "upstream_octave": {
+        "trials": 31,
+        "responded": 31,
+        "peak_open_channels": {
+          "mean": 9.32258064516129,
+          "median": 9.0,
+          "q25": 7.5,
+          "q75": 11.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 26.387096774193548,
+          "median": 27.0,
+          "q25": 23.0,
+          "q75": 29.5
+        },
+        "sampled_latency_ms": {
+          "mean": 17.838709677419356,
+          "median": 19.0,
+          "q25": 12.5,
+          "q75": 21.5
+        }
+      },
+      "python_continuous": {
+        "trials": 31,
+        "responded": 30,
+        "peak_open_channels": {
+          "mean": 10.290322580645162,
+          "median": 11.0,
+          "q25": 8.0,
+          "q75": 13.5
+        },
+        "channel_area_channel_ms": {
+          "mean": 46.96774193548387,
+          "median": 49.0,
+          "q25": 43.5,
+          "q75": 53.0
+        },
+        "sampled_latency_ms": {
+          "mean": 15.433333333333334,
+          "median": 15.5,
+          "q25": 12.25,
+          "q75": 18.75
+        }
+      }
+    },
+    "paired_20ms": {
+      "upstream_octave": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 9.40625,
+          "median": 9.0,
+          "q25": 7.0,
+          "q75": 11.25
+        },
+        "channel_area_channel_ms": {
+          "mean": 24.84375,
+          "median": 25.0,
+          "q25": 20.75,
+          "q75": 29.0
+        },
+        "sampled_latency_ms": {
+          "mean": 17.65625,
+          "median": 18.0,
+          "q25": 12.75,
+          "q75": 21.25
+        }
+      },
+      "python_continuous": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 12.0625,
+          "median": 12.5,
+          "q25": 9.75,
+          "q75": 14.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 50.0,
+          "median": 49.5,
+          "q25": 47.0,
+          "q75": 55.0
+        },
+        "sampled_latency_ms": {
+          "mean": 16.15625,
+          "median": 16.0,
+          "q25": 12.75,
+          "q75": 19.0
+        }
+      }
+    },
+    "paired_100ms": {
+      "upstream_octave": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 9.34375,
+          "median": 9.0,
+          "q25": 7.75,
+          "q75": 11.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 26.28125,
+          "median": 27.0,
+          "q25": 23.0,
+          "q75": 29.25
+        },
+        "sampled_latency_ms": {
+          "mean": 17.6875,
+          "median": 18.0,
+          "q25": 12.75,
+          "q75": 21.25
+        }
+      },
+      "python_continuous": {
+        "trials": 32,
+        "responded": 32,
+        "peak_open_channels": {
+          "mean": 10.9375,
+          "median": 11.5,
+          "q25": 8.0,
+          "q75": 14.0
+        },
+        "channel_area_channel_ms": {
+          "mean": 48.9375,
+          "median": 49.5,
+          "q25": 46.0,
+          "q75": 53.25
+        },
+        "sampled_latency_ms": {
+          "mean": 18.53125,
+          "median": 16.0,
+          "q25": 12.75,
+          "q75": 19.0
+        }
+      }
+    }
+  },
+  "limits": [
+    "Runs the unmodified cascade in GNU Octave, not proprietary MATLAB.",
+    "Tests one microvillus at a time; no full receptor, membrane, or synaptic pathway is compared.",
+    "Both are compared at 1..299 ms in 1 ms increments. Native-grid measurements are also retained.",
+    "Upstream uses ceil-based row filling; matching the sampling grid does not undo that output convention.",
+    "Sampled onset and area include these output-grid differences; they are not exact continuous-time latency or ionic charge.",
+    "Equal seed labels do not match the random draws across implementations.",
+    "The Rh maximum check can miss duplicate deliveries after Rh removal; the exclusion group is not certified duplicate-free.",
+    "No equivalence tolerance was defined; successful execution does not mean the two models match.",
+    "Neither implementation is validated against biological recordings by this audit."
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "format": "nexus-phototransduction-source-input-audit-1",
+  "success": true,
+  "source_commit": "a4453f7e47abf2ea2a924c376d4c1c157c6011e2",
+  "source_sha256": {
+    "Initial_PR_Goodaa1new.m": "0977e2a54feedea0b9c50130bdeae8c5a63dba06b7b66a9a44045ea88924f892",
+    "RandomBumpModel_GillespieD_Continue_TRPLa.m": "4bdfda06813c992a24a2c2d6d9b150fb0ca7b6d526b745abc9bc8bbd9eafb987",
+    "TRP_Rev_GHK_online.m": "72445ed44e095572dc14e3c2a56981f49696972b259ceaa311055b1d721547cf",
+    "Gillespie_sim_b2p3_Skew_speed205.m": "39bc3d350f415be3ac13b955bc97c3622eb4dcd3f90a4ac74d1d6b3e51ca6e9b",
+    "NaCaPump.m": "b69814e82750c96f4f9d1b3098bb341263b2a0b6cdf20449e10f7d683080a223"
+  },
+  "comparisons": [
+    {
+      "condition": "single",
+      "seed": 77121,
+      "supplied_arrivals_ms": [
+        20
+      ],
+      "logging_preserves_complete_source_output": true,
+      "observed_original_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        },
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 1.0,
+          "rhodopsin_after": 2.0
+        }
+      ],
+      "observed_guarded_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        }
+      ],
+      "guard_delivers_each_supplied_photon_once": true,
+      "original_maximum_active_rhodopsin": 2.0,
+      "guarded_maximum_active_rhodopsin": 1.0,
+      "guard_changes_channel_trace": true
+    },
+    {
+      "condition": "single_control",
+      "seed": 77100,
+      "supplied_arrivals_ms": [
+        20
+      ],
+      "logging_preserves_complete_source_output": true,
+      "observed_original_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        }
+      ],
+      "observed_guarded_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        }
+      ],
+      "guard_delivers_each_supplied_photon_once": true,
+      "original_maximum_active_rhodopsin": 1.0,
+      "guarded_maximum_active_rhodopsin": 1.0,
+      "guard_changes_channel_trace": false
+    },
+    {
+      "condition": "paired_20ms",
+      "seed": 77121,
+      "supplied_arrivals_ms": [
+        20,
+        40
+      ],
+      "logging_preserves_complete_source_output": true,
+      "observed_original_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        },
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 1.0,
+          "rhodopsin_after": 2.0
+        },
+        {
+          "time_ms": 40.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        }
+      ],
+      "observed_guarded_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        },
+        {
+          "time_ms": 40.0,
+          "count": 1.0,
+          "rhodopsin_before": 1.0,
+          "rhodopsin_after": 2.0
+        }
+      ],
+      "guard_delivers_each_supplied_photon_once": true,
+      "original_maximum_active_rhodopsin": 2.0,
+      "guarded_maximum_active_rhodopsin": 2.0,
+      "guard_changes_channel_trace": true
+    },
+    {
+      "condition": "paired_100ms",
+      "seed": 77121,
+      "supplied_arrivals_ms": [
+        20,
+        120
+      ],
+      "logging_preserves_complete_source_output": true,
+      "observed_original_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        },
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 1.0,
+          "rhodopsin_after": 2.0
+        },
+        {
+          "time_ms": 120.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        }
+      ],
+      "observed_guarded_deliveries": [
+        {
+          "time_ms": 20.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        },
+        {
+          "time_ms": 120.0,
+          "count": 1.0,
+          "rhodopsin_before": 0.0,
+          "rhodopsin_after": 1.0
+        }
+      ],
+      "guard_delivers_each_supplied_photon_once": true,
+      "original_maximum_active_rhodopsin": 2.0,
+      "guarded_maximum_active_rhodopsin": 1.0,
+      "guard_changes_channel_trace": true
+    }
+  ],
+  "limits": [
+    "Logging-only output is checked against original full state and time arrays.",
+    "The guarded source copy fixes observed repeated input handling only; it is not a calibrated replacement model.",
+    "No change is made to the source checkout, Python cascade or live application.",
+    "Only four specified schedules/seeds are checked; this is a reproduction, not an exhaustive upstream audit."
+  ]
+}
