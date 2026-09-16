@@ -1,0 +1,78 @@
+{
+  "format": "nexus-photoreceptor-channel-results-1",
+  "success": true,
+  "source_commit": "a4453f7e47abf2ea2a924c376d4c1c157c6011e2",
+  "source_sha256": {
+    "wt_cc_model_pump.m": "5bd6a223f52a2fcd8c86b38c7ccc065fef12c6d111a9d5de0df768ab74cc3767",
+    "NaCaPump_Body.m": "fde20f79cf84fff8fc9bceab3ff7b5e599eae8250dcf4a2a382694a17355f495",
+    "NaKPump.m": "e2b0ddc3e93ca7bbdb1db50260f3b1d8157c2c9152404deacffa379150358622",
+    "Vol_FeedbackCluster.m": "47eac23a5295081ac933feffcc9ef46809b1cafad97e3d69ce92163b033dbfa6"
+  },
+  "parameter_set": "BG1",
+  "dt_ms": 0.1,
+  "conductance_ps_per_channel": 8,
+  "trp_reversal_mv": 20,
+  "derivative_states_checked": 64,
+  "current_and_derivative_source_checks": true,
+  "coupling": "TRP current recomputed at every RK4 substage",
+  "trials": [
+    {
+      "open_channels_during_pulse": 0,
+      "max_voltage_error_mv": 3.0004183599885437e-06,
+      "pulse_end_voltage_mv": -70.0079641248051,
+      "fixed_driving_force_pulse_end_voltage_mv": -70.0079641248051,
+      "pulse_end_current_na": 0.0,
+      "current_at_minus_70_mv_na": 0.0,
+      "recovery_end_voltage_mv": -70.00796041798476
+    },
+    {
+      "open_channels_during_pulse": 27,
+      "max_voltage_error_mv": 3.0004183599885437e-06,
+      "pulse_end_voltage_mv": -69.79431484957284,
+      "fixed_driving_force_pulse_end_voltage_mv": -69.79382548617916,
+      "pulse_end_current_na": 0.019395572007507734,
+      "current_at_minus_70_mv_na": 0.019440000000000002,
+      "recovery_end_voltage_mv": -70.0081825157669
+    },
+    {
+      "open_channels_during_pulse": 270,
+      "max_voltage_error_mv": 3.0004183599885437e-06,
+      "pulse_end_voltage_mv": -67.91746520521134,
+      "fixed_driving_force_pulse_end_voltage_mv": -67.8679843558128,
+      "pulse_end_current_na": 0.1899017248432565,
+      "current_at_minus_70_mv_na": 0.19440000000000002,
+      "recovery_end_voltage_mv": -70.01010503699544
+    },
+    {
+      "open_channels_during_pulse": 2700,
+      "max_voltage_error_mv": 6.284807652434665e-05,
+      "pulse_end_voltage_mv": -52.77433531673422,
+      "fixed_driving_force_pulse_end_voltage_mv": -48.69987490118999,
+      "pulse_end_current_na": 1.5719256428414592,
+      "current_at_minus_70_mv_na": 1.944,
+      "recovery_end_voltage_mv": -70.01970478819766
+    },
+    {
+      "open_channels_during_pulse": 5400,
+      "max_voltage_error_mv": 0.00023282562710846832,
+      "pulse_end_voltage_mv": -41.13711566952278,
+      "fixed_driving_force_pulse_end_voltage_mv": -28.355797503198275,
+      "pulse_end_current_na": 2.6411233969233843,
+      "current_at_minus_70_mv_na": 3.888,
+      "recovery_end_voltage_mv": -70.02620572646278
+    }
+  ],
+  "cpu_benchmark": {
+    "cells": 3377,
+    "simulated_ms": 10,
+    "wall_seconds": 0.25132717099995716,
+    "includes_compilation": false
+  },
+  "limits": [
+    "Channel counts are prescribed experiments, not simulated photon absorption.",
+    "Uses the fixed-reversal inward-current rule of Vol_FeedbackCluster.m, not its GHK microvillus model.",
+    "Continuous coupling replaces the source offline iteration and is checked against source equations with DOP853, not a MATLAB run.",
+    "No image calibration, biochemical cascade, synaptic release, or live brain integration is included.",
+    "The CPU benchmark covers only this subsystem. No real-time whole-fly claim is made."
+  ]
+}

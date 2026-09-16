@@ -8,9 +8,10 @@ See licenses/photoreceptor/ and docs/photoreceptor-membrane.md.
 
 The published BG1 parameter set and equations are retained. A fixed-step RK4
 solver replaces ode45; removable rate singularities use their analytic limit.
-Inputs are currents in
-nA, NOT RGB brightness, photons, or spikes. There is no threshold/reset or
-invented conversion to histamine release. This is the membrane subsystem only.
+Inputs are current in nA or counts of open TRP channels, not RGB brightness,
+photons or spikes. Channel-driven current uses the 8 pS/+20 mV rule from
+``Vol_FeedbackCluster.m``, evaluated continuously instead of offline iterations.
+There is no threshold/reset or invented conversion to histamine release.
 """
 import math
 import sys
@@ -23,6 +24,23 @@ STATE_NAMES = ('voltage_mv', 'shab_inactivation', 'shab_activation',
                'shaker_activation', 'shaker_inactivation', 'novel_k_activation',
                'sodium_mmol_l', 'potassium_mmol_l', 'calcium_mmol_l')
 DT_MS = .1
+TRP_CONDUCTANCE_PS = 8.
+TRP_REVERSAL_MV = 20.
+
+
+@njit(cache=not getattr(sys, 'frozen', False))
+def trp_current_na(open_channels, voltage_mv):
+    """Source voltage-feedback rule: count × 8 pS × max(20-V, 0) mV.
+
+    pS × mV is 1e-6 nA. The source's inward-only rectification is retained;
+    this is its effective current rule, not the full GHK permeability model.
+    """
+    return open_channels * TRP_CONDUCTANCE_PS * max(TRP_REVERSAL_MV-voltage_mv, 0.) * 1e-6
+
+
+@njit(cache=not getattr(sys, 'frozen', False))
+def channel_derivative(y, open_channels):
+    return derivative(y, trp_current_na(open_channels, y[0]))
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
@@ -100,16 +118,24 @@ def initial_state(cells=1):
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
-def _integrate(state, currents, dt_ms):
+def _integrate(state, currents, dt_ms, channel_input=False):
     voltage = np.empty(currents.shape)
     for tick in range(len(currents)):
         for cell in range(len(state)):
             y = state[cell]
             current = currents[tick, cell]
-            k1 = derivative(y, current)
-            k2 = derivative(y + .5*dt_ms*k1, current)
-            k3 = derivative(y + .5*dt_ms*k2, current)
-            k4 = derivative(y + dt_ms*k3, current)
+            if channel_input:
+                # Recalculate driving force at every RK stage; using the old
+                # voltage for a whole sample would lag the negative feedback.
+                k1 = channel_derivative(y, current)
+                k2 = channel_derivative(y + .5*dt_ms*k1, current)
+                k3 = channel_derivative(y + .5*dt_ms*k2, current)
+                k4 = channel_derivative(y + dt_ms*k3, current)
+            else:
+                k1 = derivative(y, current)
+                k2 = derivative(y + .5*dt_ms*k1, current)
+                k3 = derivative(y + .5*dt_ms*k2, current)
+                k4 = derivative(y + dt_ms*k3, current)
             state[cell] = y + dt_ms/6. * (k1+2.*k2+2.*k3+k4)
             for j in range(9):
                 value = state[cell, j]
@@ -141,9 +167,29 @@ class PhotoreceptorMembrane:
         if (currents.ndim != 2 or currents.shape[1] != len(self.state) or len(currents) == 0
                 or not np.isfinite(currents).all()):
             raise ValueError('Expected finite current samples with shape (ticks, cells), in nA')
+        return self._advance_validated(currents, channel_input=False)
+
+    def advance_channels(self, open_channels):
+        """Advance using counts of open channels, held for each 0.1 ms tick.
+
+        Counts are nonnegative integers; they must come from a channel model or
+        an explicit channel-input experiment. This method does not manufacture
+        openings from photons or rescale a reduced microvillus population.
+        Voltage/current/ion feedback is integrated in the same persistent state
+        as advance(). No current jumps are queued after channels close.
+        """
+        raw = np.asarray(open_channels)
+        if (raw.dtype.kind not in 'iuf' or raw.ndim != 2
+                or raw.shape[1] != len(self.state) or len(raw) == 0
+                or not np.isfinite(raw).all() or (raw < 0).any()
+                or (raw > 2**53-1).any() or (raw != np.floor(raw)).any()):
+            raise ValueError('Expected nonnegative integer channel counts with shape (ticks, cells)')
+        return self._advance_validated(np.asarray(raw, dtype=np.float64), channel_input=True)
+
+    def _advance_validated(self, currents, *, channel_input):
         candidate = self.state.copy()
         try:
-            voltage = _integrate(candidate, np.ascontiguousarray(currents), DT_MS)
+            voltage = _integrate(candidate, np.ascontiguousarray(currents), DT_MS, channel_input)
         except (OverflowError, ZeroDivisionError) as error:
             raise RuntimeError('Photoreceptor integration left the valid state range') from error
         self.state[:] = candidate
