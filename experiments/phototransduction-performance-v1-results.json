@@ -1,0 +1,521 @@
+{
+  "format": "nexus-phototransduction-performance-1",
+  "success": true,
+  "baseline_commit": "c9b8372",
+  "baseline_sha256": "a4159d0f23451fb965468c4fdce28e26ab4a5f2c3c26978761601fed5be4db1f",
+  "optimized_sha256": "90508cb3c1b65165e1df6c290ae845d2c6125c15b692733abdc658237b071956",
+  "schedule_block_size": 128,
+  "platform": "Linux-7.2.4-200.fc44.x86_64-x86_64-with-glibc2.43",
+  "python": "3.12.14",
+  "groups": {
+    "dark": {
+      "300": {
+        "median_wall_seconds": {
+          "baseline": 0.13262113500013584,
+          "optimized": 0.043843183000035424
+        },
+        "ratio_of_median_times": 3.024897508012333
+      },
+      "10": {
+        "median_wall_seconds": {
+          "baseline": 0.1449188870008129,
+          "optimized": 0.05847728600019764
+        },
+        "ratio_of_median_times": 2.478208154193803
+      }
+    },
+    "pulse": {
+      "300": {
+        "median_wall_seconds": {
+          "baseline": 0.45811774100002367,
+          "optimized": 0.3383711859999039
+        },
+        "ratio_of_median_times": 1.3538911111661671
+      },
+      "10": {
+        "median_wall_seconds": {
+          "baseline": 0.47498633099962717,
+          "optimized": 0.35053761700055475
+        },
+        "ratio_of_median_times": 1.3550224225974454
+      }
+    },
+    "bright_pulse": {
+      "300": {
+        "median_wall_seconds": {
+          "baseline": 2.4008115940000607,
+          "optimized": 1.7760133619999579
+        },
+        "ratio_of_median_times": 1.3517981595006252
+      },
+      "10": {
+        "median_wall_seconds": {
+          "baseline": 2.419753645000128,
+          "optimized": 1.7876955100000487
+        },
+        "ratio_of_median_times": 1.3535602855544802
+      }
+    },
+    "steady": {
+      "300": {
+        "median_wall_seconds": {
+          "baseline": 0.44867355199994563,
+          "optimized": 0.34285687600004167
+        },
+        "ratio_of_median_times": 1.3086322118850873
+      },
+      "10": {
+        "median_wall_seconds": {
+          "baseline": 0.46817997600055605,
+          "optimized": 0.3573335550001957
+        },
+        "ratio_of_median_times": 1.3102043439505693
+      }
+    },
+    "paired": {
+      "300": {
+        "median_wall_seconds": {
+          "baseline": 0.7303294999999252,
+          "optimized": 0.5557434269999248
+        },
+        "ratio_of_median_times": 1.3141486961752658
+      },
+      "10": {
+        "median_wall_seconds": {
+          "baseline": 0.7478837089997796,
+          "optimized": 0.5692633550002029
+        },
+        "ratio_of_median_times": 1.3137745516739139
+      }
+    }
+  },
+  "trials": [
+    {
+      "seed": 81100,
+      "condition": "dark",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 73276,
+      "wall_seconds": {
+        "baseline": 0.13739297300003273,
+        "optimized": 0.04451054100013607
+      },
+      "speedup": 3.086751360753236
+    },
+    {
+      "seed": 81100,
+      "condition": "dark",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 73276,
+      "wall_seconds": {
+        "baseline": 0.14682974399943305,
+        "optimized": 0.059421565000775445
+      },
+      "speedup": 2.4709841283634475
+    },
+    {
+      "seed": 81100,
+      "condition": "pulse",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1246450,
+      "wall_seconds": {
+        "baseline": 0.46465508500000396,
+        "optimized": 0.3383711859999039
+      },
+      "speedup": 1.3732111486589047
+    },
+    {
+      "seed": 81100,
+      "condition": "pulse",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1246450,
+      "wall_seconds": {
+        "baseline": 0.46718092099990827,
+        "optimized": 0.35048026499953266
+      },
+      "speedup": 1.332973544175251
+    },
+    {
+      "seed": 81100,
+      "condition": "bright_pulse",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 8554671,
+      "wall_seconds": {
+        "baseline": 2.3875099469998986,
+        "optimized": 1.7383591860000251
+      },
+      "speedup": 1.373427290647322
+    },
+    {
+      "seed": 81100,
+      "condition": "bright_pulse",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 8554671,
+      "wall_seconds": {
+        "baseline": 2.4042989820009097,
+        "optimized": 1.752290316000881
+      },
+      "speedup": 1.3720894078146015
+    },
+    {
+      "seed": 81100,
+      "condition": "steady",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1205644,
+      "wall_seconds": {
+        "baseline": 0.4474278659999982,
+        "optimized": 0.34285127499992996
+      },
+      "speedup": 1.3050202773785502
+    },
+    {
+      "seed": 81100,
+      "condition": "steady",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1205644,
+      "wall_seconds": {
+        "baseline": 0.46542178100003184,
+        "optimized": 0.3571557490001851
+      },
+      "speedup": 1.3031339473126908
+    },
+    {
+      "seed": 81100,
+      "condition": "paired",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 2238676,
+      "wall_seconds": {
+        "baseline": 0.7304399979998379,
+        "optimized": 0.554735090000122
+      },
+      "speedup": 1.3167366030507954
+    },
+    {
+      "seed": 81100,
+      "condition": "paired",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 2238676,
+      "wall_seconds": {
+        "baseline": 0.7435047660007967,
+        "optimized": 0.565045317000795
+      },
+      "speedup": 1.3158320998875754
+    },
+    {
+      "seed": 81101,
+      "condition": "dark",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 73306,
+      "wall_seconds": {
+        "baseline": 0.1320188910001434,
+        "optimized": 0.043124718999933975
+      },
+      "speedup": 3.061327564832261
+    },
+    {
+      "seed": 81101,
+      "condition": "dark",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 73306,
+      "wall_seconds": {
+        "baseline": 0.14384066100001291,
+        "optimized": 0.057687519999944925
+      },
+      "speedup": 2.493445046695546
+    },
+    {
+      "seed": 81101,
+      "condition": "pulse",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1250975,
+      "wall_seconds": {
+        "baseline": 0.4527532170000086,
+        "optimized": 0.33477553300008367
+      },
+      "speedup": 1.352408322503949
+    },
+    {
+      "seed": 81101,
+      "condition": "pulse",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1250975,
+      "wall_seconds": {
+        "baseline": 0.47498633099962717,
+        "optimized": 0.35053761700055475
+      },
+      "speedup": 1.3550224225974454
+    },
+    {
+      "seed": 81101,
+      "condition": "bright_pulse",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 8528867,
+      "wall_seconds": {
+        "baseline": 2.4008115940000607,
+        "optimized": 1.7760133619999579
+      },
+      "speedup": 1.3517981595006252
+    },
+    {
+      "seed": 81101,
+      "condition": "bright_pulse",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 8528867,
+      "wall_seconds": {
+        "baseline": 2.419753645000128,
+        "optimized": 1.7876955100000487
+      },
+      "speedup": 1.3535602855544802
+    },
+    {
+      "seed": 81101,
+      "condition": "steady",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1203421,
+      "wall_seconds": {
+        "baseline": 0.44867355199994563,
+        "optimized": 0.34285687600004167
+      },
+      "speedup": 1.3086322118850873
+    },
+    {
+      "seed": 81101,
+      "condition": "steady",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1203421,
+      "wall_seconds": {
+        "baseline": 0.46817997600055605,
+        "optimized": 0.3573335550001957
+      },
+      "speedup": 1.3102043439505693
+    },
+    {
+      "seed": 81101,
+      "condition": "paired",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 2243347,
+      "wall_seconds": {
+        "baseline": 0.7303294999999252,
+        "optimized": 0.5580990670000574
+      },
+      "speedup": 1.3086019009593688
+    },
+    {
+      "seed": 81101,
+      "condition": "paired",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 2243347,
+      "wall_seconds": {
+        "baseline": 0.7478837089997796,
+        "optimized": 0.5692633550002029
+      },
+      "speedup": 1.3137745516739139
+    },
+    {
+      "seed": 81102,
+      "condition": "dark",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 73621,
+      "wall_seconds": {
+        "baseline": 0.13262113500013584,
+        "optimized": 0.043843183000035424
+      },
+      "speedup": 3.024897508012333
+    },
+    {
+      "seed": 81102,
+      "condition": "dark",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 73621,
+      "wall_seconds": {
+        "baseline": 0.1449188870008129,
+        "optimized": 0.05847728600019764
+      },
+      "speedup": 2.478208154193803
+    },
+    {
+      "seed": 81102,
+      "condition": "pulse",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1255633,
+      "wall_seconds": {
+        "baseline": 0.45811774100002367,
+        "optimized": 0.3384348970000701
+      },
+      "speedup": 1.3536362386409837
+    },
+    {
+      "seed": 81102,
+      "condition": "pulse",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1255633,
+      "wall_seconds": {
+        "baseline": 0.48069306800061895,
+        "optimized": 0.35336666500029423
+      },
+      "speedup": 1.3603237532329733
+    },
+    {
+      "seed": 81102,
+      "condition": "bright_pulse",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 8572544,
+      "wall_seconds": {
+        "baseline": 2.5396053750000647,
+        "optimized": 1.7895755479999025
+      },
+      "speedup": 1.4191104576939622
+    },
+    {
+      "seed": 81102,
+      "condition": "bright_pulse",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 8572544,
+      "wall_seconds": {
+        "baseline": 2.4553240259995164,
+        "optimized": 1.8206626439994125
+      },
+      "speedup": 1.348588127565443
+    },
+    {
+      "seed": 81102,
+      "condition": "steady",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1209192,
+      "wall_seconds": {
+        "baseline": 0.461459571999967,
+        "optimized": 0.3442453160000696
+      },
+      "speedup": 1.3404962988657592
+    },
+    {
+      "seed": 81102,
+      "condition": "steady",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 1209192,
+      "wall_seconds": {
+        "baseline": 0.47045914500017716,
+        "optimized": 0.35947943700034557
+      },
+      "speedup": 1.308723383250778
+    },
+    {
+      "seed": 81102,
+      "condition": "paired",
+      "chunk_ms": 300,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 2237571,
+      "wall_seconds": {
+        "baseline": 0.7297502090000307,
+        "optimized": 0.5557434269999248
+      },
+      "speedup": 1.3131063248726995
+    },
+    {
+      "seed": 81102,
+      "condition": "paired",
+      "chunk_ms": 10,
+      "simulated_ms": 300,
+      "microvilli": 30000,
+      "identical_every_chunk": true,
+      "reaction_events": 2237571,
+      "wall_seconds": {
+        "baseline": 0.7507358009997915,
+        "optimized": 0.5713058919998275
+      },
+      "speedup": 1.31406976807447
+    }
+  ],
+  "limits": [
+    "Each timing covers one full receptor, not the full eye or brain.",
+    "JIT and construction are excluded; all advance copies and membrane integration are included.",
+    "Three seeds per condition/chunk size; local wall timings depend on system load.",
+    "Exact comparison covers the tested inputs and seeds, not a proof for arbitrary inputs.",
+    "No biological parameters, reaction order, population scaling or live-app behavior are changed."
+  ]
+}

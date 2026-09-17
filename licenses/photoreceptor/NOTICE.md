@@ -43,6 +43,12 @@ rules, and refresh the G-protein activation rate after input. These diagnostic
 changes are described in `docs/phototransduction-timing-ablation.md`; they do
 not modify the source checkout or the application's live sensory pathway.
 
+The scheduler optimization uses conservative per-block event bounds, an
+incremental channel total, and allocation-free scalar validation. It retains
+the existing reaction and RNG order. Exact output/state comparisons against
+the prior Python implementation are described in
+`docs/phototransduction-performance.md`.
+
 This component is not imported by the application and is not enabled in the GUI.
 Its GPL license applies to this adapted component; this notice does not grant a
 different license to unrelated project files. Any future distribution of a

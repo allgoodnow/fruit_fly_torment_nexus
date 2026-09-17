@@ -32,6 +32,8 @@ PARAMETERS = np.array([
 PARAMETERS.setflags(write=False)
 STATE_NAMES = ('open_trp', 'calcium_scaled', 'active_g', 'active_rhodopsin',
                'active_plc', 'messenger_a', 'bound_calmodulin', 'available_g')
+# Scheduling index only; this does not group or scale biological states.
+SCHEDULE_BLOCK_SIZE = 128
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
@@ -103,8 +105,12 @@ def _prepare(y, previous_reversal_v, time_ms, rng):
     # Source ordering: compute rates, then update the fast calcium variable.
     rates = reaction_rates(y)
     total = rates.sum()
-    if not np.isfinite(rates).all() or (rates < 0).any():
-        raise RuntimeError('Invalid phototransduction reaction propensity')
+    # Validate scalar entries without allocating two temporary boolean arrays
+    # for every molecular event. Keep the rate calculation and summation order.
+    for index in range(8):
+        for direction in range(2):
+            if not math.isfinite(rates[index, direction]) or rates[index, direction] < 0:
+                raise RuntimeError('Invalid phototransduction reaction propensity')
     calcium, reversal = calcium_update(y, previous_reversal_v)
     y[1] = calcium
     if not math.isfinite(calcium) or calcium <= 0 or not math.isfinite(reversal):
@@ -134,23 +140,37 @@ def _reaction(y, reaction):
         y[2] -= 1  # Activating PLC consumes active G.
     if direction == 0 and index == 2:
         y[7] -= 1  # Activating G consumes available G.
-    if ((y < 0).any() or y[0] > 27 or y[4]+y[2]+y[7] > 50
-            or not np.isfinite(y).all()):
+    for index in range(8):
+        if y[index] < 0 or not math.isfinite(y[index]):
+            raise RuntimeError('Invalid phototransduction molecular state')
+    if y[0] > 27 or y[4]+y[2]+y[7] > 50:
         raise RuntimeError('Invalid phototransduction molecular state')
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
-def _until(states, reversals, due, reactions, boundary, rng):
+def _until(states, reversals, due, reactions, block_due, boundary, rng):
     events = 0
-    for cell in range(len(states)):
-        while due[cell] <= boundary:
-            when = due[cell]
-            _reaction(states[cell], reactions[cell])
-            due[cell], reactions[cell], reversals[cell] = _prepare(states[cell], reversals[cell], when, rng)
-            events += 1
-            if events > 1000000:
-                raise RuntimeError('Phototransduction work limit exceeded in a sample')
-    return events
+    channel_delta = 0
+    for block in range(len(block_due)):
+        if block_due[block] > boundary:
+            continue
+        earliest = math.inf
+        # Preserve the original ascending cell order and within-cell event
+        # order. A global time-sorted queue would change seeded RNG assignment.
+        start = block*SCHEDULE_BLOCK_SIZE
+        for cell in range(start, min(start+SCHEDULE_BLOCK_SIZE, len(states))):
+            while due[cell] <= boundary:
+                when = due[cell]
+                before = int(states[cell, 0])
+                _reaction(states[cell], reactions[cell])
+                channel_delta += int(states[cell, 0])-before
+                due[cell], reactions[cell], reversals[cell] = _prepare(states[cell], reversals[cell], when, rng)
+                events += 1
+                if events > 1000000:
+                    raise RuntimeError('Phototransduction work limit exceeded in a sample')
+            earliest = min(earliest, due[cell])
+        block_due[block] = earliest
+    return events, channel_delta
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
@@ -160,26 +180,44 @@ def _run(states, reversals, due, reactions, photons, start_ms, rng, initialized)
     if not initialized:
         for cell in range(len(states)):
             due[cell], reactions[cell], reversals[cell] = _prepare(states[cell], reversals[cell], start_ms, rng)
+    # Rebuild this transient index for every atomic advance; no extra mutable
+    # checkpoint state is needed for rollback, reset or chunked input.
+    block_due = np.full((len(states)+SCHEDULE_BLOCK_SIZE-1)//SCHEDULE_BLOCK_SIZE, math.inf)
+    for cell in range(len(states)):
+        block = cell//SCHEDULE_BLOCK_SIZE
+        block_due[block] = min(block_due[block], due[cell])
+    open_channels = int(states[:, 0].sum())
     for frame in range(len(photons)):
         boundary = start_ms+frame
-        events += _until(states, reversals, due, reactions, boundary, rng)
+        completed, change = _until(states, reversals, due, reactions, block_due, boundary, rng)
+        events += completed
+        open_channels += change
         # Counts are absorbed photons at each 1 ms boundary, as in the source.
         # Uniform allocation is equivalent to its multinomial distribution.
-        arrivals = np.zeros(len(states), dtype=np.int64)
-        for _ in range(photons[frame]):
-            arrivals[rng.integers(0, len(states))] += 1
-        for cell in range(len(states)):
-            if arrivals[cell]:
-                states[cell, 3] += arrivals[cell]
-                # Input changes rates. Resample pending reaction and wait;
-                # exponential waiting times are memoryless.
-                due[cell], reactions[cell], reversals[cell] = _prepare(states[cell], reversals[cell], boundary, rng)
+        if photons[frame]:
+            arrivals = np.zeros(len(states), dtype=np.int64)
+            for _ in range(photons[frame]):
+                arrivals[rng.integers(0, len(states))] += 1
+            for cell in range(len(states)):
+                if arrivals[cell]:
+                    states[cell, 3] += arrivals[cell]
+                    # Input changes rates. Resample pending reaction and wait;
+                    # exponential waiting times are memoryless.
+                    due[cell], reactions[cell], reversals[cell] = _prepare(states[cell], reversals[cell], boundary, rng)
+                    block = cell//SCHEDULE_BLOCK_SIZE
+                    # A rescheduled event can become earlier OR later. Keeping
+                    # a stale lower bound is safe; the next scan refreshes it.
+                    block_due[block] = min(block_due[block], due[cell])
         for sample in range(10):
             now = (boundary*10+sample)/10.
-            events += _until(states, reversals, due, reactions, now, rng)
+            completed, change = _until(states, reversals, due, reactions, block_due, now, rng)
+            events += completed
+            open_channels += change
             # Left-edge channel samples avoid applying future openings early.
-            counts[frame*10+sample, 0] = int(states[:, 0].sum())
-        events += _until(states, reversals, due, reactions, boundary+1, rng)
+            counts[frame*10+sample, 0] = open_channels
+        completed, change = _until(states, reversals, due, reactions, block_due, boundary+1, rng)
+        events += completed
+        open_channels += change
     return counts, events
 
 

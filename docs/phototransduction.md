@@ -121,8 +121,10 @@ control. It tests persistent molecular suppression and recovery in both a
 single microvillus and a complete 30,000-microvillus receptor. This is a model
 characterization, not a physiological fit or a new fixed refractory period.
 
-The observed photon-driven runs take about 0.45 seconds per 300 simulated ms
-for **one receptor** after compilation on the development CPU. That does not
+The [optimized scheduler benchmark](phototransduction-performance.md) measures
+about 0.34 seconds for a 3,000-photon pulse over 300 simulated ms in **one
+receptor**, versus about 0.46 seconds previously, after compilation on the
+development CPU. A 30,000-photon pulse takes about 1.78 seconds. That does not
 establish usable performance for all 3,377 mapped receptors. Each full receptor
 also maintains its own 30,000 molecular states. Scaling to the whole eye is a
 separate unresolved engineering problem; this implementation supplies a
