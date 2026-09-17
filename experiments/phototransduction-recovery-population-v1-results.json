@@ -1,0 +1,465 @@
+{
+  "format": "nexus-phototransduction-recovery-1",
+  "execution_success": true,
+  "source_commit": "a4453f7e47abf2ea2a924c376d4c1c157c6011e2",
+  "python_sha256": {
+    "phototransduction.py": "a4159d0f23451fb965468c4fdce28e26ab4a5f2c3c26978761601fed5be4db1f",
+    "photoreceptor.py": "568c5b5ca08c0a2e369923edd6c19b3f64a29da221cc2dcd4efa1c4587fe6778"
+  },
+  "first_photon_ms": 20,
+  "probe_window_ms": 300,
+  "gaps_ms": [
+    50,
+    300,
+    1000
+  ],
+  "microvilli": 30000,
+  "absorbed_photons_per_pulse": 30000,
+  "channel_sample_ms": 0.1,
+  "pre_probe_state_summary": "mean across the explicit microvillus population",
+  "state_names": [
+    "open_trp",
+    "calcium_scaled",
+    "active_g",
+    "active_rhodopsin",
+    "active_plc",
+    "messenger_a",
+    "bound_calmodulin",
+    "available_g"
+  ],
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 79100,
+  "groups": {
+    "50": {
+      "trials": 6,
+      "mean_incremental_channel_ms": 351043.60000000003,
+      "mean_rested_probe_channel_ms": 936035.3666666667,
+      "mean_no_probe_channel_ms": 5021.816666666667,
+      "recovery_ratio_of_means": 0.3750324106343418,
+      "incremental_mean_bootstrap_95pct": [
+        349120.45000000007,
+        352938.2804166667
+      ],
+      "recovery_ratio_bootstrap_95pct": [
+        0.3729633540174445,
+        0.3768085864211126
+      ],
+      "undefined_ratio_resamples": 0,
+      "mean_pre_probe_state": [
+        0.01368888888888889,
+        1.9455978691959752,
+        0.0004444444444444444,
+        0.0027833333333333334,
+        0.0019388888888888886,
+        0.1298777777777778,
+        85.50239444444445,
+        44.57270555555556
+      ]
+    },
+    "300": {
+      "trials": 6,
+      "mean_incremental_channel_ms": 704282.4333333335,
+      "mean_rested_probe_channel_ms": 938215.7166666668,
+      "mean_no_probe_channel_ms": 338.20000000000005,
+      "recovery_ratio_of_means": 0.7506615171994117,
+      "incremental_mean_bootstrap_95pct": [
+        701948.3666666667,
+        706697.0333333333
+      ],
+      "recovery_ratio_bootstrap_95pct": [
+        0.746735556380235,
+        0.754894872284081
+      ],
+      "undefined_ratio_resamples": 0,
+      "mean_pre_probe_state": [
+        8.888888888888889e-05,
+        0.12651727583950367,
+        0.0,
+        0.0,
+        0.0,
+        0.003316666666666666,
+        22.38073888888889,
+        47.734500000000004
+      ]
+    },
+    "1000": {
+      "trials": 6,
+      "mean_incremental_channel_ms": 934972.2833333333,
+      "mean_rested_probe_channel_ms": 936637.2833333336,
+      "mean_no_probe_channel_ms": 10.066666666666668,
+      "recovery_ratio_of_means": 0.9982223641641994,
+      "incremental_mean_bootstrap_95pct": [
+        932454.5766666667,
+        937932.5466666666
+      ],
+      "recovery_ratio_bootstrap_95pct": [
+        0.9952703426404704,
+        1.0015213616220402
+      ],
+      "undefined_ratio_resamples": 0,
+      "mean_pre_probe_state": [
+        0.0,
+        0.05823730941486447,
+        0.0,
+        0.0,
+        0.0,
+        0.00010555555555555557,
+        0.819,
+        49.804300000000005
+      ]
+    }
+  },
+  "trials": [
+    {
+      "seed": 79100,
+      "gap_ms": 50,
+      "pre_probe_state": [
+        0.013533333333333333,
+        1.9305631483478942,
+        0.0005666666666666667,
+        0.0028666666666666667,
+        0.0021,
+        0.1334,
+        85.7158,
+        44.57586666666667
+      ],
+      "first_prefix_channel_ms": 934580.2000000001,
+      "probe_channel_ms": 354156.80000000005,
+      "no_probe_channel_ms": 5201.200000000001,
+      "rested_probe_channel_ms": 933225.5,
+      "incremental_channel_ms": 348955.60000000003
+    },
+    {
+      "seed": 79101,
+      "gap_ms": 50,
+      "pre_probe_state": [
+        0.011433333333333334,
+        1.6736324849631343,
+        0.0003333333333333333,
+        0.002266666666666667,
+        0.0017333333333333333,
+        0.1124,
+        85.67586666666666,
+        44.5675
+      ],
+      "first_prefix_channel_ms": 933806.4,
+      "probe_channel_ms": 355669.10000000003,
+      "no_probe_channel_ms": 4033.3,
+      "rested_probe_channel_ms": 935999.8,
+      "incremental_channel_ms": 351635.80000000005
+    },
+    {
+      "seed": 79102,
+      "gap_ms": 50,
+      "pre_probe_state": [
+        0.0134,
+        1.9117291861151398,
+        0.0005333333333333334,
+        0.0029,
+        0.0016,
+        0.1326,
+        85.41243333333334,
+        44.55416666666667
+      ],
+      "first_prefix_channel_ms": 931826.6000000001,
+      "probe_channel_ms": 356869.2,
+      "no_probe_channel_ms": 5179.700000000001,
+      "rested_probe_channel_ms": 933890.3,
+      "incremental_channel_ms": 351689.5
+    },
+    {
+      "seed": 79103,
+      "gap_ms": 50,
+      "pre_probe_state": [
+        0.0145,
+        2.0441280288563535,
+        0.0006,
+        0.0031333333333333335,
+        0.0026333333333333334,
+        0.14026666666666668,
+        85.2816,
+        44.60203333333333
+      ],
+      "first_prefix_channel_ms": 930469.6000000001,
+      "probe_channel_ms": 360476.60000000003,
+      "no_probe_channel_ms": 5178.6,
+      "rested_probe_channel_ms": 939110.8,
+      "incremental_channel_ms": 355298.00000000006
+    },
+    {
+      "seed": 79104,
+      "gap_ms": 50,
+      "pre_probe_state": [
+        0.016133333333333333,
+        2.235827797886186,
+        0.0002666666666666667,
+        0.0026666666666666666,
+        0.0018,
+        0.13493333333333332,
+        85.5772,
+        44.562866666666665
+      ],
+      "first_prefix_channel_ms": 932874.0,
+      "probe_channel_ms": 353136.9,
+      "no_probe_channel_ms": 5656.3,
+      "rested_probe_channel_ms": 938229.8,
+      "incremental_channel_ms": 347480.60000000003
+    },
+    {
+      "seed": 79105,
+      "gap_ms": 50,
+      "pre_probe_state": [
+        0.013133333333333334,
+        1.877706569007143,
+        0.00036666666666666667,
+        0.0028666666666666667,
+        0.0017666666666666666,
+        0.12566666666666668,
+        85.35146666666667,
+        44.5738
+      ],
+      "first_prefix_channel_ms": 929716.5,
+      "probe_channel_ms": 356083.9,
+      "no_probe_channel_ms": 4881.8,
+      "rested_probe_channel_ms": 935756.0,
+      "incremental_channel_ms": 351202.10000000003
+    },
+    {
+      "seed": 79100,
+      "gap_ms": 300,
+      "pre_probe_state": [
+        6.666666666666667e-05,
+        0.1240288155853688,
+        0.0,
+        0.0,
+        0.0,
+        0.0035,
+        22.486633333333334,
+        47.733133333333335
+      ],
+      "first_prefix_channel_ms": 939692.8,
+      "probe_channel_ms": 701006.4,
+      "no_probe_channel_ms": 339.5,
+      "rested_probe_channel_ms": 938914.1000000001,
+      "incremental_channel_ms": 700666.9
+    },
+    {
+      "seed": 79101,
+      "gap_ms": 300,
+      "pre_probe_state": [
+        6.666666666666667e-05,
+        0.12386540008084256,
+        0.0,
+        0.0,
+        0.0,
+        0.0026666666666666666,
+        22.4161,
+        47.7322
+      ],
+      "first_prefix_channel_ms": 937723.9,
+      "probe_channel_ms": 700644.9,
+      "no_probe_channel_ms": 256.0,
+      "rested_probe_channel_ms": 941426.1000000001,
+      "incremental_channel_ms": 700388.9
+    },
+    {
+      "seed": 79102,
+      "gap_ms": 300,
+      "pre_probe_state": [
+        3.3333333333333335e-05,
+        0.11948622378164754,
+        0.0,
+        0.0,
+        0.0,
+        0.0031,
+        22.349466666666668,
+        47.73766666666667
+      ],
+      "first_prefix_channel_ms": 936970.9,
+      "probe_channel_ms": 708865.2000000001,
+      "no_probe_channel_ms": 189.70000000000002,
+      "rested_probe_channel_ms": 933322.9,
+      "incremental_channel_ms": 708675.5000000001
+    },
+    {
+      "seed": 79103,
+      "gap_ms": 300,
+      "pre_probe_state": [
+        0.0001,
+        0.12773150107385858,
+        0.0,
+        0.0,
+        0.0,
+        0.0033666666666666667,
+        22.325466666666667,
+        47.738033333333334
+      ],
+      "first_prefix_channel_ms": 935612.3,
+      "probe_channel_ms": 706108.5,
+      "no_probe_channel_ms": 415.40000000000003,
+      "rested_probe_channel_ms": 938796.6000000001,
+      "incremental_channel_ms": 705693.1
+    },
+    {
+      "seed": 79104,
+      "gap_ms": 300,
+      "pre_probe_state": [
+        0.00016666666666666666,
+        0.13621249664044402,
+        0.0,
+        0.0,
+        0.0,
+        0.0031333333333333335,
+        22.372766666666667,
+        47.735733333333336
+      ],
+      "first_prefix_channel_ms": 938414.1000000001,
+      "probe_channel_ms": 704177.1000000001,
+      "no_probe_channel_ms": 291.6,
+      "rested_probe_channel_ms": 941044.6000000001,
+      "incremental_channel_ms": 703885.5000000001
+    },
+    {
+      "seed": 79105,
+      "gap_ms": 300,
+      "pre_probe_state": [
+        0.0001,
+        0.1277792178748606,
+        0.0,
+        0.0,
+        0.0,
+        0.0041333333333333335,
+        22.334,
+        47.73023333333333
+      ],
+      "first_prefix_channel_ms": 934468.8,
+      "probe_channel_ms": 706921.7000000001,
+      "no_probe_channel_ms": 537.0,
+      "rested_probe_channel_ms": 935790.0,
+      "incremental_channel_ms": 706384.7000000001
+    },
+    {
+      "seed": 79100,
+      "gap_ms": 1000,
+      "pre_probe_state": [
+        0.0,
+        0.05824296515279747,
+        0.0,
+        0.0,
+        0.0,
+        6.666666666666667e-05,
+        0.8211333333333334,
+        49.8024
+      ],
+      "first_prefix_channel_ms": 940052.6000000001,
+      "probe_channel_ms": 931356.5,
+      "no_probe_channel_ms": 0.0,
+      "rested_probe_channel_ms": 937327.8,
+      "incremental_channel_ms": 931356.5
+    },
+    {
+      "seed": 79101,
+      "gap_ms": 1000,
+      "pre_probe_state": [
+        0.0,
+        0.058223701607247255,
+        0.0,
+        0.0,
+        0.0,
+        0.00016666666666666666,
+        0.8138666666666666,
+        49.80726666666666
+      ],
+      "first_prefix_channel_ms": 938054.2000000001,
+      "probe_channel_ms": 940877.5,
+      "no_probe_channel_ms": 0.0,
+      "rested_probe_channel_ms": 942641.6000000001,
+      "incremental_channel_ms": 940877.5
+    },
+    {
+      "seed": 79102,
+      "gap_ms": 1000,
+      "pre_probe_state": [
+        0.0,
+        0.0582618767411047,
+        0.0,
+        0.0,
+        0.0,
+        0.00013333333333333334,
+        0.8282666666666667,
+        49.80336666666667
+      ],
+      "first_prefix_channel_ms": 937160.6000000001,
+      "probe_channel_ms": 933613.1000000001,
+      "no_probe_channel_ms": 49.900000000000006,
+      "rested_probe_channel_ms": 930548.4,
+      "incremental_channel_ms": 933563.2000000001
+    },
+    {
+      "seed": 79103,
+      "gap_ms": 1000,
+      "pre_probe_state": [
+        0.0,
+        0.058216275091682326,
+        0.0,
+        0.0,
+        0.0,
+        6.666666666666667e-05,
+        0.8110666666666667,
+        49.80473333333333
+      ],
+      "first_prefix_channel_ms": 936079.0,
+      "probe_channel_ms": 933819.3,
+      "no_probe_channel_ms": 10.5,
+      "rested_probe_channel_ms": 937823.2000000001,
+      "incremental_channel_ms": 933808.8
+    },
+    {
+      "seed": 79104,
+      "gap_ms": 1000,
+      "pre_probe_state": [
+        0.0,
+        0.058226263424278966,
+        0.0,
+        0.0,
+        0.0,
+        6.666666666666667e-05,
+        0.8148333333333333,
+        49.802733333333336
+      ],
+      "first_prefix_channel_ms": 938974.6000000001,
+      "probe_channel_ms": 938226.0,
+      "no_probe_channel_ms": 0.0,
+      "rested_probe_channel_ms": 934589.3,
+      "incremental_channel_ms": 938226.0
+    },
+    {
+      "seed": 79105,
+      "gap_ms": 1000,
+      "pre_probe_state": [
+        0.0,
+        0.05825277447207614,
+        0.0,
+        0.0,
+        0.0,
+        0.00013333333333333334,
+        0.8248333333333333,
+        49.8053
+      ],
+      "first_prefix_channel_ms": 935162.2000000001,
+      "probe_channel_ms": 932001.7000000001,
+      "no_probe_channel_ms": 0.0,
+      "rested_probe_channel_ms": 936893.4,
+      "incremental_channel_ms": 932001.7000000001
+    }
+  ],
+  "limits": [
+    "Photons are allocated across the explicit microvilli without a population multiplier; this is not whole-eye recovery.",
+    "Probe and no-probe branches share the complete pre-probe state and RNG; subsequent random paths can diverge.",
+    "Incremental area subtracts the no-probe tail; signed differences are retained and are not individual bump detections.",
+    "Rested controls age in darkness until the same absolute probe time.",
+    "Ratios use group means with all trials; values can exceed one or fall below zero.",
+    "Bootstrap intervals describe Monte Carlo seed uncertainty only, not biological uncertainty or simultaneous confidence bands.",
+    "No direct quantitative fit to biological recordings, new refractory timer, rate tuning or live-application change."
+  ]
+}

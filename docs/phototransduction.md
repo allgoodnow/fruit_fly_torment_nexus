@@ -115,6 +115,12 @@ Tests also check dark behavior, causal input timing, the unscaled channel-to-
 membrane handoff, molecular-pool limits, exact chunking, reset, and rollback
 after a failed membrane update.
 
+The [recovery assay](phototransduction-recovery.md) measures a second pulse's
+incremental response against a matched no-probe continuation and a rested
+control. It tests persistent molecular suppression and recovery in both a
+single microvillus and a complete 30,000-microvillus receptor. This is a model
+characterization, not a physiological fit or a new fixed refractory period.
+
 The observed photon-driven runs take about 0.45 seconds per 300 simulated ms
 for **one receptor** after compilation on the development CPU. That does not
 establish usable performance for all 3,377 mapped receptors. Each full receptor
