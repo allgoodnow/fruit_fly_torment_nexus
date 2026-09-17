@@ -8,9 +8,10 @@ The reaction propensities, GHK currents and fast calcium update are taken from
 the pinned MATLAB code. Event timing is an explicit new variant: unrounded
 exponential waits, no empirical latency offset or protected Rh* removal. It
 must not be described as an exact reproduction of the published simulator.
-The direct Octave audit found larger channel responses in this variant; see
-docs/phototransduction-timing-audit.md. Source-matched equations do not make
-this scheduler a validated physiological or upstream-compatible model.
+The direct Octave audit found larger channel responses in this variant. A
+follow-up isolated substantial suppression from upstream time rounding and
+stale input rates; see docs/phototransduction-timing-ablation.md. These checks
+do not establish physiological accuracy or complete simulator equivalence.
 """
 import copy
 import math

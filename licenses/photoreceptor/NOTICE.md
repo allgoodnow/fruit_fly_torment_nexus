@@ -37,6 +37,12 @@ omits the source's empirical latency offset, uniform floor and special
 rhodopsin protection; it is not a full reproduction of the source simulator.
 See `docs/phototransduction.md` for numerical assumptions and limitations.
 
+The timing-audit scripts generate source copies in a user-selected results
+folder to observe events, prevent duplicate photon delivery, vary waiting-time
+rules, and refresh the G-protein activation rate after input. These diagnostic
+changes are described in `docs/phototransduction-timing-ablation.md`; they do
+not modify the source checkout or the application's live sensory pathway.
+
 This component is not imported by the application and is not enabled in the GUI.
 Its GPL license applies to this adapted component; this notice does not grant a
 different license to unrelated project files. Any future distribution of a

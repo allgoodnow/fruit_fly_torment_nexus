@@ -5,6 +5,11 @@ response distributions in this comparison. Matching its scalar equations was
 insufficient: the event scheduler also matters. These results do not establish
 which scheduler is more biologically accurate. The live application is unchanged.
 
+**Follow-up:** the [scheduler investigation](phototransduction-timing-ablation.md)
+isolates a large effect from upstream time rounding and a stale reaction rate
+at photon arrival. The initial 80% difference should not be interpreted as
+evidence that the Python response needs to be reduced by that amount.
+
 ## Direct source execution
 
 The audit executes the unmodified MATLAB cascade in GNU Octave 10.3.0, using

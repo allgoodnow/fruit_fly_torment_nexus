@@ -59,9 +59,11 @@ claimed to be an exact Gillespie solution of a fully specified continuous
 biochemical system. A direct timing comparison against the original cascade
 running in GNU Octave found substantially larger integrated channel responses
 in this variant, plus a reproducible duplicate-input defect in the upstream
-loop. See the [timing audit](phototransduction-timing-audit.md). The variant is
-not a calibrated reproduction; population responses and physiological accuracy
-remain unvalidated.
+loop. See the [timing audit](phototransduction-timing-audit.md). The subsequent
+[scheduler investigation](phototransduction-timing-ablation.md) attributes much
+of that comparison's difference to upstream time rounding and exposes a stale
+activation rate at photon arrival. This supports retaining continuous waits;
+it does not validate population responses or physiological accuracy.
 
 The event generator is NumPy's seeded default generator, not MATLAB's original
 MT19937 stream. Random draws, molecular state, pending events and membrane
