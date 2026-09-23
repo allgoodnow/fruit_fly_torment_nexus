@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "baseline_commit": "01d2046",
+  "baseline_sha256": "90508cb3c1b65165e1df6c290ae845d2c6125c15b692733abdc658237b071956",
+  "current_sha256": "7a19319f143440a3df79a5f9d3114bfb4e0371d003052c8e10b99dea6a1758ee",
+  "microvilli": 30000,
+  "seed": 86100,
+  "simulated_ms": 300,
+  "exact_output_state_rng_checks": [
+    "dark",
+    "pulse",
+    "steady",
+    "paired"
+  ]
+}

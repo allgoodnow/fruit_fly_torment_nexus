@@ -56,6 +56,15 @@ rectification uses an equivalent explicit branch for device compilation.
 Per-cell error reporting and atomic host commits preserve rollback semantics.
 See `docs/photoreceptor-cuda.md` for numerical comparisons and scope.
 
+The optional `phototransduction_parallel.py` and `phototransduction_cuda.py`
+components share the reaction, GHK and fast-calcium equations through
+allocation-free helpers. They introduce per-microvillus xoroshiro128+ streams,
+separate photon-allocation randomness, inverse-CDF event waits, parallel
+molecular execution and integer channel reduction. Seeded trajectories differ
+from the previous shared-stream implementation. Float64 calculations, bounded
+scratch chunks, per-unit work guards and candidate-state commits are described
+in `docs/phototransduction-cuda.md`, along with comparisons and limitations.
+
 This component is not imported by the application and is not enabled in the GUI.
 Its GPL license applies to this adapted component; this notice does not grant a
 different license to unrelated project files. Any future distribution of a

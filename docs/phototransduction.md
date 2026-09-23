@@ -130,5 +130,11 @@ also maintains its own 30,000 molecular states. Scaling to the whole eye is a
 separate unresolved engineering problem; this implementation supplies a
 mechanistic offline reference.
 
+An optional [GPU molecular backend](phototransduction-cuda.md) now shares these
+equations with a CPU reference using per-microvillus random streams. It reaches
+about 2.1× the existing CPU speed in the bright-pulse benchmark, with smaller
+benefits for lighter input and slower darkness. Its seeded trajectories differ
+from this shared-stream model. It remains an offline, single-receptor tool.
+
 Attribution, the GPL-3.0 license, and changes from upstream are recorded in
 `licenses/photoreceptor/NOTICE.md`.

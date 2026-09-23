@@ -39,13 +39,18 @@ SCHEDULE_BLOCK_SIZE = 128
 @njit(cache=not getattr(sys, 'frozen', False))
 def ghk_currents(open_trp, calcium_mm, previous_reversal_v):
     """Pinned TRP_Rev_GHK_online: total/Ca/Na/Mg/K in pA, reversal in V."""
+    return ghk_currents_into(open_trp, calcium_mm, previous_reversal_v, np.empty(4), np.empty(4))
+
+
+@njit(cache=not getattr(sys, 'frozen', False))
+def ghk_currents_into(open_trp, calcium_mm, previous_reversal_v, flux, currents):
+    """Shared equations with caller-owned scratch space for CPU and CUDA."""
     beta, vm = 96485./8.314/293., -.07
     area = math.pi*1.5*.06*1e-8
     concentrations_in = (calcium_mm, 8., 3., 140.)
     concentrations_out = (1.5, 120., 4., 5.)
     valences = (2., 1., 2., 1.)
     weights = (.85, .02, .11, .02)
-    flux = np.empty(4)
     epsilon = 0.
     for i in range(4):
         z = valences[i]
@@ -54,21 +59,32 @@ def ghk_currents(open_trp, calcium_mm, previous_reversal_v):
         epsilon += z*weights[i]*flux[i]
     epsilon *= area*96485.*1e12
     permeability = (open_trp+.0001)*8.*(previous_reversal_v+.07)/epsilon
-    currents = np.empty(4)
     for i in range(4):
         currents[i] = weights[i]*permeability*flux[i]*96485.*valences[i]*area*1e12
     reversal = 8.314*293./96485.*math.log(
         (.02*120.+.85*1.5+.11*4.+.02*5.) / (.02*8.+.85*calcium_mm+.11*3.+.02*140.))
-    return currents.sum(), currents[0], currents[1], currents[2], currents[3], reversal
+    total = 0.
+    for i in range(4):
+        total += currents[i]
+    return total, currents[0], currents[1], currents[2], currents[3], reversal
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
 def reaction_rates(y):
     """Source up/down propensities at a state; no state mutation or clipping."""
+    z = np.empty((8, 2))
+    reaction_rates_into(y, z)
+    return z
+
+
+@njit(cache=not getattr(sys, 'frozen', False))
+def reaction_rates_into(y, z):
     p = PARAMETERS
     fbp = (y[1]/p[0])**p[2] / (1.+(y[1]/p[0])**p[2])
     fbn = 50.*(y[6]/p[1])**p[3] / (1.+(y[6]/p[1])**p[3])
-    z = np.zeros((8, 2))
+    for i in range(8):
+        for j in range(2):
+            z[i, j] = 0.
     z[0, 0] = p[17]*(y[5]/p[18])**p[12]*(1.+p[20]*fbp)*(p[25]-y[0])
     z[0, 1] = y[0]*p[21]*(1.+p[19]*fbn)
     z[2, 0] = p[6]*y[7]*y[3]
@@ -82,7 +98,6 @@ def reaction_rates(y):
     occupancy = y[6]/.5/6.022/3./100.
     z[6, 0] = p[22]*y[1]*(1.-occupancy)
     z[6, 1] = p[23]*y[6]
-    return z
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
@@ -92,7 +107,12 @@ def calcium_update(y, previous_reversal_v):
     This retains the source's voltage-clamped cascade. Whole-cell voltage
     feedback is applied later to the summed channel count, not fed into GHK.
     """
-    currents = ghk_currents(y[0], y[1]/6.022/3./100., previous_reversal_v)
+    return calcium_update_into(y, previous_reversal_v, np.empty(4), np.empty(4))
+
+
+@njit(cache=not getattr(sys, 'frozen', False))
+def calcium_update_into(y, previous_reversal_v, flux, scratch_currents):
+    currents = ghk_currents_into(y[0], y[1]/6.022/3./100., previous_reversal_v, flux, scratch_currents)
     occupancy = y[6]/.5/6.022/3./100.
     calcium = 6.022*3.*100.*(
         currents[1]*1e9/1.002/2./96485./3./1000. + 2.*.0055*occupancy + 2e-4
@@ -134,6 +154,13 @@ def _prepare(y, previous_reversal_v, time_ms, rng):
 
 @njit(cache=not getattr(sys, 'frozen', False))
 def _reaction(y, reaction):
+    if not apply_reaction(y, reaction):
+        raise RuntimeError('Invalid phototransduction molecular state')
+
+
+@njit(cache=not getattr(sys, 'frozen', False))
+def apply_reaction(y, reaction):
+    """Apply an event and return validity, without device-side exceptions."""
     direction, index = reaction//8, reaction % 8
     y[index] += 1 if direction == 0 else -1
     if direction == 0 and index == 4:
@@ -142,9 +169,10 @@ def _reaction(y, reaction):
         y[7] -= 1  # Activating G consumes available G.
     for index in range(8):
         if y[index] < 0 or not math.isfinite(y[index]):
-            raise RuntimeError('Invalid phototransduction molecular state')
+            return False
     if y[0] > 27 or y[4]+y[2]+y[7] > 50:
-        raise RuntimeError('Invalid phototransduction molecular state')
+        return False
+    return True
 
 
 @njit(cache=not getattr(sys, 'frozen', False))

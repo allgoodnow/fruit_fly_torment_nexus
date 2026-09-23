@@ -1,0 +1,2694 @@
+{
+  "format": "nexus-cuda-cascade-1",
+  "success": true,
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "numba": "0.67.0",
+  "dt_ms": 0.1,
+  "dtype": "float64",
+  "fastmath": false,
+  "internal_chunk_ms": 20,
+  "implementation_sha256": {
+    "phototransduction.py": "7a19319f143440a3df79a5f9d3114bfb4e0371d003052c8e10b99dea6a1758ee",
+    "phototransduction_parallel.py": "164b40a7745142768169f9aba2254d637fe66a9ffdd2c74c7ebff1087095306d",
+    "phototransduction_cuda.py": "2780ace7fad64fa9d4d921fac4b7d15e39fec6d3cd13f2012e750ada70e0c08d"
+  },
+  "groups": {
+    "dark": {
+      "median_wall_seconds": {
+        "cpu_parallel": 2.3854626729998927,
+        "cuda_parallel": 0.061656062999645656,
+        "legacy_cpu": 0.04454164500020852
+      },
+      "speedup_vs_matching_cpu": 38.689831250068664,
+      "speedup_vs_legacy_cpu": 0.7224211672494318
+    },
+    "pulse": {
+      "median_wall_seconds": {
+        "cpu_parallel": 2.536712505000196,
+        "cuda_parallel": 0.3104019170000356,
+        "legacy_cpu": 0.346547420999741
+      },
+      "speedup_vs_matching_cpu": 8.172348062527929,
+      "speedup_vs_legacy_cpu": 1.1164474251610412
+    },
+    "bright": {
+      "median_wall_seconds": {
+        "cpu_parallel": 3.505621605000215,
+        "cuda_parallel": 0.8508650929998112,
+        "legacy_cpu": 1.8242362699998012
+      },
+      "speedup_vs_matching_cpu": 4.1200674864223075,
+      "speedup_vs_legacy_cpu": 2.1439782698903196
+    },
+    "steady": {
+      "median_wall_seconds": {
+        "cpu_parallel": 2.540331269000035,
+        "cuda_parallel": 0.34754445199996553,
+        "legacy_cpu": 0.35607914399997753
+      },
+      "speedup_vs_matching_cpu": 7.309370799566919,
+      "speedup_vs_legacy_cpu": 1.0245571234151447
+    },
+    "paired": {
+      "median_wall_seconds": {
+        "cpu_parallel": 2.6901690489999055,
+        "cuda_parallel": 0.4893038989998786,
+        "legacy_cpu": 0.5840977189996011
+      },
+      "speedup_vs_matching_cpu": 5.497951384606835,
+      "speedup_vs_legacy_cpu": 1.193731993947888
+    }
+  },
+  "trials": [
+    {
+      "seed": 84100,
+      "condition": "dark",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 2.3987158730001283,
+        "cuda_parallel": 0.061656062999645656,
+        "legacy_cpu": 0.04094067500000165
+      },
+      "events_parallel": 73411,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 1.3877787807814457e-17,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 0.0,
+        "cuda_parallel": 0.0,
+        "legacy_cpu": 0.0
+      }
+    },
+    {
+      "seed": 84100,
+      "condition": "pulse",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "legacy_cpu": 0.34020654699997976,
+        "cuda_parallel": 0.3034382949999781,
+        "cpu_parallel": 2.4700630379998074
+      },
+      "events_parallel": 1258925,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "legacy_cpu": 135060.2,
+        "cuda_parallel": 135133.6,
+        "cpu_parallel": 135133.6
+      }
+    },
+    {
+      "seed": 84100,
+      "condition": "bright",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 3.4223548740001206,
+        "cuda_parallel": 0.8437962040002276,
+        "legacy_cpu": 1.777701863999937
+      },
+      "events_parallel": 8556652,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 2.842170943040401e-14,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 936135.9,
+        "cuda_parallel": 936135.9,
+        "legacy_cpu": 935673.0
+      }
+    },
+    {
+      "seed": 84100,
+      "condition": "steady",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "legacy_cpu": 0.3453353250001783,
+        "cuda_parallel": 0.34754445199996553,
+        "cpu_parallel": 2.4938606420000724
+      },
+      "events_parallel": 1210892,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "legacy_cpu": 134192.0,
+        "cuda_parallel": 134891.5,
+        "cpu_parallel": 134891.5
+      }
+    },
+    {
+      "seed": 84100,
+      "condition": "paired",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 2.6287772519999635,
+        "cuda_parallel": 0.4893038989998786,
+        "legacy_cpu": 0.5635964929997499
+      },
+      "events_parallel": 2251940,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 258459.2,
+        "cuda_parallel": 258459.2,
+        "legacy_cpu": 258101.90000000002
+      }
+    },
+    {
+      "seed": 84101,
+      "condition": "dark",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "legacy_cpu": 0.04454164500020852,
+        "cuda_parallel": 0.05697817100008251,
+        "cpu_parallel": 2.3470497939997585
+      },
+      "events_parallel": 73533,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 1.3877787807814457e-17,
+      "channel_area_channel_ms": {
+        "legacy_cpu": 0.0,
+        "cuda_parallel": 0.0,
+        "cpu_parallel": 0.0
+      }
+    },
+    {
+      "seed": 84101,
+      "condition": "pulse",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 2.536712505000196,
+        "cuda_parallel": 0.3104019170000356,
+        "legacy_cpu": 0.346547420999741
+      },
+      "events_parallel": 1250118,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 133844.0,
+        "cuda_parallel": 133844.0,
+        "legacy_cpu": 134074.6
+      }
+    },
+    {
+      "seed": 84101,
+      "condition": "bright",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "legacy_cpu": 1.8242362699998012,
+        "cuda_parallel": 0.8508650929998112,
+        "cpu_parallel": 3.505621605000215
+      },
+      "events_parallel": 8512229,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 2.842170943040401e-14,
+      "channel_area_channel_ms": {
+        "legacy_cpu": 935671.0,
+        "cuda_parallel": 929320.8,
+        "cpu_parallel": 929320.8
+      }
+    },
+    {
+      "seed": 84101,
+      "condition": "steady",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 2.540331269000035,
+        "cuda_parallel": 0.35143882300008045,
+        "legacy_cpu": 0.35607914399997753
+      },
+      "events_parallel": 1198372,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 133071.4,
+        "cuda_parallel": 133071.4,
+        "legacy_cpu": 133378.2
+      }
+    },
+    {
+      "seed": 84101,
+      "condition": "paired",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "legacy_cpu": 0.5840977189996011,
+        "cuda_parallel": 0.4664967139997316,
+        "cpu_parallel": 2.6901690489999055
+      },
+      "events_parallel": 2240860,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "legacy_cpu": 258021.1,
+        "cuda_parallel": 256274.0,
+        "cpu_parallel": 256274.0
+      }
+    },
+    {
+      "seed": 84102,
+      "condition": "dark",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 2.3854626729998927,
+        "cuda_parallel": 0.0633563139999751,
+        "legacy_cpu": 0.044889878000049066
+      },
+      "events_parallel": 73109,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 1.3877787807814457e-17,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 0.0,
+        "cuda_parallel": 0.0,
+        "legacy_cpu": 0.0
+      }
+    },
+    {
+      "seed": 84102,
+      "condition": "pulse",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "legacy_cpu": 0.351044032000118,
+        "cuda_parallel": 0.32106134799960273,
+        "cpu_parallel": 2.542667462999816
+      },
+      "events_parallel": 1252331,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "legacy_cpu": 135281.1,
+        "cuda_parallel": 134947.4,
+        "cpu_parallel": 134947.4
+      }
+    },
+    {
+      "seed": 84102,
+      "condition": "bright",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 3.52144638100026,
+        "cuda_parallel": 0.8671637500001452,
+        "legacy_cpu": 1.8632392869999421
+      },
+      "events_parallel": 8533864,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 2.842170943040401e-14,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 933078.9,
+        "cuda_parallel": 933078.9,
+        "legacy_cpu": 928888.7000000001
+      }
+    },
+    {
+      "seed": 84102,
+      "condition": "steady",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "legacy_cpu": 0.3600465819999954,
+        "cuda_parallel": 0.3437775510001302,
+        "cpu_parallel": 2.6874012029998084
+      },
+      "events_parallel": 1201853,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "legacy_cpu": 134585.9,
+        "cuda_parallel": 134223.6,
+        "cpu_parallel": 134223.6
+      }
+    },
+    {
+      "seed": 84102,
+      "condition": "paired",
+      "microvilli": 30000,
+      "simulated_ms": 300,
+      "wall_seconds": {
+        "cpu_parallel": 2.7656374909997794,
+        "cuda_parallel": 0.4928193979999378,
+        "legacy_cpu": 0.6041027629999007
+      },
+      "events_parallel": 2233912,
+      "exact_channel_trace_and_rng": true,
+      "maximum_state_difference": 5.551115123125783e-17,
+      "channel_area_channel_ms": {
+        "cpu_parallel": 256616.5,
+        "cuda_parallel": 256616.5,
+        "legacy_cpu": 259064.80000000002
+      }
+    }
+  ],
+  "ensemble_groups": {
+    "single": {
+      "legacy_area": {
+        "mean": 47.5609375,
+        "std": 9.252641541318132
+      },
+      "parallel_area": {
+        "mean": 46.896093750000006,
+        "std": 10.458115955824569
+      }
+    },
+    "paired_50ms": {
+      "legacy_area": {
+        "mean": 48.380468750000006,
+        "std": 8.007152890780754
+      },
+      "parallel_area": {
+        "mean": 48.3046875,
+        "std": 7.020452229584218
+      }
+    },
+    "paired_500ms": {
+      "legacy_area": {
+        "mean": 88.7671875,
+        "std": 12.495990597145031
+      },
+      "parallel_area": {
+        "mean": 89.37031250000001,
+        "std": 13.678273820359221
+      }
+    }
+  },
+  "ensemble_trials": [
+    {
+      "seed": 85100,
+      "condition": "single",
+      "legacy_area": 43.2,
+      "parallel_area": 47.2
+    },
+    {
+      "seed": 85100,
+      "condition": "paired_50ms",
+      "legacy_area": 43.2,
+      "parallel_area": 47.2
+    },
+    {
+      "seed": 85100,
+      "condition": "paired_500ms",
+      "legacy_area": 81.7,
+      "parallel_area": 89.60000000000001
+    },
+    {
+      "seed": 85101,
+      "condition": "single",
+      "legacy_area": 49.1,
+      "parallel_area": 52.400000000000006
+    },
+    {
+      "seed": 85101,
+      "condition": "paired_50ms",
+      "legacy_area": 49.1,
+      "parallel_area": 52.400000000000006
+    },
+    {
+      "seed": 85101,
+      "condition": "paired_500ms",
+      "legacy_area": 90.9,
+      "parallel_area": 97.9
+    },
+    {
+      "seed": 85102,
+      "condition": "single",
+      "legacy_area": 53.400000000000006,
+      "parallel_area": 53.0
+    },
+    {
+      "seed": 85102,
+      "condition": "paired_50ms",
+      "legacy_area": 53.400000000000006,
+      "parallel_area": 53.0
+    },
+    {
+      "seed": 85102,
+      "condition": "paired_500ms",
+      "legacy_area": 87.7,
+      "parallel_area": 89.80000000000001
+    },
+    {
+      "seed": 85103,
+      "condition": "single",
+      "legacy_area": 36.4,
+      "parallel_area": 47.300000000000004
+    },
+    {
+      "seed": 85103,
+      "condition": "paired_50ms",
+      "legacy_area": 36.4,
+      "parallel_area": 47.300000000000004
+    },
+    {
+      "seed": 85103,
+      "condition": "paired_500ms",
+      "legacy_area": 80.9,
+      "parallel_area": 95.7
+    },
+    {
+      "seed": 85104,
+      "condition": "single",
+      "legacy_area": 45.900000000000006,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85104,
+      "condition": "paired_50ms",
+      "legacy_area": 45.900000000000006,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85104,
+      "condition": "paired_500ms",
+      "legacy_area": 45.900000000000006,
+      "parallel_area": 92.30000000000001
+    },
+    {
+      "seed": 85105,
+      "condition": "single",
+      "legacy_area": 41.400000000000006,
+      "parallel_area": 43.400000000000006
+    },
+    {
+      "seed": 85105,
+      "condition": "paired_50ms",
+      "legacy_area": 41.400000000000006,
+      "parallel_area": 43.400000000000006
+    },
+    {
+      "seed": 85105,
+      "condition": "paired_500ms",
+      "legacy_area": 82.30000000000001,
+      "parallel_area": 80.5
+    },
+    {
+      "seed": 85106,
+      "condition": "single",
+      "legacy_area": 55.1,
+      "parallel_area": 40.900000000000006
+    },
+    {
+      "seed": 85106,
+      "condition": "paired_50ms",
+      "legacy_area": 55.1,
+      "parallel_area": 40.900000000000006
+    },
+    {
+      "seed": 85106,
+      "condition": "paired_500ms",
+      "legacy_area": 96.5,
+      "parallel_area": 106.0
+    },
+    {
+      "seed": 85107,
+      "condition": "single",
+      "legacy_area": 54.1,
+      "parallel_area": 42.1
+    },
+    {
+      "seed": 85107,
+      "condition": "paired_50ms",
+      "legacy_area": 54.1,
+      "parallel_area": 42.1
+    },
+    {
+      "seed": 85107,
+      "condition": "paired_500ms",
+      "legacy_area": 91.0,
+      "parallel_area": 90.2
+    },
+    {
+      "seed": 85108,
+      "condition": "single",
+      "legacy_area": 49.7,
+      "parallel_area": 60.400000000000006
+    },
+    {
+      "seed": 85108,
+      "condition": "paired_50ms",
+      "legacy_area": 49.7,
+      "parallel_area": 60.400000000000006
+    },
+    {
+      "seed": 85108,
+      "condition": "paired_500ms",
+      "legacy_area": 84.10000000000001,
+      "parallel_area": 103.7
+    },
+    {
+      "seed": 85109,
+      "condition": "single",
+      "legacy_area": 56.5,
+      "parallel_area": 32.5
+    },
+    {
+      "seed": 85109,
+      "condition": "paired_50ms",
+      "legacy_area": 56.5,
+      "parallel_area": 40.5
+    },
+    {
+      "seed": 85109,
+      "condition": "paired_500ms",
+      "legacy_area": 97.30000000000001,
+      "parallel_area": 79.0
+    },
+    {
+      "seed": 85110,
+      "condition": "single",
+      "legacy_area": 63.0,
+      "parallel_area": 46.7
+    },
+    {
+      "seed": 85110,
+      "condition": "paired_50ms",
+      "legacy_area": 63.0,
+      "parallel_area": 46.7
+    },
+    {
+      "seed": 85110,
+      "condition": "paired_500ms",
+      "legacy_area": 91.4,
+      "parallel_area": 85.0
+    },
+    {
+      "seed": 85111,
+      "condition": "single",
+      "legacy_area": 44.900000000000006,
+      "parallel_area": 32.7
+    },
+    {
+      "seed": 85111,
+      "condition": "paired_50ms",
+      "legacy_area": 44.900000000000006,
+      "parallel_area": 32.7
+    },
+    {
+      "seed": 85111,
+      "condition": "paired_500ms",
+      "legacy_area": 65.60000000000001,
+      "parallel_area": 32.7
+    },
+    {
+      "seed": 85112,
+      "condition": "single",
+      "legacy_area": 59.900000000000006,
+      "parallel_area": 55.6
+    },
+    {
+      "seed": 85112,
+      "condition": "paired_50ms",
+      "legacy_area": 59.900000000000006,
+      "parallel_area": 55.6
+    },
+    {
+      "seed": 85112,
+      "condition": "paired_500ms",
+      "legacy_area": 99.5,
+      "parallel_area": 88.80000000000001
+    },
+    {
+      "seed": 85113,
+      "condition": "single",
+      "legacy_area": 51.400000000000006,
+      "parallel_area": 52.7
+    },
+    {
+      "seed": 85113,
+      "condition": "paired_50ms",
+      "legacy_area": 51.400000000000006,
+      "parallel_area": 52.7
+    },
+    {
+      "seed": 85113,
+      "condition": "paired_500ms",
+      "legacy_area": 99.10000000000001,
+      "parallel_area": 94.30000000000001
+    },
+    {
+      "seed": 85114,
+      "condition": "single",
+      "legacy_area": 51.900000000000006,
+      "parallel_area": 46.800000000000004
+    },
+    {
+      "seed": 85114,
+      "condition": "paired_50ms",
+      "legacy_area": 51.900000000000006,
+      "parallel_area": 46.800000000000004
+    },
+    {
+      "seed": 85114,
+      "condition": "paired_500ms",
+      "legacy_area": 82.10000000000001,
+      "parallel_area": 72.2
+    },
+    {
+      "seed": 85115,
+      "condition": "single",
+      "legacy_area": 47.6,
+      "parallel_area": 57.0
+    },
+    {
+      "seed": 85115,
+      "condition": "paired_50ms",
+      "legacy_area": 47.6,
+      "parallel_area": 57.0
+    },
+    {
+      "seed": 85115,
+      "condition": "paired_500ms",
+      "legacy_area": 70.5,
+      "parallel_area": 94.80000000000001
+    },
+    {
+      "seed": 85116,
+      "condition": "single",
+      "legacy_area": 52.900000000000006,
+      "parallel_area": 16.7
+    },
+    {
+      "seed": 85116,
+      "condition": "paired_50ms",
+      "legacy_area": 52.900000000000006,
+      "parallel_area": 33.800000000000004
+    },
+    {
+      "seed": 85116,
+      "condition": "paired_500ms",
+      "legacy_area": 52.900000000000006,
+      "parallel_area": 53.900000000000006
+    },
+    {
+      "seed": 85117,
+      "condition": "single",
+      "legacy_area": 53.5,
+      "parallel_area": 56.300000000000004
+    },
+    {
+      "seed": 85117,
+      "condition": "paired_50ms",
+      "legacy_area": 53.5,
+      "parallel_area": 56.300000000000004
+    },
+    {
+      "seed": 85117,
+      "condition": "paired_500ms",
+      "legacy_area": 99.0,
+      "parallel_area": 103.7
+    },
+    {
+      "seed": 85118,
+      "condition": "single",
+      "legacy_area": 51.300000000000004,
+      "parallel_area": 46.1
+    },
+    {
+      "seed": 85118,
+      "condition": "paired_50ms",
+      "legacy_area": 51.300000000000004,
+      "parallel_area": 46.1
+    },
+    {
+      "seed": 85118,
+      "condition": "paired_500ms",
+      "legacy_area": 103.9,
+      "parallel_area": 76.5
+    },
+    {
+      "seed": 85119,
+      "condition": "single",
+      "legacy_area": 47.5,
+      "parallel_area": 42.2
+    },
+    {
+      "seed": 85119,
+      "condition": "paired_50ms",
+      "legacy_area": 47.5,
+      "parallel_area": 42.2
+    },
+    {
+      "seed": 85119,
+      "condition": "paired_500ms",
+      "legacy_area": 94.30000000000001,
+      "parallel_area": 94.60000000000001
+    },
+    {
+      "seed": 85120,
+      "condition": "single",
+      "legacy_area": 41.7,
+      "parallel_area": 61.400000000000006
+    },
+    {
+      "seed": 85120,
+      "condition": "paired_50ms",
+      "legacy_area": 41.7,
+      "parallel_area": 61.400000000000006
+    },
+    {
+      "seed": 85120,
+      "condition": "paired_500ms",
+      "legacy_area": 98.4,
+      "parallel_area": 95.2
+    },
+    {
+      "seed": 85121,
+      "condition": "single",
+      "legacy_area": 33.4,
+      "parallel_area": 38.2
+    },
+    {
+      "seed": 85121,
+      "condition": "paired_50ms",
+      "legacy_area": 33.9,
+      "parallel_area": 38.2
+    },
+    {
+      "seed": 85121,
+      "condition": "paired_500ms",
+      "legacy_area": 73.0,
+      "parallel_area": 91.30000000000001
+    },
+    {
+      "seed": 85122,
+      "condition": "single",
+      "legacy_area": 43.900000000000006,
+      "parallel_area": 37.6
+    },
+    {
+      "seed": 85122,
+      "condition": "paired_50ms",
+      "legacy_area": 43.900000000000006,
+      "parallel_area": 37.6
+    },
+    {
+      "seed": 85122,
+      "condition": "paired_500ms",
+      "legacy_area": 93.60000000000001,
+      "parallel_area": 77.9
+    },
+    {
+      "seed": 85123,
+      "condition": "single",
+      "legacy_area": 40.800000000000004,
+      "parallel_area": 43.2
+    },
+    {
+      "seed": 85123,
+      "condition": "paired_50ms",
+      "legacy_area": 40.800000000000004,
+      "parallel_area": 43.2
+    },
+    {
+      "seed": 85123,
+      "condition": "paired_500ms",
+      "legacy_area": 84.4,
+      "parallel_area": 78.2
+    },
+    {
+      "seed": 85124,
+      "condition": "single",
+      "legacy_area": 51.1,
+      "parallel_area": 47.300000000000004
+    },
+    {
+      "seed": 85124,
+      "condition": "paired_50ms",
+      "legacy_area": 51.1,
+      "parallel_area": 47.300000000000004
+    },
+    {
+      "seed": 85124,
+      "condition": "paired_500ms",
+      "legacy_area": 99.4,
+      "parallel_area": 90.10000000000001
+    },
+    {
+      "seed": 85125,
+      "condition": "single",
+      "legacy_area": 46.300000000000004,
+      "parallel_area": 53.0
+    },
+    {
+      "seed": 85125,
+      "condition": "paired_50ms",
+      "legacy_area": 46.300000000000004,
+      "parallel_area": 53.0
+    },
+    {
+      "seed": 85125,
+      "condition": "paired_500ms",
+      "legacy_area": 86.80000000000001,
+      "parallel_area": 101.5
+    },
+    {
+      "seed": 85126,
+      "condition": "single",
+      "legacy_area": 51.0,
+      "parallel_area": 47.400000000000006
+    },
+    {
+      "seed": 85126,
+      "condition": "paired_50ms",
+      "legacy_area": 51.0,
+      "parallel_area": 47.400000000000006
+    },
+    {
+      "seed": 85126,
+      "condition": "paired_500ms",
+      "legacy_area": 95.7,
+      "parallel_area": 83.0
+    },
+    {
+      "seed": 85127,
+      "condition": "single",
+      "legacy_area": 48.2,
+      "parallel_area": 47.0
+    },
+    {
+      "seed": 85127,
+      "condition": "paired_50ms",
+      "legacy_area": 48.2,
+      "parallel_area": 47.0
+    },
+    {
+      "seed": 85127,
+      "condition": "paired_500ms",
+      "legacy_area": 71.0,
+      "parallel_area": 96.30000000000001
+    },
+    {
+      "seed": 85128,
+      "condition": "single",
+      "legacy_area": 47.5,
+      "parallel_area": 38.5
+    },
+    {
+      "seed": 85128,
+      "condition": "paired_50ms",
+      "legacy_area": 47.5,
+      "parallel_area": 38.5
+    },
+    {
+      "seed": 85128,
+      "condition": "paired_500ms",
+      "legacy_area": 93.80000000000001,
+      "parallel_area": 86.30000000000001
+    },
+    {
+      "seed": 85129,
+      "condition": "single",
+      "legacy_area": 58.5,
+      "parallel_area": 57.7
+    },
+    {
+      "seed": 85129,
+      "condition": "paired_50ms",
+      "legacy_area": 58.5,
+      "parallel_area": 57.7
+    },
+    {
+      "seed": 85129,
+      "condition": "paired_500ms",
+      "legacy_area": 90.4,
+      "parallel_area": 97.60000000000001
+    },
+    {
+      "seed": 85130,
+      "condition": "single",
+      "legacy_area": 40.2,
+      "parallel_area": 48.2
+    },
+    {
+      "seed": 85130,
+      "condition": "paired_50ms",
+      "legacy_area": 40.2,
+      "parallel_area": 48.2
+    },
+    {
+      "seed": 85130,
+      "condition": "paired_500ms",
+      "legacy_area": 86.9,
+      "parallel_area": 98.0
+    },
+    {
+      "seed": 85131,
+      "condition": "single",
+      "legacy_area": 56.0,
+      "parallel_area": 52.7
+    },
+    {
+      "seed": 85131,
+      "condition": "paired_50ms",
+      "legacy_area": 56.0,
+      "parallel_area": 52.7
+    },
+    {
+      "seed": 85131,
+      "condition": "paired_500ms",
+      "legacy_area": 69.7,
+      "parallel_area": 82.10000000000001
+    },
+    {
+      "seed": 85132,
+      "condition": "single",
+      "legacy_area": 39.2,
+      "parallel_area": 50.1
+    },
+    {
+      "seed": 85132,
+      "condition": "paired_50ms",
+      "legacy_area": 39.2,
+      "parallel_area": 50.1
+    },
+    {
+      "seed": 85132,
+      "condition": "paired_500ms",
+      "legacy_area": 82.9,
+      "parallel_area": 103.5
+    },
+    {
+      "seed": 85133,
+      "condition": "single",
+      "legacy_area": 56.6,
+      "parallel_area": 0.0
+    },
+    {
+      "seed": 85133,
+      "condition": "paired_50ms",
+      "legacy_area": 56.6,
+      "parallel_area": 57.900000000000006
+    },
+    {
+      "seed": 85133,
+      "condition": "paired_500ms",
+      "legacy_area": 101.60000000000001,
+      "parallel_area": 57.900000000000006
+    },
+    {
+      "seed": 85134,
+      "condition": "single",
+      "legacy_area": 45.300000000000004,
+      "parallel_area": 45.1
+    },
+    {
+      "seed": 85134,
+      "condition": "paired_50ms",
+      "legacy_area": 45.300000000000004,
+      "parallel_area": 45.1
+    },
+    {
+      "seed": 85134,
+      "condition": "paired_500ms",
+      "legacy_area": 94.80000000000001,
+      "parallel_area": 82.9
+    },
+    {
+      "seed": 85135,
+      "condition": "single",
+      "legacy_area": 0.0,
+      "parallel_area": 51.800000000000004
+    },
+    {
+      "seed": 85135,
+      "condition": "paired_50ms",
+      "legacy_area": 59.5,
+      "parallel_area": 51.800000000000004
+    },
+    {
+      "seed": 85135,
+      "condition": "paired_500ms",
+      "legacy_area": 59.5,
+      "parallel_area": 83.9
+    },
+    {
+      "seed": 85136,
+      "condition": "single",
+      "legacy_area": 52.300000000000004,
+      "parallel_area": 45.800000000000004
+    },
+    {
+      "seed": 85136,
+      "condition": "paired_50ms",
+      "legacy_area": 52.300000000000004,
+      "parallel_area": 45.800000000000004
+    },
+    {
+      "seed": 85136,
+      "condition": "paired_500ms",
+      "legacy_area": 85.80000000000001,
+      "parallel_area": 104.30000000000001
+    },
+    {
+      "seed": 85137,
+      "condition": "single",
+      "legacy_area": 48.400000000000006,
+      "parallel_area": 53.5
+    },
+    {
+      "seed": 85137,
+      "condition": "paired_50ms",
+      "legacy_area": 48.400000000000006,
+      "parallel_area": 53.5
+    },
+    {
+      "seed": 85137,
+      "condition": "paired_500ms",
+      "legacy_area": 84.60000000000001,
+      "parallel_area": 89.60000000000001
+    },
+    {
+      "seed": 85138,
+      "condition": "single",
+      "legacy_area": 35.4,
+      "parallel_area": 43.7
+    },
+    {
+      "seed": 85138,
+      "condition": "paired_50ms",
+      "legacy_area": 35.4,
+      "parallel_area": 43.7
+    },
+    {
+      "seed": 85138,
+      "condition": "paired_500ms",
+      "legacy_area": 85.5,
+      "parallel_area": 92.10000000000001
+    },
+    {
+      "seed": 85139,
+      "condition": "single",
+      "legacy_area": 50.300000000000004,
+      "parallel_area": 46.7
+    },
+    {
+      "seed": 85139,
+      "condition": "paired_50ms",
+      "legacy_area": 50.300000000000004,
+      "parallel_area": 46.7
+    },
+    {
+      "seed": 85139,
+      "condition": "paired_500ms",
+      "legacy_area": 77.10000000000001,
+      "parallel_area": 87.10000000000001
+    },
+    {
+      "seed": 85140,
+      "condition": "single",
+      "legacy_area": 57.400000000000006,
+      "parallel_area": 56.7
+    },
+    {
+      "seed": 85140,
+      "condition": "paired_50ms",
+      "legacy_area": 57.400000000000006,
+      "parallel_area": 56.7
+    },
+    {
+      "seed": 85140,
+      "condition": "paired_500ms",
+      "legacy_area": 82.30000000000001,
+      "parallel_area": 91.60000000000001
+    },
+    {
+      "seed": 85141,
+      "condition": "single",
+      "legacy_area": 62.300000000000004,
+      "parallel_area": 57.900000000000006
+    },
+    {
+      "seed": 85141,
+      "condition": "paired_50ms",
+      "legacy_area": 62.300000000000004,
+      "parallel_area": 57.900000000000006
+    },
+    {
+      "seed": 85141,
+      "condition": "paired_500ms",
+      "legacy_area": 92.80000000000001,
+      "parallel_area": 90.9
+    },
+    {
+      "seed": 85142,
+      "condition": "single",
+      "legacy_area": 53.6,
+      "parallel_area": 55.5
+    },
+    {
+      "seed": 85142,
+      "condition": "paired_50ms",
+      "legacy_area": 53.6,
+      "parallel_area": 55.5
+    },
+    {
+      "seed": 85142,
+      "condition": "paired_500ms",
+      "legacy_area": 94.80000000000001,
+      "parallel_area": 97.80000000000001
+    },
+    {
+      "seed": 85143,
+      "condition": "single",
+      "legacy_area": 50.1,
+      "parallel_area": 58.400000000000006
+    },
+    {
+      "seed": 85143,
+      "condition": "paired_50ms",
+      "legacy_area": 50.1,
+      "parallel_area": 58.400000000000006
+    },
+    {
+      "seed": 85143,
+      "condition": "paired_500ms",
+      "legacy_area": 97.9,
+      "parallel_area": 112.2
+    },
+    {
+      "seed": 85144,
+      "condition": "single",
+      "legacy_area": 60.2,
+      "parallel_area": 48.800000000000004
+    },
+    {
+      "seed": 85144,
+      "condition": "paired_50ms",
+      "legacy_area": 60.2,
+      "parallel_area": 48.800000000000004
+    },
+    {
+      "seed": 85144,
+      "condition": "paired_500ms",
+      "legacy_area": 89.10000000000001,
+      "parallel_area": 99.7
+    },
+    {
+      "seed": 85145,
+      "condition": "single",
+      "legacy_area": 30.8,
+      "parallel_area": 45.900000000000006
+    },
+    {
+      "seed": 85145,
+      "condition": "paired_50ms",
+      "legacy_area": 54.2,
+      "parallel_area": 45.900000000000006
+    },
+    {
+      "seed": 85145,
+      "condition": "paired_500ms",
+      "legacy_area": 76.5,
+      "parallel_area": 73.0
+    },
+    {
+      "seed": 85146,
+      "condition": "single",
+      "legacy_area": 59.2,
+      "parallel_area": 56.800000000000004
+    },
+    {
+      "seed": 85146,
+      "condition": "paired_50ms",
+      "legacy_area": 59.2,
+      "parallel_area": 56.800000000000004
+    },
+    {
+      "seed": 85146,
+      "condition": "paired_500ms",
+      "legacy_area": 95.0,
+      "parallel_area": 98.30000000000001
+    },
+    {
+      "seed": 85147,
+      "condition": "single",
+      "legacy_area": 48.2,
+      "parallel_area": 40.900000000000006
+    },
+    {
+      "seed": 85147,
+      "condition": "paired_50ms",
+      "legacy_area": 48.2,
+      "parallel_area": 40.900000000000006
+    },
+    {
+      "seed": 85147,
+      "condition": "paired_500ms",
+      "legacy_area": 91.30000000000001,
+      "parallel_area": 79.30000000000001
+    },
+    {
+      "seed": 85148,
+      "condition": "single",
+      "legacy_area": 51.800000000000004,
+      "parallel_area": 42.300000000000004
+    },
+    {
+      "seed": 85148,
+      "condition": "paired_50ms",
+      "legacy_area": 51.800000000000004,
+      "parallel_area": 42.300000000000004
+    },
+    {
+      "seed": 85148,
+      "condition": "paired_500ms",
+      "legacy_area": 98.60000000000001,
+      "parallel_area": 93.9
+    },
+    {
+      "seed": 85149,
+      "condition": "single",
+      "legacy_area": 40.7,
+      "parallel_area": 45.400000000000006
+    },
+    {
+      "seed": 85149,
+      "condition": "paired_50ms",
+      "legacy_area": 40.7,
+      "parallel_area": 45.400000000000006
+    },
+    {
+      "seed": 85149,
+      "condition": "paired_500ms",
+      "legacy_area": 94.0,
+      "parallel_area": 95.2
+    },
+    {
+      "seed": 85150,
+      "condition": "single",
+      "legacy_area": 50.300000000000004,
+      "parallel_area": 31.1
+    },
+    {
+      "seed": 85150,
+      "condition": "paired_50ms",
+      "legacy_area": 50.300000000000004,
+      "parallel_area": 31.1
+    },
+    {
+      "seed": 85150,
+      "condition": "paired_500ms",
+      "legacy_area": 106.80000000000001,
+      "parallel_area": 73.8
+    },
+    {
+      "seed": 85151,
+      "condition": "single",
+      "legacy_area": 46.800000000000004,
+      "parallel_area": 55.6
+    },
+    {
+      "seed": 85151,
+      "condition": "paired_50ms",
+      "legacy_area": 46.800000000000004,
+      "parallel_area": 55.6
+    },
+    {
+      "seed": 85151,
+      "condition": "paired_500ms",
+      "legacy_area": 68.9,
+      "parallel_area": 92.7
+    },
+    {
+      "seed": 85152,
+      "condition": "single",
+      "legacy_area": 39.800000000000004,
+      "parallel_area": 58.1
+    },
+    {
+      "seed": 85152,
+      "condition": "paired_50ms",
+      "legacy_area": 39.800000000000004,
+      "parallel_area": 58.1
+    },
+    {
+      "seed": 85152,
+      "condition": "paired_500ms",
+      "legacy_area": 82.10000000000001,
+      "parallel_area": 88.5
+    },
+    {
+      "seed": 85153,
+      "condition": "single",
+      "legacy_area": 54.300000000000004,
+      "parallel_area": 40.5
+    },
+    {
+      "seed": 85153,
+      "condition": "paired_50ms",
+      "legacy_area": 54.300000000000004,
+      "parallel_area": 40.5
+    },
+    {
+      "seed": 85153,
+      "condition": "paired_500ms",
+      "legacy_area": 74.0,
+      "parallel_area": 79.4
+    },
+    {
+      "seed": 85154,
+      "condition": "single",
+      "legacy_area": 50.7,
+      "parallel_area": 38.1
+    },
+    {
+      "seed": 85154,
+      "condition": "paired_50ms",
+      "legacy_area": 50.7,
+      "parallel_area": 38.1
+    },
+    {
+      "seed": 85154,
+      "condition": "paired_500ms",
+      "legacy_area": 99.5,
+      "parallel_area": 68.9
+    },
+    {
+      "seed": 85155,
+      "condition": "single",
+      "legacy_area": 59.0,
+      "parallel_area": 54.300000000000004
+    },
+    {
+      "seed": 85155,
+      "condition": "paired_50ms",
+      "legacy_area": 59.0,
+      "parallel_area": 54.300000000000004
+    },
+    {
+      "seed": 85155,
+      "condition": "paired_500ms",
+      "legacy_area": 114.9,
+      "parallel_area": 102.10000000000001
+    },
+    {
+      "seed": 85156,
+      "condition": "single",
+      "legacy_area": 39.0,
+      "parallel_area": 53.800000000000004
+    },
+    {
+      "seed": 85156,
+      "condition": "paired_50ms",
+      "legacy_area": 39.0,
+      "parallel_area": 53.800000000000004
+    },
+    {
+      "seed": 85156,
+      "condition": "paired_500ms",
+      "legacy_area": 90.30000000000001,
+      "parallel_area": 90.80000000000001
+    },
+    {
+      "seed": 85157,
+      "condition": "single",
+      "legacy_area": 57.2,
+      "parallel_area": 54.300000000000004
+    },
+    {
+      "seed": 85157,
+      "condition": "paired_50ms",
+      "legacy_area": 57.2,
+      "parallel_area": 54.300000000000004
+    },
+    {
+      "seed": 85157,
+      "condition": "paired_500ms",
+      "legacy_area": 107.4,
+      "parallel_area": 100.4
+    },
+    {
+      "seed": 85158,
+      "condition": "single",
+      "legacy_area": 52.1,
+      "parallel_area": 62.6
+    },
+    {
+      "seed": 85158,
+      "condition": "paired_50ms",
+      "legacy_area": 52.1,
+      "parallel_area": 62.6
+    },
+    {
+      "seed": 85158,
+      "condition": "paired_500ms",
+      "legacy_area": 95.4,
+      "parallel_area": 100.80000000000001
+    },
+    {
+      "seed": 85159,
+      "condition": "single",
+      "legacy_area": 45.0,
+      "parallel_area": 53.800000000000004
+    },
+    {
+      "seed": 85159,
+      "condition": "paired_50ms",
+      "legacy_area": 45.0,
+      "parallel_area": 53.800000000000004
+    },
+    {
+      "seed": 85159,
+      "condition": "paired_500ms",
+      "legacy_area": 74.5,
+      "parallel_area": 111.9
+    },
+    {
+      "seed": 85160,
+      "condition": "single",
+      "legacy_area": 48.800000000000004,
+      "parallel_area": 48.800000000000004
+    },
+    {
+      "seed": 85160,
+      "condition": "paired_50ms",
+      "legacy_area": 48.800000000000004,
+      "parallel_area": 48.800000000000004
+    },
+    {
+      "seed": 85160,
+      "condition": "paired_500ms",
+      "legacy_area": 97.4,
+      "parallel_area": 95.7
+    },
+    {
+      "seed": 85161,
+      "condition": "single",
+      "legacy_area": 36.800000000000004,
+      "parallel_area": 44.5
+    },
+    {
+      "seed": 85161,
+      "condition": "paired_50ms",
+      "legacy_area": 36.800000000000004,
+      "parallel_area": 44.5
+    },
+    {
+      "seed": 85161,
+      "condition": "paired_500ms",
+      "legacy_area": 84.10000000000001,
+      "parallel_area": 82.0
+    },
+    {
+      "seed": 85162,
+      "condition": "single",
+      "legacy_area": 48.7,
+      "parallel_area": 36.800000000000004
+    },
+    {
+      "seed": 85162,
+      "condition": "paired_50ms",
+      "legacy_area": 48.7,
+      "parallel_area": 36.800000000000004
+    },
+    {
+      "seed": 85162,
+      "condition": "paired_500ms",
+      "legacy_area": 84.30000000000001,
+      "parallel_area": 75.8
+    },
+    {
+      "seed": 85163,
+      "condition": "single",
+      "legacy_area": 41.7,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85163,
+      "condition": "paired_50ms",
+      "legacy_area": 41.7,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85163,
+      "condition": "paired_500ms",
+      "legacy_area": 97.80000000000001,
+      "parallel_area": 101.80000000000001
+    },
+    {
+      "seed": 85164,
+      "condition": "single",
+      "legacy_area": 44.0,
+      "parallel_area": 49.800000000000004
+    },
+    {
+      "seed": 85164,
+      "condition": "paired_50ms",
+      "legacy_area": 44.0,
+      "parallel_area": 49.800000000000004
+    },
+    {
+      "seed": 85164,
+      "condition": "paired_500ms",
+      "legacy_area": 89.10000000000001,
+      "parallel_area": 96.5
+    },
+    {
+      "seed": 85165,
+      "condition": "single",
+      "legacy_area": 31.5,
+      "parallel_area": 58.800000000000004
+    },
+    {
+      "seed": 85165,
+      "condition": "paired_50ms",
+      "legacy_area": 51.7,
+      "parallel_area": 58.800000000000004
+    },
+    {
+      "seed": 85165,
+      "condition": "paired_500ms",
+      "legacy_area": 80.80000000000001,
+      "parallel_area": 58.800000000000004
+    },
+    {
+      "seed": 85166,
+      "condition": "single",
+      "legacy_area": 52.900000000000006,
+      "parallel_area": 46.1
+    },
+    {
+      "seed": 85166,
+      "condition": "paired_50ms",
+      "legacy_area": 52.900000000000006,
+      "parallel_area": 46.1
+    },
+    {
+      "seed": 85166,
+      "condition": "paired_500ms",
+      "legacy_area": 100.9,
+      "parallel_area": 96.5
+    },
+    {
+      "seed": 85167,
+      "condition": "single",
+      "legacy_area": 46.800000000000004,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85167,
+      "condition": "paired_50ms",
+      "legacy_area": 46.800000000000004,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85167,
+      "condition": "paired_500ms",
+      "legacy_area": 86.60000000000001,
+      "parallel_area": 64.7
+    },
+    {
+      "seed": 85168,
+      "condition": "single",
+      "legacy_area": 31.400000000000002,
+      "parallel_area": 38.0
+    },
+    {
+      "seed": 85168,
+      "condition": "paired_50ms",
+      "legacy_area": 31.400000000000002,
+      "parallel_area": 38.0
+    },
+    {
+      "seed": 85168,
+      "condition": "paired_500ms",
+      "legacy_area": 84.9,
+      "parallel_area": 64.0
+    },
+    {
+      "seed": 85169,
+      "condition": "single",
+      "legacy_area": 50.6,
+      "parallel_area": 45.7
+    },
+    {
+      "seed": 85169,
+      "condition": "paired_50ms",
+      "legacy_area": 50.6,
+      "parallel_area": 45.7
+    },
+    {
+      "seed": 85169,
+      "condition": "paired_500ms",
+      "legacy_area": 92.4,
+      "parallel_area": 93.2
+    },
+    {
+      "seed": 85170,
+      "condition": "single",
+      "legacy_area": 53.900000000000006,
+      "parallel_area": 0.0
+    },
+    {
+      "seed": 85170,
+      "condition": "paired_50ms",
+      "legacy_area": 53.900000000000006,
+      "parallel_area": 49.0
+    },
+    {
+      "seed": 85170,
+      "condition": "paired_500ms",
+      "legacy_area": 98.2,
+      "parallel_area": 49.0
+    },
+    {
+      "seed": 85171,
+      "condition": "single",
+      "legacy_area": 40.400000000000006,
+      "parallel_area": 49.2
+    },
+    {
+      "seed": 85171,
+      "condition": "paired_50ms",
+      "legacy_area": 40.400000000000006,
+      "parallel_area": 49.2
+    },
+    {
+      "seed": 85171,
+      "condition": "paired_500ms",
+      "legacy_area": 69.9,
+      "parallel_area": 89.2
+    },
+    {
+      "seed": 85172,
+      "condition": "single",
+      "legacy_area": 44.6,
+      "parallel_area": 39.2
+    },
+    {
+      "seed": 85172,
+      "condition": "paired_50ms",
+      "legacy_area": 44.6,
+      "parallel_area": 39.2
+    },
+    {
+      "seed": 85172,
+      "condition": "paired_500ms",
+      "legacy_area": 92.7,
+      "parallel_area": 74.10000000000001
+    },
+    {
+      "seed": 85173,
+      "condition": "single",
+      "legacy_area": 64.5,
+      "parallel_area": 49.6
+    },
+    {
+      "seed": 85173,
+      "condition": "paired_50ms",
+      "legacy_area": 64.5,
+      "parallel_area": 49.6
+    },
+    {
+      "seed": 85173,
+      "condition": "paired_500ms",
+      "legacy_area": 117.30000000000001,
+      "parallel_area": 104.80000000000001
+    },
+    {
+      "seed": 85174,
+      "condition": "single",
+      "legacy_area": 40.1,
+      "parallel_area": 56.400000000000006
+    },
+    {
+      "seed": 85174,
+      "condition": "paired_50ms",
+      "legacy_area": 40.1,
+      "parallel_area": 56.400000000000006
+    },
+    {
+      "seed": 85174,
+      "condition": "paired_500ms",
+      "legacy_area": 87.2,
+      "parallel_area": 106.7
+    },
+    {
+      "seed": 85175,
+      "condition": "single",
+      "legacy_area": 55.2,
+      "parallel_area": 41.1
+    },
+    {
+      "seed": 85175,
+      "condition": "paired_50ms",
+      "legacy_area": 55.2,
+      "parallel_area": 41.1
+    },
+    {
+      "seed": 85175,
+      "condition": "paired_500ms",
+      "legacy_area": 86.7,
+      "parallel_area": 89.2
+    },
+    {
+      "seed": 85176,
+      "condition": "single",
+      "legacy_area": 51.0,
+      "parallel_area": 44.300000000000004
+    },
+    {
+      "seed": 85176,
+      "condition": "paired_50ms",
+      "legacy_area": 51.0,
+      "parallel_area": 44.300000000000004
+    },
+    {
+      "seed": 85176,
+      "condition": "paired_500ms",
+      "legacy_area": 98.10000000000001,
+      "parallel_area": 91.30000000000001
+    },
+    {
+      "seed": 85177,
+      "condition": "single",
+      "legacy_area": 40.900000000000006,
+      "parallel_area": 38.400000000000006
+    },
+    {
+      "seed": 85177,
+      "condition": "paired_50ms",
+      "legacy_area": 40.900000000000006,
+      "parallel_area": 38.400000000000006
+    },
+    {
+      "seed": 85177,
+      "condition": "paired_500ms",
+      "legacy_area": 76.3,
+      "parallel_area": 71.4
+    },
+    {
+      "seed": 85178,
+      "condition": "single",
+      "legacy_area": 32.300000000000004,
+      "parallel_area": 50.7
+    },
+    {
+      "seed": 85178,
+      "condition": "paired_50ms",
+      "legacy_area": 32.300000000000004,
+      "parallel_area": 50.7
+    },
+    {
+      "seed": 85178,
+      "condition": "paired_500ms",
+      "legacy_area": 66.60000000000001,
+      "parallel_area": 93.60000000000001
+    },
+    {
+      "seed": 85179,
+      "condition": "single",
+      "legacy_area": 51.7,
+      "parallel_area": 60.6
+    },
+    {
+      "seed": 85179,
+      "condition": "paired_50ms",
+      "legacy_area": 51.7,
+      "parallel_area": 60.6
+    },
+    {
+      "seed": 85179,
+      "condition": "paired_500ms",
+      "legacy_area": 94.30000000000001,
+      "parallel_area": 96.60000000000001
+    },
+    {
+      "seed": 85180,
+      "condition": "single",
+      "legacy_area": 50.800000000000004,
+      "parallel_area": 52.800000000000004
+    },
+    {
+      "seed": 85180,
+      "condition": "paired_50ms",
+      "legacy_area": 50.800000000000004,
+      "parallel_area": 52.800000000000004
+    },
+    {
+      "seed": 85180,
+      "condition": "paired_500ms",
+      "legacy_area": 88.9,
+      "parallel_area": 97.7
+    },
+    {
+      "seed": 85181,
+      "condition": "single",
+      "legacy_area": 49.6,
+      "parallel_area": 41.1
+    },
+    {
+      "seed": 85181,
+      "condition": "paired_50ms",
+      "legacy_area": 49.6,
+      "parallel_area": 41.1
+    },
+    {
+      "seed": 85181,
+      "condition": "paired_500ms",
+      "legacy_area": 103.4,
+      "parallel_area": 84.10000000000001
+    },
+    {
+      "seed": 85182,
+      "condition": "single",
+      "legacy_area": 56.800000000000004,
+      "parallel_area": 46.900000000000006
+    },
+    {
+      "seed": 85182,
+      "condition": "paired_50ms",
+      "legacy_area": 56.800000000000004,
+      "parallel_area": 46.900000000000006
+    },
+    {
+      "seed": 85182,
+      "condition": "paired_500ms",
+      "legacy_area": 99.2,
+      "parallel_area": 101.10000000000001
+    },
+    {
+      "seed": 85183,
+      "condition": "single",
+      "legacy_area": 39.0,
+      "parallel_area": 48.800000000000004
+    },
+    {
+      "seed": 85183,
+      "condition": "paired_50ms",
+      "legacy_area": 39.0,
+      "parallel_area": 48.800000000000004
+    },
+    {
+      "seed": 85183,
+      "condition": "paired_500ms",
+      "legacy_area": 82.2,
+      "parallel_area": 97.7
+    },
+    {
+      "seed": 85184,
+      "condition": "single",
+      "legacy_area": 48.800000000000004,
+      "parallel_area": 55.6
+    },
+    {
+      "seed": 85184,
+      "condition": "paired_50ms",
+      "legacy_area": 48.800000000000004,
+      "parallel_area": 55.6
+    },
+    {
+      "seed": 85184,
+      "condition": "paired_500ms",
+      "legacy_area": 94.7,
+      "parallel_area": 91.5
+    },
+    {
+      "seed": 85185,
+      "condition": "single",
+      "legacy_area": 47.7,
+      "parallel_area": 51.400000000000006
+    },
+    {
+      "seed": 85185,
+      "condition": "paired_50ms",
+      "legacy_area": 47.7,
+      "parallel_area": 51.400000000000006
+    },
+    {
+      "seed": 85185,
+      "condition": "paired_500ms",
+      "legacy_area": 85.2,
+      "parallel_area": 103.2
+    },
+    {
+      "seed": 85186,
+      "condition": "single",
+      "legacy_area": 52.800000000000004,
+      "parallel_area": 48.0
+    },
+    {
+      "seed": 85186,
+      "condition": "paired_50ms",
+      "legacy_area": 52.800000000000004,
+      "parallel_area": 48.0
+    },
+    {
+      "seed": 85186,
+      "condition": "paired_500ms",
+      "legacy_area": 99.2,
+      "parallel_area": 89.10000000000001
+    },
+    {
+      "seed": 85187,
+      "condition": "single",
+      "legacy_area": 52.0,
+      "parallel_area": 48.300000000000004
+    },
+    {
+      "seed": 85187,
+      "condition": "paired_50ms",
+      "legacy_area": 52.0,
+      "parallel_area": 48.300000000000004
+    },
+    {
+      "seed": 85187,
+      "condition": "paired_500ms",
+      "legacy_area": 80.2,
+      "parallel_area": 93.9
+    },
+    {
+      "seed": 85188,
+      "condition": "single",
+      "legacy_area": 41.1,
+      "parallel_area": 54.900000000000006
+    },
+    {
+      "seed": 85188,
+      "condition": "paired_50ms",
+      "legacy_area": 41.1,
+      "parallel_area": 54.900000000000006
+    },
+    {
+      "seed": 85188,
+      "condition": "paired_500ms",
+      "legacy_area": 90.4,
+      "parallel_area": 94.7
+    },
+    {
+      "seed": 85189,
+      "condition": "single",
+      "legacy_area": 50.5,
+      "parallel_area": 54.7
+    },
+    {
+      "seed": 85189,
+      "condition": "paired_50ms",
+      "legacy_area": 50.5,
+      "parallel_area": 54.7
+    },
+    {
+      "seed": 85189,
+      "condition": "paired_500ms",
+      "legacy_area": 95.0,
+      "parallel_area": 95.7
+    },
+    {
+      "seed": 85190,
+      "condition": "single",
+      "legacy_area": 38.800000000000004,
+      "parallel_area": 49.2
+    },
+    {
+      "seed": 85190,
+      "condition": "paired_50ms",
+      "legacy_area": 38.800000000000004,
+      "parallel_area": 49.2
+    },
+    {
+      "seed": 85190,
+      "condition": "paired_500ms",
+      "legacy_area": 83.9,
+      "parallel_area": 108.9
+    },
+    {
+      "seed": 85191,
+      "condition": "single",
+      "legacy_area": 65.9,
+      "parallel_area": 49.900000000000006
+    },
+    {
+      "seed": 85191,
+      "condition": "paired_50ms",
+      "legacy_area": 65.9,
+      "parallel_area": 49.900000000000006
+    },
+    {
+      "seed": 85191,
+      "condition": "paired_500ms",
+      "legacy_area": 106.0,
+      "parallel_area": 93.2
+    },
+    {
+      "seed": 85192,
+      "condition": "single",
+      "legacy_area": 47.400000000000006,
+      "parallel_area": 46.800000000000004
+    },
+    {
+      "seed": 85192,
+      "condition": "paired_50ms",
+      "legacy_area": 47.400000000000006,
+      "parallel_area": 46.800000000000004
+    },
+    {
+      "seed": 85192,
+      "condition": "paired_500ms",
+      "legacy_area": 104.7,
+      "parallel_area": 91.60000000000001
+    },
+    {
+      "seed": 85193,
+      "condition": "single",
+      "legacy_area": 30.200000000000003,
+      "parallel_area": 43.1
+    },
+    {
+      "seed": 85193,
+      "condition": "paired_50ms",
+      "legacy_area": 30.200000000000003,
+      "parallel_area": 43.1
+    },
+    {
+      "seed": 85193,
+      "condition": "paired_500ms",
+      "legacy_area": 57.900000000000006,
+      "parallel_area": 89.9
+    },
+    {
+      "seed": 85194,
+      "condition": "single",
+      "legacy_area": 44.7,
+      "parallel_area": 34.1
+    },
+    {
+      "seed": 85194,
+      "condition": "paired_50ms",
+      "legacy_area": 44.7,
+      "parallel_area": 34.1
+    },
+    {
+      "seed": 85194,
+      "condition": "paired_500ms",
+      "legacy_area": 75.2,
+      "parallel_area": 73.10000000000001
+    },
+    {
+      "seed": 85195,
+      "condition": "single",
+      "legacy_area": 54.900000000000006,
+      "parallel_area": 53.6
+    },
+    {
+      "seed": 85195,
+      "condition": "paired_50ms",
+      "legacy_area": 54.900000000000006,
+      "parallel_area": 53.6
+    },
+    {
+      "seed": 85195,
+      "condition": "paired_500ms",
+      "legacy_area": 110.9,
+      "parallel_area": 103.2
+    },
+    {
+      "seed": 85196,
+      "condition": "single",
+      "legacy_area": 50.1,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85196,
+      "condition": "paired_50ms",
+      "legacy_area": 50.1,
+      "parallel_area": 46.400000000000006
+    },
+    {
+      "seed": 85196,
+      "condition": "paired_500ms",
+      "legacy_area": 90.60000000000001,
+      "parallel_area": 87.10000000000001
+    },
+    {
+      "seed": 85197,
+      "condition": "single",
+      "legacy_area": 46.0,
+      "parallel_area": 55.5
+    },
+    {
+      "seed": 85197,
+      "condition": "paired_50ms",
+      "legacy_area": 46.0,
+      "parallel_area": 55.5
+    },
+    {
+      "seed": 85197,
+      "condition": "paired_500ms",
+      "legacy_area": 102.30000000000001,
+      "parallel_area": 101.9
+    },
+    {
+      "seed": 85198,
+      "condition": "single",
+      "legacy_area": 34.2,
+      "parallel_area": 44.7
+    },
+    {
+      "seed": 85198,
+      "condition": "paired_50ms",
+      "legacy_area": 35.5,
+      "parallel_area": 44.7
+    },
+    {
+      "seed": 85198,
+      "condition": "paired_500ms",
+      "legacy_area": 87.2,
+      "parallel_area": 85.30000000000001
+    },
+    {
+      "seed": 85199,
+      "condition": "single",
+      "legacy_area": 50.5,
+      "parallel_area": 50.0
+    },
+    {
+      "seed": 85199,
+      "condition": "paired_50ms",
+      "legacy_area": 50.5,
+      "parallel_area": 50.0
+    },
+    {
+      "seed": 85199,
+      "condition": "paired_500ms",
+      "legacy_area": 84.0,
+      "parallel_area": 88.2
+    },
+    {
+      "seed": 85200,
+      "condition": "single",
+      "legacy_area": 57.0,
+      "parallel_area": 50.6
+    },
+    {
+      "seed": 85200,
+      "condition": "paired_50ms",
+      "legacy_area": 57.0,
+      "parallel_area": 50.6
+    },
+    {
+      "seed": 85200,
+      "condition": "paired_500ms",
+      "legacy_area": 93.4,
+      "parallel_area": 102.4
+    },
+    {
+      "seed": 85201,
+      "condition": "single",
+      "legacy_area": 50.2,
+      "parallel_area": 51.800000000000004
+    },
+    {
+      "seed": 85201,
+      "condition": "paired_50ms",
+      "legacy_area": 50.2,
+      "parallel_area": 51.800000000000004
+    },
+    {
+      "seed": 85201,
+      "condition": "paired_500ms",
+      "legacy_area": 80.4,
+      "parallel_area": 99.7
+    },
+    {
+      "seed": 85202,
+      "condition": "single",
+      "legacy_area": 59.900000000000006,
+      "parallel_area": 44.7
+    },
+    {
+      "seed": 85202,
+      "condition": "paired_50ms",
+      "legacy_area": 59.900000000000006,
+      "parallel_area": 44.7
+    },
+    {
+      "seed": 85202,
+      "condition": "paired_500ms",
+      "legacy_area": 86.30000000000001,
+      "parallel_area": 83.4
+    },
+    {
+      "seed": 85203,
+      "condition": "single",
+      "legacy_area": 21.700000000000003,
+      "parallel_area": 32.2
+    },
+    {
+      "seed": 85203,
+      "condition": "paired_50ms",
+      "legacy_area": 21.700000000000003,
+      "parallel_area": 32.2
+    },
+    {
+      "seed": 85203,
+      "condition": "paired_500ms",
+      "legacy_area": 69.7,
+      "parallel_area": 75.5
+    },
+    {
+      "seed": 85204,
+      "condition": "single",
+      "legacy_area": 53.300000000000004,
+      "parallel_area": 47.300000000000004
+    },
+    {
+      "seed": 85204,
+      "condition": "paired_50ms",
+      "legacy_area": 53.300000000000004,
+      "parallel_area": 47.300000000000004
+    },
+    {
+      "seed": 85204,
+      "condition": "paired_500ms",
+      "legacy_area": 94.5,
+      "parallel_area": 60.6
+    },
+    {
+      "seed": 85205,
+      "condition": "single",
+      "legacy_area": 50.6,
+      "parallel_area": 46.1
+    },
+    {
+      "seed": 85205,
+      "condition": "paired_50ms",
+      "legacy_area": 50.6,
+      "parallel_area": 46.1
+    },
+    {
+      "seed": 85205,
+      "condition": "paired_500ms",
+      "legacy_area": 92.60000000000001,
+      "parallel_area": 85.60000000000001
+    },
+    {
+      "seed": 85206,
+      "condition": "single",
+      "legacy_area": 52.7,
+      "parallel_area": 43.1
+    },
+    {
+      "seed": 85206,
+      "condition": "paired_50ms",
+      "legacy_area": 52.7,
+      "parallel_area": 43.1
+    },
+    {
+      "seed": 85206,
+      "condition": "paired_500ms",
+      "legacy_area": 108.7,
+      "parallel_area": 85.80000000000001
+    },
+    {
+      "seed": 85207,
+      "condition": "single",
+      "legacy_area": 58.300000000000004,
+      "parallel_area": 35.2
+    },
+    {
+      "seed": 85207,
+      "condition": "paired_50ms",
+      "legacy_area": 58.300000000000004,
+      "parallel_area": 35.2
+    },
+    {
+      "seed": 85207,
+      "condition": "paired_500ms",
+      "legacy_area": 105.4,
+      "parallel_area": 76.60000000000001
+    },
+    {
+      "seed": 85208,
+      "condition": "single",
+      "legacy_area": 47.400000000000006,
+      "parallel_area": 47.900000000000006
+    },
+    {
+      "seed": 85208,
+      "condition": "paired_50ms",
+      "legacy_area": 47.400000000000006,
+      "parallel_area": 47.900000000000006
+    },
+    {
+      "seed": 85208,
+      "condition": "paired_500ms",
+      "legacy_area": 77.4,
+      "parallel_area": 96.0
+    },
+    {
+      "seed": 85209,
+      "condition": "single",
+      "legacy_area": 41.300000000000004,
+      "parallel_area": 47.0
+    },
+    {
+      "seed": 85209,
+      "condition": "paired_50ms",
+      "legacy_area": 41.300000000000004,
+      "parallel_area": 47.0
+    },
+    {
+      "seed": 85209,
+      "condition": "paired_500ms",
+      "legacy_area": 92.9,
+      "parallel_area": 97.2
+    },
+    {
+      "seed": 85210,
+      "condition": "single",
+      "legacy_area": 62.5,
+      "parallel_area": 44.300000000000004
+    },
+    {
+      "seed": 85210,
+      "condition": "paired_50ms",
+      "legacy_area": 62.5,
+      "parallel_area": 44.300000000000004
+    },
+    {
+      "seed": 85210,
+      "condition": "paired_500ms",
+      "legacy_area": 108.80000000000001,
+      "parallel_area": 94.80000000000001
+    },
+    {
+      "seed": 85211,
+      "condition": "single",
+      "legacy_area": 44.2,
+      "parallel_area": 46.900000000000006
+    },
+    {
+      "seed": 85211,
+      "condition": "paired_50ms",
+      "legacy_area": 44.2,
+      "parallel_area": 46.900000000000006
+    },
+    {
+      "seed": 85211,
+      "condition": "paired_500ms",
+      "legacy_area": 76.9,
+      "parallel_area": 88.10000000000001
+    },
+    {
+      "seed": 85212,
+      "condition": "single",
+      "legacy_area": 52.300000000000004,
+      "parallel_area": 54.0
+    },
+    {
+      "seed": 85212,
+      "condition": "paired_50ms",
+      "legacy_area": 52.300000000000004,
+      "parallel_area": 54.0
+    },
+    {
+      "seed": 85212,
+      "condition": "paired_500ms",
+      "legacy_area": 87.0,
+      "parallel_area": 112.4
+    },
+    {
+      "seed": 85213,
+      "condition": "single",
+      "legacy_area": 46.0,
+      "parallel_area": 58.0
+    },
+    {
+      "seed": 85213,
+      "condition": "paired_50ms",
+      "legacy_area": 46.0,
+      "parallel_area": 58.0
+    },
+    {
+      "seed": 85213,
+      "condition": "paired_500ms",
+      "legacy_area": 78.9,
+      "parallel_area": 111.0
+    },
+    {
+      "seed": 85214,
+      "condition": "single",
+      "legacy_area": 47.7,
+      "parallel_area": 56.7
+    },
+    {
+      "seed": 85214,
+      "condition": "paired_50ms",
+      "legacy_area": 47.7,
+      "parallel_area": 56.7
+    },
+    {
+      "seed": 85214,
+      "condition": "paired_500ms",
+      "legacy_area": 100.4,
+      "parallel_area": 100.60000000000001
+    },
+    {
+      "seed": 85215,
+      "condition": "single",
+      "legacy_area": 53.300000000000004,
+      "parallel_area": 56.2
+    },
+    {
+      "seed": 85215,
+      "condition": "paired_50ms",
+      "legacy_area": 53.300000000000004,
+      "parallel_area": 56.2
+    },
+    {
+      "seed": 85215,
+      "condition": "paired_500ms",
+      "legacy_area": 96.4,
+      "parallel_area": 104.2
+    },
+    {
+      "seed": 85216,
+      "condition": "single",
+      "legacy_area": 26.0,
+      "parallel_area": 0.0
+    },
+    {
+      "seed": 85216,
+      "condition": "paired_50ms",
+      "legacy_area": 26.0,
+      "parallel_area": 48.300000000000004
+    },
+    {
+      "seed": 85216,
+      "condition": "paired_500ms",
+      "legacy_area": 67.60000000000001,
+      "parallel_area": 48.300000000000004
+    },
+    {
+      "seed": 85217,
+      "condition": "single",
+      "legacy_area": 41.7,
+      "parallel_area": 31.900000000000002
+    },
+    {
+      "seed": 85217,
+      "condition": "paired_50ms",
+      "legacy_area": 41.7,
+      "parallel_area": 31.900000000000002
+    },
+    {
+      "seed": 85217,
+      "condition": "paired_500ms",
+      "legacy_area": 75.4,
+      "parallel_area": 77.0
+    },
+    {
+      "seed": 85218,
+      "condition": "single",
+      "legacy_area": 40.7,
+      "parallel_area": 47.900000000000006
+    },
+    {
+      "seed": 85218,
+      "condition": "paired_50ms",
+      "legacy_area": 40.7,
+      "parallel_area": 47.900000000000006
+    },
+    {
+      "seed": 85218,
+      "condition": "paired_500ms",
+      "legacy_area": 79.2,
+      "parallel_area": 98.80000000000001
+    },
+    {
+      "seed": 85219,
+      "condition": "single",
+      "legacy_area": 36.5,
+      "parallel_area": 53.800000000000004
+    },
+    {
+      "seed": 85219,
+      "condition": "paired_50ms",
+      "legacy_area": 36.5,
+      "parallel_area": 53.800000000000004
+    },
+    {
+      "seed": 85219,
+      "condition": "paired_500ms",
+      "legacy_area": 87.30000000000001,
+      "parallel_area": 105.0
+    },
+    {
+      "seed": 85220,
+      "condition": "single",
+      "legacy_area": 54.300000000000004,
+      "parallel_area": 50.7
+    },
+    {
+      "seed": 85220,
+      "condition": "paired_50ms",
+      "legacy_area": 54.300000000000004,
+      "parallel_area": 50.7
+    },
+    {
+      "seed": 85220,
+      "condition": "paired_500ms",
+      "legacy_area": 103.80000000000001,
+      "parallel_area": 84.5
+    },
+    {
+      "seed": 85221,
+      "condition": "single",
+      "legacy_area": 51.6,
+      "parallel_area": 62.300000000000004
+    },
+    {
+      "seed": 85221,
+      "condition": "paired_50ms",
+      "legacy_area": 51.6,
+      "parallel_area": 62.300000000000004
+    },
+    {
+      "seed": 85221,
+      "condition": "paired_500ms",
+      "legacy_area": 81.60000000000001,
+      "parallel_area": 94.10000000000001
+    },
+    {
+      "seed": 85222,
+      "condition": "single",
+      "legacy_area": 53.800000000000004,
+      "parallel_area": 47.6
+    },
+    {
+      "seed": 85222,
+      "condition": "paired_50ms",
+      "legacy_area": 53.800000000000004,
+      "parallel_area": 47.6
+    },
+    {
+      "seed": 85222,
+      "condition": "paired_500ms",
+      "legacy_area": 90.80000000000001,
+      "parallel_area": 93.9
+    },
+    {
+      "seed": 85223,
+      "condition": "single",
+      "legacy_area": 32.300000000000004,
+      "parallel_area": 36.5
+    },
+    {
+      "seed": 85223,
+      "condition": "paired_50ms",
+      "legacy_area": 32.300000000000004,
+      "parallel_area": 36.5
+    },
+    {
+      "seed": 85223,
+      "condition": "paired_500ms",
+      "legacy_area": 78.60000000000001,
+      "parallel_area": 89.9
+    },
+    {
+      "seed": 85224,
+      "condition": "single",
+      "legacy_area": 44.900000000000006,
+      "parallel_area": 55.2
+    },
+    {
+      "seed": 85224,
+      "condition": "paired_50ms",
+      "legacy_area": 44.900000000000006,
+      "parallel_area": 55.2
+    },
+    {
+      "seed": 85224,
+      "condition": "paired_500ms",
+      "legacy_area": 93.9,
+      "parallel_area": 91.0
+    },
+    {
+      "seed": 85225,
+      "condition": "single",
+      "legacy_area": 55.800000000000004,
+      "parallel_area": 46.0
+    },
+    {
+      "seed": 85225,
+      "condition": "paired_50ms",
+      "legacy_area": 55.800000000000004,
+      "parallel_area": 46.0
+    },
+    {
+      "seed": 85225,
+      "condition": "paired_500ms",
+      "legacy_area": 104.7,
+      "parallel_area": 82.4
+    },
+    {
+      "seed": 85226,
+      "condition": "single",
+      "legacy_area": 39.7,
+      "parallel_area": 54.1
+    },
+    {
+      "seed": 85226,
+      "condition": "paired_50ms",
+      "legacy_area": 39.7,
+      "parallel_area": 54.1
+    },
+    {
+      "seed": 85226,
+      "condition": "paired_500ms",
+      "legacy_area": 104.4,
+      "parallel_area": 100.80000000000001
+    },
+    {
+      "seed": 85227,
+      "condition": "single",
+      "legacy_area": 49.2,
+      "parallel_area": 50.0
+    },
+    {
+      "seed": 85227,
+      "condition": "paired_50ms",
+      "legacy_area": 49.2,
+      "parallel_area": 50.0
+    },
+    {
+      "seed": 85227,
+      "condition": "paired_500ms",
+      "legacy_area": 100.9,
+      "parallel_area": 92.60000000000001
+    }
+  ],
+  "limits": [
+    "One complete receptor at a time, not all mapped receptors or the full brain.",
+    "Whole-call timings include photon allocation, transfers, reduction, membrane integration and host commit; exclude initialization and JIT.",
+    "Parallel backend uses separate xoroshiro128+ event streams and inverse-CDF waits; legacy uses a shared NumPy generator.",
+    "Legacy seed trajectories are intentionally different. Ensemble summaries are descriptive, not a physiological fit or predefined equivalence test.",
+    "Photon allocation and the one-cell membrane remain on CPU. Live application is unchanged."
+  ]
+}
