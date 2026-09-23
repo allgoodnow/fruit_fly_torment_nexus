@@ -114,6 +114,13 @@ across 3,377 independent cells. This is roughly 25 times slower than real time
 for this subsystem alone; it does not include the biochemical cascade, brain,
 or body. It supports short offline experiments, not a real-time performance claim.
 
+An [optional CUDA membrane backend](photoreceptor-cuda.md) now shares these
+equations and runs cells in parallel. On the tested RTX 4060 Laptop GPU, the
+3,377-cell pulse benchmark is about 12 times faster, including transfers, with
+CPU/GPU voltage differences below 1e-7 mV. This accelerates only channel-driven
+membrane integration; it does not move the molecular cascade or live brain
+onto the GPU.
+
 ## What this does not establish
 
 The authors' complete light-response model also includes photon absorption and

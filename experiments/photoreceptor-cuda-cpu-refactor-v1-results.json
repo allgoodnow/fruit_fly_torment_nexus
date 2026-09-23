@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "baseline_commit": "92840a1",
+  "baseline_sha256": "568c5b5ca08c0a2e369923edd6c19b3f64a29da221cc2dcd4efa1c4587fe6778",
+  "current_sha256": "298ec7a7c768dbb57589e65dce0bfea3a1b66ba8a2305a2c69ddb19a0690ad39",
+  "source_fixture_states": 64,
+  "pulse_cells": 5,
+  "pulse_ticks": 3000,
+  "exact_cpu_derivatives_and_trajectories": true
+}

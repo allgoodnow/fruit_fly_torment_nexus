@@ -35,7 +35,11 @@ def trp_current_na(open_channels, voltage_mv):
     pS × mV is 1e-6 nA. The source's inward-only rectification is retained;
     this is its effective current rule, not the full GHK permeability model.
     """
-    return open_channels * TRP_CONDUCTANCE_PS * max(TRP_REVERSAL_MV-voltage_mv, 0.) * 1e-6
+    driving_force = TRP_REVERSAL_MV-voltage_mv
+    # Explicit branch also compiles with the CUDA target's scalar type rules.
+    if driving_force < 0.:
+        driving_force = 0.
+    return open_channels * TRP_CONDUCTANCE_PS * driving_force * 1e-6
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
@@ -53,8 +57,8 @@ def _ratio(x, scale):
 
 
 @njit(cache=not getattr(sys, 'frozen', False))
-def derivative(y, current_na):
-    """Published BG1 equations; derivatives per ms, currents inward-positive."""
+def derivative_values(y, current_na):
+    """Allocation-free BG1 derivatives shared by CPU and optional CUDA kernels."""
     v, h, n, m, ha, nk, nai, ki, cai = y
     # Voltage-dependent steady states and kinetics from the source HH model.
     h_inf = 1. / (1. + math.exp((-25.7-v) / -6.4))
@@ -91,18 +95,23 @@ def derivative(y, current_na):
     potassium_current = (gnew+gka+gks+gl2) * (v-vk) * 1.57e-5 * 1e6
     total = gka+gks+gl+gl2+gnew+gcl
     reversal_sum = (gnew+gka+gks+gl2)*vk + (gl+gcl)*vl
-    dy = np.empty(9)
-    dy[0] = (-v*total + reversal_sum)/(.001*cm) + (current_na+inaca+inak+ica)/(1000.*cm*1.57e-5)
-    dy[1] = (h_inf-h)*h_rate
-    dy[2] = (n_inf-n)*n_rate
-    dy[3] = (m_inf-m)*m_rate
-    dy[4] = (ha_inf-ha)*ha_rate
-    dy[5] = (nk_inf-nk)*nk_rate
+    dv = (-v*total + reversal_sum)/(.001*cm) + (current_na+inaca+inak+ica)/(1000.*cm*1.57e-5)
+    dh = (h_inf-h)*h_rate
+    dn = (n_inf-n)*n_rate
+    dm = (m_inf-m)*m_rate
+    dha = (ha_inf-ha)*ha_rate
+    dnk = (nk_inf-nk)*nk_rate
     scale = 1000. / 2.92 / 96485.
-    dy[6] = (current_na*.2054 + 3.*inaca + 3.*inak)*scale
-    dy[7] = (current_na*.2401 - 2.*inak - potassium_current)*scale
-    dy[8] = (current_na*.41 - 2.*inaca + ica)*scale/2.
-    return dy
+    dnai = (current_na*.2054 + 3.*inaca + 3.*inak)*scale
+    dki = (current_na*.2401 - 2.*inak - potassium_current)*scale
+    dcai = (current_na*.41 - 2.*inaca + ica)*scale/2.
+    return dv, dh, dn, dm, dha, dnk, dnai, dki, dcai
+
+
+@njit(cache=not getattr(sys, 'frozen', False))
+def derivative(y, current_na):
+    """Published BG1 equations; derivatives per ms, currents inward-positive."""
+    return np.array(derivative_values(y, current_na))
 
 
 def initial_state(cells=1):

@@ -49,6 +49,13 @@ the existing reaction and RNG order. Exact output/state comparisons against
 the prior Python implementation are described in
 `docs/phototransduction-performance.md`.
 
+The optional `photoreceptor_cuda.py` component runs the same BG1 derivative and
+TRP current functions with float64 RK4 integration on CUDA. The shared CPU
+derivative was refactored to return a fixed tuple, and inward-current
+rectification uses an equivalent explicit branch for device compilation.
+Per-cell error reporting and atomic host commits preserve rollback semantics.
+See `docs/photoreceptor-cuda.md` for numerical comparisons and scope.
+
 This component is not imported by the application and is not enabled in the GUI.
 Its GPL license applies to this adapted component; this notice does not grant a
 different license to unrelated project files. Any future distribution of a
