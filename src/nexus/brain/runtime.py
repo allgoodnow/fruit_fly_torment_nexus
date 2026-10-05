@@ -8,6 +8,8 @@ from __future__ import annotations
 from collections import deque
 from dataclasses import dataclass
 import math
+import os
+import operator
 from pathlib import Path
 import json
 import hashlib
@@ -15,13 +17,14 @@ import re
 import sys
 
 import numpy as np
-from numba import njit
+from numba import config as numba_config, get_num_threads, njit, prange, set_num_threads
 
 DT_MS = 0.1
 DELAY_STEPS = 18
 REFRACTORY_STEPS = 22
 ACTIVITY_BIN_STEPS = 100  # 10 ms, independent of worker / GUI refresh intervals.
 ACTIVITY_BINS = 500       # Five simulated seconds, including silent intervals.
+PARALLEL_MIN_NEURONS = 10000
 
 
 def weights_filename(manifest):
@@ -34,13 +37,52 @@ def weights_filename(manifest):
     return name
 
 
+@njit(cache=not getattr(sys, "frozen", False), fastmath=False, inline='always')
+def _integrate_cell(i, v, g, last_spike, refractory, enabled, tick,
+                    background_enabled, background, graded_enabled, graded_mask,
+                    histamine_g, bounded_synapses, excitation_g, receptor_mask,
+                    em, eg, coupling):
+    # Each cell owns its state here. Synaptic deliveries remain serial below.
+    enabled[i] = tick - last_spike[i] >= refractory[i] and not receptor_mask[i]
+    if enabled[i]:
+        if bounded_synapses:
+            h, e = histamine_g[i], excitation_g[i]
+            total = 1.0 + h + e
+            equilibrium = (-52.0 - 70.0 * h) / total
+            v[i] = equilibrium + (v[i] - equilibrium) * math.exp(-DT_MS * total / 20.0)
+            histamine_g[i] *= eg
+            excitation_g[i] *= eg
+        elif graded_enabled and graded_mask[i]:
+            h = histamine_g[i]
+            equilibrium = (-52.0 + g[i] - 70.0 * h) / (1.0 + h)
+            v[i] = equilibrium + (v[i] - equilibrium) * math.exp(-DT_MS * (1.0 + h) / 20.0)
+            histamine_g[i] *= eg
+        else:
+            v[i] = -52.0 + (v[i] + 52.0) * em + g[i] * coupling
+        if background_enabled:
+            v[i] += background[i] * (1.0 - em)
+        g[i] *= eg
+
+
+@njit(cache=not getattr(sys, "frozen", False), fastmath=False, parallel=True)
+def _integrate_parallel(v, g, last_spike, refractory, enabled, tick,
+                        background_enabled, background, graded_enabled, graded_mask,
+                        histamine_g, bounded_synapses, excitation_g, receptor_mask,
+                        em, eg, coupling):
+    for i in prange(len(v)):
+        _integrate_cell(i, v, g, last_spike, refractory, enabled, tick,
+                        background_enabled, background, graded_enabled, graded_mask,
+                        histamine_g, bounded_synapses, excitation_g, receptor_mask,
+                        em, eg, coupling)
+
+
 @njit(cache=not getattr(sys, "frozen", False), fastmath=False)
 def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
              output_gain, inhibition_gain, queue, queue_size, counts, step, inputs, input_events,
              trace_ids, background_enabled, background, graded_enabled, graded_mask,
              graded_indices, histamine_sources, histamine_g, graded_queue,
              bounded_synapses, excitation_g, receptor_mask, receptor_indices,
-             receptor_voltage, receptor_release, receptor_queue):
+             receptor_voltage, receptor_release, receptor_queue, parallel_integrate=False):
     steps = len(input_events)
     trace = np.empty((steps, len(trace_ids)), dtype=np.float64)
     # Output bounded by one chunk, not total lifetime.
@@ -55,30 +97,17 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
     for local in range(steps):
         tick = step + local
         slot = tick % len(queue_size)
-        for i in range(len(v)):
-            # Voltage replay sources are nonspiking and voltage-clamped. Incoming
-            # feedback is excluded rather than accumulated behind the clamp.
-            enabled[i] = tick - last_spike[i] >= refractory[i] and not receptor_mask[i]
-            if enabled[i]:
-                if bounded_synapses:
-                    # All synaptic input in this experimental variant is conductance based.
-                    h, e = histamine_g[i], excitation_g[i]
-                    total = 1.0 + h + e
-                    equilibrium = (-52.0 - 70.0 * h) / total
-                    v[i] = equilibrium + (v[i] - equilibrium) * math.exp(-DT_MS * total / 20.0)
-                    histamine_g[i] *= eg
-                    excitation_g[i] *= eg
-                elif graded_enabled and graded_mask[i]:
-                    # Frozen conductance over this 0.1 ms integration interval.
-                    h = histamine_g[i]
-                    equilibrium = (-52.0 + g[i] - 70.0 * h) / (1.0 + h)
-                    v[i] = equilibrium + (v[i] - equilibrium) * math.exp(-DT_MS * (1.0 + h) / 20.0)
-                    histamine_g[i] *= eg
-                else:
-                    v[i] = -52.0 + (v[i] + 52.0) * em + g[i] * coupling
-                if background_enabled:
-                    v[i] += background[i] * (1.0 - em)
-                g[i] *= eg
+        if parallel_integrate:
+            _integrate_parallel(v, g, last_spike, refractory, enabled, tick,
+                                background_enabled, background, graded_enabled, graded_mask,
+                                histamine_g, bounded_synapses, excitation_g, receptor_mask,
+                                em, eg, coupling)
+        else:
+            for i in range(len(v)):
+                _integrate_cell(i, v, g, last_spike, refractory, enabled, tick,
+                                background_enabled, background, graded_enabled, graded_mask,
+                                histamine_g, bounded_synapses, excitation_g, receptor_mask,
+                                em, eg, coupling)
         for j in range(len(receptor_indices)):
             v[receptor_indices[j]] = receptor_voltage[local, j]
         # Deliver spikes after the threshold pass, exactly as in Brian's schedule.
@@ -266,10 +295,27 @@ class Connectome:
 
 
 class Brain:
-    def __init__(self, connectome: Connectome, *, seed=73100, history_limit=20000):
+    def __init__(self, connectome: Connectome, *, seed=73100, history_limit=20000,
+                 integration_threads=None):
         self.graph = connectome
         self.lookup = {int(fid): i for i, fid in enumerate(connectome.ids)}
         n = len(connectome.ids)
+        if integration_threads is None:
+            setting = os.environ.get('NEXUS_BRAIN_THREADS')
+            if setting is None:
+                integration_threads = min(4, numba_config.NUMBA_NUM_THREADS) if n >= PARALLEL_MIN_NEURONS else 1
+            else:
+                try:
+                    integration_threads = int(setting)
+                except ValueError:
+                    raise ValueError('NEXUS_BRAIN_THREADS must be an integer') from None
+        try:
+            threads = operator.index(integration_threads)
+        except TypeError:
+            raise ValueError('Integration threads must be an integer') from None
+        if isinstance(integration_threads, bool) or not 1 <= threads <= numba_config.NUMBA_NUM_THREADS:
+            raise ValueError(f'Integration threads must be between 1 and {numba_config.NUMBA_NUM_THREADS}')
+        self.integration_threads = threads
         self.v = np.empty(n)
         self.g = np.empty(n)
         self.last_spike = np.empty(n, dtype=np.int64)
@@ -760,13 +806,23 @@ class Brain:
             events = np.asarray(input_events, dtype=np.bool_)
             if events.shape != (steps, len(self.inputs)):
                 raise ValueError("Input replay shape does not match step count and target count")
-        result = _advance(self.v, self.g, self.last_spike, self.refractory, self.enabled,
-                          self.graph.offsets, self.graph.posts, self.graph.weights,
-                          self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
-                          self.step, self.inputs, events, traces, self.background_enabled, self.background,
-                          self.graded_enabled, self.graded_mask, self.graded_indices, self.histamine_sources,
-                          self.histamine_g, self.graded_queue, self.bounded_synapses, self.excitation_g,
-                          self.receptor_mask, self.receptor_indices, voltage, release, self.receptor_queue)
+        # Numba's thread mask belongs to the calling thread. Restore it so other
+        # Numba users in this process retain their own execution policy.
+        previous_threads = get_num_threads() if self.integration_threads > 1 else None
+        if previous_threads is not None and previous_threads != self.integration_threads:
+            set_num_threads(self.integration_threads)
+        try:
+            result = _advance(self.v, self.g, self.last_spike, self.refractory, self.enabled,
+                              self.graph.offsets, self.graph.posts, self.graph.weights,
+                              self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
+                              self.step, self.inputs, events, traces, self.background_enabled, self.background,
+                              self.graded_enabled, self.graded_mask, self.graded_indices, self.histamine_sources,
+                              self.histamine_g, self.graded_queue, self.bounded_synapses, self.excitation_g,
+                              self.receptor_mask, self.receptor_indices, voltage, release, self.receptor_queue,
+                              self.integration_threads > 1)
+        finally:
+            if previous_threads is not None and previous_threads != self.integration_threads:
+                set_num_threads(previous_threads)
         if len(self.receptor_indices):
             self.receptor_last_release_hz[:] = release[-1]
         self.step += steps

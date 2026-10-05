@@ -1,0 +1,144 @@
+{
+  "format": "nexus-brain-runtime-benchmark-1",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "edges": 25582938,
+  "registry_sha256": "7b5499801539a12bc9f24325785d2c11e39b69ca56664b49f8f0e2193da6952a",
+  "manifest_sha256": "46de501c748c86315e36f759b4b6130f06613c60a80aa8ce68b3dd200a31b5e9",
+  "duration_ms": 500.0,
+  "chunk_ms": 10.0,
+  "boundaries_checked": 50,
+  "receptor_ids": [
+    "120772",
+    "127113",
+    "211051",
+    "242575",
+    "46599",
+    "181049",
+    "127946",
+    "201095"
+  ],
+  "integration_threads": 4,
+  "synaptic_delivery": "serial",
+  "baseline": "saved implementation",
+  "baseline_sha256": "67cd1ec995fe2af5cece018f2ac245c36335ac7070734077444f50dd546a0ee1",
+  "runtime_sha256": "700e2a9889f6513f61322cc1c0699f31189903aacc9bc4ac520643888b662758",
+  "benchmark_sha256": "f06b9d1484eee329113a3520728c6ba4a69a12de87c9ef63e19f660744a684cd",
+  "input_sha256": {
+    "response.npz": "f0f3b0bebf8442decb686aa1dc8086108a84043b52fad6c43eb5c9ad6b8dc75d",
+    "report.json": "47da77b012dc94919945a007c6209e868e3d1aa90c67d66287006ffb00f9c4e5"
+  },
+  "release_curve_sha256": "7ecdd76c0c79ea30f7026016ae089c0fddff4f58f522e74a62202cc56b79efcf",
+  "serial_wall_seconds": 11.893568758001948,
+  "parallel_wall_seconds": 5.818484919998355,
+  "speedup": 2.044100641581677,
+  "parallel_realtime_factor": 0.08593302326546914,
+  "exact_at_every_boundary": {
+    "v": true,
+    "g": true,
+    "histamine_g": true,
+    "excitation_g": true,
+    "last_spike": true,
+    "enabled": true,
+    "counts": true,
+    "queue": true,
+    "queue_size": true,
+    "graded_queue": true,
+    "receptor_queue": true,
+    "indices": true,
+    "steps": true,
+    "voltage_mv": true,
+    "unrecorded_spikes": true,
+    "history": true,
+    "activity": true,
+    "activity_pending": true,
+    "rng": true
+  },
+  "final_state_sha256": {
+    "v": "a8797ee5713c38b3ae4d409c2491d92e77d5f0e41ffca00a33cdc969902c7001",
+    "g": "82dba2ccacd519455579208551100f050d621df48cdd21f7961e562673c0e333",
+    "histamine_g": "26f5d654d528fd8125f2b1445382f5a059c445f334779a556c52a7bc80528f32",
+    "excitation_g": "ce16ba2e41e6832557d6e10d493b85e0f0c88606e27722231111eee67aae215b",
+    "last_spike": "03fda56f3eb5b260ac4545f885383c08e46f2d9024e92b75539f4109f727464b",
+    "enabled": "eb3c074747f99f4d3f625a50eeaa5bcf3ad36421669d0743fb1fcc156ed8f294",
+    "counts": "e3959cad9d5aae85ab90b2b9fbf7ef2f5e4bc9b5cce2a46a95aba6e73bf1cfe8",
+    "queue": "c22ba42bb6fb9c1460e05bac3c2f43bcb76caa9465ed65f211ae703df2114414",
+    "queue_size": "e302fae1a7f04ed348c3629a7e65a18059380d720d4942c50aeb575c8016ce85",
+    "graded_queue": "cbbf820ff92b473c5c0dff6f9b18e2f9f41727afb62e25b5724f1de4c5e2aba9",
+    "receptor_queue": "41cd31db3164ab5ebe8ea2323f644a3e9ba5eed6995cd3be3c8d1c4ae2788e52"
+  },
+  "spikes": {
+    "total_spikes": 19739,
+    "source_spikes": 0,
+    "relay_spikes": 0
+  },
+  "environment": {
+    "platform": "Linux-7.2.8-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "cpu": "",
+    "numba": "0.67.0",
+    "threading_layer": "tbb",
+    "cpu_observed": "AMD Ryzen 7 7735HS with Radeon Graphics"
+  },
+  "limits": [
+    "One ordinary replay and one timing per mode, not a stress matrix or cross-machine guarantee.",
+    "Timing includes public advance and returned trace copies, excluding load, warmup, hashing and export.",
+    "The articulated body, rendering and GUI are excluded from this runtime benchmark.",
+    "This is an execution optimization; receptor release and relay laws remain unfitted.",
+    "Default four-thread execution applies to graphs with at least 10,000 neurons; smaller graphs remain serial."
+  ],
+  "baseline_commit": "dda889ee8c01abd9271f09ba8eac0bd09526ba0c",
+  "focused_checks": {
+    "passed": 5,
+    "scope": "serial and two-thread independent Brian2 reference; serial/parallel receptor controls and state parity; two prepared-playback workflow checks"
+  },
+  "native_app": {
+    "success": true,
+    "runtime": {
+      "backend": "cpu",
+      "integration_threads": 4,
+      "synaptic_delivery": "serial",
+      "dt_ms": 0.1
+    },
+    "checks": [
+      "native loader selects prepared sources at time zero with a video preview and real OpenGL brain",
+      "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+      "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+      "native full-brain final voltages and counts match the offline replay exactly",
+      "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+    ],
+    "brain_time_s": 0.5,
+    "body_time_s": 0.5,
+    "source_spikes": 0,
+    "relay_spikes": 0,
+    "total_spikes": 19739,
+    "end_state": {
+      "voltage_sha256": "a8797ee5713c38b3ae4d409c2491d92e77d5f0e41ffca00a33cdc969902c7001",
+      "spike_counts_sha256": "e3959cad9d5aae85ab90b2b9fbf7ef2f5e4bc9b5cce2a46a95aba6e73bf1cfe8"
+    },
+    "brain_view": {
+      "loaded": true,
+      "mapped": 140638,
+      "active_count": 1097,
+      "unlocated_active": 2,
+      "tick": 5000,
+      "voltage_count": 56954,
+      "unlocated_voltage": 3272,
+      "activity_mode": "Spikes + voltage",
+      "voltage_color_scale_mv": 5.0,
+      "dataset": "male-cns:v1.0",
+      "representation": "MaleCNS cell anchors (somaLocation, then tosomaLocation); not neuron morphology",
+      "fade_sim_ms": 150
+    },
+    "same_state_as_benchmark": true,
+    "limits": [
+      "One ordinary Linux source-app workflow, not a packaged-release or macOS check.",
+      "Rendering and body advancement excluded from the quoted neural-runtime timings."
+    ]
+  },
+  "additional_implementation_sha256": {
+    "src/nexus/brain/telemetry.py": "41e224b9f4450ce4ba277d602ee7c9f4a2d10e7afc46f68f2a020b2520583ed3",
+    "src/nexus/app.py": "76485acaeda15eb0206641705666d646eb5819b9e9de8881939fd9cad7986252",
+    "packaging/nexus.spec": "f218c2c828362a1cf6aa2beebe89804efd9e46bfba6976ab3816eff806a25f66"
+  }
+}

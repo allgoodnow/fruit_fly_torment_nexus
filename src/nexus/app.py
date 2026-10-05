@@ -1392,6 +1392,7 @@ def main():
                 self.smoke_checks.append('recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks')
                 self.smoke_checks.append('native full-brain final voltages and counts match the offline replay exactly')
                 self.receptor_result = {'receptor_playback': replay,
+                                        'runtime': t['runtime'],
                                         'source_spikes': t['receptor_replay']['source_spikes'],
                                         'relay_spikes': t['graded_relays']['relay_spikes'],
                                         'total_spikes': t['total_spikes'],

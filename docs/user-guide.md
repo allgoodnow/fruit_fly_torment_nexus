@@ -35,6 +35,10 @@ Set the baseline, stimulus, and after-release durations, then select a run butto
 Durations are simulation milliseconds; a slow computer can take longer in real time.
 The baseline releases existing manual interventions before the next input begins.
 
+The source build now uses up to four CPU threads for the full brain's membrane
+updates. The [runtime notes](brain-runtime-performance.md) explain the execution
+setting and measured limits; the 1.1.1 download retains its previous runtime.
+
 - **Pause / Resume** stops or continues advancement while preserving model state.
 - **Release stimulation** clears manual inputs, silencing, and reduced inhibition.
   It preserves voltages, accumulated spikes, and delayed neural events. Activity

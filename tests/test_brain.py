@@ -9,13 +9,14 @@ def graph():
         [20,10,25,-15,30,40,10,30,-20])
 
 
-def test_matches_brian_voltage_spikes_delays_and_refractory():
+@pytest.mark.parametrize('integration_threads', [1, 2])
+def test_matches_brian_voltage_spikes_delays_and_refractory(integration_threads):
     import brian2 as b
     b.start_scope()
     b.prefs.codegen.target = "numpy"
     b.defaultclock.dt = 0.1*b.ms
     g = graph()
-    engine = Brain(g)
+    engine = Brain(g, integration_threads=integration_threads)
     engine.stimulate([100, 101], 500)
     events = np.random.default_rng(140).random((700, 2)) < .05
     neu = b.NeuronGroup(6,

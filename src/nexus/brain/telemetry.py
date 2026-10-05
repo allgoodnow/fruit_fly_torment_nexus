@@ -48,6 +48,8 @@ class NeuralTelemetry:
         result = {'sim_time': brain.time, 'tick': brain.step, 'running': running, 'generation': generation,
                   'neuron_order_sha256': self.order_hash, 'dataset': brain.graph.snapshot,
                   'model': brain.graph.model,
+                  'runtime': {'backend': 'cpu', 'integration_threads': brain.integration_threads,
+                              'synaptic_delivery': 'serial', 'dt_ms': DT_MS},
                   'relay_background': brain.background_snapshot(),
                   'graded_relays': brain.graded_snapshot(),
                   'receptor_replay': brain.receptor_snapshot(),

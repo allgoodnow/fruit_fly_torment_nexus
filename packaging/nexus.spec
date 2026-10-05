@@ -23,6 +23,7 @@ a = Analysis(
     binaries=collect_dynamic_libs("mujoco") + collect_dynamic_libs("glfw"), datas=datas,
     # Upstream walking trajectories were pickled using the legacy NumPy module path.
     hiddenimports=["nexus.worker", "nexus.body", "nexus.brain.worker", "numpy.core.multiarray",
+                   "numba.np.ufunc.workqueue", "numba.np.ufunc.omppool", "numba.np.ufunc.tbbpool",
                    "OpenGL.platform.egl", "OpenGL.platform.glx"],
     hookspath=[], hooksconfig={"matplotlib": {"backends": ["Agg"]}},
     excludes=["notebook", "pytest", "brian2", "pandas", "pyarrow", "tkinter",
