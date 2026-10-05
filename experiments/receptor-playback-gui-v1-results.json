@@ -1,0 +1,116 @@
+{
+  "format": "nexus-receptor-playback-gui-1",
+  "success": true,
+  "checks": [
+    "native loader selects prepared sources at time zero with a video preview and real OpenGL brain",
+    "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+    "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+    "native full-brain final voltages and counts match the offline replay exactly",
+    "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+  ],
+  "focused_test_count": 5,
+  "native_workflows": 1,
+  "result": {
+    "receptor_playback": {
+      "loaded": true,
+      "ended": true,
+      "position_ms": 500.0,
+      "duration_ms": 500.0,
+      "cells": 8,
+      "ids": [
+        "120772",
+        "127113",
+        "211051",
+        "242575",
+        "46599",
+        "181049",
+        "127946",
+        "201095"
+      ],
+      "report_sha256": "47da77b012dc94919945a007c6209e868e3d1aa90c67d66287006ffb00f9c4e5",
+      "response_sha256": "f0f3b0bebf8442decb686aa1dc8086108a84043b52fad6c43eb5c9ad6b8dc75d",
+      "release_curve_sha256": "7ecdd76c0c79ea30f7026016ae089c0fddff4f58f522e74a62202cc56b79efcf",
+      "source_sha256": "bb046b88cb5a44b827322ee3b9d0d02ca0513dad58cf2d1c970df90c95fc8875",
+      "exposure": {
+        "white_rate_hz": 30000.0,
+        "black_rate_hz": 0.0,
+        "transfer": "srgb",
+        "root_seed": 88300
+      },
+      "release_curve": {
+        "format": "nexus-photoreceptor-release-1",
+        "parameters_fitted": false,
+        "voltage_mv": [
+          -80.0,
+          -70.0,
+          -60.0,
+          -40.0,
+          20.0
+        ],
+        "release_equivalent_hz": [
+          0.0,
+          5.0,
+          20.0,
+          40.0,
+          40.0
+        ],
+        "reference_mv": -70.0,
+        "description": "Connectivity assay assumption only. Monotonic depolarization-dependent release with a small tonic component; numerical knots are not physiological measurements.",
+        "interpolation": "piecewise linear; no extrapolation",
+        "units": "equivalent connectome-weight events/s; not spikes or vesicles"
+      },
+      "end_state": {
+        "voltage_sha256": "a8797ee5713c38b3ae4d409c2491d92e77d5f0e41ffca00a33cdc969902c7001",
+        "spike_counts_sha256": "e3959cad9d5aae85ab90b2b9fbf7ef2f5e4bc9b5cce2a46a95aba6e73bf1cfe8"
+      },
+      "mode": "prepared voltage replay; no live molecular integration or source feedback"
+    },
+    "source_spikes": 0,
+    "relay_spikes": 0,
+    "total_spikes": 19739,
+    "body_time": 0.5,
+    "brain_time": 0.5,
+    "body_displacement_mm": 0.0007583522385295787,
+    "brain_view": {
+      "loaded": true,
+      "mapped": 140638,
+      "active_count": 1097,
+      "unlocated_active": 2,
+      "tick": 5000,
+      "voltage_count": 56954,
+      "unlocated_voltage": 3272,
+      "activity_mode": "Spikes + voltage",
+      "voltage_color_scale_mv": 5.0,
+      "dataset": "male-cns:v1.0",
+      "representation": "MaleCNS cell anchors (somaLocation, then tosomaLocation); not neuron morphology",
+      "fade_sim_ms": 150
+    }
+  },
+  "reference_sha256": "34675841aec0e98e20409108bf76218c72c02d5e4d0c7cf2e2d4f7898f187049",
+  "acceptance_sha256": "1299bdd85b9c961585b9ab1142ecf13333a6ded743ea4ba4f0f5ab6caf0eadbc",
+  "native_graphics": {
+    "qt_platform": "xcb",
+    "pyopengl_platform": "glx",
+    "mujoco_backend": "glfw"
+  },
+  "implementation_sha256": {
+    "src/nexus/receptor_playback.py": "f24d2d004af69a895699595e09ce310c6828938985f0fa990a9b0abd30d88ee0",
+    "src/nexus/vision.py": "01557a078c8c5cc5778fd62f889006c1fb18a8a709c413fef9232f8d1227174b",
+    "src/nexus/vision_panel.py": "407db02293b3d0e9bc8275dd4a749636b697bbc67ae581f3e65e21cbea0e0f30",
+    "src/nexus/coupled.py": "84fc849590cd9448f60191030130d056c6aabe341aff5d9ada3b7d1fc9f06423",
+    "src/nexus/brain/runtime.py": "67cd1ec995fe2af5cece018f2ac245c36335ac7070734077444f50dd546a0ee1",
+    "src/nexus/brain/protocol.py": "b2ca1dddc351c6da1e137d9416f70bf1f40821c673971c264db3d50bd20dd88e",
+    "src/nexus/brain/telemetry.py": "f4120ff43ae84f165f642286fda842b721590aa13e1afd79769ea949143d8451",
+    "src/nexus/brain/panel.py": "18bc8e7b33c4065851f6bff936886bd8854b2b12af7817133433860ba1c4b5dc",
+    "src/nexus/brain/view.py": "12d51d68a5951b325468eeab188722e15ca0ccd5d80adec42fd6cbd21096efb2",
+    "src/nexus/app.py": "14d557e78922cb1260cfdca07cdf3fd9f2e054687b70a080d36196c923d2986f",
+    "src/nexus/stimulation.py": "95f2847da9660f33c3258cceec39c083e2108bd0ebca9d6c1085899bf9e5b072"
+  },
+  "limits": [
+    "Prepared voltage playback, not live molecular integration or an evidence-fitted release model.",
+    "Eight selected receptors; the remaining receptor proxies and relay/conductance assumptions are unchanged.",
+    "Voltage clamps exclude incoming feedback; playback pauses at the recorded endpoint.",
+    "Native voltages/counts match the offline model, not biological measurements or validated perception.",
+    "The articulated controller remains engineered; this check does not establish autonomous exploration or feeling."
+  ]
+}

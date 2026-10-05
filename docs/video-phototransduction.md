@@ -10,7 +10,8 @@ microvilli; responses are not multiplied to represent unmodeled cells.
 This is a controlled exposure model. **An MP4 does not supply absorbed-photon
 flux.** Its white and black rates are explicit experimental assumptions in
 photons/s per receptor, after absorption. No physical calibration is inferred
-from the file. It does not feed the live GUI's brain yet.
+from the file. Its saved responses can now feed the native app through
+[prepared receptor playback](user-guide.md#prepared-receptor-playback).
 
 ## Exposure assumptions
 
@@ -98,5 +99,7 @@ model receptors. The [offline connectome replay](receptor-brain-replay.md)
 can now use those voltages with an explicitly supplied, unfitted release
 curve. Neither experiment establishes physiological calibration, downstream
 perception or natural behavior. The live application's generic spiking
-photoreceptor input remains in place; the new interface is offline. The adapted molecular and membrane
-components retain their GPL terms in `licenses/photoreceptor/NOTICE.md`.
+photoreceptor input remains in place for ordinary visual mappings; prepared
+playback uses stored voltages and an explicit release curve. The adapted
+molecular and membrane components retain their GPL terms in
+`licenses/photoreceptor/NOTICE.md`.

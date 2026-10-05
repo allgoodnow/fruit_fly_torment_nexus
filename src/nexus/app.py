@@ -25,6 +25,10 @@ def main():
     parser.add_argument('--disable-motor-bridge', action='store_true', help='Unattended comparison with neural motor effects disabled')
     parser.add_argument("--male-cns-smoke-test", type=Path, help="Check MaleCNS controls, anatomy and shared-clock body")
     parser.add_argument('--vision-test-video', type=Path, help='Local test clip for the MaleCNS GUI acceptance run')
+    parser.add_argument('--receptor-playback-smoke-test', type=Path, help='Check prepared receptors in the native shared-clock GUI')
+    parser.add_argument('--receptor-test-report', type=Path, help='Prepared receptor report for the focused GUI check')
+    parser.add_argument('--receptor-test-curve', type=Path, help='Explicit release curve for the focused GUI check')
+    parser.add_argument('--receptor-test-reference', type=Path, help='Offline brain replay arrays for the focused GUI comparison')
     parser.add_argument("--smoke-test", type=Path, help="Run UI acceptance checks and write report/screenshot here")
     parser.add_argument("--brain-smoke-test", type=Path, help="Also exercise the real brain and timed sequence")
     parser.add_argument('--coupled-smoke-test', type=Path, help='Exercise shared-clock neural steering')
@@ -34,8 +38,15 @@ def main():
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
     args = parser.parse_args()
-    if args.vision_test_video and not args.male_cns_smoke_test:
-        parser.error('--vision-test-video requires --male-cns-smoke-test')
+    if args.vision_test_video and not (args.male_cns_smoke_test or args.receptor_playback_smoke_test):
+        parser.error('--vision-test-video requires a MaleCNS or receptor playback GUI check')
+    if args.receptor_playback_smoke_test:
+        if not all((args.vision_test_video, args.receptor_test_report, args.receptor_test_curve, args.receptor_test_reference)):
+            parser.error('Receptor playback GUI check requires video, report, curve and offline reference')
+        args.dataset = 'male-cns'
+        args.smoke_test = args.receptor_playback_smoke_test
+    elif any((args.receptor_test_report, args.receptor_test_curve, args.receptor_test_reference)):
+        parser.error('Receptor test inputs require --receptor-playback-smoke-test')
     if args.run_sequence:
         if not args.output_dir:
             parser.error('--run-sequence requires --output-dir')
@@ -69,7 +80,7 @@ def main():
         args.smoke_test = args.response_smoke_test
     if args.behavior_smoke_test:
         args.smoke_test = args.behavior_smoke_test
-    coupled = bool(args.coupled_smoke_test or args.perturbation_smoke_test or args.response_smoke_test or args.behavior_smoke_test) or not (args.independent or args.smoke_test)
+    coupled = bool(args.coupled_smoke_test or args.perturbation_smoke_test or args.response_smoke_test or args.behavior_smoke_test or args.receptor_playback_smoke_test) or not (args.independent or args.smoke_test)
 
     from PySide6.QtCore import QStandardPaths, QTimer, Qt, Signal
     from PySide6.QtGui import QImage, QPainter, QPixmap, QPalette, QColor
@@ -526,6 +537,9 @@ def main():
             """Exercise our app's public command interface and inspect rendered state."""
             if self.failed or self.brain_panel.failed or time.monotonic()-self.smoke_clock > (360 if config.experimental else 120):
                 self.smoke_finish(False)
+                return
+            if args.receptor_playback_smoke_test:
+                self.receptor_playback_smoke()
                 return
             if args.coupled_smoke_test:
                 self.coupled_smoke()
@@ -1308,10 +1322,99 @@ def main():
                 self.grab().save(str(data_dir/'final-app.png'))
                 self.smoke_finish(True)
 
+        def receptor_playback_smoke(self):
+            """One ordinary prepared recording, including pause/release/resume."""
+            t = self.brain_panel.telemetry
+            if not self.ready or not t:
+                return
+            replay = t.get('eye_feedback', {}).get('receptor_playback', {})
+            if self.smoke_stage == 0:
+                self.brain_panel.graded.setChecked(True)
+                self.vision_panel.command.emit('vision_video', str(args.vision_test_video.resolve()))
+                self.neural_walking.setChecked(True)
+                self.smoke_stage = 1
+            elif self.smoke_stage == 1 and t['graded_relays']['enabled'] and t['eye_feedback']['source'] == 'video':
+                if not self.brain_panel.receptor_load.isEnabled() or t['sim_time'] != 0:
+                    self.smoke_finish(False)
+                    return
+                self.brain_panel.send('vision_receptors', {'report_path': str(args.receptor_test_report.resolve()),
+                                                         'curve_path': str(args.receptor_test_curve.resolve())})
+                self.smoke_stage = 2
+            elif self.smoke_stage == 2 and replay.get('loaded'):
+                from OpenGL.platform import GetCurrentContext
+                self.brain_view.gl.makeCurrent()
+                active_context = bool(GetCurrentContext())
+                self.brain_view.gl.doneCurrent()
+                if (t['running'] or t['sim_time'] != 0 or self.vision_panel.mapping.currentData() != 'receptor_replay'
+                        or not self.brain_view.gl.isValid() or not active_context or self.vision_panel.preview.image is None):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('native loader selects prepared sources at time zero with a video preview and real OpenGL brain')
+                self.vision_panel.feed.setChecked(True)
+                self.send('running', True)
+                self.smoke_stage = 3
+            elif self.smoke_stage == 3 and t['sim_time'] >= .15:
+                if 'VISION' not in self.stimulation_banner.labels or not self.brain_view.voltage_count:
+                    self.smoke_finish(False)
+                    return
+                self.send('running', False)
+                self.smoke_stage = 4
+            elif self.smoke_stage == 4 and not t['running']:
+                self.receptor_held_time = t['sim_time']
+                self.receptor_held_voltage = t['membrane_activity']
+                self.brain_panel.send('release')
+                self.smoke_stage = 5
+            elif self.smoke_stage == 5 and not t['eye_feedback']['enabled']:
+                if (t['running'] or t['sim_time'] != self.receptor_held_time
+                        or t['membrane_activity'] != self.receptor_held_voltage
+                        or abs(replay['position_ms'] - t['sim_time']*1000) > 1e-9):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('pause and release freeze brain, body, receptor clock and frame without resetting neural voltage')
+                self.grab().save(str(data_dir/'receptors-paused.png'))
+                self.vision_panel.feed.setChecked(True)
+                self.send('running', True)
+                self.smoke_stage = 6
+            elif self.smoke_stage == 6 and replay.get('ended'):
+                import hashlib
+                import numpy as np
+                with np.load(args.receptor_test_reference, allow_pickle=False) as reference:
+                    expected_voltage = hashlib.sha256(reference['video_sample_voltage_mv'][-1].astype('<f8').tobytes()).hexdigest()
+                    expected_counts = hashlib.sha256(reference['video_sample_spike_counts'][-1].astype('<i8').tobytes()).hexdigest()
+                if (t['running'] or t['eye_feedback']['enabled'] or self.telemetry['sim_time'] != t['sim_time']
+                        or replay['position_ms'] != replay['duration_ms'] or t['sim_time']*1000 != replay['duration_ms']
+                        or t['receptor_replay']['source_spikes'] or t['graded_relays']['relay_spikes']
+                        or replay['end_state']['voltage_sha256'] != expected_voltage
+                        or replay['end_state']['spike_counts_sha256'] != expected_counts
+                        or self.vision_panel.feed.isEnabled()):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks')
+                self.smoke_checks.append('native full-brain final voltages and counts match the offline replay exactly')
+                self.receptor_result = {'receptor_playback': replay,
+                                        'source_spikes': t['receptor_replay']['source_spikes'],
+                                        'relay_spikes': t['graded_relays']['relay_spikes'],
+                                        'total_spikes': t['total_spikes'],
+                                        'body_time': self.telemetry['sim_time'], 'brain_time': t['sim_time'],
+                                        'body_displacement_mm': self.telemetry['displacement_mm'],
+                                        'brain_view': self.brain_view.diagnostics()}
+                self.grab().save(str(data_dir/'receptors-ended.png'))
+                self.reset_button.click()
+                self.smoke_stage = 7
+            elif self.smoke_stage == 7 and t['generation'] == 1:
+                if (t['sim_time'] != 0 or replay.get('loaded') or t['receptor_replay']['enabled']
+                        or not self.vision_panel.load.isEnabled() or not self.brain_panel.graded.isEnabled()):
+                    self.smoke_finish(False)
+                    return
+                self.smoke_checks.append('Reset clears the recording, source clamps and graded mode and restores normal video controls')
+                self.smoke_finish(True)
+
         def smoke_finish(self, success):
             self.smoke_timer.stop()
             report = self.diagnostics()
             report.update(success=success, checks=self.smoke_checks)
+            if hasattr(self, 'receptor_result'):
+                report['receptor_playback_result'] = self.receptor_result
             (data_dir / "acceptance.json").write_text(json.dumps(report, indent=2))
             print(json.dumps({"success": success, "checks": self.smoke_checks}), flush=True)
             self.close()

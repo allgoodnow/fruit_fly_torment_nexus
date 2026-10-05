@@ -59,10 +59,14 @@ class CoupledSession:
             action = 'neural_release' if value['kind'] == 'release' else value['kind']
             return self.command(action, value.get('value'))
         if kind == 'running':
+            if value and self.eyes.receptors is not None and not self.eyes.enabled:
+                raise ValueError('Enable Feed to brain to run the prepared receptor recording')
             self.running = bool(value)
             if self.protocol and self.protocol.completed:
                 self.protocol = None
         elif kind == 'step':
+            if self.eyes.receptors is not None and not self.eyes.enabled:
+                raise ValueError('Enable Feed to brain to step the prepared receptor recording')
             self.running = False
             if self.protocol and self.protocol.completed:
                 self.protocol = None
@@ -118,6 +122,8 @@ class CoupledSession:
             self.brain.set_looming(value)
             self.protocol = None
         elif kind == 'neural_release':
+            if self.eyes.receptors is not None:
+                self.running = False
             self.eyes.configure(False)
             self.brain.release()
             self.protocol = None
@@ -125,12 +131,20 @@ class CoupledSession:
             self.baseline = 1.
         elif kind == 'protocol':
             candidate = Protocol(value, self.brain)
-            self.eyes.configure(False)
+            if self.eyes.receptors is not None:
+                if not self.eyes.enabled:
+                    raise ValueError('Enable Feed to brain before running a sequence with prepared receptors')
+                if self.brain.step + candidate.duration > self.eyes.receptors.end:
+                    raise ValueError('Sequence exceeds the remaining receptor recording; prepare a longer response or shorten the sequence')
+            else:
+                self.eyes.configure(False)
             self.protocol, self.running = candidate, True
         elif kind == 'eye_feedback':
-            if value and self.protocol and not self.protocol.completed:
+            if value and self.protocol and not self.protocol.completed and self.eyes.receptors is None:
                 raise ValueError('Finish or release the prepared sequence before enabling visual input')
             self.eyes.configure(value)
+            if not value and self.eyes.receptors is not None:
+                self.running = False
         elif kind == 'vision_video':
             self.eyes.load_video(value)
             self.running = False
@@ -145,6 +159,10 @@ class CoupledSession:
         elif kind == 'vision_adaptation':
             self.eyes.set_adaptation(value)
             self.running = False
+        elif kind == 'vision_receptors':
+            self.eyes.load_receptors(value['report_path'], value['curve_path'])
+            self.running = False
+            self.protocol = None
         elif kind == 'bridge_enabled':
             self.decoder.enabled = bool(value)
             self.motor_effects.enabled = bool(value)
@@ -224,6 +242,9 @@ class CoupledSession:
             if self.brain.looming_input:
                 step = min(step, self.brain.looming_input.end - before)
             step = self.eyes.before_step(step)
+            if step == 0:
+                self.running = False
+                break
             self.sync_recovery()
             gains = self.brain.output_gain[self.decoder.indices].copy()
             walking_gains = self.brain.output_gain[self.walking_decoder.indices].copy()
@@ -232,7 +253,7 @@ class CoupledSession:
                 directly_driven = np.union1d(directly_driven, self.brain.background_targets)
             # The protocol applies endpoint events on the next iteration, after
             # this body's interval has used the correct pre-event output gains.
-            self.brain.advance(step*.0001)
+            self.brain.advance(step*.0001, **self.eyes.brain_input(step))
             elapsed = (self.brain.step-before)*.0001
             if self.environment is not None and self.environment.active:
                 self.environment.active_seconds += elapsed
@@ -263,6 +284,9 @@ class CoupledSession:
                                   steering_hz=float(max(self.decoder.rates)) if self.decoder.enabled else 0.,
                                   upright=self.body.upright() if hasattr(self.body, 'upright') else None)
             self.sync_environment()
+            if self.eyes.receptors is not None and self.eyes.receptors.ended:
+                self.running = False
+                break
         if self.protocol:
             self.protocol.advance(self.brain, 0)
             if self.protocol.completed:
@@ -373,7 +397,7 @@ def simulate_coupled(directory, commands, frames, events, *, render=True, autono
                         session.command('neural_release')
                     else:
                         session.command(kind, value)
-                except (ValueError, KeyError, TypeError) as error:
+                except (OSError, ValueError, KeyError, TypeError) as error:
                     events.put({'kind': 'rejected', 'id': cid, 'message': str(error)})
                     continue
                 stepped |= effective == 'step'

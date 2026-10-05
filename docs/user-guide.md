@@ -111,6 +111,54 @@ The blockade is removed with the input at 600 ms. Delayed spikes and retained
 neural state can then produce a short response. The report separates the input
 period from the 200 ms after release; whole-trial escape counts include both.
 
+## Prepared receptor playback
+
+The source build can now use a prepared molecular receptor response in the
+native brain/body simulation. This mode is experimental: selected R1–R6 cells
+receive their recorded voltages and an **explicit, unfitted release curve**.
+Their output travels along the existing connectome edges without creating
+photoreceptor spikes. It is a voltage replay with no feedback into its sources,
+not live molecular computation or a calibrated visual synapse model.
+
+1. Generate the clip's response with
+   [the video-to-molecular runner](video-phototransduction.md). Choose an explicit
+   photon exposure and a recording long enough for the experiment. The default
+   subset is eight receptors; it does not represent the whole eye.
+2. In the app, choose **Reset body + brain**, enable **Graded visual relays
+   (exp.)** in the Brain tab, and load the same source video in **FLY’S VISION**.
+3. Choose **Load receptor response…** in the Brain tab. Select the response
+   folder's `report.json`, then the release-curve JSON. Its sibling `response.npz`
+   must be present. The app verifies the video hash, brain-pack registry, IDs and
+   recording clocks before changing the selected sources.
+4. Enable **Feed to brain**, then resume. The selector displays **Receptor replay
+   (exp.)** and the status shows elapsed/total recorded time and receptor count.
+   The normal brain view and neural activity graph display the resulting state.
+5. Pause holds the shared brain/body/receptor clock. **Release stimulation** or
+   disabling **Feed to brain** also pauses this mode without resetting voltage
+   or pending synaptic state. Re-enable input and resume to continue.
+6. At the recording's endpoint the app pauses exactly. It does not hold the last
+   receptor voltage while continuing the simulation or invent a dark recovery.
+   Reset and reload to start again. Changing video, rewinding, using eye cameras
+   and the older mapping/adaptation controls are locked until Reset.
+
+Manual interventions and output silencing work during playback. Timed sequences
+keep the receptor recording enabled and must fit its remaining duration. Their
+`release` events clear manual interventions while the recording continues; the
+main **Release stimulation** button pauses playback. Direct pulse stimulation
+of a voltage-clamped receptor is rejected; outgoing receptor blockade remains
+available. These operations do not validate the intervention's biological or
+subjective interpretation.
+
+An MP4 alone does not supply the absorbed-photon flux or terminal release curve.
+The example `experiments/receptor-release-assay-curve.json` contains declared
+assay assumptions, not measurements. The remaining receptors retain the LIF
+proxy, and the relay/conductance parameters remain unfitted. See
+[receptor-to-brain replay](receptor-brain-replay.md) for the mechanisms and
+limits. Preparing responses can use CUDA; playing the stored response requires
+no CUDA molecular model. The full brain and articulated body still run during
+playback and can be slower than wall time. Physiological calibration, whole-eye
+scaling and feedback into receptors remain unfinished.
+
 ## Body, brain, and camera
 
 Drag either 3D view to orbit and scroll to zoom. The body camera follows the fly.

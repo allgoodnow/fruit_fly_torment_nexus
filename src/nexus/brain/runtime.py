@@ -192,6 +192,7 @@ class Connectome:
     snapshot: str = "synthetic-test"
     model: dict | None = None
     circuits: dict | None = None
+    registry_sha256: str | None = None
 
     @classmethod
     def from_edges(cls, ids, pre, post, weights, snapshot="synthetic-test"):
@@ -260,7 +261,8 @@ class Connectome:
                 parsed = [int(i) for i in group]
                 if not parsed or len(set(parsed)) != len(parsed) or not set(parsed) <= known:
                     raise ValueError('Circuit registry contains missing or duplicated neuron IDs')
-        return cls(*arrays, snapshot=manifest["snapshot"], model=manifest.get('model'), circuits=circuits)
+        return cls(*arrays, snapshot=manifest["snapshot"], model=manifest.get('model'), circuits=circuits,
+                   registry_sha256=manifest['files'].get(manifest.get('circuit_registry')))
 
 
 class Brain:
@@ -314,6 +316,8 @@ class Brain:
         rate = float(rate_hz)
         if not 0 < len(targets) <= 256 or not math.isfinite(rate) or not 0 < rate <= 1000:
             raise ValueError("Choose targets and a finite input rate in (0, 1000] Hz")
+        if self.receptor_mask[targets].any():
+            raise ValueError('Prepared receptors take voltage input; pulse stimulation cannot target them')
         self.manual_inputs = targets
         self.manual_rate = rate
         self._refresh_inputs()

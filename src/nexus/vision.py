@@ -20,6 +20,7 @@ class EyeFeedback:
         self.video = None
         self.preview = None
         self.video_origin = brain.step
+        self.receptors = None
         registry = brain.graph.circuits or {}
         from .retina import VisualColumns
         self.spatial = VisualColumns(registry) if 'visual_columns' in registry else None
@@ -37,6 +38,7 @@ class EyeFeedback:
             self.video = None
         self.preview = None
         self.mapping_mode = 'pooled'
+        self.receptors = None
         self.adaptive = False
         self.adaptation.reset()
         self.enabled = False
@@ -52,6 +54,8 @@ class EyeFeedback:
             raise ValueError('Eye feedback must be enabled or disabled')
         if enabled and not self.available:
             raise ValueError('Eye feedback requires mapped MaleCNS photoreceptors and eye cameras')
+        if enabled and self.receptors is not None and self.receptors.ended:
+            raise ValueError('Receptor recording ended; Reset and load it again to replay')
         if enabled != self.enabled:
             self.enabled = enabled
             self.next_sample = self.brain.step
@@ -61,6 +65,7 @@ class EyeFeedback:
             self.brain.clear_eye_input()
 
     def load_video(self, path):
+        self._require_live_mapping()
         from .video import VideoSource
         if not self.available:
             raise ValueError('Video input requires mapped MaleCNS eye cohorts')
@@ -78,6 +83,7 @@ class EyeFeedback:
         self.error = None
 
     def use_eyes(self):
+        self._require_live_mapping()
         self.configure(False)
         self.adaptation.reset()
         if self.video is not None:
@@ -91,11 +97,13 @@ class EyeFeedback:
         self.error = None
 
     def restart_video(self):
+        self._require_live_mapping()
         if self.video is None:
             raise ValueError('Load a video first')
         self.load_video(self.video.path)
 
     def set_mapping(self, mode):
+        self._require_live_mapping()
         if mode not in ('pooled', 'spatial'):
             raise ValueError('Unknown visual input mapping')
         if mode == 'spatial' and (self.video is None or self.spatial is None):
@@ -106,6 +114,7 @@ class EyeFeedback:
         self.adaptation.reset()
 
     def set_adaptation(self, enabled):
+        self._require_live_mapping()
         if not isinstance(enabled, bool):
             raise ValueError('Light adaptation must be enabled or disabled')
         self.configure(False)
@@ -113,7 +122,40 @@ class EyeFeedback:
         self.adaptation.reset()
         self.brightness = None
 
+    def _require_live_mapping(self):
+        if self.receptors is not None:
+            raise ValueError('Reset before replacing or rewinding a prepared receptor recording')
+
+    def load_receptors(self, report_path, curve_path):
+        from .receptor_playback import ReceptorPlayback
+        if self.video is None or self.brain.step != 0:
+            raise ValueError('Reset, select graded relays and load the source video before loading its receptor response')
+        self._require_live_mapping()
+        candidate = ReceptorPlayback(report_path, curve_path, self.brain, self.video.path)
+        # Model selection and overlap checks precede playback changes. Loading
+        # the source video has already disabled its generic pulse eye input.
+        self.brain.configure_receptor_replay(candidate.ids, reference_mv=candidate.curve.reference_mv)
+        self.configure(False)
+        self.receptors = candidate
+        self.mapping_mode = 'receptor_replay'
+        self.adaptive = False
+        self.adaptation.reset()
+        self.sample_step = None
+        self.samples = 0
+        self.brightness = None
+        self.video_origin = 0
+
+    def brain_input(self, ticks):
+        return self.receptors.input(self.brain.step, ticks) if self.receptors is not None else {}
+
     def after_step(self, ticks):
+        if self.receptors is not None:
+            self.receptors.after_step(self.brain)
+            if self.receptors.ended:
+                self.configure(False)
+                self.brain.events.append({'kind': 'receptor_recording_end', 'time': self.brain.time,
+                                          'cells': len(self.receptors.ids), **self.receptors.end_state})
+            return
         # Turning feedback off freezes video position even if the body still runs.
         if self.video is not None and not self.enabled:
             self.video_origin += ticks
@@ -121,6 +163,26 @@ class EyeFeedback:
             self.adaptation.advance(ticks)
 
     def before_step(self, step):
+        if self.receptors is not None:
+            if not self.enabled or self.receptors.ended:
+                return 0
+            if self.brain.step >= self.next_sample:
+                try:
+                    frame = self.video.frame_at(self.brain.step // SAMPLE_TICKS)
+                except ValueError as error:
+                    self.configure(False)
+                    self.error = str(error)
+                    return 0
+                if frame is None:
+                    self.configure(False)
+                    self.error = 'Video ended before the prepared receptor recording'
+                    return 0
+                self.preview = frame
+                self.brightness = [float(frame.mean()/255.)] * 2
+                self.sample_step = self.brain.step
+                self.next_sample = (self.brain.step // SAMPLE_TICKS + 1) * SAMPLE_TICKS
+                self.samples += 1
+            return min(step, self.next_sample - self.brain.step, self.receptors.end - self.brain.step)
         if not self.enabled:
             return step
         if self.brain.step >= self.next_sample:
@@ -164,13 +226,16 @@ class EyeFeedback:
                 'video_frame': self.video.index if self.video is not None else None,
                 'video_ended': self.video.ended if self.video is not None else False,
                 'error': self.error,
+                'receptor_playback': self.receptors.snapshot() if self.receptors is not None else {'loaded': False},
                 'rates_hz': {side: float(np.asarray(rate).mean()) for side, (_, rate) in self.brain.eye_inputs.items()},
                 'rate_ranges_hz': {side: [float(np.min(rate)), float(np.max(rate))]
                                    for side, (_, rate) in self.brain.eye_inputs.items()},
                 'spatial_available': self.spatial is not None,
                 'mapping_mode': self.mapping_mode,
                 'adaptation': {'selected': self.adaptive, **self.adaptation.snapshot()},
-                'mapping': ('spatial-video-columns-v1; inferred columns, uncalibrated projection, 0-100 Hz'
+                'mapping': ('prepared-receptor-voltage-v1; selected sources, unfitted release curve'
+                            if self.receptors is not None else
+                            'spatial-video-columns-v1; inferred columns, uncalibrated projection, 0-100 Hz'
                             if self.mapping_mode == 'spatial' else
                             'pooled-eye-brightness-v1; unfitted 0-100 Hz R1-R6 input')}
 

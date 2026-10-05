@@ -118,7 +118,10 @@ class BrainView(QWidget):
                              else f"{self.active_count:,} spiking · {self.unlocated_active:,} unlocated")
         self.caption.setToolTip(f'{self.unlocated_active:,} spiking cells and {self.unlocated_voltage:,} voltage-change cells '
                                 'have no recorded anchor and are omitted from the 3D view. '
-                                'Voltage colors use a fixed 0.5–5 mV display range relative to −52 mV; see Guide.')
+                                'Voltage colors use a fixed 0.5–5 mV display range relative to model rest. '
+                                + (f"Replayed receptors use their declared {packet['receptor_replay']['reference_mv']:g} mV reference. "
+                                   if packet.get('receptor_replay', {}).get('enabled') else 'LIF rest is −52 mV. ')
+                                + 'See Guide.')
 
     def diagnostics(self):
         return {'loaded': self.anatomy is not None, 'mapped': int(self.anatomy.valid.sum()) if self.anatomy else 0,

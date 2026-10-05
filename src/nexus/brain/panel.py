@@ -118,6 +118,12 @@ class BrainPanel(QWidget):
         self.graded.setVisible(self.config.experimental)
         self.graded.toggled.connect(lambda value: self.send('graded_relays', value))
         controls.addWidget(self.graded)
+        self.receptor_load = QPushButton('Load receptor response…')
+        self.receptor_load.setVisible(bool(command_sink) and self.config.experimental)
+        self.receptor_load.setEnabled(False)
+        self.receptor_load.setToolTip('After Reset: enable graded relays and load the source video, then choose its prepared receptor report and explicit release curve. See Guide.')
+        self.receptor_load.clicked.connect(self.load_receptor_response)
+        controls.addWidget(self.receptor_load)
         release = QPushButton("Release manual interventions" if command_sink else "Release all interventions")
         release.clicked.connect(lambda: self.send("release"))
         controls.addWidget(release)
@@ -224,6 +230,14 @@ class BrainPanel(QWidget):
         except Full:
             self.status.setText("Command queue busy; try again.")
 
+    def load_receptor_response(self):
+        report, _ = QFileDialog.getOpenFileName(self, 'Choose the prepared receptor report', '', 'JSON (*.json)')
+        if not report:
+            return
+        curve, _ = QFileDialog.getOpenFileName(self, 'Choose the explicit experimental release curve', '', 'JSON (*.json)')
+        if curve:
+            self.send('vision_receptors', {'report_path': report, 'curve_path': curve})
+
     def poll(self):
         if self.process is None:
             return
@@ -279,6 +293,10 @@ class BrainPanel(QWidget):
                     detail = f"approaching threat: {intervention['duration_ms']:g} ms"
                 elif intervention['kind'] == 'looming_release':
                     detail = 'approaching threat input ended'
+                elif intervention['kind'] == 'receptor_replay':
+                    detail = f"Prepared receptor input: {len(intervention['ids'])} nonspiking sources"
+                elif intervention['kind'] == 'receptor_recording_end':
+                    detail = 'Receptor recording ended; body and brain paused'
                 self.session_event.emit(f"BRAIN {intervention['time']:.3f}s · {detail}")
         if len(self.intervention_seen) > 4000:
             self.intervention_seen = {(t['generation'], json.dumps(e, sort_keys=True)) for e in t['interventions']}
@@ -300,12 +318,16 @@ class BrainPanel(QWidget):
         self.background.setChecked(t.get('relay_background', {}).get('enabled', False))
         self.background.blockSignals(False)
         graded = t.get('graded_relays', {})
+        prepared = t.get('eye_feedback', {}).get('receptor_playback', {}).get('loaded', False)
         self.background.setEnabled(not graded.get('enabled', False))
         self.graded.blockSignals(True)
         self.graded.setChecked(graded.get('enabled', False))
         self.graded.blockSignals(False)
         self.graded.setEnabled(graded.get('available', False) and t['sim_time'] == 0
-                               and not t.get('relay_background', {}).get('enabled', False))
+                               and not t.get('relay_background', {}).get('enabled', False) and not prepared)
+        self.receptor_load.setEnabled(bool(self.command_sink) and graded.get('enabled', False)
+                                      and graded.get('bounded_synapses', False) and t['sim_time'] == 0
+                                      and t.get('eye_feedback', {}).get('source') == 'video' and not prepared)
         if graded.get('enabled', False):
             self.status.setText(self.status.text() + ' · graded relays on')
         if t['protocol']:

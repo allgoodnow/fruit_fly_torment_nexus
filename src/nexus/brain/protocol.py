@@ -43,6 +43,8 @@ class Protocol:
                 if not 0 < len(targets) <= 256:
                     raise ValueError("Choose between 1 and 256 target neurons")
                 if action == "stimulate":
+                    if brain.receptor_mask[targets].any():
+                        raise ValueError('Pulse sequences cannot target voltage-clamped prepared receptors')
                     rate = float(item["rate_hz"])
                     if not math.isfinite(rate) or not 0 < rate <= 1000:
                         raise ValueError("Input rate must be in (0, 1000] Hz")

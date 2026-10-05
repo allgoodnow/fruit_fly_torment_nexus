@@ -121,6 +121,18 @@ they do not validate that baseline or the size of the response.
 The normal-use check covers delayed propagation through a small synthetic
 relay chain, output blockade, exact source voltages, zero source/relay spikes,
 chunk consistency and reset. The full-connectome experiment retains the
-actual pack weights. The live GUI still uses its earlier visual input; whole
-eye scaling, an evidence-based terminal release model and live integration
-remain unfinished.
+actual pack weights. The native GUI now has an optional
+[prepared receptor playback mode](user-guide.md#prepared-receptor-playback).
+It supplies stored voltages to the running brain and body, with exact pause
+and recording-end semantics. The ordinary visual mappings still use their
+earlier input. Whole-eye scaling, an evidence-based terminal release model,
+live molecular integration and feedback into receptors remain unfinished.
+
+The focused native check uses that same 500 ms recording in the real app, with
+rendered articulated physics and OpenGL anatomy. It pauses and releases input
+mid-recording, resumes, stops exactly at 500 ms, compares full-brain final
+voltages and spike counts against the offline replay, then resets the models.
+`experiments/receptor-playback-gui-v1-results.json` records the checks and hashes.
+The two new normal-use checks cover ordinary controls and a short timed
+sequence on a small synthetic graph; the other three focused checks retain
+replay propagation and legacy video/shared-clock behavior.

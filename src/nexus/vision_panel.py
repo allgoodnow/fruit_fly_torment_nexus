@@ -58,6 +58,10 @@ class VisionPanel(QWidget):
         self.mapping = QComboBox()
         self.mapping.addItem('Brightness', 'pooled')
         self.mapping.addItem('Spatial (exp.)', 'spatial')
+        self.mapping.addItem('Receptor replay (exp.)', 'receptor_replay')
+        # This mode is loaded from Brain controls; selecting it alone cannot
+        # supply a recorded voltage waveform or its release assumption.
+        self.mapping.model().item(2).setEnabled(False)
         self.mapping.setToolTip('Spatial video input uses inferred columns and an uncalibrated image projection. Changing mode pauses and releases visual input. See Guide.')
         self.mapping.currentIndexChanged.connect(lambda: self.command.emit('vision_mapping', self.mapping.currentData()))
         controls.addWidget(self.mapping)
@@ -83,14 +87,21 @@ class VisionPanel(QWidget):
         self.feed.setChecked(state.get('enabled', False))
         self.feed.blockSignals(False)
         video = state.get('source') == 'video'
+        replay = state.get('receptor_playback', {})
+        prepared = replay.get('loaded', False)
         self.mapping.blockSignals(True)
-        self.mapping.setCurrentIndex(1 if state.get('mapping_mode') == 'spatial' else 0)
+        self.mapping.setCurrentIndex(2 if prepared else 1 if state.get('mapping_mode') == 'spatial' else 0)
         self.mapping.blockSignals(False)
-        self.mapping.setEnabled(video and state.get('spatial_available', False))
+        self.mapping.setEnabled(video and state.get('spatial_available', False) and not prepared)
         self.adaptation.blockSignals(True)
         self.adaptation.setChecked(state.get('adaptation', {}).get('selected', False))
         self.adaptation.blockSignals(False)
-        self.restart.setEnabled(video)
+        self.adaptation.setEnabled(not prepared)
+        self.load.setEnabled(not prepared)
+        self.eyes.setEnabled(not prepared)
+        self.restart.setEnabled(video and not prepared)
+        self.feed.setEnabled(not replay.get('ended', False))
+        self.restart.setToolTip('Reset body + brain to rewind a prepared receptor recording.' if prepared else '')
         if pixels is not None:
             height, width, _ = pixels.shape
             self.preview.image = QImage(pixels.data, width, height, pixels.strides[0],
@@ -99,11 +110,14 @@ class VisionPanel(QWidget):
             self.preview.image = None
         self.preview.update()
         name = state.get('video_name') if video else 'Left / right eyes'
-        status = 'Ended' if state.get('video_ended') else 'Playing' if state.get('enabled') and running else 'Paused'
+        status = 'Ended' if state.get('video_ended') or replay.get('ended') else 'Playing' if state.get('enabled') and running else 'Paused'
         if state.get('error'):
             status = 'Video error'
         position = f" · {state.get('video_frame', 0) / 20:.2f} s" if video else ''
         text = status + position + (' · ' + name if video and name else '')
+        if prepared:
+            text = f"{status} · {replay['position_ms']/1000:.2f} / {replay['duration_ms']/1000:.2f} s · {replay['cells']} receptors"
         self.status.setText(self.status.fontMetrics().elidedText(text, Qt.TextElideMode.ElideMiddle,
                                                                max(180, self.width() - 16)))
-        self.status.setToolTip(state.get('error') or name or '')
+        self.status.setToolTip(state.get('error') or ('Prepared receptor recording · ' + (name or '') +
+                               '\nUnfitted release curve; pauses at its endpoint. See Guide.' if prepared else name or ''))
