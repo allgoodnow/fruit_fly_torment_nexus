@@ -39,7 +39,8 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
              output_gain, inhibition_gain, queue, queue_size, counts, step, inputs, input_events,
              trace_ids, background_enabled, background, graded_enabled, graded_mask,
              graded_indices, histamine_sources, histamine_g, graded_queue,
-             bounded_synapses, excitation_g):
+             bounded_synapses, excitation_g, receptor_mask, receptor_indices,
+             receptor_voltage, receptor_release, receptor_queue):
     steps = len(input_events)
     trace = np.empty((steps, len(trace_ids)), dtype=np.float64)
     # Output bounded by one chunk, not total lifetime.
@@ -55,7 +56,9 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
         tick = step + local
         slot = tick % len(queue_size)
         for i in range(len(v)):
-            enabled[i] = tick - last_spike[i] >= refractory[i]
+            # Voltage replay sources are nonspiking and voltage-clamped. Incoming
+            # feedback is excluded rather than accumulated behind the clamp.
+            enabled[i] = tick - last_spike[i] >= refractory[i] and not receptor_mask[i]
             if enabled[i]:
                 if bounded_synapses:
                     # All synaptic input in this experimental variant is conductance based.
@@ -76,6 +79,8 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
                 if background_enabled:
                     v[i] += background[i] * (1.0 - em)
                 g[i] *= eg
+        for j in range(len(receptor_indices)):
+            v[receptor_indices[j]] = receptor_voltage[local, j]
         # Deliver spikes after the threshold pass, exactly as in Brian's schedule.
         future = (tick + DELAY_STEPS) % len(queue_size)
         queue_size[future] = 0
@@ -136,6 +141,24 @@ def _advance(v, g, last_spike, refractory, enabled, offsets, posts, weights,
                 if tick % 10 == 0:
                     # 20 equivalent events/s at rest, 0..40 range over -57..-47 mV.
                     graded_queue[future, j] = .02 * min(2.0, max(0.0, 1.0 + (v[pre] + 52.0) / 5.0))
+        for j in range(len(receptor_indices)):
+            pre = receptor_indices[j]
+            release = receptor_queue[slot, j]
+            receptor_queue[slot, j] = 0.0
+            gain = output_gain[pre]
+            if release != 0.0 and gain != 0.0:
+                for edge in range(offsets[pre], offsets[pre + 1]):
+                    post = posts[edge]
+                    if enabled[post]:
+                        weight = weights[edge]
+                        if weight < 0:
+                            histamine_g[post] += -weight * inhibition_gain * gain * release / 18.0
+                        else:
+                            excitation_g[post] += weight * gain * release / 52.0
+            # End-of-interval samples at 1, 2, ... ms; retain the pack's 1.8 ms
+            # delivery delay. Rates convert to equivalent weight packets per ms.
+            if (tick + 1) % 10 == 0:
+                receptor_queue[future, j] = receptor_release[local, j] * .001
         # N=1 PoissonInput is Bernoulli(rate*dt); it acts in the synapses slot.
         for j in range(len(inputs)):
             i = inputs[j]
@@ -266,6 +289,7 @@ class Brain:
         self.excitation_g = np.zeros(n, dtype=np.float64)
         self.graded_indices = np.array([], dtype=np.int32)
         self.graded_queue = np.zeros((DELAY_STEPS + 1, 0), dtype=np.float64)
+        self.receptor_mask = np.zeros(n, dtype=np.bool_)
         self.inputs = np.array([], dtype=np.int32)
         self.rates = np.array([], dtype=np.float64)
         self.reset()
@@ -351,6 +375,8 @@ class Brain:
             raise ValueError('Reset before changing the visual relay model')
         if enabled and self.background_enabled:
             raise ValueError('Turn off tonic relay baseline before selecting graded relays')
+        if not enabled and len(self.receptor_indices):
+            raise ValueError('Reset before disabling the relay model used by receptor replay')
         if enabled and not len(self.graded_indices):
             from ..datasets.graded_relays import relay_ids
             registry = self.graph.circuits or {}
@@ -368,6 +394,45 @@ class Brain:
         self.graded_enabled = enabled
         self.bounded_synapses = enabled and (self.graph.circuits or {}).get('graded_relays', {}).get('synapse_model') == 'conductance-v1'
         self.events.append({'kind': 'graded_relays', 'time': self.time, 'enabled': enabled})
+
+    def configure_receptor_replay(self, ids, *, reference_mv):
+        """Select nonspiking R1–R6 voltage clamps before an offline experiment.
+
+        Every advance must supply end-of-interval voltages and declared release
+        rates. Synaptic feedback into these sources is not modeled by a clamp.
+        """
+        if self.step != 0 or len(self.receptor_indices):
+            raise ValueError('Reset before configuring receptor replay')
+        if not self.graded_enabled or not self.bounded_synapses:
+            raise ValueError('Receptor replay requires the extended graded/conductance experiment')
+        targets = self.resolve(ids)
+        if not len(targets) or not self.histamine_sources[targets].all():
+            raise ValueError('Select mapped MaleCNS R1–R6 photoreceptors')
+        reference = float(reference_mv)
+        if not math.isfinite(reference):
+            raise ValueError('Receptor voltage reference must be finite')
+        if np.intersect1d(targets, self.inputs).size:
+            raise ValueError('Clear pulse inputs to the replay sources first')
+        self.receptor_indices = targets
+        self.receptor_mask[targets] = True
+        self.receptor_reference_mv = reference
+        self.receptor_queue = np.zeros((DELAY_STEPS + 1, len(targets)), dtype=np.float64)
+        self.receptor_last_release_hz = np.zeros(len(targets), dtype=np.float64)
+        self.v[targets] = reference
+        self.enabled[targets] = False
+        self.events.append({'kind': 'receptor_replay', 'time': self.time,
+                            **self.receptor_snapshot()})
+
+    def receptor_snapshot(self):
+        return {'enabled': bool(len(self.receptor_indices)),
+                'model': 'R1-R6-voltage-release-replay-v1',
+                'ids': [str(self.graph.ids[i]) for i in self.receptor_indices],
+                'reference_mv': self.receptor_reference_mv,
+                'last_release_equivalent_hz': self.receptor_last_release_hz.tolist(),
+                'source_spikes': int(self.counts[self.receptor_indices].sum()),
+                'release_sample_ms': 1., 'delivery_delay_ms': DELAY_STEPS * DT_MS,
+                'voltage_clamp': True, 'feedback_into_sources': False,
+                'parameters_fitted': False}
 
     def graded_snapshot(self):
         return {'enabled': self.graded_enabled,
@@ -606,6 +671,11 @@ class Brain:
         self.histamine_g.fill(0)
         self.excitation_g.fill(0)
         self.graded_queue.fill(0)
+        self.receptor_mask.fill(False)
+        self.receptor_indices = np.array([], dtype=np.int32)
+        self.receptor_queue = np.zeros((DELAY_STEPS + 1, 0), dtype=np.float64)
+        self.receptor_reference_mv = None
+        self.receptor_last_release_hz = np.array([], dtype=np.float64)
         self.step = 0
         self.v.fill(-52)
         self.g.fill(0)
@@ -638,7 +708,8 @@ class Brain:
         self.activity_pending_ticks = self.activity_pending_spikes = 0
         self.events.clear()
 
-    def advance(self, seconds, *, input_events=None, trace_ids=()):
+    def advance(self, seconds, *, input_events=None, trace_ids=(),
+                receptor_voltage_mv=None, receptor_release_hz=None):
         if not math.isfinite(float(seconds)):
             raise ValueError("Advance must be finite")
         steps = round(float(seconds) * 1000 / DT_MS)
@@ -647,12 +718,30 @@ class Brain:
         traces = self.resolve(trace_ids)
         if len(traces) > 32:
             raise ValueError("At most 32 voltage traces per chunk")
+        if len(self.receptor_indices):
+            voltage = np.asarray(receptor_voltage_mv, dtype=np.float64)
+            release = np.asarray(receptor_release_hz, dtype=np.float64)
+            shape = (steps, len(self.receptor_indices))
+            if (voltage.shape != shape or release.shape != shape
+                    or not np.isfinite(voltage).all() or not np.isfinite(release).all()
+                    or (release < 0).any()):
+                raise ValueError('Supply finite receptor voltage and nonnegative release arrays for every tick')
+            if np.intersect1d(self.receptor_indices, self.inputs).size:
+                raise ValueError('Pulse inputs cannot target voltage-clamped receptors')
+        else:
+            if receptor_voltage_mv is not None or receptor_release_hz is not None:
+                raise ValueError('Configure receptor replay before supplying its traces')
+            voltage = release = np.empty((steps, 0), dtype=np.float64)
         if self.looming_input and self.step < self.looming_input.end < self.step + steps:
             if input_events is not None:
                 raise ValueError('Split input replay at the approach endpoint, where targets change')
             first_steps = self.looming_input.end - self.step
-            first = self.advance(first_steps * .0001, trace_ids=trace_ids)
-            second = self.advance((steps - first_steps) * .0001, trace_ids=trace_ids)
+            first = self.advance(first_steps * .0001, trace_ids=trace_ids,
+                                 receptor_voltage_mv=voltage[:first_steps] if len(self.receptor_indices) else None,
+                                 receptor_release_hz=release[:first_steps] if len(self.receptor_indices) else None)
+            second = self.advance((steps - first_steps) * .0001, trace_ids=trace_ids,
+                                  receptor_voltage_mv=voltage[first_steps:] if len(self.receptor_indices) else None,
+                                  receptor_release_hz=release[first_steps:] if len(self.receptor_indices) else None)
             ids = np.concatenate([first['indices'], second['indices']])
             times = np.concatenate([first['steps'], second['steps']])
             return {'indices': ids[-20000:], 'steps': times[-20000:],
@@ -672,7 +761,10 @@ class Brain:
                           self.output_gain, self.inhibition_gain, self.queue, self.queue_size, self.counts,
                           self.step, self.inputs, events, traces, self.background_enabled, self.background,
                           self.graded_enabled, self.graded_mask, self.graded_indices, self.histamine_sources,
-                          self.histamine_g, self.graded_queue, self.bounded_synapses, self.excitation_g)
+                          self.histamine_g, self.graded_queue, self.bounded_synapses, self.excitation_g,
+                          self.receptor_mask, self.receptor_indices, voltage, release, self.receptor_queue)
+        if len(self.receptor_indices):
+            self.receptor_last_release_hz[:] = release[-1]
         self.step += steps
         if self.looming_input:
             if self.step >= self.looming_input.end:

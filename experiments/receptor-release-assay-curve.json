@@ -1,0 +1,8 @@
+{
+  "format": "nexus-photoreceptor-release-1",
+  "parameters_fitted": false,
+  "description": "Connectivity assay assumption only. Monotonic depolarization-dependent release with a small tonic component; numerical knots are not physiological measurements.",
+  "voltage_mv": [-80, -70, -60, -40, 20],
+  "release_equivalent_hz": [0, 5, 20, 40, 40],
+  "reference_mv": -70
+}

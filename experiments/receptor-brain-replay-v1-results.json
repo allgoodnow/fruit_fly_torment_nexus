@@ -1,0 +1,315 @@
+{
+  "format": "nexus-receptor-brain-replay-1",
+  "success": true,
+  "dataset": "male-cns:v1.0",
+  "neurons": 166700,
+  "edges": 25582938,
+  "duration_ms": 500.0,
+  "receptor_ids": [
+    "120772",
+    "127113",
+    "211051",
+    "242575",
+    "46599",
+    "181049",
+    "127946",
+    "201095"
+  ],
+  "receptor_count": 8,
+  "registry_sha256": "7b5499801539a12bc9f24325785d2c11e39b69ca56664b49f8f0e2193da6952a",
+  "manifest_sha256": "46de501c748c86315e36f759b4b6130f06613c60a80aa8ce68b3dd200a31b5e9",
+  "input_hashes": {
+    "video": {
+      "response.npz": "f0f3b0bebf8442decb686aa1dc8086108a84043b52fad6c43eb5c9ad6b8dc75d",
+      "report.json": "47da77b012dc94919945a007c6209e868e3d1aa90c67d66287006ffb00f9c4e5"
+    },
+    "dark": {
+      "response.npz": "42c07ac08d77ae04a27c625daccb310d82a95d1c8094a61529de2ebd458426fd",
+      "report.json": "de870030a1ec7868464b296ac951e105deecccbb08cff97de48e0163422a04f2"
+    }
+  },
+  "release_curve": {
+    "format": "nexus-photoreceptor-release-1",
+    "parameters_fitted": false,
+    "voltage_mv": [
+      -80.0,
+      -70.0,
+      -60.0,
+      -40.0,
+      20.0
+    ],
+    "release_equivalent_hz": [
+      0.0,
+      5.0,
+      20.0,
+      40.0,
+      40.0
+    ],
+    "reference_mv": -70.0,
+    "description": "Connectivity assay assumption only. Monotonic depolarization-dependent release with a small tonic component; numerical knots are not physiological measurements.",
+    "interpolation": "piecewise linear; no extrapolation",
+    "units": "equivalent connectome-weight events/s; not spikes or vesicles"
+  },
+  "release_curve_sha256": "7ecdd76c0c79ea30f7026016ae089c0fddff4f58f522e74a62202cc56b79efcf",
+  "release_sample_ms": 1.0,
+  "delivery_delay_ms": 1.8,
+  "voltage_sample_ms": 0.1,
+  "first_receptor_input_difference_ms": 105.0,
+  "brain_snapshot_times_ms": [
+    50.0,
+    100.0,
+    150.0,
+    200.0,
+    250.0,
+    300.0,
+    350.0,
+    400.0,
+    450.0,
+    500.0
+  ],
+  "trace_selection": [
+    {
+      "id": "120772",
+      "stage": "receptor"
+    },
+    {
+      "id": "127113",
+      "stage": "receptor"
+    },
+    {
+      "id": "211051",
+      "stage": "receptor"
+    },
+    {
+      "id": "242575",
+      "stage": "receptor"
+    },
+    {
+      "id": "46599",
+      "stage": "receptor"
+    },
+    {
+      "id": "181049",
+      "stage": "receptor"
+    },
+    {
+      "id": "127946",
+      "stage": "receptor"
+    },
+    {
+      "id": "201095",
+      "stage": "receptor"
+    },
+    {
+      "id": "24106",
+      "stage": "lamina"
+    },
+    {
+      "id": "30453",
+      "stage": "lamina"
+    },
+    {
+      "id": "19001",
+      "stage": "lamina"
+    },
+    {
+      "id": "39568",
+      "stage": "lamina"
+    },
+    {
+      "id": "24353",
+      "stage": "lamina"
+    },
+    {
+      "id": "28859",
+      "stage": "lamina"
+    },
+    {
+      "id": "20856",
+      "stage": "lamina"
+    },
+    {
+      "id": "15813",
+      "stage": "lamina"
+    },
+    {
+      "id": "64738",
+      "stage": "medulla"
+    },
+    {
+      "id": "56925",
+      "stage": "medulla"
+    },
+    {
+      "id": "61405",
+      "stage": "medulla"
+    },
+    {
+      "id": "62035",
+      "stage": "medulla"
+    },
+    {
+      "id": "53702",
+      "stage": "medulla"
+    },
+    {
+      "id": "99555",
+      "stage": "medulla"
+    },
+    {
+      "id": "55273",
+      "stage": "medulla"
+    },
+    {
+      "id": "104583",
+      "stage": "medulla"
+    },
+    {
+      "id": "22589",
+      "stage": "downstream"
+    },
+    {
+      "id": "29019",
+      "stage": "downstream"
+    },
+    {
+      "id": "32216",
+      "stage": "downstream"
+    },
+    {
+      "id": "29397",
+      "stage": "downstream"
+    },
+    {
+      "id": "39573",
+      "stage": "downstream"
+    },
+    {
+      "id": "112962",
+      "stage": "downstream"
+    },
+    {
+      "id": "113709",
+      "stage": "downstream"
+    },
+    {
+      "id": "20807",
+      "stage": "downstream"
+    }
+  ],
+  "conditions": {
+    "dark": {
+      "wall_seconds": 16.453311906999943,
+      "source_spikes": 0,
+      "graded_relay_spikes": 0,
+      "total_spikes": 19624,
+      "release_equivalent_hz_range": [
+        4.9582058187241245,
+        4.99602366738015
+      ]
+    },
+    "video": {
+      "wall_seconds": 10.364802861000044,
+      "source_spikes": 0,
+      "graded_relay_spikes": 0,
+      "total_spikes": 19739,
+      "release_equivalent_hz_range": [
+        4.9582058187241245,
+        21.090117298688696
+      ]
+    },
+    "dark_blocked": {
+      "wall_seconds": 10.315307001000065,
+      "source_spikes": 0,
+      "graded_relay_spikes": 0,
+      "total_spikes": 21949,
+      "release_equivalent_hz_range": [
+        4.9582058187241245,
+        4.99602366738015
+      ]
+    },
+    "video_blocked": {
+      "wall_seconds": 10.340981775000046,
+      "source_spikes": 0,
+      "graded_relay_spikes": 0,
+      "total_spikes": 21949,
+      "release_equivalent_hz_range": [
+        4.9582058187241245,
+        21.090117298688696
+      ]
+    }
+  },
+  "checks": {
+    "source_spikes_zero": true,
+    "graded_relay_spikes_zero": true,
+    "pre_input_sampled_brain_state_identical": true,
+    "blocked_non_source_state_identical": true
+  },
+  "video_minus_dark": {
+    "non_source": {
+      "cells": 166692,
+      "sampled_maximum_absolute_voltage_delta_mv": 17.05251091087063,
+      "cells_at_least_0_01_mv": 122180,
+      "cells_at_least_0_5_mv": 24012,
+      "cells_with_changed_spike_count": 807,
+      "net_spike_count_difference": 115
+    },
+    "direct_targets": {
+      "cells": 21,
+      "sampled_maximum_absolute_voltage_delta_mv": 1.142161092915579,
+      "cells_at_least_0_01_mv": 21,
+      "cells_at_least_0_5_mv": 11,
+      "cells_with_changed_spike_count": 0,
+      "net_spike_count_difference": 0
+    },
+    "beyond_direct_targets": {
+      "cells": 166671,
+      "sampled_maximum_absolute_voltage_delta_mv": 17.05251091087063,
+      "cells_at_least_0_01_mv": 122159,
+      "cells_at_least_0_5_mv": 24001,
+      "cells_with_changed_spike_count": 807,
+      "net_spike_count_difference": 115
+    },
+    "graded_relays": {
+      "cells": 10925,
+      "sampled_maximum_absolute_voltage_delta_mv": 1.9039028482222662,
+      "cells_at_least_0_01_mv": 10794,
+      "cells_at_least_0_5_mv": 3371,
+      "cells_with_changed_spike_count": 0,
+      "net_spike_count_difference": 0
+    },
+    "other_neurons": {
+      "cells": 155767,
+      "sampled_maximum_absolute_voltage_delta_mv": 17.05251091087063,
+      "cells_at_least_0_01_mv": 111386,
+      "cells_at_least_0_5_mv": 20641,
+      "cells_with_changed_spike_count": 807,
+      "net_spike_count_difference": 115
+    }
+  },
+  "blocked_video_minus_dark": {
+    "cells": 166692,
+    "sampled_maximum_absolute_voltage_delta_mv": 0.0,
+    "cells_at_least_0_01_mv": 0,
+    "cells_at_least_0_5_mv": 0,
+    "cells_with_changed_spike_count": 0,
+    "net_spike_count_difference": 0
+  },
+  "implementation_sha256": {
+    "src/nexus/brain/runtime.py": "e3f08db61268d59149bcc06e7c18da63bd387148842ec8ec7011f441c5564d76",
+    "src/nexus/brain/receptor_release.py": "1ee92c8b2278a91a065812dfcef1d8606cc4aceebeee8387131681085087781c",
+    "src/nexus/brain/telemetry.py": "f4120ff43ae84f165f642286fda842b721590aa13e1afd79769ea949143d8451",
+    "scripts/run_receptor_brain_replay.py": "a634942a55db4aa7de94cd9f2322888c4d01fd59eda2c305752247307bd18ef6"
+  },
+  "limits": [
+    "Selected explicit receptors only; the remaining eye cells have no external light drive.",
+    "The release curve is an unfitted connectivity-assay assumption, not measured histamine release.",
+    "Equivalent release packets preserve connectome weights; no receptor spikes or forced downstream activation.",
+    "Voltage replay excludes synaptic feedback into receptor sources and vesicle depletion or terminal calcium.",
+    "The existing graded relay law, conductance scales, reversals and delays remain unfitted.",
+    "Full-network differences are measured at the listed snapshots, not continuously.",
+    "Other cells begin at model rest; tonic output comes from the selected release/relay laws, not validated whole-brain spontaneous activity.",
+    "Offline experiment only; live GUI, whole-eye scaling and physiological calibration remain unfinished.",
+    "Timing includes any first-call JIT and trace/state copying; excludes loading, plotting and export."
+  ]
+}

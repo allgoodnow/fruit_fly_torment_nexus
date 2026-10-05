@@ -94,8 +94,9 @@ Existing ordinary video and spatial sampling checks cover the shared decoder
 and bilinear helper.
 
 This establishes video-driven molecular and voltage responses in selected
-model receptors. It does not establish physiological calibration, histamine
-release, downstream perception or natural behavior. The live application's
-generic spiking photoreceptor input remains in place until the release and
-brain interfaces are implemented. The adapted molecular and membrane
+model receptors. The [offline connectome replay](receptor-brain-replay.md)
+can now use those voltages with an explicitly supplied, unfitted release
+curve. Neither experiment establishes physiological calibration, downstream
+perception or natural behavior. The live application's generic spiking
+photoreceptor input remains in place; the new interface is offline. The adapted molecular and membrane
 components retain their GPL terms in `licenses/photoreceptor/NOTICE.md`.

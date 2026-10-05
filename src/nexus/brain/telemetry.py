@@ -12,9 +12,14 @@ VOLTAGE_THRESHOLD_MV = 0.5
 def membrane_activity(brain):
     """Signed state relative to model rest, independent of spikes and input labels."""
     deviation = brain.v - VOLTAGE_REST_MV
+    if len(brain.receptor_indices):
+        deviation[brain.receptor_indices] = brain.v[brain.receptor_indices] - brain.receptor_reference_mv
     indices = np.flatnonzero(np.abs(deviation) >= VOLTAGE_THRESHOLD_MV)
     return {'indices': indices.tolist(), 'delta_mv': deviation[indices].tolist(),
-            'rest_mv': VOLTAGE_REST_MV, 'threshold_mv': VOLTAGE_THRESHOLD_MV,
+            'rest_mv': VOLTAGE_REST_MV,
+            'reference_overrides': {'indices': brain.receptor_indices.tolist(),
+                                    'reference_mv': brain.receptor_reference_mv},
+            'threshold_mv': VOLTAGE_THRESHOLD_MV,
             'minimum_mv': float(brain.v.min()), 'maximum_mv': float(brain.v.max())}
 
 
@@ -45,6 +50,7 @@ class NeuralTelemetry:
                   'model': brain.graph.model,
                   'relay_background': brain.background_snapshot(),
                   'graded_relays': brain.graded_snapshot(),
+                  'receptor_replay': brain.receptor_snapshot(),
                   'active_indices': active.tolist(), 'active_steps': brain.last_spike[active].tolist(),
                   'membrane_activity': membrane_activity(brain),
                   'neurons': len(brain.graph.ids), 'edges': len(brain.graph.posts),
