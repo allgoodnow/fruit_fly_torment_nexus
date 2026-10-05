@@ -3,6 +3,8 @@ from pathlib import Path
 
 import numpy as np
 
+VIDEO_FPS = 20
+
 
 class VideoSource:
     def __init__(self, path):
@@ -12,7 +14,7 @@ class VideoSource:
             raise ValueError('Choose an existing local video file')
         self.stream = imageio_ffmpeg.read_frames(
             str(self.path), output_params=['-an', '-vf',
-                'fps=20,scale=320:180:force_original_aspect_ratio=decrease'])
+                f'fps={VIDEO_FPS},scale=320:180:force_original_aspect_ratio=decrease'])
         self.index, self.ended = 0, False
         try:
             self.metadata = next(self.stream)

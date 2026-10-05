@@ -1,0 +1,530 @@
+{
+  "format": "nexus-video-phototransduction-assay-1",
+  "success": true,
+  "stimulus": {
+    "name": "quadrant_exposure.mp4",
+    "size": [
+      320,
+      180
+    ],
+    "fps": 20,
+    "codec": "libx264rgb",
+    "frame_groups": [
+      {
+        "duration_ms": 100,
+        "image": "black"
+      },
+      {
+        "duration_ms": 100,
+        "image": "left_half_white"
+      },
+      {
+        "duration_ms": 100,
+        "image": "right_half_white"
+      },
+      {
+        "duration_ms": 100,
+        "image": "full_gray_128"
+      },
+      {
+        "duration_ms": 100,
+        "image": "black"
+      }
+    ]
+  },
+  "light": {
+    "format": "nexus-video-phototransduction-1",
+    "success": true,
+    "source_name": "quadrant_exposure.mp4",
+    "source_sha256": "bb046b88cb5a44b827322ee3b9d0d02ca0513dad58cf2d1c970df90c95fc8875",
+    "registry_sha256": "7b5499801539a12bc9f24325785d2c11e39b69ca56664b49f8f0e2193da6952a",
+    "manifest_sha256": "46de501c748c86315e36f759b4b6130f06613c60a80aa8ce68b3dd200a31b5e9",
+    "backend": "cuda",
+    "batch_cells": 8,
+    "microvilli_per_receptor": 30000,
+    "exposure_ms": 500,
+    "wall_seconds": 7.820455383999985,
+    "video_input_fps": 20,
+    "absorbed_photon_bin_ms": 1.0,
+    "membrane_dt_ms": 0.1,
+    "transfer": "srgb",
+    "white_rate_hz": 30000.0,
+    "black_rate_hz": 0.0,
+    "calibrated": false,
+    "root_seed": 88300,
+    "photon_seeds": [
+      14328594631165094604,
+      3106686973562881507,
+      5931820897726525868,
+      15797903082595469961,
+      9007525529336132369,
+      17209195607195781361,
+      13407716844027028662,
+      9133929480598657442
+    ],
+    "cascade_seeds": [
+      6462896876576353823,
+      2822758069971142057,
+      12537660971670833751,
+      13290859366366706707,
+      16883464255754940360,
+      6671217919619455445,
+      5117045769748304236,
+      10000035960705613307
+    ],
+    "receptors": [
+      {
+        "id": "120772",
+        "side": "L",
+        "uv": [
+          0.2564303551856266,
+          0.25
+        ],
+        "absorbed_photons": 3732,
+        "expected_absorbed_photons": 3647.581500341698,
+        "maximum_open_channels": 1581,
+        "molecular_events": 1584598,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.19472117123856
+        ]
+      },
+      {
+        "id": "127113",
+        "side": "L",
+        "uv": [
+          0.7435696448143734,
+          0.21875
+        ],
+        "absorbed_photons": 3559,
+        "expected_absorbed_photons": 3647.5815003416983,
+        "maximum_open_channels": 1593,
+        "molecular_events": 1464711,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.16975589751212
+        ]
+      },
+      {
+        "id": "211051",
+        "side": "L",
+        "uv": [
+          0.22936706131736295,
+          0.640625
+        ],
+        "absorbed_photons": 3606,
+        "expected_absorbed_photons": 3647.581500341698,
+        "maximum_open_channels": 1517,
+        "molecular_events": 1534390,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.49721273676722
+        ]
+      },
+      {
+        "id": "242575",
+        "side": "L",
+        "uv": [
+          0.6082531754730548,
+          0.515625
+        ],
+        "absorbed_photons": 3632,
+        "expected_absorbed_photons": 3647.5815003416983,
+        "maximum_open_channels": 1637,
+        "molecular_events": 1492850,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -58.909882701311304
+        ]
+      },
+      {
+        "id": "46599",
+        "side": "R",
+        "uv": [
+          0.24685411273993335,
+          0.2615384615384615
+        ],
+        "absorbed_photons": 3741,
+        "expected_absorbed_photons": 3647.5815003416974,
+        "maximum_open_channels": 1528,
+        "molecular_events": 1599380,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.43978347282931
+        ]
+      },
+      {
+        "id": "181049",
+        "side": "R",
+        "uv": [
+          0.7531458872600667,
+          0.24615384615384617
+        ],
+        "absorbed_photons": 3638,
+        "expected_absorbed_photons": 3647.5815003416983,
+        "maximum_open_channels": 1597,
+        "molecular_events": 1498744,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.16082883991007
+        ]
+      },
+      {
+        "id": "127946",
+        "side": "R",
+        "uv": [
+          0.24685411273993335,
+          0.7538461538461538
+        ],
+        "absorbed_photons": 3541,
+        "expected_absorbed_photons": 3647.5815003416974,
+        "maximum_open_channels": 1620,
+        "molecular_events": 1520193,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.04929322624851
+        ]
+      },
+      {
+        "id": "201095",
+        "side": "R",
+        "uv": [
+          0.7797928227611264,
+          0.7538461538461538
+        ],
+        "absorbed_photons": 3617,
+        "expected_absorbed_photons": 3647.5815003416983,
+        "maximum_open_channels": 1585,
+        "molecular_events": 1473693,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.24496784819689
+        ]
+      }
+    ],
+    "implementation_sha256": {
+      "src/nexus/photon_input.py": "3ffbc8943551268c2df485ce7b230111c7445bb5ac486b6433309771a6f705cd",
+      "src/nexus/retina.py": "bc49ab6c8938b9cddb15b87b1c8ac7a154fbc0e0d5c28a24d135e61a39fbc643",
+      "src/nexus/video.py": "6dca3f420f41ec6a9e93aa5dbc8b78a4554ccb7d02e0f39551f4a6e4b8c03550",
+      "src/nexus/brain/phototransduction_parallel.py": "164b40a7745142768169f9aba2254d637fe66a9ffdd2c74c7ebff1087095306d",
+      "src/nexus/brain/phototransduction_batch.py": "7557718b4bb560a006e1164123e68f5c4523f306cdc6b514e196e09cb8c2273d",
+      "src/nexus/brain/phototransduction_cuda.py": "19e6b93d4b2bb0db643a7f9cb140b1d8726d5a378558edf57c1f2e926b51fe01",
+      "src/nexus/brain/phototransduction.py": "7a19319f143440a3df79a5f9d3114bfb4e0371d003052c8e10b99dea6a1758ee",
+      "src/nexus/brain/photoreceptor.py": "298ec7a7c768dbb57589e65dce0bfea3a1b66ba8a2305a2c69ddb19a0690ad39",
+      "scripts/run_video_phototransduction.py": "f4ba1b66a95bca1f8b85267277a16c78390572b9f9c5b358d7b0692df19ef493"
+    },
+    "limits": [
+      "RGB intensity, white/black rates and video projection are explicit uncalibrated assumptions.",
+      "Poisson arrival counts are a new controlled exposure input, separate from molecular event randomness.",
+      "Video is held at 20 fps, counts are binned at 1 ms; sub-bin arrival times are not modeled.",
+      "Selected receptors only; no shared-population scale-up, transmitter release or live brain input.",
+      "Timing includes decoding and possible JIT on the first advance; excludes setup, plotting and report export."
+    ]
+  },
+  "dark_control": {
+    "format": "nexus-video-phototransduction-1",
+    "success": true,
+    "source_name": "quadrant_exposure.mp4",
+    "source_sha256": "bb046b88cb5a44b827322ee3b9d0d02ca0513dad58cf2d1c970df90c95fc8875",
+    "registry_sha256": "7b5499801539a12bc9f24325785d2c11e39b69ca56664b49f8f0e2193da6952a",
+    "manifest_sha256": "46de501c748c86315e36f759b4b6130f06613c60a80aa8ce68b3dd200a31b5e9",
+    "backend": "cuda",
+    "batch_cells": 8,
+    "microvilli_per_receptor": 30000,
+    "exposure_ms": 500,
+    "wall_seconds": 2.2131705739999745,
+    "video_input_fps": 20,
+    "absorbed_photon_bin_ms": 1.0,
+    "membrane_dt_ms": 0.1,
+    "transfer": "srgb",
+    "white_rate_hz": 0.0,
+    "black_rate_hz": 0.0,
+    "calibrated": false,
+    "root_seed": 88300,
+    "photon_seeds": [
+      14328594631165094604,
+      3106686973562881507,
+      5931820897726525868,
+      15797903082595469961,
+      9007525529336132369,
+      17209195607195781361,
+      13407716844027028662,
+      9133929480598657442
+    ],
+    "cascade_seeds": [
+      6462896876576353823,
+      2822758069971142057,
+      12537660971670833751,
+      13290859366366706707,
+      16883464255754940360,
+      6671217919619455445,
+      5117045769748304236,
+      10000035960705613307
+    ],
+    "receptors": [
+      {
+        "id": "120772",
+        "side": "L",
+        "uv": [
+          0.2564303551856266,
+          0.25
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97574,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      },
+      {
+        "id": "127113",
+        "side": "L",
+        "uv": [
+          0.7435696448143734,
+          0.21875
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97882,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      },
+      {
+        "id": "211051",
+        "side": "L",
+        "uv": [
+          0.22936706131736295,
+          0.640625
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97863,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      },
+      {
+        "id": "242575",
+        "side": "L",
+        "uv": [
+          0.6082531754730548,
+          0.515625
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97712,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      },
+      {
+        "id": "46599",
+        "side": "R",
+        "uv": [
+          0.24685411273993335,
+          0.2615384615384615
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97666,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      },
+      {
+        "id": "181049",
+        "side": "R",
+        "uv": [
+          0.7531458872600667,
+          0.24615384615384617
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97708,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      },
+      {
+        "id": "127946",
+        "side": "R",
+        "uv": [
+          0.24685411273993335,
+          0.7538461538461538
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97292,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      },
+      {
+        "id": "201095",
+        "side": "R",
+        "uv": [
+          0.7797928227611264,
+          0.7538461538461538
+        ],
+        "absorbed_photons": 0,
+        "expected_absorbed_photons": 0.0,
+        "maximum_open_channels": 0,
+        "molecular_events": 97787,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -70.0079526652397
+        ]
+      }
+    ],
+    "implementation_sha256": {
+      "src/nexus/photon_input.py": "3ffbc8943551268c2df485ce7b230111c7445bb5ac486b6433309771a6f705cd",
+      "src/nexus/retina.py": "bc49ab6c8938b9cddb15b87b1c8ac7a154fbc0e0d5c28a24d135e61a39fbc643",
+      "src/nexus/video.py": "6dca3f420f41ec6a9e93aa5dbc8b78a4554ccb7d02e0f39551f4a6e4b8c03550",
+      "src/nexus/brain/phototransduction_parallel.py": "164b40a7745142768169f9aba2254d637fe66a9ffdd2c74c7ebff1087095306d",
+      "src/nexus/brain/phototransduction_batch.py": "7557718b4bb560a006e1164123e68f5c4523f306cdc6b514e196e09cb8c2273d",
+      "src/nexus/brain/phototransduction_cuda.py": "19e6b93d4b2bb0db643a7f9cb140b1d8726d5a378558edf57c1f2e926b51fe01",
+      "src/nexus/brain/phototransduction.py": "7a19319f143440a3df79a5f9d3114bfb4e0371d003052c8e10b99dea6a1758ee",
+      "src/nexus/brain/photoreceptor.py": "298ec7a7c768dbb57589e65dce0bfea3a1b66ba8a2305a2c69ddb19a0690ad39",
+      "scripts/run_video_phototransduction.py": "f4ba1b66a95bca1f8b85267277a16c78390572b9f9c5b358d7b0692df19ef493"
+    },
+    "limits": [
+      "RGB intensity, white/black rates and video projection are explicit uncalibrated assumptions.",
+      "Poisson arrival counts are a new controlled exposure input, separate from molecular event randomness.",
+      "Video is held at 20 fps, counts are binned at 1 ms; sub-bin arrival times are not modeled.",
+      "Selected receptors only; no shared-population scale-up, transmitter release or live brain input.",
+      "Timing includes decoding and possible JIT on the first advance; excludes setup, plotting and report export."
+    ]
+  },
+  "cpu_reference_receptor": {
+    "format": "nexus-video-phototransduction-1",
+    "success": true,
+    "source_name": "quadrant_exposure.mp4",
+    "source_sha256": "bb046b88cb5a44b827322ee3b9d0d02ca0513dad58cf2d1c970df90c95fc8875",
+    "registry_sha256": "7b5499801539a12bc9f24325785d2c11e39b69ca56664b49f8f0e2193da6952a",
+    "manifest_sha256": "46de501c748c86315e36f759b4b6130f06613c60a80aa8ce68b3dd200a31b5e9",
+    "backend": "cpu",
+    "batch_cells": null,
+    "microvilli_per_receptor": 30000,
+    "exposure_ms": 500,
+    "wall_seconds": 8.551404798000021,
+    "video_input_fps": 20,
+    "absorbed_photon_bin_ms": 1.0,
+    "membrane_dt_ms": 0.1,
+    "transfer": "srgb",
+    "white_rate_hz": 30000.0,
+    "black_rate_hz": 0.0,
+    "calibrated": false,
+    "root_seed": 88300,
+    "photon_seeds": [
+      14328594631165094604
+    ],
+    "cascade_seeds": [
+      6462896876576353823
+    ],
+    "receptors": [
+      {
+        "id": "120772",
+        "side": "L",
+        "uv": [
+          0.2564303551856266,
+          0.25
+        ],
+        "absorbed_photons": 3732,
+        "expected_absorbed_photons": 3647.581500341698,
+        "maximum_open_channels": 1581,
+        "molecular_events": 1584598,
+        "voltage_range_mv": [
+          -70.08358836255175,
+          -59.19472117123856
+        ]
+      }
+    ],
+    "implementation_sha256": {
+      "src/nexus/photon_input.py": "3ffbc8943551268c2df485ce7b230111c7445bb5ac486b6433309771a6f705cd",
+      "src/nexus/retina.py": "bc49ab6c8938b9cddb15b87b1c8ac7a154fbc0e0d5c28a24d135e61a39fbc643",
+      "src/nexus/video.py": "6dca3f420f41ec6a9e93aa5dbc8b78a4554ccb7d02e0f39551f4a6e4b8c03550",
+      "src/nexus/brain/phototransduction_parallel.py": "164b40a7745142768169f9aba2254d637fe66a9ffdd2c74c7ebff1087095306d",
+      "src/nexus/brain/phototransduction_batch.py": "7557718b4bb560a006e1164123e68f5c4523f306cdc6b514e196e09cb8c2273d",
+      "src/nexus/brain/phototransduction_cuda.py": "19e6b93d4b2bb0db643a7f9cb140b1d8726d5a378558edf57c1f2e926b51fe01",
+      "src/nexus/brain/phototransduction.py": "7a19319f143440a3df79a5f9d3114bfb4e0371d003052c8e10b99dea6a1758ee",
+      "src/nexus/brain/photoreceptor.py": "298ec7a7c768dbb57589e65dce0bfea3a1b66ba8a2305a2c69ddb19a0690ad39",
+      "scripts/run_video_phototransduction.py": "f4ba1b66a95bca1f8b85267277a16c78390572b9f9c5b358d7b0692df19ef493"
+    },
+    "limits": [
+      "RGB intensity, white/black rates and video projection are explicit uncalibrated assumptions.",
+      "Poisson arrival counts are a new controlled exposure input, separate from molecular event randomness.",
+      "Video is held at 20 fps, counts are binned at 1 ms; sub-bin arrival times are not modeled.",
+      "Selected receptors only; no shared-population scale-up, transmitter release or live brain input.",
+      "Timing includes decoding and possible JIT on the first advance; excludes setup, plotting and report export."
+    ]
+  },
+  "comparisons": {
+    "no_photons_or_channel_openings_in_control": true,
+    "pre_light_voltage_matches_dark_control_exactly": true,
+    "local_input_precedes_local_channel_activity": [
+      {
+        "id": "120772",
+        "bright_input_onset_ms": 100,
+        "first_open_channel_ms": 106.0
+      },
+      {
+        "id": "127113",
+        "bright_input_onset_ms": 200,
+        "first_open_channel_ms": 205.9
+      },
+      {
+        "id": "211051",
+        "bright_input_onset_ms": 100,
+        "first_open_channel_ms": 105.5
+      },
+      {
+        "id": "242575",
+        "bright_input_onset_ms": 200,
+        "first_open_channel_ms": 204.6
+      },
+      {
+        "id": "46599",
+        "bright_input_onset_ms": 100,
+        "first_open_channel_ms": 104.9
+      },
+      {
+        "id": "181049",
+        "bright_input_onset_ms": 200,
+        "first_open_channel_ms": 203.6
+      },
+      {
+        "id": "127946",
+        "bright_input_onset_ms": 100,
+        "first_open_channel_ms": 105.8
+      },
+      {
+        "id": "201095",
+        "bright_input_onset_ms": 200,
+        "first_open_channel_ms": 207.3
+      }
+    ],
+    "final_channels_below_one_percent_of_peak": true,
+    "cpu_gpu_input_counts_and_channels_match_exactly": true,
+    "cpu_gpu_maximum_voltage_difference_mv": 0.0
+  },
+  "limits": [
+    "Controlled synthetic MP4, not biological measurements or a physically calibrated display.",
+    "Eight mapped model receptors; no full-eye, transmitter or live brain connection.",
+    "Poisson incoming counts and sRGB interpretation are explicit input assumptions."
+  ]
+}

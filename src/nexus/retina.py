@@ -2,6 +2,17 @@
 import numpy as np
 
 
+def sample_plane(plane, uv):
+    """Bilinear samples from a normalized scalar image at validated locations."""
+    height, width = plane.shape
+    x, y = uv[:, 0]*(width-1), uv[:, 1]*(height-1)
+    x0, y0 = x.astype(int), y.astype(int)
+    x1, y1 = np.minimum(x0+1, width-1), np.minimum(y0+1, height-1)
+    dx, dy = x-x0, y-y0
+    return ((1-dx)*(1-dy)*plane[y0, x0] + dx*(1-dy)*plane[y0, x1]
+            + (1-dx)*dy*plane[y1, x0] + dx*dy*plane[y1, x1])
+
+
 class VisualColumns:
     def __init__(self, registry):
         mapping = registry['visual_columns']
@@ -26,13 +37,4 @@ class VisualColumns:
         if frame.ndim != 3 or frame.shape[2] != 3 or frame.dtype != np.uint8 or min(frame.shape[:2]) == 0:
             raise ValueError('Expected an RGB8 video frame')
         luminance = frame.mean(axis=2) / 255.
-        height, width = luminance.shape
-        result = {}
-        for side, uv in self.uv.items():
-            x, y = uv[:, 0]*(width-1), uv[:, 1]*(height-1)
-            x0, y0 = x.astype(int), y.astype(int)
-            x1, y1 = np.minimum(x0+1, width-1), np.minimum(y0+1, height-1)
-            dx, dy = x-x0, y-y0
-            result[side] = ((1-dx)*(1-dy)*luminance[y0, x0] + dx*(1-dy)*luminance[y0, x1]
-                            + (1-dx)*dy*luminance[y1, x0] + dx*dy*luminance[y1, x1])
-        return result
+        return {side: sample_plane(luminance, uv) for side, uv in self.uv.items()}

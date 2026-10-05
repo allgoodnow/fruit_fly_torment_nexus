@@ -76,8 +76,10 @@ this is a computational guard, not a biological parameter.
 The input is **absorbed photons per 1 ms sample**, not photons per second,
 incident illumination, lux, RGB, or neural spikes. Counts occur at each sample
 boundary; their sub-millisecond arrival times are not reconstructed. No optical
-calibration, pixel-to-photon mapping, transmitter-release model, or live brain
-connection is supplied. Quantum bumps are molecular channel responses and are
+calibration, transmitter-release model, or live brain connection is supplied
+by this component. A separate [video exposure adapter](video-phototransduction.md)
+now supplies explicit, uncalibrated intensity-to-photon inputs for offline
+experiments. Quantum bumps are molecular channel responses and are
 never represented as brain action potentials.
 
 ## Use and verification

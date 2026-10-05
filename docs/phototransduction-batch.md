@@ -91,7 +91,8 @@ whose slower scheduler should not be used to exaggerate speed improvements.
 python scripts/benchmark_phototransduction_batch.py --output-dir new-results-folder
 ```
 
-This is an offline component. Video optics, photon calibration, transmitter
-release and live brain integration remain separate work; pixels are not
-silently converted into photons or spikes. Attribution and GPL terms are in
+This is an offline component. A [video exposure adapter](video-phototransduction.md)
+now supplies explicit intensity-to-photon assumptions for selected receptors.
+Calibrated optics, transmitter release and live brain integration remain
+separate work. Attribution and GPL terms are in
 `licenses/photoreceptor/NOTICE.md`.

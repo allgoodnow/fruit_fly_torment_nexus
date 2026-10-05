@@ -134,8 +134,10 @@ phototransduction/adaptation model.
 An MP4 supplies pixel values, not measured photon flux or current. Connecting
 this subsystem to video requires an explicit optical/light-to-current model.
 Connecting its voltage to the existing synaptic weights also requires a
-voltage-to-transmitter-release model. Neither conversion has been supplied or
-silently fitted to make the brain display more activity. The app's current
+voltage-to-transmitter-release model. An [offline video adapter](video-phototransduction.md)
+now supplies explicitly assumed photon exposure to the molecular cascade;
+physically calibrated exposure and transmitter coupling remain unavailable.
+The app's current
 generic spiking photoreceptors remain an acknowledged limitation until those
 interfaces are implemented and checked.
 
