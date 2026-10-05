@@ -36,13 +36,14 @@ def _advance(states, due, reactions, reversals, streams, photons, start_ms, init
 
 
 @cuda.jit
-def _sum_channels(values, result):
+def _sum_channels(values, result, microvilli):
     tick = cuda.blockIdx.x
+    receptor = cuda.blockIdx.y
     lane = cuda.threadIdx.x
     scratch = cuda.shared.array(128, int64)
     total = 0
-    for cell in range(lane, values.shape[1], 128):
-        total += int(values[tick, cell])
+    for micro in range(lane, microvilli, 128):
+        total += int(values[tick, receptor*microvilli+micro])
     scratch[lane] = total
     cuda.syncthreads()
     stride = 64
@@ -52,16 +53,22 @@ def _sum_channels(values, result):
         cuda.syncthreads()
         stride //= 2
     if lane == 0:
-        result[tick] = scratch[0]
+        result[tick, receptor] = scratch[0]
 
 
 class CudaWork:
     """Disposable candidate state; callers commit only after all stages succeed."""
-    def __init__(self, arrays):
+    def __init__(self, arrays, *, microvilli=None):
         self.arrays = [cuda.to_device(a) for a in arrays]
         self.cells = len(arrays[0])
+        self.microvilli = self.cells if microvilli is None else microvilli
+        self.receptors = self.cells // self.microvilli
 
     def advance(self, photons, start_ms, initialized):
+        channels, events = self.advance_receptors(photons, start_ms, initialized)
+        return channels[:, 0], int(events.sum())
+
+    def advance_receptors(self, photons, start_ms, initialized):
         inputs = cuda.to_device(photons)
         output = cuda.device_array((len(photons)*10, self.cells), dtype=np.uint8)
         counts = cuda.device_array(self.cells, dtype=np.int64)
@@ -70,9 +77,10 @@ class CudaWork:
         errors = status.copy_to_host()
         if errors.any():
             raise RuntimeError(f'CUDA phototransduction rejected molecular update (status {int(errors.max())})')
-        total = cuda.device_array(len(photons)*10, dtype=np.int64)
-        _sum_channels[len(photons)*10, 128](output, total)
-        return total.copy_to_host(), int(counts.copy_to_host().sum())
+        total = cuda.device_array((len(photons)*10, self.receptors), dtype=np.int64)
+        _sum_channels[(len(photons)*10, self.receptors), 128](output, total, self.microvilli)
+        events = counts.copy_to_host().reshape(self.receptors, self.microvilli).sum(axis=1)
+        return total.copy_to_host(), events
 
     def finish(self):
         return [a.copy_to_host() for a in self.arrays]

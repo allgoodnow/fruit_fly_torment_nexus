@@ -65,6 +65,12 @@ from the previous shared-stream implementation. Float64 calculations, bounded
 scratch chunks, per-unit work guards and candidate-state commits are described
 in `docs/phototransduction-cuda.md`, along with comparisons and limitations.
 
+The `phototransduction_batch.py` extension runs explicit independent receptor
+populations in bounded molecular GPU shards, reduces channel counts separately
+per receptor, and couples them to a CPU or CUDA batch of the existing membrane
+model. It retains the per-receptor seeded streams and equations; no shared
+response or population multiplier is introduced. See `docs/phototransduction-batch.md`.
+
 This component is not imported by the application and is not enabled in the GUI.
 Its GPL license applies to this adapted component; this notice does not grant a
 different license to unrelated project files. Any future distribution of a

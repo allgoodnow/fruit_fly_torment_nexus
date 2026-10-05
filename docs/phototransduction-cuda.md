@@ -114,7 +114,9 @@ python scripts/benchmark_phototransduction_cuda.py --output-dir new-results-fold
 
 This benchmark does not establish interactive whole-eye performance. A full
 3,377-receptor population entails over 100 million explicit microvilli before
-the brain is considered. Multi-receptor batching, memory use, calibrated
-optics and transmitter coupling remain separate work. The existing scientific
+the brain is considered. An [independent receptor batch](phototransduction-batch.md)
+now supplies bounded molecular GPU shards and separate receptor outputs.
+Whole-eye scaling, calibrated optics and transmitter coupling remain separate
+work. The existing scientific
 limitations of the fixed-voltage calcium calculation and event schedule still
 apply. Attribution and GPL terms are in `licenses/photoreceptor/NOTICE.md`.

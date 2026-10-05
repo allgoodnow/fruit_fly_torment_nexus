@@ -1,0 +1,321 @@
+{
+  "format": "nexus-cuda-receptor-batch-1",
+  "success": true,
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "numba": "0.67.0",
+  "receptors": 8,
+  "microvilli_per_receptor": 30000,
+  "simulated_ms": 300,
+  "seeds": [
+    87200,
+    87201,
+    87202,
+    87203,
+    87204,
+    87205,
+    87206,
+    87207
+  ],
+  "protocols": [
+    "dark",
+    "pulse_3000",
+    "pulse_30000",
+    "steady_30_per_ms",
+    "dark",
+    "pulse_3000",
+    "pulse_30000",
+    "steady_30_per_ms"
+  ],
+  "dt_ms": 0.1,
+  "internal_chunk_ms": 20,
+  "dtype": "float64",
+  "fastmath": false,
+  "matching_cpu_reference_seconds": 21.316845968000052,
+  "medians": [
+    {
+      "batch_cells": 1,
+      "membrane_backend": "cpu",
+      "wall_seconds": 3.000340316000006,
+      "independent_cuda_seconds": 3.014205758999992,
+      "speedup_vs_independent_cuda": 1.0046212901003415
+    },
+    {
+      "batch_cells": 4,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.698783038999977,
+      "independent_cuda_seconds": 3.014205758999992,
+      "speedup_vs_independent_cuda": 1.1168759086750795
+    },
+    {
+      "batch_cells": 8,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.6042515119999052,
+      "independent_cuda_seconds": 3.014205758999992,
+      "speedup_vs_independent_cuda": 1.1574173020966272
+    },
+    {
+      "batch_cells": 8,
+      "membrane_backend": "cuda",
+      "wall_seconds": 2.744869652000034,
+      "independent_cuda_seconds": 3.014205758999992,
+      "speedup_vs_independent_cuda": 1.0981234598166467
+    }
+  ],
+  "trials": [
+    {
+      "repeat": 0,
+      "batch_cells": 1,
+      "membrane_backend": "cpu",
+      "wall_seconds": 3.000340316000006,
+      "independent_cuda_seconds": 3.1283835650000356,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 0,
+      "batch_cells": 4,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.7081643829999393,
+      "independent_cuda_seconds": 3.1283835650000356,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 0,
+      "batch_cells": 8,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.6042515119999052,
+      "independent_cuda_seconds": 3.1283835650000356,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 0,
+      "batch_cells": 8,
+      "membrane_backend": "cuda",
+      "wall_seconds": 2.744869652000034,
+      "independent_cuda_seconds": 3.1283835650000356,
+      "maximum_voltage_difference_mv": 1.4210854715202004e-14,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 1,
+      "batch_cells": 8,
+      "membrane_backend": "cuda",
+      "wall_seconds": 2.7317444789999854,
+      "independent_cuda_seconds": 2.996952831000044,
+      "maximum_voltage_difference_mv": 1.4210854715202004e-14,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 1,
+      "batch_cells": 8,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.6054440899999918,
+      "independent_cuda_seconds": 2.996952831000044,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 1,
+      "batch_cells": 4,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.6859123289999616,
+      "independent_cuda_seconds": 2.996952831000044,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 1,
+      "batch_cells": 1,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.998524639999914,
+      "independent_cuda_seconds": 2.996952831000044,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 2,
+      "batch_cells": 1,
+      "membrane_backend": "cpu",
+      "wall_seconds": 3.013890497000034,
+      "independent_cuda_seconds": 3.014205758999992,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 2,
+      "batch_cells": 4,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.698783038999977,
+      "independent_cuda_seconds": 3.014205758999992,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 2,
+      "batch_cells": 8,
+      "membrane_backend": "cpu",
+      "wall_seconds": 2.5960873469999797,
+      "independent_cuda_seconds": 3.014205758999992,
+      "maximum_voltage_difference_mv": 0.0,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    },
+    {
+      "repeat": 2,
+      "batch_cells": 8,
+      "membrane_backend": "cuda",
+      "wall_seconds": 2.752950636000037,
+      "independent_cuda_seconds": 3.014205758999992,
+      "maximum_voltage_difference_mv": 1.4210854715202004e-14,
+      "exact_channel_trace_and_rng": true,
+      "events_per_receptor": [
+        73622,
+        1251707,
+        8525329,
+        1204650,
+        73768,
+        1246868,
+        8539316,
+        1210313
+      ],
+      "molecular_host_state_bytes": 24960000
+    }
+  ],
+  "implementation_sha256": {
+    "phototransduction.py": "7a19319f143440a3df79a5f9d3114bfb4e0371d003052c8e10b99dea6a1758ee",
+    "phototransduction_parallel.py": "164b40a7745142768169f9aba2254d637fe66a9ffdd2c74c7ebff1087095306d",
+    "phototransduction_cuda.py": "19e6b93d4b2bb0db643a7f9cb140b1d8726d5a378558edf57c1f2e926b51fe01",
+    "phototransduction_batch.py": "7557718b4bb560a006e1164123e68f5c4523f306cdc6b514e196e09cb8c2273d",
+    "photoreceptor.py": "298ec7a7c768dbb57589e65dce0bfea3a1b66ba8a2305a2c69ddb19a0690ad39",
+    "photoreceptor_cuda.py": "c421cc87aac27cf02e8e8b433c695f09a855e320e1c7b32115db7ed0a5e470dd"
+  },
+  "limits": [
+    "One eight-receptor workload on one GPU, not a whole-eye performance claim.",
+    "Timings include whole advance calls, but exclude construction, stream initialization and compilation.",
+    "Matching CPU reference uses per-unit streams, not the older optimized scheduler.",
+    "All receptors retain full independent molecular states; no population multiplier or shared response.",
+    "Photon allocation and between-call storage remain on CPU; live vision is not connected."
+  ]
+}

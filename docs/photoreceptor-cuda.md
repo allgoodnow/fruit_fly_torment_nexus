@@ -63,9 +63,9 @@ transfers. Compilation and model construction are excluded.
 The GPU helps large batches but is slower for a single cell in this backend.
 For the 3,377-cell pulse case it still takes about 2.3 wall-clock seconds per
 simulated second **for the membrane stage alone**. This is not a real-time
-whole-eye or whole-fly claim. The expensive stochastic molecular cascade
-still runs on CPU, and its much larger state and random streams have not been
-ported by this change.
+whole-eye or whole-fly claim. This membrane benchmark excludes the stochastic
+molecular cascade, which now has a [separate GPU implementation](phototransduction-cuda.md)
+and an [independent receptor batching extension](phototransduction-batch.md).
 
 The [complete report](../experiments/photoreceptor-cuda-v1-results.json)
 contains timings, errors, configuration and implementation hashes. Device load,
