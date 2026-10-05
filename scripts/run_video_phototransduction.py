@@ -1,11 +1,9 @@
 """Run local video through explicit absorbed-photon and molecular eye models."""
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
 import sys
-import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'src'))
@@ -13,22 +11,7 @@ os.environ.setdefault('NUMBA_CACHE_DIR', str(ROOT/'.runtime/numba'))
 os.environ.setdefault('MPLCONFIGDIR', str(ROOT/'.runtime/matplotlib'))
 import numpy as np
 from nexus.photon_input import VideoPhotonInput
-from nexus.retina import VisualColumns
-from nexus.video import VIDEO_FPS
-
-
-def select_locations(registry):
-    """Four distinct mapped receptors near quadrant centers per eye."""
-    mapping = VisualColumns(registry)
-    selected = []
-    for side in ('L', 'R'):
-        for center in ((.25, .25), (.75, .25), (.25, .75), (.75, .75)):
-            order = np.argsort(((mapping.uv[side]-center)**2).sum(axis=1), kind='stable')
-            root = next((mapping.ids[side][i] for i in order if mapping.ids[side][i] not in selected), None)
-            if root is None:
-                raise ValueError('Supply explicit IDs when fewer than four mapped receptors exist per eye')
-            selected.append(root)
-    return selected
+from nexus.receptor_preparation import prepare_response
 
 
 def plot_response(path, source, intensity, channels, voltage):
@@ -74,89 +57,20 @@ def main():
     args = parser.parse_args()
     if args.duration_ms < 1:
         parser.error('Duration must be a positive number of milliseconds')
-    manifest_path = args.pack/'manifest.json'
-    manifest = json.loads(manifest_path.read_text())
-    name = manifest['circuit_registry']
-    if Path(name).name != name:
-        raise ValueError('Registry must be a file within the brain pack')
-    registry_bytes = (args.pack/name).read_bytes()
-    registry_hash = hashlib.sha256(registry_bytes).hexdigest()
-    if registry_hash != manifest['files'][name]:
-        raise ValueError('Brain-pack registry checksum mismatch')
-    registry = json.loads(registry_bytes)
-    ids = args.receptor_ids or select_locations(registry)
-    photon_seed, cascade_seed = np.random.SeedSequence(args.seed).spawn(2)
-    photon_seeds = photon_seed.generate_state(len(ids), dtype=np.uint64).tolist()
-    cascade_seeds = cascade_seed.generate_state(len(ids), dtype=np.uint64).tolist()
-    source = VideoPhotonInput(args.video, registry, ids, photon_seeds,
-                             white_rate_hz=args.white_rate_hz, black_rate_hz=args.black_rate_hz,
-                             transfer=args.transfer)
-    try:
-        if args.backend == 'cuda':
-            from nexus.brain.phototransduction_batch import BatchedPhototransduction
-            model = BatchedPhototransduction(cascade_seeds, batch_cells=args.batch_cells)
-        else:
-            from nexus.brain.phototransduction_parallel import ParallelPhototransduction
-            models = [ParallelPhototransduction(seed=seed) for seed in cascade_seeds]
-        args.output_dir.mkdir(parents=True, exist_ok=False)
-        input_parts, channel_parts, voltage_parts = [], [], []
-        wall = time.perf_counter()
-        elapsed = 0
-        while elapsed < args.duration_ms:
-            inputs = source.read(min(50, args.duration_ms-elapsed))
-            counts = inputs['absorbed_photons']
-            if not len(counts):
-                break
-            if args.backend == 'cuda':
-                result = model.advance(counts)
-            else:
-                separate = [m.advance(counts[:, i]) for i, m in enumerate(models)]
-                result = {key: np.column_stack([r[key] for r in separate]) for key in separate[0]}
-            input_parts.append(inputs)
-            channel_parts.append(result['open_channels'])
-            voltage_parts.append(result['voltage_mv'])
-            elapsed += len(counts)
-            print(f'{elapsed} ms of video exposure processed', flush=True)
-        seconds = time.perf_counter()-wall
-        intensity = np.concatenate([p['intensity'] for p in input_parts])
-        photons = np.concatenate([p['absorbed_photons'] for p in input_parts])
-        channels, voltage = np.concatenate(channel_parts), np.concatenate(voltage_parts)
-        np.savez_compressed(args.output_dir/'response.npz', ids=np.asarray(ids), intensity=intensity,
-                            absorbed_photons=photons, open_channels=channels, voltage_mv=voltage)
-        plot_response(args.output_dir/'response.png', source, intensity, channels, voltage)
-        events = model.events.tolist() if args.backend == 'cuda' else [m.events for m in models]
-        with args.video.open('rb') as stream:
-            source_hash = hashlib.file_digest(stream, 'sha256').hexdigest()
-        report = {'format':'nexus-video-phototransduction-1','success':True,
-                  'source_name':args.video.name,'source_sha256':source_hash,
-                  'registry_sha256':registry_hash,'manifest_sha256':hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
-                  'backend':args.backend,'batch_cells':args.batch_cells if args.backend == 'cuda' else None,
-                  'microvilli_per_receptor':30000,'exposure_ms':elapsed,'wall_seconds':seconds,
-                  'video_input_fps':VIDEO_FPS,'absorbed_photon_bin_ms':1.,'membrane_dt_ms':.1,
-                  'transfer':args.transfer,'white_rate_hz':args.white_rate_hz,'black_rate_hz':args.black_rate_hz,
-                  'calibrated':False,'root_seed':args.seed,'photon_seeds':photon_seeds,'cascade_seeds':cascade_seeds,
-                  'receptors':[{'id':root,'side':side,'uv':uv.tolist(),'absorbed_photons':int(photons[:, i].sum()),
-                                'expected_absorbed_photons':float(((args.black_rate_hz+
-                                  (args.white_rate_hz-args.black_rate_hz)*intensity[:, i])/1000.).sum()),
-                                'maximum_open_channels':int(channels[:, i].max()),'molecular_events':int(events[i]),
-                                'voltage_range_mv':[float(voltage[:, i].min()),float(voltage[:, i].max())]}
-                               for i,(root,side,uv) in enumerate(zip(ids,source.sides,source.uv))],
-                  'implementation_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
-                      for p in [ROOT/'src/nexus/photon_input.py', ROOT/'src/nexus/retina.py', ROOT/'src/nexus/video.py',
-                                ROOT/'src/nexus/brain/phototransduction_parallel.py',
-                                ROOT/'src/nexus/brain/phototransduction_batch.py',
-                                ROOT/'src/nexus/brain/phototransduction_cuda.py',
-                                ROOT/'src/nexus/brain/phototransduction.py',
-                                ROOT/'src/nexus/brain/photoreceptor.py', Path(__file__).resolve()]},
-                  'limits':['RGB intensity, white/black rates and video projection are explicit uncalibrated assumptions.',
-                            'Poisson arrival counts are a new controlled exposure input, separate from molecular event randomness.',
-                            'Video is held at 20 fps, counts are binned at 1 ms; sub-bin arrival times are not modeled.',
-                            'Selected receptors only; no shared-population scale-up, transmitter release or live brain input.',
-                            'Timing includes decoding and possible JIT on the first advance; excludes setup, plotting and report export.']}
-        (args.output_dir/'report.json').write_text(json.dumps(report,indent=2)+'\n')
-    finally:
-        source.close()
-
+    report = prepare_response(**vars(args), progress=lambda p: print(
+        f"{p['elapsed_ms']} ms of video exposure processed", flush=True))
+    # Plotting stays in this optional command-line presentation, outside the GUI.
+    with np.load(args.output_dir/'response.npz', allow_pickle=False) as data:
+        photon_seeds = report['photon_seeds']
+        manifest = json.loads((args.pack/'manifest.json').read_text())
+        registry = json.loads((args.pack/manifest['circuit_registry']).read_text())
+        source = VideoPhotonInput(args.video, registry, data['ids'].tolist(), photon_seeds,
+                                 white_rate_hz=args.white_rate_hz, black_rate_hz=args.black_rate_hz,
+                                 transfer=args.transfer)
+        try:
+            plot_response(args.output_dir/'response.png', source, data['intensity'], data['open_channels'], data['voltage_mv'])
+        finally:
+            source.close()
 
 if __name__ == '__main__':
     main()

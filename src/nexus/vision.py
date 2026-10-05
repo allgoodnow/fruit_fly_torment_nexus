@@ -223,6 +223,7 @@ class EyeFeedback:
                 'brightness': self.brightness,
                 'source': 'video' if self.video is not None else 'eyes',
                 'video_name': self.video.path.name if self.video is not None else None,
+                'video_path': str(self.video.path) if self.video is not None else None,
                 'video_frame': self.video.index if self.video is not None else None,
                 'video_ended': self.video.ended if self.video is not None else False,
                 'error': self.error,

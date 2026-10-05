@@ -28,6 +28,7 @@ class BrainPanel(QWidget):
         self.command_sink = command_sink
         self.data_dir = data_dir
         self.process = None
+        self.preparation = None
         self.ready = False
         self.failed = False
         self.seq = 0
@@ -124,6 +125,12 @@ class BrainPanel(QWidget):
         self.receptor_load.setToolTip('After Reset: enable graded relays and load the source video, then choose its prepared receptor report and explicit release curve. See Guide.')
         self.receptor_load.clicked.connect(self.load_receptor_response)
         controls.addWidget(self.receptor_load)
+        self.receptor_prepare = QPushButton('Prepare receptor response…')
+        self.receptor_prepare.setVisible(bool(command_sink) and self.config.experimental)
+        self.receptor_prepare.setEnabled(False)
+        self.receptor_prepare.setToolTip('After Reset: enable graded relays and load a video. Prepare eight selected molecular receptors on CPU or CUDA, then load them. See Guide.')
+        self.receptor_prepare.clicked.connect(self.prepare_receptor_response)
+        controls.addWidget(self.receptor_prepare)
         release = QPushButton("Release manual interventions" if command_sink else "Release all interventions")
         release.clicked.connect(lambda: self.send("release"))
         controls.addWidget(release)
@@ -238,6 +245,26 @@ class BrainPanel(QWidget):
         if curve:
             self.send('vision_receptors', {'report_path': report, 'curve_path': curve})
 
+    def preparation_dialog(self):
+        if not self.receptor_prepare.isEnabled():
+            return None
+        from ..receptor_preparation_dialog import ReceptorPreparationDialog
+        video = self.telemetry['eye_feedback']['video_path']
+        self.preparation = ReceptorPreparationDialog(video, self.config.directory, self.data_dir, self)
+        return self.preparation
+
+    def prepare_receptor_response(self):
+        dialog = self.preparation_dialog()
+        if dialog is not None:
+            try:
+                if dialog.exec() == dialog.DialogCode.Accepted:
+                    self.send('vision_receptors', dialog.result_files)
+                    self.session_event.emit('VISION · molecular receptor response prepared and submitted for loading')
+            finally:
+                dialog.shutdown()
+                self.preparation = None
+                dialog.deleteLater()
+
     def poll(self):
         if self.process is None:
             return
@@ -328,6 +355,8 @@ class BrainPanel(QWidget):
         self.receptor_load.setEnabled(bool(self.command_sink) and graded.get('enabled', False)
                                       and graded.get('bounded_synapses', False) and t['sim_time'] == 0
                                       and t.get('eye_feedback', {}).get('source') == 'video' and not prepared)
+        self.receptor_prepare.setEnabled(self.receptor_load.isEnabled() and not t['running']
+                                         and bool(t.get('eye_feedback', {}).get('video_path')))
         if graded.get('enabled', False):
             self.status.setText(self.status.text() + ' · graded relays on')
         if t['protocol']:
@@ -389,6 +418,8 @@ class BrainPanel(QWidget):
 
     def shutdown(self):
         self.timer.stop()
+        if self.preparation is not None:
+            self.preparation.shutdown()
         if self.process is None:
             return
         if self.process.is_alive():

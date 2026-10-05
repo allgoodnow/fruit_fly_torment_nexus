@@ -124,6 +124,36 @@ Their output travels along the existing connectome edges without creating
 photoreceptor spikes. It is a voltage replay with no feedback into its sources,
 not live molecular computation or a calibrated visual synapse model.
 
+To prepare inside the app, pause at time zero, enable **Graded visual relays**,
+and load a video in **FLY’S VISION**. In the Brain tab, select **Prepare receptor
+response…**. Choose the duration, assumed white/black absorbed-photon rates,
+RGB transfer, CPU or NVIDIA GPU, seed, and an explicit release-curve JSON.
+Select **Prepare**, then **Load response** when ready. Continue with step 4 below.
+
+Preparation runs separately and leaves both simulation clocks at zero. Progress
+reports completed exposure time, not an estimate of time remaining. **Cancel**
+stops after the current molecular batch. Cancellation during preparation
+publishes no ready report and never loads input. A completed recording stays
+saved if you close its dialog without loading it. Closing the app also stops its preparation worker.
+A failed GPU run reports its error without substituting a CPU run or changing
+the model. CUDA requires an accessible NVIDIA device and a compatible runtime;
+CPU preparation does not require it.
+
+The dialog prepares eight named receptors near quadrant centers, each with its
+own full 30,000-microvillus model. White defaults to the existing assay's 30,000
+absorbed photons/s and black to zero; sRGB is a visible assumed transfer. These
+editable values are experimental settings, not illumination measured from the
+video. The file picker offers the **unfitted example release curve**; selecting
+it remains an explicit choice. Its exact bytes are saved with the response.
+
+Jobs save new subfolders under `receptor-responses` in the app's local data
+folder, containing `response.npz`, `report.json` and `release-curve.json`.
+**Load receptor response…** can load a completed recording again. The terminal
+runner below remains available for explicit receptor IDs and plotting. The
+released 1.1.1 archive does not yet include the preparation dialog.
+
+To prepare or reuse a recording outside this dialog:
+
 1. Generate the clip's response with
    [the video-to-molecular runner](video-phototransduction.md). Choose an explicit
    photon exposure and a recording long enough for the experiment. The default

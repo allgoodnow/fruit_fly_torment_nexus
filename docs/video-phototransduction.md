@@ -58,6 +58,13 @@ rate are not recovered. Channels and voltage use the existing 0.1 ms schedule.
 
 ## Running a clip
 
+The source app now offers **Prepare receptor response…** in the Brain tab.
+It uses this same operation in a separate worker, with explicit exposure,
+CPU/CUDA and release-curve choices. The [user guide](user-guide.md#prepared-receptor-playback)
+describes progress, cancellation, saved recordings and loading. Preparation
+leaves brain and body time unchanged; it is not simultaneous live molecular
+vision. The GUI prepares the default eight-cell subset.
+
 ```sh
 python scripts/run_video_phototransduction.py \
   --video /path/to/clip.mp4 \
@@ -79,6 +86,20 @@ Video exposure stops at EOF rather than extending the last frame. Closing
 light input does not reset molecular or membrane state; ongoing reactions
 decay through the model. The original published membrane initial condition
 is used, not an assumed equilibrated dark state.
+
+The shared implementation is `src/nexus/receptor_preparation.py`. GUI and
+terminal paths keep the same seeds, 50 ms input batches, 0.1 ms membrane samples
+and per-cell molecular populations. Reports identify the source implementation;
+the packaging configuration supplies a source-hash manifest for frozen builds.
+The updated packaged application and macOS preparation have not been checked.
+The focused result is
+[`receptor-preparation-gui-v1-results.json`](../experiments/receptor-preparation-gui-v1-results.json):
+the native CUDA preparation reproduces the previous eight-receptor recording
+exactly, then its playback reproduces the previous final full-brain voltage and
+spike counts. A CPU CLI run reproduces the matching one-receptor prefix. Four
+focused checks cover CPU preparation, ordinary cancellation and existing
+prepared-playback controls. These check integration and reproducibility rather
+than physiological accuracy.
 
 ## Focused demonstration
 

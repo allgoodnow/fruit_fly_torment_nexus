@@ -26,6 +26,8 @@ def main():
     parser.add_argument("--male-cns-smoke-test", type=Path, help="Check MaleCNS controls, anatomy and shared-clock body")
     parser.add_argument('--vision-test-video', type=Path, help='Local test clip for the MaleCNS GUI acceptance run')
     parser.add_argument('--receptor-playback-smoke-test', type=Path, help='Check prepared receptors in the native shared-clock GUI')
+    parser.add_argument('--receptor-preparation-smoke-test', type=Path, help='Prepare receptors in the native dialog, then check playback')
+    parser.add_argument('--receptor-preparation-test-backend', choices=('cpu', 'cuda'), default='cpu')
     parser.add_argument('--receptor-test-report', type=Path, help='Prepared receptor report for the focused GUI check')
     parser.add_argument('--receptor-test-curve', type=Path, help='Explicit release curve for the focused GUI check')
     parser.add_argument('--receptor-test-reference', type=Path, help='Offline brain replay arrays for the focused GUI comparison')
@@ -38,6 +40,10 @@ def main():
     parser.add_argument('--independent', action='store_true', help='Use the original independent body and brain workers')
     parser.add_argument("--run-demo", action="store_true", help="Start both models with the selected sensory or steering input")
     args = parser.parse_args()
+    if args.receptor_preparation_smoke_test:
+        args.receptor_playback_smoke_test = args.receptor_preparation_smoke_test
+    elif args.receptor_preparation_test_backend != 'cpu':
+        parser.error('Preparation test backend requires --receptor-preparation-smoke-test')
     if args.vision_test_video and not (args.male_cns_smoke_test or args.receptor_playback_smoke_test):
         parser.error('--vision-test-video requires a MaleCNS or receptor playback GUI check')
     if args.receptor_playback_smoke_test:
@@ -1337,8 +1343,64 @@ def main():
                 if not self.brain_panel.receptor_load.isEnabled() or t['sim_time'] != 0:
                     self.smoke_finish(False)
                     return
+                if args.receptor_preparation_smoke_test:
+                    self.preparation_dialog = self.brain_panel.preparation_dialog()
+                    if self.preparation_dialog is None:
+                        self.smoke_finish(False)
+                        return
+                    settings = json.loads(args.receptor_test_report.read_text())
+                    dialog = self.preparation_dialog
+                    dialog.duration.setValue(settings['exposure_ms'])
+                    dialog.white.setValue(settings['white_rate_hz'])
+                    dialog.black.setValue(settings['black_rate_hz'])
+                    dialog.transfer.setCurrentIndex(dialog.transfer.findData(settings['transfer']))
+                    dialog.backend.setCurrentIndex(dialog.backend.findData(args.receptor_preparation_test_backend))
+                    dialog.seed.setValue(settings['root_seed'])
+                    dialog.curve.setText(str(args.receptor_test_curve.resolve()))
+                    dialog.open()
+                    dialog.start_button.click()
+                    self.smoke_stage = 'preparing'
+                    return
                 self.brain_panel.send('vision_receptors', {'report_path': str(args.receptor_test_report.resolve()),
                                                          'curve_path': str(args.receptor_test_curve.resolve())})
+                self.smoke_stage = 2
+            elif self.smoke_stage == 'preparing':
+                dialog = self.preparation_dialog
+                if dialog.failure:
+                    self.log.append('PREPARATION · '+dialog.failure)
+                    self.smoke_finish(False)
+                    return
+                if dialog.progress.value() > 0 and not hasattr(self, 'preparation_screenshot'):
+                    dialog.grab().save(str(data_dir/'receptor-preparation.png'))
+                    self.preparation_screenshot = True
+                if dialog.result_files is None or dialog.process.is_alive() or not dialog.load_button.isEnabled():
+                    return
+                import numpy as np
+                from nexus.receptor_preparation import file_hash
+                generated_path = Path(dialog.result_files['report_path'])
+                with np.load(args.receptor_test_report.parent/'response.npz', allow_pickle=False) as reference:
+                    with np.load(generated_path.parent/'response.npz', allow_pickle=False) as generated:
+                        exact = {key: bool(np.array_equal(reference[key], generated[key]))
+                                 for key in ('ids', 'intensity', 'absorbed_photons', 'open_channels', 'voltage_mv')}
+                if (not all(exact.values()) or t['sim_time'] != 0 or self.telemetry['sim_time'] != 0
+                        or t['running'] or dialog.poll_count < 2 or not dialog.load_button.isEnabled()):
+                    self.smoke_finish(False)
+                    return
+                report = json.loads(generated_path.read_text())
+                self.preparation_result = {'backend': report['backend'], 'cells': len(report['receptors']),
+                                           'exposure_ms': report['exposure_ms'], 'source_hashes_complete': report['source_hashes_complete'],
+                                           'response_sha256': file_hash(generated_path.parent/'response.npz'),
+                                           'report_sha256': file_hash(generated_path),
+                                           'curve_sha256': file_hash(dialog.result_files['curve_path']),
+                                           'matches_previous_offline_response': exact,
+                                           'dialog_poll_count': dialog.poll_count,
+                                           'progress_ms': [p['elapsed_ms'] for p in dialog.progress_messages],
+                                           'preparation_kept_both_clocks_at_zero': True,
+                                           'wall_seconds': report['wall_seconds']}
+                self.smoke_checks.append('native preparation runs separately with progress while body and brain stay at time zero')
+                self.smoke_checks.append('prepared IDs, intensities, photons, channels and voltage match the previous offline recording exactly')
+                dialog.load_button.click()
+                self.brain_panel.send('vision_receptors', dialog.result_files)
                 self.smoke_stage = 2
             elif self.smoke_stage == 2 and replay.get('loaded'):
                 from OpenGL.platform import GetCurrentContext
@@ -1416,6 +1478,8 @@ def main():
             report.update(success=success, checks=self.smoke_checks)
             if hasattr(self, 'receptor_result'):
                 report['receptor_playback_result'] = self.receptor_result
+            if hasattr(self, 'preparation_result'):
+                report['receptor_preparation_result'] = self.preparation_result
             (data_dir / "acceptance.json").write_text(json.dumps(report, indent=2))
             print(json.dumps({"success": success, "checks": self.smoke_checks}), flush=True)
             self.close()
