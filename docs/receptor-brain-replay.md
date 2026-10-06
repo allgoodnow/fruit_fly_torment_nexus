@@ -125,8 +125,12 @@ actual pack weights. The native GUI now has an optional
 [prepared receptor playback mode](user-guide.md#prepared-receptor-playback).
 It supplies stored voltages to the running brain and body, with exact pause
 and recording-end semantics. The ordinary visual mappings still use their
-earlier input. Whole-eye scaling, an evidence-based terminal release model,
+earlier input. A complete optical eye, an evidence-based terminal release model,
 live molecular integration and feedback into receptors remain unfinished.
+The newer [coverage update](video-phototransduction.md#running-a-clip) supports
+all 3,155 R1–R6 cells with image coordinates using sequential independent groups
+and disk traces. It excludes the 222 cells without those coordinates and does
+not add complete optics or physiological calibration.
 
 The focused native check uses that same 500 ms recording in the real app, with
 rendered articulated physics and OpenGL anatomy. It pauses and releases input

@@ -63,7 +63,8 @@ It uses this same operation in a separate worker, with explicit exposure,
 CPU/CUDA and release-curve choices. The [user guide](user-guide.md#prepared-receptor-playback)
 describes progress, cancellation, saved recordings and loading. Preparation
 leaves brain and body time unchanged; it is not simultaneous live molecular
-vision. The GUI prepares the default eight-cell subset.
+vision. The GUI offers the default eight-cell subset, a 64-cell spatial sample,
+or all 3,155 receptors with mapped image coordinates.
 
 ```sh
 python scripts/run_video_phototransduction.py \
@@ -75,13 +76,36 @@ python scripts/run_video_phototransduction.py \
 The default sample contains four mapped receptors near quadrant centers in
 each eye. These eight cells are a named subset, not the complete retinal
 population. `--receptor-ids` can specify a different mapped subset explicitly.
+`--coverage sample64` extends the sample to 32 cells per eye, choosing successive
+cells farthest from the current sample in the inferred image plane.
+`--coverage mapped` includes all 3,155 mapped R1–R6 cells. Both presets retain the
+first eight IDs and their seeds. The registry contains 3,377 R1–R6 cells in total;
+the 222 without image coordinates are excluded from this video mapping.
 `--backend cpu` runs the same per-unit-stream model without requiring a GPU,
-but its exhaustive reference scheduler is slower. CUDA molecular shard size
-is configurable with `--batch-cells`.
+but its exhaustive reference scheduler is slower. `--batch-cells`, from 1 to 8,
+limits how many independent molecular receptors remain resident at once.
+
+Preparation decodes the requested exposure once into temporary disk arrays.
+It then completes each small group's entire exposure before constructing the
+next group. Every cell uses its own image sample, photon stream, molecular
+random streams, 30,000 microvilli and membrane state. These responses are not
+copies of a sample cell. This ordering is valid because this offline model has
+no feedback or interactions between receptors. It cannot substitute for a live
+eye with synaptic feedback.
+
+The default eight-cell group retains 24.96 MB of molecular state, plus a similar
+candidate copy during advancement and other working storage. Trace storage and
+total computation still grow with coverage and duration. Temporary disk arrays
+are deleted when the operation finishes or is cancelled. GUI duration limits
+keep the two resident playback arrays (voltage and release) within 1 GiB of
+combined payload; this excludes other process memory. All mapped coverage is
+therefore limited to 2,127 ms per GUI recording in this pack. Longer recordings
+can be prepared from the terminal but require enough disk and playback memory.
 
 The output contains `response.npz` with input intensities, absorbed counts,
-channel counts and voltage; `response.png` with the measured traces; and
-`report.json` with IDs, coordinates, rates, seeds, source hashes and limits.
+channel counts and voltage; `response.png` showing up to the first eight model
+traces, labeled with the displayed/total count; and `report.json` with IDs,
+coordinates, coverage, resident-group size, rates, seeds, source hashes and limits.
 Video exposure stops at EOF rather than extending the last frame. Closing
 light input does not reset molecular or membrane state; ongoing reactions
 decay through the model. The original published membrane initial condition
@@ -100,6 +124,24 @@ spike counts. A CPU CLI run reproduces the matching one-receptor prefix. Four
 focused checks cover CPU preparation, ordinary cancellation and existing
 prepared-playback controls. These check integration and reproducibility rather
 than physiological accuracy.
+
+The coverage update is recorded in
+[`receptor-coverage-v1-results.json`](../experiments/receptor-coverage-v1-results.json).
+One 50 ms spatial-gradient exposure prepared all 3,155 mapped receptors on the
+RTX 4060 Laptop GPU in 111.51 s, with 569.3 MiB peak host RSS in that preparation
+process. This includes cold initialization/JIT and is not a live-vision rate or
+a forecast for longer clips. The first eight response columns match the prior
+driver exactly; two additional columns match independent CPU calculations.
+Native playback matches the offline full-brain endpoint, including pause,
+release and resume. A separate 500 ms native preparation preserves the previous
+eight-cell recording and full-brain result. Four focused CPU checks cover the
+ordinary preparation, cancellation, selection and bounded plot loading paths.
+
+At the 50 ms endpoint, blocking the mapped receptors' outgoing output changes
+44,250 non-source voltages by at least 0.01 mV. Both runs retain the same source
+voltages. This checks dependence on actual outgoing connections, including
+tonic release; it does not isolate the light response from baseline activity.
+The existing unfitted relay laws and initial-state transients remain in place.
 
 ## Focused demonstration
 

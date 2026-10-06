@@ -52,10 +52,18 @@ measurement of peak GPU memory; driver, compiler and allocator caches add
 overhead. Returned traces and membrane integration have additional storage.
 
 Device batching bounds active molecular work. It does **not** bound the complete
-host population or total computation. The 3,377-receptor mapping would require
-10.54 GB of persistent molecular host arrays, plus a similar candidate copy and
-other storage. This implementation has not run that population and does not
-establish usable whole-eye performance on the laptop.
+host population or total computation when a single `BatchedPhototransduction`
+owns every receptor. The 3,155 receptors with video coordinates would require
+9.84 GB of persistent molecular host arrays, plus a similar candidate copy and
+other storage. There are 3,377 R1–R6 cells in the eye cohorts; 222 lack those
+coordinates.
+
+The [video preparation driver](video-phototransduction.md) now bounds host
+molecular memory as well: it constructs at most eight independent receptors,
+completes their entire clip into disk arrays, and discards their states before
+constructing the next group. It preserves each cell's seed and full population.
+This is valid for the current offline model without receptor feedback. It
+reduces resident state, not total molecular computation or trace storage.
 
 ## Focused verification
 

@@ -1,0 +1,199 @@
+{
+  "format": "nexus-receptor-coverage-1",
+  "success": true,
+  "baseline_commit": "0f7adfde916e472b454bdae4068628279082ef6a",
+  "stimulus": {
+    "width": 320,
+    "height": 180,
+    "fps": 20,
+    "frames": 1,
+    "rgb": "All channels equal; each row is round(linspace(32,255,320)), left to right.",
+    "encoding": "Lossless libx264rgb, rgb24, crf 0",
+    "white_rate_hz": 30000.0,
+    "black_rate_hz": 0.0,
+    "transfer": "srgb",
+    "root_seed": 88300,
+    "microvilli_per_receptor": 30000
+  },
+  "mapped_preparation": {
+    "success": true,
+    "coverage": {
+      "mode": "mapped",
+      "mapped_cells": 3155,
+      "eye_cohort_cells": 3377,
+      "cells_without_coordinates": 222,
+      "selected_cells": 3155
+    },
+    "storage": {
+      "method": "disk arrays and sequential independent receptor groups",
+      "maximum_resident_receptors": 8,
+      "molecular_state_bytes": 24960000,
+      "trace_disk_array_bytes": 27764000
+    },
+    "exposure_ms": 50,
+    "wall_seconds": 111.51006010000037,
+    "preparation_process_peak_host_rss_bytes": 596914176,
+    "source_sha256": "8eb72fdf6c6327fdaa842a7deb65046f6427b6f00f3c92cf77e4942e3fcb3bc5",
+    "registry_sha256": "7b5499801539a12bc9f24325785d2c11e39b69ca56664b49f8f0e2193da6952a",
+    "response_sha256": "6316242b01d5d1faed781718740364aa78e1f19e31050842278f05189a473f36",
+    "baseline_driver_sha256": "896042e17ec3673a98c2c12e8c419f98e72309c877b3c1732dd5470d626953c9",
+    "anchor_prefix_matches_previous_driver": {
+      "ids": true,
+      "intensity": true,
+      "absorbed_photons": true,
+      "open_channels": true,
+      "voltage_mv": true
+    },
+    "independent_cpu_spot_checks": [
+      {
+        "id": "121942",
+        "column": 100,
+        "cpu_matches_cuda": {
+          "open_channels": true,
+          "voltage_mv": true
+        }
+      },
+      {
+        "id": "867122111",
+        "column": 3154,
+        "cpu_matches_cuda": {
+          "open_channels": true,
+          "voltage_mv": true
+        }
+      }
+    ],
+    "molecular_activity": {
+      "receptors_with_channel_opening": 3155,
+      "distinct_photon_sequences": 3155,
+      "voltage_range_mv": [
+        -70.08358836255175,
+        -60.57334132673452
+      ]
+    }
+  },
+  "offline_replay": {
+    "success": true,
+    "duration_ms": 50.0,
+    "sources": 3155,
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "total_spikes": 2761,
+    "end_state": {
+      "voltage_sha256": "aa456d3379be250e6d88558ee4c008484fabdc54c1b64792e08dbedb00f46a9a",
+      "spike_counts_sha256": "8f1b233c7907affbddd861214aca6a7b621165bd0a7e4df5fb95f04a81a2db77"
+    },
+    "all_mapped_vs_eight_cells_at_endpoint_excluding_mapped_sources": {
+      "cells_differing_by_at_least_0_01_mv": 44202,
+      "maximum_absolute_voltage_difference_mv": 6.9961629757506145,
+      "cells_with_changed_spike_counts": 48
+    },
+    "all_mapped_vs_source_output_blocked_at_endpoint_excluding_sources": {
+      "cells_differing_by_at_least_0_01_mv": 44250,
+      "maximum_absolute_voltage_difference_mv": 6.996151870141581,
+      "cells_with_changed_spike_counts": 48
+    },
+    "limits": [
+      "Endpoint comparisons in one ordinary uncalibrated 50 ms exposure, not physiology or behavior validation.",
+      "Eight-cell comparison changes which source cells are clamped; blockade comparison preserves the same source voltages."
+    ]
+  },
+  "native_mapped_playback": {
+    "success": true,
+    "checks": [
+      "native loader selects prepared sources at time zero with a video preview and real OpenGL brain",
+      "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+      "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+      "native full-brain final voltages and counts match the offline replay exactly",
+      "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+    ],
+    "runtime": {
+      "backend": "cpu",
+      "integration_threads": 4,
+      "synaptic_delivery": "serial",
+      "dt_ms": 0.1
+    },
+    "sources": 3155,
+    "duration_ms": 50.0,
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "total_spikes": 2761,
+    "brain_time_s": 0.05,
+    "body_time_s": 0.05,
+    "end_state": {
+      "voltage_sha256": "aa456d3379be250e6d88558ee4c008484fabdc54c1b64792e08dbedb00f46a9a",
+      "spike_counts_sha256": "8f1b233c7907affbddd861214aca6a7b621165bd0a7e4df5fb95f04a81a2db77"
+    },
+    "brain_view": {
+      "loaded": true,
+      "mapped": 140638,
+      "active_count": 1354,
+      "unlocated_active": 2,
+      "tick": 500,
+      "voltage_count": 55901,
+      "unlocated_voltage": 6445,
+      "activity_mode": "Spikes + voltage",
+      "voltage_color_scale_mv": 5.0,
+      "dataset": "male-cns:v1.0",
+      "representation": "MaleCNS cell anchors (somaLocation, then tosomaLocation); not neuron morphology",
+      "fade_sim_ms": 150
+    }
+  },
+  "native_default_eight_cell_preparation": {
+    "backend": "cuda",
+    "cells": 8,
+    "exposure_ms": 500,
+    "matches_previous_offline_response": {
+      "ids": true,
+      "intensity": true,
+      "absorbed_photons": true,
+      "open_channels": true,
+      "voltage_mv": true
+    },
+    "preparation_kept_both_clocks_at_zero": true,
+    "wall_seconds": 7.470297321000544
+  },
+  "native_default_eight_cell_playback": {
+    "success": true,
+    "sources": 8,
+    "duration_ms": 500.0,
+    "end_state": {
+      "voltage_sha256": "a8797ee5713c38b3ae4d409c2491d92e77d5f0e41ffca00a33cdc969902c7001",
+      "spike_counts_sha256": "e3959cad9d5aae85ab90b2b9fbf7ef2f5e4bc9b5cce2a46a95aba6e73bf1cfe8"
+    },
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "brain_time_s": 0.5,
+    "body_time_s": 0.5
+  },
+  "presentation": {
+    "success": true,
+    "dialog_duration_limit_ms": {
+      "sample8": 60000,
+      "sample64": 60000,
+      "mapped": 2127
+    },
+    "plotted_columns_match_previous_driver": true,
+    "plotted_cells": 8,
+    "total_cells": 3155
+  },
+  "focused_tests": {
+    "passed": 4,
+    "scope": "Ordinary CPU preparation and cancellation; spatial coverage selection; first-eight plot reading in column and row storage."
+  },
+  "implementation_sha256": {
+    "src/nexus/receptor_preparation.py": "884519406cfaec9d40a8158665a454eaa7f42c021e50cfec214c3e11292eb44f",
+    "src/nexus/receptor_preparation_dialog.py": "cb2d325559f8ca405600e097a775ec6bc65aad4d03008f233ff941b51b389dad",
+    "src/nexus/app.py": "2ee9b866b848788456829eb43069ca3d95984996f8b6ff8aa90f4766bacead22",
+    "scripts/run_video_phototransduction.py": "43aba9afe72b907261156fde2c3a504421789907cad92d7d0d0c00d7f3bca717",
+    "tests/test_receptor_preparation.py": "bf472a42364dce2d25fa7d68de162f64192db6b360e4d040f78818340e19ac70"
+  },
+  "limits": [
+    "One ordinary 50 ms mapped exposure on the physical RTX 4060 Laptop GPU; not live vision or a duration-scaling benchmark.",
+    "Peak host RSS is measured for the preparation process, excluding native GUI, full-brain playback and GPU device memory.",
+    "All mapped is 3,155 R1-R6 cells with coordinates; 222 cohort cells remain outside video mapping, and other photoreceptor types and complete optics are not added.",
+    "Sequential groups require the current independent receptors without feedback; each processed receptor retains 30,000 microvilli.",
+    "Outgoing blockade includes tonic release and visual input, so this comparison does not isolate the light response from baseline.",
+    "Exposure, projection, terminal release and downstream relay laws remain unfitted; initial-state transients are retained.",
+    "Source-app checks on Linux, without a new packaged build or macOS preparation check."
+  ]
+}

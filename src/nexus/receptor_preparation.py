@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 from queue import Full
+from tempfile import TemporaryDirectory
 import traceback
 import sys
 import time
@@ -56,14 +57,63 @@ def select_locations(registry):
     return selected
 
 
+def select_coverage(registry, coverage):
+    """Keep the eight anchor identities/seeds, then extend anatomical coverage."""
+    selected = select_locations(registry)
+    if coverage == 'sample8':
+        return selected
+    mapping = VisualColumns(registry)
+    if coverage == 'mapped':
+        return selected + [root for side in ('L', 'R') for root in mapping.ids[side]
+                           if root not in selected]
+    if coverage != 'sample64':
+        raise ValueError('Choose sample8, sample64 or mapped coverage')
+    for side in ('L', 'R'):
+        ids, uv = mapping.ids[side], mapping.uv[side]
+        if len(ids) < 32:
+            raise ValueError('64-cell coverage needs at least 32 mapped receptors per eye')
+        chosen = [i for i, root in enumerate(ids) if root in selected]
+        nearest = np.min(((uv[:, None, :] - uv[chosen][None, :, :])**2).sum(axis=2), axis=1)
+        nearest[chosen] = -1.
+        while len(chosen) < 32:
+            i = int(np.argmax(nearest))
+            chosen.append(i)
+            selected.append(ids[i])
+            nearest = np.minimum(nearest, ((uv - uv[i])**2).sum(axis=1))
+            nearest[chosen] = -1.
+    return selected
+
+
+class _ResponseWorkspace:
+    """Column-contiguous disk arrays; only a small molecular group lives in RAM."""
+    def __init__(self, directory):
+        self.temporary = TemporaryDirectory(prefix='.receptor-work-', dir=directory)
+        self.arrays = []
+
+    def array(self, name, shape, dtype):
+        array = np.lib.format.open_memmap(Path(self.temporary.name)/f'{name}.npy', mode='w+',
+                                        dtype=dtype, shape=shape, fortran_order=True)
+        self.arrays.append(array)
+        return array
+
+    def close(self):
+        for array in self.arrays:
+            array._mmap.close()
+        self.temporary.cleanup()
+
+
 def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
                      black_rate_hz=0., duration_ms=300, seed=88300, backend='cpu',
                      batch_cells=8, receptor_ids=None, release_curve=None,
-                     progress=None, cancelled=None):
+                     coverage='sample8', progress=None, cancelled=None):
     if (isinstance(duration_ms, bool) or not isinstance(duration_ms, int) or duration_ms < 1):
         raise ValueError('Duration must be a positive number of milliseconds')
     if backend not in ('cpu', 'cuda'):
         raise ValueError('Choose cpu or cuda explicitly')
+    if isinstance(batch_cells, bool) or not isinstance(batch_cells, int) or not 1 <= batch_cells <= 8:
+        raise ValueError('Preparation groups must contain between 1 and 8 receptors')
+    if receptor_ids is not None and coverage != 'sample8':
+        raise ValueError('Choose explicit IDs or a coverage preset, not both')
 
     def check_cancelled():
         if cancelled is not None and cancelled():
@@ -81,7 +131,7 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
     if registry_hash != manifest['files'][name]:
         raise ValueError('Brain-pack registry checksum mismatch')
     registry = json.loads(registry_bytes)
-    ids = list(receptor_ids) if receptor_ids is not None else select_locations(registry)
+    ids = list(receptor_ids) if receptor_ids is not None else select_coverage(registry, coverage)
     photon_seed, cascade_seed = np.random.SeedSequence(seed).spawn(2)
     photon_seeds = photon_seed.generate_state(len(ids), dtype=np.uint64).tolist()
     cascade_seeds = cascade_seed.generate_state(len(ids), dtype=np.uint64).tolist()
@@ -91,56 +141,106 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
     source = VideoPhotonInput(video, registry, ids, photon_seeds,
                              white_rate_hz=white_rate_hz, black_rate_hz=black_rate_hz,
                              transfer=transfer)
+    workspace = None
     try:
         check_cancelled()
-        if progress:
-            progress({'kind': 'progress', 'elapsed_ms': 0, 'duration_ms': duration_ms, 'phase': 'initializing'})
-        if backend == 'cuda':
-            from nexus.brain.phototransduction_batch import BatchedPhototransduction
-            model = BatchedPhototransduction(cascade_seeds, batch_cells=batch_cells)
-        else:
-            from nexus.brain.phototransduction_parallel import ParallelPhototransduction
-            models = [ParallelPhototransduction(seed=seed) for seed in cascade_seeds]
         output_dir.mkdir(parents=True, exist_ok=False)
-        input_parts, channel_parts, voltage_parts = [], [], []
+        workspace = _ResponseWorkspace(output_dir)
+        intensity_store = workspace.array('intensity', (duration_ms, len(ids)), np.float64)
+        photon_store = workspace.array('photons', (duration_ms, len(ids)), np.int64)
         wall = time.perf_counter()
         elapsed = 0
+        if progress:
+            progress({'kind': 'progress', 'elapsed_ms': 0, 'duration_ms': duration_ms,
+                      'phase': 'decoding', 'cells': len(ids)})
+        # Decode/absorb once, preserving each cell's input RNG and pixel sample.
         while elapsed < duration_ms:
             check_cancelled()
             inputs = source.read(min(50, duration_ms-elapsed))
             counts = inputs['absorbed_photons']
             if not len(counts):
                 break
-            if backend == 'cuda':
-                result = model.advance(counts)
-            else:
-                separate = [m.advance(counts[:, i]) for i, m in enumerate(models)]
-                result = {key: np.column_stack([r[key] for r in separate]) for key in separate[0]}
-            input_parts.append(inputs)
-            channel_parts.append(result['open_channels'])
-            voltage_parts.append(result['voltage_mv'])
+            stop = elapsed + len(counts)
+            intensity_store[elapsed:stop] = inputs['intensity']
+            photon_store[elapsed:stop] = counts
             elapsed += len(counts)
             if progress:
-                progress({'kind': 'progress', 'elapsed_ms': elapsed, 'duration_ms': duration_ms, 'phase': 'computing'})
+                progress({'kind': 'progress', 'elapsed_ms': elapsed, 'duration_ms': duration_ms,
+                          'phase': 'decoding', 'cells': len(ids)})
+        source.close()
+        check_cancelled()
+        if not elapsed:
+            raise ValueError('The video contains no input frames at 20 fps')
+        intensity, photons = intensity_store[:elapsed], photon_store[:elapsed]
+        channels = workspace.array('channels', (elapsed*10, len(ids)), np.int64)
+        voltage = workspace.array('voltage', (elapsed*10, len(ids)), np.float64)
+        events = np.zeros(len(ids), dtype=np.int64)
+        # With no receptor feedback in this model, an entire group's recording
+        # can finish before constructing the next group's independent states.
+        for first in range(0, len(ids), batch_cells):
+            check_cancelled()
+            last = min(first+batch_cells, len(ids))
+            if progress:
+                progress({'kind': 'progress', 'elapsed_ms': 0, 'duration_ms': elapsed,
+                          'phase': 'initializing', 'cells': len(ids), 'first_cell': first,
+                          'last_cell': last, 'work_done': first*elapsed, 'work_total': len(ids)*elapsed})
+            if backend == 'cuda':
+                from nexus.brain.phototransduction_batch import BatchedPhototransduction
+                model = BatchedPhototransduction(cascade_seeds[first:last], batch_cells=batch_cells)
+            else:
+                from nexus.brain.phototransduction_parallel import ParallelPhototransduction
+                models = [ParallelPhototransduction(seed=s) for s in cascade_seeds[first:last]]
+            for start in range(0, elapsed, 50):
+                check_cancelled()
+                stop = min(start+50, elapsed)
+                counts = photons[start:stop, first:last]
+                if backend == 'cuda':
+                    result = model.advance(counts)
+                else:
+                    separate = [m.advance(counts[:, i]) for i, m in enumerate(models)]
+                    result = {key: np.column_stack([r[key] for r in separate]) for key in separate[0]}
+                if curve is not None:
+                    curve.evaluate(result['voltage_mv'])
+                channels[start*10:stop*10, first:last] = result['open_channels']
+                voltage[start*10:stop*10, first:last] = result['voltage_mv']
+                if progress:
+                    progress({'kind': 'progress', 'elapsed_ms': stop, 'duration_ms': elapsed,
+                              'phase': 'computing', 'cells': len(ids), 'first_cell': first, 'last_cell': last,
+                              'work_done': first*elapsed+stop*(last-first), 'work_total': len(ids)*elapsed})
+            if backend == 'cuda':
+                events[first:last] = model.events
+                del model
+            else:
+                events[first:last] = [m.events for m in models]
+                del models, separate
+            del result
         seconds = time.perf_counter()-wall
         check_cancelled()
-        if not input_parts:
-            raise ValueError('The video contains no input frames at 20 fps')
-        intensity = np.concatenate([p['intensity'] for p in input_parts])
-        photons = np.concatenate([p['absorbed_photons'] for p in input_parts])
-        channels, voltage = np.concatenate(channel_parts), np.concatenate(voltage_parts)
-        if curve is not None:
-            curve.evaluate(voltage)
         if file_hash(video) != source_hash:
             raise ValueError('The source video changed during preparation')
+        if progress:
+            progress({'kind': 'progress', 'phase': 'exporting', 'elapsed_ms': elapsed,
+                      'duration_ms': elapsed, 'cells': len(ids),
+                      'work_done': len(ids)*elapsed, 'work_total': len(ids)*elapsed})
         np.savez_compressed(output_dir/'response.npz', ids=np.asarray(ids), intensity=intensity,
                             absorbed_photons=photons, open_channels=channels, voltage_mv=voltage)
-        events = model.events.tolist() if backend == 'cuda' else [m.events for m in models]
+        mapping = VisualColumns(registry)
+        eye_ids = {str(root) for name in ('eye_left', 'eye_right')
+                   for root in registry['circuits'][name]['ids']}
+        mapped_ids = set(mapping.ids['L']) | set(mapping.ids['R'])
         report = {'format':'nexus-video-phototransduction-1','success':True,
                   'source_name':video.name,'source_sha256':source_hash,
                   'registry_sha256':registry_hash,'manifest_sha256':hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
                   'backend':backend,'batch_cells':batch_cells if backend == 'cuda' else None,
                   'microvilli_per_receptor':30000,'exposure_ms':elapsed,'wall_seconds':seconds,
+                  'coverage': {'mode': 'explicit' if receptor_ids is not None else coverage,
+                               'mapped_cells': len(mapped_ids), 'eye_cohort_cells': len(eye_ids),
+                               'cells_without_coordinates': len(eye_ids-mapped_ids),
+                               'selected_cells': len(ids)},
+                  'storage': {'method': 'disk arrays and sequential independent receptor groups',
+                              'maximum_resident_receptors': min(batch_cells, len(ids)),
+                              'molecular_state_bytes': min(batch_cells, len(ids))*30000*104,
+                              'trace_disk_array_bytes': sum(a.nbytes for a in workspace.arrays)},
                   'video_input_fps':VIDEO_FPS,'absorbed_photon_bin_ms':1.,'membrane_dt_ms':.1,
                   'transfer':transfer,'white_rate_hz':white_rate_hz,'black_rate_hz':black_rate_hz,
                   'calibrated':False,'root_seed':seed,'photon_seeds':photon_seeds,'cascade_seeds':cascade_seeds,
@@ -155,7 +255,9 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
                             'Poisson arrival counts are a new controlled exposure input, separate from molecular event randomness.',
                             'Video is held at 20 fps, counts are binned at 1 ms; sub-bin arrival times are not modeled.',
                             'Selected receptors only; no population multiplication, synaptic feedback or simultaneous live molecular integration.',
-                            'Timing includes decoding and possible JIT on the first advance; excludes setup, plotting and report export.']}
+                            'Timing includes decoding, group initialization, possible JIT and disk-array writes; excludes final archive/report export.',
+                            'All mapped coverage excludes receptors without image coordinates; it is not a complete eye or calibrated optics.',
+                            'Sequential group processing is valid only for the present independent receptors without synaptic feedback.']}
         report['source_hashes_complete'] = len(report['implementation_sha256']) == len(IMPLEMENTATION_FILES)
         check_cancelled()
         if curve_bytes is not None:
@@ -165,6 +267,8 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
         return report
     finally:
         source.close()
+        if workspace is not None:
+            workspace.close()
 
 
 def preparation_worker(settings, events, cancel):

@@ -126,12 +126,13 @@ not live molecular computation or a calibrated visual synapse model.
 
 To prepare inside the app, pause at time zero, enable **Graded visual relays**,
 and load a video in **FLY’S VISION**. In the Brain tab, select **Prepare receptor
-response…**. Choose the duration, assumed white/black absorbed-photon rates,
+response…**. Choose the receptor coverage, duration, assumed white/black absorbed-photon rates,
 RGB transfer, CPU or NVIDIA GPU, seed, and an explicit release-curve JSON.
 Select **Prepare**, then **Load response** when ready. Continue with step 4 below.
 
 Preparation runs separately and leaves both simulation clocks at zero. Progress
-reports completed exposure time, not an estimate of time remaining. **Cancel**
+shows video decoding first, then the current receptor group and the fraction
+of total molecular work completed. It does not estimate time remaining. **Cancel**
 stops after the current molecular batch. Cancellation during preparation
 publishes no ready report and never loads input. A completed recording stays
 saved if you close its dialog without loading it. Closing the app also stops its preparation worker.
@@ -139,8 +140,15 @@ A failed GPU run reports its error without substituting a CPU run or changing
 the model. CUDA requires an accessible NVIDIA device and a compatible runtime;
 CPU preparation does not require it.
 
-The dialog prepares eight named receptors near quadrant centers, each with its
-own full 30,000-microvillus model. White defaults to the existing assay's 30,000
+Coverage defaults to eight named receptors near quadrant centers. **64 receptors**
+adds a spatially spread sample of 32 per eye; **All mapped receptors (3,155)**
+uses every receptor with image coordinates. Each cell has its own full
+30,000-microvillus model. Small groups finish sequentially into disk arrays to
+keep molecular memory bounded. The 222 eye-cohort cells without coordinates
+remain outside this video mapping; all mapped coverage is not a complete eye.
+More cells take longer to prepare, even on CUDA. Duration limits keep the
+combined voltage and release playback arrays within 1 GiB (2,127 ms for all
+mapped cells in this pack), excluding other memory. White defaults to the existing assay's 30,000
 absorbed photons/s and black to zero; sRGB is a visible assumed transfer. These
 editable values are experimental settings, not illumination measured from the
 video. The file picker offers the **unfitted example release curve**; selecting
@@ -190,8 +198,8 @@ proxy, and the relay/conductance parameters remain unfitted. See
 [receptor-to-brain replay](receptor-brain-replay.md) for the mechanisms and
 limits. Preparing responses can use CUDA; playing the stored response requires
 no CUDA molecular model. The full brain and articulated body still run during
-playback and can be slower than wall time. Physiological calibration, whole-eye
-scaling and feedback into receptors remain unfinished.
+playback and can be slower than wall time. Physiological calibration, a complete
+eye with optics, and feedback into receptors remain unfinished.
 
 ## Body, brain, and camera
 

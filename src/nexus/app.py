@@ -1350,6 +1350,7 @@ def main():
                         return
                     settings = json.loads(args.receptor_test_report.read_text())
                     dialog = self.preparation_dialog
+                    dialog.coverage.setCurrentIndex(dialog.coverage.findData(settings.get('coverage', {}).get('mode', 'sample8')))
                     dialog.duration.setValue(settings['exposure_ms'])
                     dialog.white.setValue(settings['white_rate_hz'])
                     dialog.black.setValue(settings['black_rate_hz'])
@@ -1415,7 +1416,7 @@ def main():
                 self.vision_panel.feed.setChecked(True)
                 self.send('running', True)
                 self.smoke_stage = 3
-            elif self.smoke_stage == 3 and t['sim_time'] >= .15:
+            elif self.smoke_stage == 3 and t['sim_time'] >= min(.15, replay['duration_ms']/3000):
                 if 'VISION' not in self.stimulation_banner.labels or not self.brain_view.voltage_count:
                     self.smoke_finish(False)
                     return

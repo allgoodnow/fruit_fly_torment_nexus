@@ -1,4 +1,5 @@
 """Native preparation controls; molecular computation stays in a spawn worker."""
+import json
 import multiprocessing as mp
 from pathlib import Path
 from queue import Empty
@@ -11,6 +12,7 @@ from PySide6.QtWidgets import (QComboBox, QDialog, QDoubleSpinBox, QFileDialog,
 
 from .brain.receptor_release import ReleaseCurve
 from .receptor_preparation import preparation_worker
+from .retina import VisualColumns
 
 
 class ReceptorPreparationDialog(QDialog):
@@ -36,6 +38,15 @@ class ReceptorPreparationDialog(QDialog):
         self.settings = QWidget()
         form = QFormLayout(self.settings)
         form.setContentsMargins(0, 0, 0, 0)
+        manifest = json.loads((self.pack/'manifest.json').read_text())
+        registry = json.loads((self.pack/manifest['circuit_registry']).read_text())
+        mapping = VisualColumns(registry)
+        self.mapped_cells = sum(len(mapping.ids[side]) for side in ('L', 'R'))
+        self.coverage = QComboBox()
+        self.coverage.addItem('8 receptors · quadrant sample', 'sample8')
+        self.coverage.addItem('64 receptors · spatial sample', 'sample64')
+        self.coverage.addItem(f'All mapped receptors ({self.mapped_cells:,})', 'mapped')
+        form.addRow('Receptor coverage', self.coverage)
         self.duration = QSpinBox()
         self.duration.setRange(1, 60000)
         self.duration.setValue(500)
@@ -72,10 +83,12 @@ class ReceptorPreparationDialog(QDialog):
         curve_row.addWidget(choose)
         form.addRow('Release curve', curve_row)
         layout.addWidget(self.settings)
-        note = QLabel('8 selected receptors · experimental exposure and release settings')
+        note = QLabel('30,000 microvilli per cell · experimental exposure and release')
         note.setToolTip('Each cell retains 30,000 microvilli. The selected subset is not the whole eye. '
                         'Exposure and release are uncalibrated assumptions. See Guide.')
         layout.addWidget(note)
+        self.coverage.currentIndexChanged.connect(self.update_duration_limit)
+        self.update_duration_limit()
         self.progress = QProgressBar()
         self.progress.setRange(0, self.duration.value())
         self.progress.setValue(0)
@@ -97,6 +110,14 @@ class ReceptorPreparationDialog(QDialog):
         self.timer = QTimer(self)
         self.timer.setInterval(50)
         self.timer.timeout.connect(self.poll)
+
+    def update_duration_limit(self):
+        cells = {'sample8': 8, 'sample64': 64, 'mapped': self.mapped_cells}[self.coverage.currentData()]
+        # Playback retains both voltage and release arrays, each float64 at 0.1 ms.
+        # Keep their combined payload below 1 GiB; preparation uses disk arrays.
+        self.duration.setMaximum(min(60000, (1024**3)//(cells*10*8*2)))
+        self.duration.setToolTip('Duration is limited to keep playback voltage and release arrays '
+                                 'within 1 GiB. More receptors require more preparation time. See Guide.')
 
     def choose_curve(self):
         initial = str(self.example_curve) if self.example_curve.is_file() else ''
@@ -120,6 +141,7 @@ class ReceptorPreparationDialog(QDialog):
         settings = {'video': str(self.video), 'pack': str(self.pack), 'output_dir': str(self.output_dir),
                     'white_rate_hz': self.white.value(), 'black_rate_hz': self.black.value(),
                     'transfer': self.transfer.currentData(), 'duration_ms': self.duration.value(),
+                    'coverage': self.coverage.currentData(),
                     'backend': self.backend.currentData(), 'seed': self.seed.value(),
                     'release_curve': self.curve.text()}
         ctx = mp.get_context('spawn')
@@ -138,9 +160,9 @@ class ReceptorPreparationDialog(QDialog):
             return
         self.settings.setEnabled(False)
         self.start_button.setEnabled(False)
-        self.progress.setRange(0, self.duration.value())
+        self.progress.setRange(0, 0)
         self.status.setStyleSheet('')
-        self.status.setText('Preparing the first batch…')
+        self.status.setText('Reading the video…')
         self.timer.start()
 
     def poll(self):
@@ -156,10 +178,19 @@ class ReceptorPreparationDialog(QDialog):
             kind = event['kind']
             if kind == 'progress':
                 self.progress_messages.append(event)
-                self.progress.setValue(event['elapsed_ms'])
                 if not self.cancel_requested:
-                    self.status.setText('Preparing the first batch…' if not event['elapsed_ms'] else
-                                        f"Prepared {event['elapsed_ms']} / {event['duration_ms']} ms")
+                    if event['phase'] == 'decoding':
+                        self.progress.setRange(0, 0)
+                        self.status.setText(f"Reading video · {event['elapsed_ms']} / {event['duration_ms']} ms")
+                    else:
+                        self.progress.setRange(0, 1000)
+                        self.progress.setValue(event['work_done']*1000//event['work_total'])
+                        if event['phase'] == 'exporting':
+                            self.status.setText('Saving the response…')
+                        else:
+                            action = 'Initializing' if event['phase'] == 'initializing' else 'Computing'
+                            self.status.setText(f"{action} receptors {event['first_cell']+1}–{event['last_cell']} "
+                                                f"/ {event['cells']} · {event['elapsed_ms']} / {event['duration_ms']} ms")
             elif kind == 'complete':
                 self._terminal = True
                 if not self.cancel_requested:
