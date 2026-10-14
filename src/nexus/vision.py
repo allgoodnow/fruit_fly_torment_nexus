@@ -137,7 +137,8 @@ class EyeFeedback:
         # Model selection and overlap checks precede playback changes. Loading
         # the source video has already disabled its generic pulse eye input.
         try:
-            self.brain.configure_receptor_replay(candidate.ids, reference_mv=candidate.curve.reference_mv)
+            self.brain.configure_receptor_replay(candidate.ids, reference_mv=candidate.curve.reference_mv,
+                                                 initial_voltage_mv=candidate.initial_voltage_mv)
         except Exception:
             candidate.close()
             raise

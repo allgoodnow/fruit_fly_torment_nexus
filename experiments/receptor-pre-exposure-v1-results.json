@@ -1,0 +1,222 @@
+{
+  "format": "nexus-receptor-pre-exposure-1",
+  "success": true,
+  "baseline_commit": "b71afb4d69139d741b9f6ba3f28c012fc7ca6277",
+  "exposure": {
+    "video_ms": 500,
+    "pre_exposure_ms": 100,
+    "pre_exposure_absorbed_rate_hz": 30000.0,
+    "cells": 8,
+    "microvilli_per_receptor": 30000,
+    "video_white_rate_hz": 30000.0,
+    "video_black_rate_hz": 0.0,
+    "transfer": "srgb",
+    "root_seed": 88300
+  },
+  "gpu_preparation_comparison": {
+    "unconditioned": {
+      "duration_ms": 500,
+      "pre_exposure": {
+        "duration_ms": 0,
+        "absorbed_rate_hz": 0.0,
+        "photon_seeds": [],
+        "absorbed_photons": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "molecular_events": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "model": "constant Poisson absorbed flux; persistent receptor state",
+        "equilibrium_assumed": false,
+        "feeds_brain": false
+      },
+      "initial_voltage_mv": [
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0
+      ],
+      "wall_seconds": 7.58534303200031,
+      "matches_prior_unconditioned": {
+        "ids": true,
+        "intensity": true,
+        "absorbed_photons": true,
+        "open_channels": true,
+        "voltage_mv": true
+      },
+      "first_sample_channels": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "first_sample_voltage_mv": [
+        -70.0324404555794,
+        -70.0324404555794,
+        -70.0324404555794,
+        -70.0324404555794,
+        -70.0324404555794,
+        -70.0324404555794,
+        -70.0324404555794,
+        -70.0324404555794
+      ],
+      "max_voltage_difference_from_unconditioned_mv": 0.0
+    },
+    "conditioned": {
+      "duration_ms": 500,
+      "pre_exposure": {
+        "duration_ms": 100,
+        "absorbed_rate_hz": 30000.0,
+        "photon_seeds": [
+          9801917505543460413,
+          6154802160970236757,
+          4902799812307214648,
+          13612984494142194554,
+          16727896286582050184,
+          8812225836254060948,
+          1626818772507676725,
+          2589582975469658177
+        ],
+        "absorbed_photons": [
+          3073,
+          2983,
+          3067,
+          2915,
+          3036,
+          3013,
+          2952,
+          3046
+        ],
+        "molecular_events": [
+          802142,
+          779881,
+          797810,
+          770310,
+          800029,
+          796660,
+          788196,
+          788775
+        ],
+        "model": "constant Poisson absorbed flux; persistent receptor state",
+        "equilibrium_assumed": false,
+        "feeds_brain": false
+      },
+      "initial_voltage_mv": [
+        -60.26034039214537,
+        -59.6925922020809,
+        -59.903014921080505,
+        -60.73363646946383,
+        -61.073067030380734,
+        -62.00330412833966,
+        -61.01605923782934,
+        -59.86597746257012
+      ],
+      "wall_seconds": 5.009867506999399,
+      "matches_prior_unconditioned": {
+        "ids": true,
+        "intensity": true,
+        "absorbed_photons": true,
+        "open_channels": false,
+        "voltage_mv": false
+      },
+      "first_sample_channels": [
+        1406,
+        1466,
+        1429,
+        1321,
+        1280,
+        1128,
+        1258,
+        1509
+      ],
+      "first_sample_voltage_mv": [
+        -60.238477274722385,
+        -59.699866234983574,
+        -59.913762764665435,
+        -60.72099270176565,
+        -61.04892024741925,
+        -61.98705773662123,
+        -61.02164041090338,
+        -59.806383314211544
+      ],
+      "max_voltage_difference_from_unconditioned_mv": 10.546826317787243
+    }
+  },
+  "focused_tests": {
+    "passed": 4,
+    "cases": [
+      "Ordinary CPU preparation with pre-exposure disabled remains loadable.",
+      "CPU pre-exposure and clip exactly match a separately advanced persistent receptor with different call sizes; photons, initial voltage, events and clip-clock semantics verified.",
+      "Shared-clock pause/release/protocol/endpoint/reset with an earlier row-ordered recording.",
+      "The same shared-clock workflow with a column-ordered recording."
+    ]
+  },
+  "native_workflow": {
+    "checks": [
+      "native preparation runs separately with progress while body and brain stay at time zero",
+      "prepared IDs, intensities, photons, channels and voltage match the previous offline recording exactly",
+      "native loader selects prepared sources at time zero with a video preview and real OpenGL brain",
+      "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+      "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+      "native full-brain final voltages and counts match the offline replay exactly",
+      "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+    ],
+    "generated_response_arrays_match_offline": {
+      "ids": true,
+      "intensity": true,
+      "absorbed_photons": true,
+      "open_channels": true,
+      "voltage_mv": true
+    },
+    "pre_exposure_and_initial_voltages_match_offline": true,
+    "preparation_kept_both_clocks_at_zero": true,
+    "brain_time_s": 0.5,
+    "body_time_s": 0.5,
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "total_spikes": 21245,
+    "end_state": {
+      "voltage_sha256": "c54cf2b3f7d2151004ba90d0dc46c1d33b67d9779fcad389726da54c4e56c4ab",
+      "spike_counts_sha256": "e0a6b5189c1d1335b56cecc8a5b597d7ad06e9b5ccbdc21dab0a078f4919ef12"
+    }
+  },
+  "implementation_sha256": {
+    "src/nexus/receptor_preparation.py": "b14d5aadd5227e028ce04f34571db9e158661d4d3c3830d9c6143f7a64d2cbed",
+    "src/nexus/receptor_preparation_dialog.py": "e0932fcfa304f3e719d7ddf46775c5480adaecc4918122fb3c75ba1022f2fc23",
+    "src/nexus/receptor_playback.py": "166f6afb517e9fed681c94a8d118fc21cdb39672816bf39016634e0f75e7c9b8",
+    "src/nexus/brain/runtime.py": "01a1d7e23a3b55a7578b818628b20903737e037324eec251c89c30aec99663af",
+    "src/nexus/vision.py": "68c5e7371e02705d614d4885ffddf56a1a8e07f0af5e3b5a2bb7c22449bc5ecc",
+    "scripts/run_receptor_brain_replay.py": "5f1c34a6f8572d5f0974c6985e749129cc9371fabc97eb2c4b9dd2bd9c1de741",
+    "tests/test_receptor_preparation.py": "8cfd61b380f8de7857ec08fbce251bf3092b7f4fd1f54c8ba2d4600834d53b87"
+  },
+  "limits": [
+    "One short assumed exposure, not physiological calibration or demonstrated equilibrium.",
+    "Receptor molecular pools, pending reactions, random streams and membrane persist; reaction equations and numerical steps are unchanged.",
+    "Clip photon inputs match, but responses include all receptor history effects, including membrane evolution and molecular randomness; this is not an isolated measurement of one adaptation mechanism.",
+    "Pre-exposure does not feed downstream synapses or advance brain/body time. The rest of the network retains its initial state and empty synaptic queues.",
+    "The release curve, downstream relay laws and video-to-photon conversion remain unfitted assumptions.",
+    "Linux source app checked on CPU and NVIDIA GPU; no new packaged-build, macOS or Windows verification."
+  ]
+}

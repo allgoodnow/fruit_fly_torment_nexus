@@ -169,6 +169,16 @@ editable values are experimental settings, not illumination measured from the
 video. The file picker offers the **unfitted example release curve**; selecting
 it remains an explicit choice. Its exact bytes are saved with the response.
 
+**Pre-exposure duration** optionally runs the same receptors before the clip.
+Leave it at **None** for the previous starting state. With a positive duration,
+choose the assumed pre-exposure photons/s: zero gives darkness, a positive
+rate gives constant illumination. Molecular reactions and membrane state carry
+through to the video, which still starts at time zero. This adds preparation
+time. It conditions only receptors, does not warm up the rest of the brain,
+and does not assert that the cells have reached equilibrium. Settings and
+starting voltages are saved with the recording. See
+[exposure history](video-phototransduction.md#exposure-history-before-a-clip).
+
 Jobs save new subfolders under `receptor-responses` in the app's local data
 folder, containing `response.npz`, `report.json` and `release-curve.json`.
 **Load receptor response…** can load a completed recording again. The terminal

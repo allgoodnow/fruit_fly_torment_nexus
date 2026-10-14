@@ -59,6 +59,21 @@ class ReceptorPreparationDialog(QDialog):
         self.duration.setValue(500)
         self.duration.setSuffix(' ms')
         form.addRow('Recording duration', self.duration)
+        self.pre_duration = QSpinBox()
+        self.pre_duration.setRange(0, 60000)
+        self.pre_duration.setSuffix(' ms')
+        self.pre_duration.setSpecialValueText('None')
+        self.pre_duration.setToolTip('Run the same receptors before the clip, retaining their state. '
+                                     'This adds preparation time; it does not advance the brain or body.')
+        form.addRow('Pre-exposure duration', self.pre_duration)
+        self.pre_rate = QDoubleSpinBox()
+        self.pre_rate.setRange(0., 1000000.)
+        self.pre_rate.setDecimals(2)
+        self.pre_rate.setEnabled(False)
+        self.pre_rate.setToolTip('Constant assumed absorbed photons/s per receptor before the video. '
+                                 'Zero gives a dark interval; no equilibrium is assumed.')
+        self.pre_duration.valueChanged.connect(lambda value: self.pre_rate.setEnabled(value > 0))
+        form.addRow('Pre-exposure (photons/s)', self.pre_rate)
         self.white = QDoubleSpinBox()
         self.white.setRange(0., 1000000.)
         self.white.setDecimals(2)
@@ -148,6 +163,7 @@ class ReceptorPreparationDialog(QDialog):
         settings = {'video': str(self.video), 'pack': str(self.pack), 'output_dir': str(self.output_dir),
                     'white_rate_hz': self.white.value(), 'black_rate_hz': self.black.value(),
                     'transfer': self.transfer.currentData(), 'duration_ms': self.duration.value(),
+                    'pre_exposure_ms': self.pre_duration.value(), 'pre_exposure_rate_hz': self.pre_rate.value(),
                     'coverage': self.coverage.currentData(),
                     'backend': self.backend.currentData(), 'seed': self.seed.value(),
                     'release_curve': self.curve.text()}
@@ -208,7 +224,7 @@ class ReceptorPreparationDialog(QDialog):
                         if event['phase'] == 'exporting':
                             self.status.setText('Saving the response…')
                         else:
-                            action = 'Initializing' if event['phase'] == 'initializing' else 'Computing'
+                            action = {'initializing': 'Initializing', 'pre_exposure': 'Pre-exposing'}.get(event['phase'], 'Computing')
                             self.status.setText(f"{action} receptors {event['first_cell']+1}–{event['last_cell']} "
                                                 f"/ {event['cells']} · {event['elapsed_ms']} / {event['duration_ms']} ms")
                     self._last_progress_text = self.status.text()

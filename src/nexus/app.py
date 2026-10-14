@@ -1352,6 +1352,9 @@ def main():
                     dialog = self.preparation_dialog
                     dialog.coverage.setCurrentIndex(dialog.coverage.findData(settings.get('coverage', {}).get('mode', 'sample8')))
                     dialog.duration.setValue(settings['exposure_ms'])
+                    pre = settings.get('pre_exposure', {})
+                    dialog.pre_duration.setValue(pre.get('duration_ms', 0))
+                    dialog.pre_rate.setValue(pre.get('absorbed_rate_hz', 0.))
                     dialog.white.setValue(settings['white_rate_hz'])
                     dialog.black.setValue(settings['black_rate_hz'])
                     dialog.transfer.setCurrentIndex(dialog.transfer.findData(settings['transfer']))
@@ -1389,6 +1392,7 @@ def main():
                     return
                 report = json.loads(generated_path.read_text())
                 self.preparation_result = {'backend': report['backend'], 'cells': len(report['receptors']),
+                                           'pre_exposure': report.get('pre_exposure', {'duration_ms': 0}),
                                            'exposure_ms': report['exposure_ms'], 'source_hashes_complete': report['source_hashes_complete'],
                                            'response_sha256': file_hash(generated_path.parent/'response.npz'),
                                            'report_sha256': file_hash(generated_path),

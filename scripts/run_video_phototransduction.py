@@ -75,6 +75,10 @@ def main():
     parser.add_argument('--black-rate-hz', type=float, default=0.)
     parser.add_argument('--transfer', choices=('linear', 'srgb'), required=True)
     parser.add_argument('--duration-ms', type=int, default=300)
+    parser.add_argument('--pre-exposure-ms', type=int, default=0,
+                        help='Condition the same receptors before the clip; zero disables it')
+    parser.add_argument('--pre-exposure-rate-hz', type=float, default=0.,
+                        help='Constant assumed absorbed photons/s during pre-exposure; zero is darkness')
     parser.add_argument('--seed', type=int, default=88300)
     parser.add_argument('--backend', choices=('cpu', 'cuda'), default='cpu')
     parser.add_argument('--batch-cells', type=int, choices=range(1, 9), default=8,

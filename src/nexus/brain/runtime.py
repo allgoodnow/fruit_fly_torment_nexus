@@ -445,7 +445,7 @@ class Brain:
         self.bounded_synapses = enabled and (self.graph.circuits or {}).get('graded_relays', {}).get('synapse_model') == 'conductance-v1'
         self.events.append({'kind': 'graded_relays', 'time': self.time, 'enabled': enabled})
 
-    def configure_receptor_replay(self, ids, *, reference_mv):
+    def configure_receptor_replay(self, ids, *, reference_mv, initial_voltage_mv=None):
         """Select nonspiking R1–R6 voltage clamps before an offline experiment.
 
         Every advance must supply end-of-interval voltages and declared release
@@ -463,12 +463,16 @@ class Brain:
             raise ValueError('Receptor voltage reference must be finite')
         if np.intersect1d(targets, self.inputs).size:
             raise ValueError('Clear pulse inputs to the replay sources first')
+        initial = (np.full(len(targets), reference) if initial_voltage_mv is None
+                   else np.asarray(initial_voltage_mv, dtype=np.float64))
+        if initial.shape != (len(targets),) or not np.isfinite(initial).all():
+            raise ValueError('Supply one finite initial voltage per replay source')
         self.receptor_indices = targets
         self.receptor_mask[targets] = True
         self.receptor_reference_mv = reference
         self.receptor_queue = np.zeros((DELAY_STEPS + 1, len(targets)), dtype=np.float64)
         self.receptor_last_release_hz = np.zeros(len(targets), dtype=np.float64)
-        self.v[targets] = reference
+        self.v[targets] = initial
         self.enabled[targets] = False
         self.events.append({'kind': 'receptor_replay', 'time': self.time,
                             **self.receptor_snapshot()})

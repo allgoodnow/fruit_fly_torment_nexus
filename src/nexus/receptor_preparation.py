@@ -14,7 +14,7 @@ import time
 
 import numpy as np
 from .brain.receptor_release import ReleaseCurve
-from .photon_input import VideoPhotonInput
+from .photon_input import PhotonExposure, VideoPhotonInput
 from .retina import VisualColumns
 from .video import VIDEO_FPS
 
@@ -105,7 +105,8 @@ class _ResponseWorkspace:
 def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
                      black_rate_hz=0., duration_ms=300, seed=88300, backend='cpu',
                      batch_cells=8, receptor_ids=None, release_curve=None,
-                     coverage='sample8', progress=None, cancelled=None):
+                     coverage='sample8', pre_exposure_ms=0, pre_exposure_rate_hz=0.,
+                     progress=None, cancelled=None):
     if (isinstance(duration_ms, bool) or not isinstance(duration_ms, int) or duration_ms < 1):
         raise ValueError('Duration must be a positive number of milliseconds')
     if backend not in ('cpu', 'cuda'):
@@ -114,6 +115,11 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
         raise ValueError('Preparation groups must contain between 1 and 8 receptors')
     if receptor_ids is not None and coverage != 'sample8':
         raise ValueError('Choose explicit IDs or a coverage preset, not both')
+    if (isinstance(pre_exposure_ms, bool) or not isinstance(pre_exposure_ms, int) or pre_exposure_ms < 0):
+        raise ValueError('Pre-exposure duration must be a nonnegative integer in milliseconds')
+    pre_exposure_rate_hz = float(pre_exposure_rate_hz)
+    if not np.isfinite(pre_exposure_rate_hz) or pre_exposure_rate_hz < 0:
+        raise ValueError('Pre-exposure photon rate must be finite and nonnegative')
 
     def check_cancelled():
         if cancelled is not None and cancelled():
@@ -132,9 +138,12 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
         raise ValueError('Brain-pack registry checksum mismatch')
     registry = json.loads(registry_bytes)
     ids = list(receptor_ids) if receptor_ids is not None else select_coverage(registry, coverage)
-    photon_seed, cascade_seed = np.random.SeedSequence(seed).spawn(2)
+    # The first two seed branches retain existing video/cascade identities.
+    # Separate conditioning input keeps clip photons identical in paired runs.
+    photon_seed, cascade_seed, pre_seed = np.random.SeedSequence(seed).spawn(3)
     photon_seeds = photon_seed.generate_state(len(ids), dtype=np.uint64).tolist()
     cascade_seeds = cascade_seed.generate_state(len(ids), dtype=np.uint64).tolist()
+    pre_seeds = pre_seed.generate_state(len(ids), dtype=np.uint64).tolist()
     source_hash = file_hash(video)
     curve = ReleaseCurve.load(release_curve) if release_curve is not None else None
     curve_bytes = Path(release_curve).read_bytes() if curve is not None else None
@@ -175,6 +184,10 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
         channels = workspace.array('channels', (elapsed*10, len(ids)), np.int64)
         voltage = workspace.array('voltage', (elapsed*10, len(ids)), np.float64)
         events = np.zeros(len(ids), dtype=np.int64)
+        pre_photons = np.zeros(len(ids), dtype=np.int64)
+        pre_events = np.zeros(len(ids), dtype=np.int64)
+        initial_voltage = np.empty(len(ids), dtype=np.float64)
+        total_ms = pre_exposure_ms+elapsed
         # With no receptor feedback in this model, an entire group's recording
         # can finish before constructing the next group's independent states.
         for first in range(0, len(ids), batch_cells):
@@ -183,22 +196,50 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
             if progress:
                 progress({'kind': 'progress', 'elapsed_ms': 0, 'duration_ms': elapsed,
                           'phase': 'initializing', 'cells': len(ids), 'first_cell': first,
-                          'last_cell': last, 'work_done': first*elapsed, 'work_total': len(ids)*elapsed})
+                          'last_cell': last, 'work_done': first*total_ms, 'work_total': len(ids)*total_ms})
             if backend == 'cuda':
                 from nexus.brain.phototransduction_batch import BatchedPhototransduction
                 model = BatchedPhototransduction(cascade_seeds[first:last], batch_cells=batch_cells)
             else:
                 from nexus.brain.phototransduction_parallel import ParallelPhototransduction
                 models = [ParallelPhototransduction(seed=s) for s in cascade_seeds[first:last]]
+
+            def advance_group(counts):
+                if backend == 'cuda':
+                    return model.advance(counts)
+                separate = [m.advance(counts[:, i]) for i, m in enumerate(models)]
+                return {key: np.column_stack([r[key] for r in separate]) for key in separate[0]}
+
+            if pre_exposure_ms:
+                exposure = PhotonExposure(pre_seeds[first:last], white_rate_hz=pre_exposure_rate_hz,
+                                          black_rate_hz=pre_exposure_rate_hz)
+                for start in range(0, pre_exposure_ms, 50):
+                    check_cancelled()
+                    stop = min(start+50, pre_exposure_ms)
+                    counts = exposure.advance(np.zeros((stop-start, last-first)))
+                    pre_photons[first:last] += counts.sum(axis=0)
+                    # The same model continues into the clip: molecular pools,
+                    # pending reactions, random streams and membrane all persist.
+                    advance_group(counts)
+                    if progress:
+                        progress({'kind': 'progress', 'phase': 'pre_exposure', 'elapsed_ms': stop,
+                                  'duration_ms': pre_exposure_ms, 'cells': len(ids),
+                                  'first_cell': first, 'last_cell': last,
+                                  'work_done': first*total_ms+stop*(last-first),
+                                  'work_total': len(ids)*total_ms})
+            if backend == 'cuda':
+                initial_voltage[first:last] = model.membrane.state[:, 0]
+                pre_events[first:last] = model.events
+            else:
+                initial_voltage[first:last] = [m.membrane.state[0, 0] for m in models]
+                pre_events[first:last] = [m.events for m in models]
+            if curve is not None:
+                curve.evaluate(initial_voltage[first:last])
             for start in range(0, elapsed, 50):
                 check_cancelled()
                 stop = min(start+50, elapsed)
                 counts = photons[start:stop, first:last]
-                if backend == 'cuda':
-                    result = model.advance(counts)
-                else:
-                    separate = [m.advance(counts[:, i]) for i, m in enumerate(models)]
-                    result = {key: np.column_stack([r[key] for r in separate]) for key in separate[0]}
+                result = advance_group(counts)
                 if curve is not None:
                     curve.evaluate(result['voltage_mv'])
                 channels[start*10:stop*10, first:last] = result['open_channels']
@@ -206,13 +247,14 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
                 if progress:
                     progress({'kind': 'progress', 'elapsed_ms': stop, 'duration_ms': elapsed,
                               'phase': 'computing', 'cells': len(ids), 'first_cell': first, 'last_cell': last,
-                              'work_done': first*elapsed+stop*(last-first), 'work_total': len(ids)*elapsed})
+                              'work_done': first*total_ms+(pre_exposure_ms+stop)*(last-first),
+                              'work_total': len(ids)*total_ms})
             if backend == 'cuda':
-                events[first:last] = model.events
+                events[first:last] = model.events-pre_events[first:last]
                 del model
             else:
-                events[first:last] = [m.events for m in models]
-                del models, separate
+                events[first:last] = np.asarray([m.events for m in models])-pre_events[first:last]
+                del models
             del result
         seconds = time.perf_counter()-wall
         check_cancelled()
@@ -221,7 +263,7 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
         if progress:
             progress({'kind': 'progress', 'phase': 'exporting', 'elapsed_ms': elapsed,
                       'duration_ms': elapsed, 'cells': len(ids),
-                      'work_done': len(ids)*elapsed, 'work_total': len(ids)*elapsed})
+                      'work_done': len(ids)*total_ms, 'work_total': len(ids)*total_ms})
         np.savez_compressed(output_dir/'response.npz', ids=np.asarray(ids), intensity=intensity,
                             absorbed_photons=photons, open_channels=channels, voltage_mv=voltage)
         mapping = VisualColumns(registry)
@@ -244,6 +286,14 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
                   'video_input_fps':VIDEO_FPS,'absorbed_photon_bin_ms':1.,'membrane_dt_ms':.1,
                   'transfer':transfer,'white_rate_hz':white_rate_hz,'black_rate_hz':black_rate_hz,
                   'calibrated':False,'root_seed':seed,'photon_seeds':photon_seeds,'cascade_seeds':cascade_seeds,
+                  'initial_voltage_mv': initial_voltage.tolist(),
+                  'pre_exposure': {'duration_ms': pre_exposure_ms,
+                                   'absorbed_rate_hz': pre_exposure_rate_hz if pre_exposure_ms else 0.,
+                                   'photon_seeds': pre_seeds if pre_exposure_ms else [],
+                                   'absorbed_photons': pre_photons.tolist(),
+                                   'molecular_events': pre_events.tolist(),
+                                   'model': 'constant Poisson absorbed flux; persistent receptor state',
+                                   'equilibrium_assumed': False, 'feeds_brain': False},
                   'receptors':[{'id':root,'side':side,'uv':uv.tolist(),'absorbed_photons':int(photons[:, i].sum()),
                                 'expected_absorbed_photons':float(((black_rate_hz+
                                   (white_rate_hz-black_rate_hz)*intensity[:, i])/1000.).sum()),
@@ -257,6 +307,7 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
                             'Selected receptors only; no population multiplication, synaptic feedback or simultaneous live molecular integration.',
                             'Timing includes decoding, group initialization, possible JIT and disk-array writes; excludes final archive/report export.',
                             'All mapped coverage excludes receptors without image coordinates; it is not a complete eye or calibrated optics.',
+                            'Optional pre-exposure conditions receptors only; no equilibrium or whole-brain adaptation is established.',
                             'Sequential group processing is valid only for the present independent receptors without synaptic feedback.']}
         report['source_hashes_complete'] = len(report['implementation_sha256']) == len(IMPLEMENTATION_FILES)
         check_cancelled()

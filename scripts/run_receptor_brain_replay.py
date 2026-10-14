@@ -66,10 +66,10 @@ def trace_selection(brain, source_ids):
     return [str(brain.graph.ids[i]) for i in selected], labels
 
 
-def replay(graph, ids, voltage, curve, trace_ids, *, blocked, name):
+def replay(graph, ids, voltage, curve, trace_ids, *, blocked, name, initial_voltage_mv=None):
     brain = Brain(graph)
     brain.set_graded_relays(True)
-    brain.configure_receptor_replay(ids, reference_mv=curve.reference_mv)
+    brain.configure_receptor_replay(ids, reference_mv=curve.reference_mv, initial_voltage_mv=initial_voltage_mv)
     if blocked:
         brain.silence(ids)
     rate = curve.evaluate(voltage)
@@ -155,9 +155,23 @@ def main():
     # Validate the complete input before beginning any of the experiments.
     curve.evaluate(voltage)
     curve.evaluate(dark_voltage)
+    initial = []
+    conditioning = []
+    for report in (video_report, dark_report):
+        values = np.asarray(report.get('initial_voltage_mv', [curve.reference_mv]*len(ids)))
+        if values.shape != (len(ids),):
+            raise ValueError('Expected an initial voltage per receptor')
+        curve.evaluate(values)
+        initial.append(values)
+        pre = report.get('pre_exposure', {})
+        duration = pre.get('duration_ms', 0)
+        conditioning.append((duration, pre.get('absorbed_rate_hz', 0.) if duration else 0.,
+                             pre.get('photon_seeds', []) if duration else []))
+    if conditioning[0] != conditioning[1] or not np.array_equal(*initial):
+        raise ValueError('Video and darkness controls must share the same receptor pre-exposure and initial voltages')
     preview = Brain(graph)
     preview.set_graded_relays(True)
-    preview.configure_receptor_replay(ids, reference_mv=curve.reference_mv)
+    preview.configure_receptor_replay(ids, reference_mv=curve.reference_mv, initial_voltage_mv=initial[0])
     source_mask = preview.receptor_mask.copy()
     relay_mask = preview.graded_mask.copy()
     direct_mask = np.zeros(len(graph.ids), dtype=bool)
@@ -170,7 +184,8 @@ def main():
     results = {}
     for name, values, blocked in [('dark', dark_voltage, False), ('video', voltage, False),
                                  ('dark_blocked', dark_voltage, True), ('video_blocked', voltage, True)]:
-        results[name] = replay(graph, ids, values, curve, trace_ids, blocked=blocked, name=name)
+        results[name] = replay(graph, ids, values, curve, trace_ids, blocked=blocked, name=name,
+                               initial_voltage_mv=initial[0])
     masks = {'non_source': ~source_mask, 'direct_targets': direct_mask & ~source_mask,
              'beyond_direct_targets': ~source_mask & ~direct_mask,
              'graded_relays': relay_mask, 'other_neurons': ~source_mask & ~relay_mask}
@@ -202,6 +217,7 @@ def main():
               'input_hashes': {kind: {name: file_hash(directory/name) for name in ('response.npz', 'report.json')}
                                for kind, directory in [('video', args.video_response), ('dark', args.dark_response)]},
               'release_curve': curve.snapshot(), 'release_curve_sha256': file_hash(args.release_curve),
+              'pre_exposure': video_report.get('pre_exposure', {'duration_ms': 0}),
               'release_sample_ms': 1., 'delivery_delay_ms': 1.8, 'voltage_sample_ms': DT_MS,
               'first_receptor_input_difference_ms': first_tick*DT_MS if first_tick is not None else None,
               'brain_snapshot_times_ms': (ticks*DT_MS).tolist(),

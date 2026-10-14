@@ -102,6 +102,13 @@ class ReceptorPlayback:
                 or not len(self.ids)):
             raise ValueError('Response dimensions or neuron IDs disagree with their report')
         self.curve = ReleaseCurve.load(self.curve_path)
+        self.initial_voltage_mv = np.asarray(report.get('initial_voltage_mv',
+                                             [self.curve.reference_mv]*len(self.ids)), dtype=np.float64)
+        if self.initial_voltage_mv.shape != (len(self.ids),):
+            raise ValueError('Supply one initial voltage per recorded receptor')
+        self.curve.evaluate(self.initial_voltage_mv)
+        self.initial_voltage_mv.setflags(write=False)
+        self.pre_exposure = report.get('pre_exposure', {'duration_ms': 0})
         self.report_hash = file_hash(self.report_path)
         self.response_hash = file_hash(self.response_path)
         self.curve_hash = file_hash(self.curve_path)
@@ -154,6 +161,7 @@ class ReceptorPlayback:
                 'report_sha256': self.report_hash, 'response_sha256': self.response_hash,
                 'release_curve_sha256': self.curve_hash, 'source_sha256': self.source_hash,
                 'exposure': self.exposure, 'release_curve': self.curve.snapshot(),
+                'pre_exposure': self.pre_exposure,
                 'storage': {'mode': 'temporary disk recording; windowed voltage and release',
                             'voltage_disk_bytes': self._recording.nbytes,
                             'window_ms': PLAYBACK_WINDOW_TICKS * DT_MS},

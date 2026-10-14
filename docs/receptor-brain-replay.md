@@ -51,6 +51,10 @@ explicit display reference, not a claim that the published membrane initial
 condition is an equilibrated dark state. Telemetry uses that reference for
 these cells so that an initial −70 mV receptor is not falsely shown as
 hyperpolarized relative to the rest of the LIF network's −52 mV baseline.
+For recordings prepared with prior exposure, sources start at the saved
+pre-exposure endpoint voltage; the declared display reference is unchanged.
+The rest of the network has no pre-exposure history. Its delayed synaptic
+queues start empty, as before.
 
 Release is sampled at the end of each complete millisecond. A packet is
 `release_equivalent_hz × 0.001`, follows the existing outgoing edges and uses
@@ -69,6 +73,9 @@ existing relay release law remain unfitted model extensions.
 First generate a video response and a matched darkness response with the
 [video runner](video-phototransduction.md), using the same clip, duration,
 receptor IDs and seed. For darkness set both absorbed-photon rates to zero.
+If using [pre-exposure](video-phototransduction.md#exposure-history-before-a-clip),
+use identical pre-exposure duration and rate in both conditions. The runner
+checks matching histories and initial voltages before replay.
 Then run:
 
 ```sh

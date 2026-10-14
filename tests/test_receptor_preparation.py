@@ -59,6 +59,62 @@ def test_cpu_preparation_publishes_a_loadable_molecular_recording(preparation_pa
     prepared.close()
 
 
+def test_pre_exposure_continues_the_same_molecular_state_into_the_video(preparation_pack, movie, tmp_path):
+    from nexus.brain.phototransduction_parallel import ParallelPhototransduction
+    from nexus.photon_input import PhotonExposure, VideoPhotonInput
+
+    output = tmp_path/'conditioned'
+    progress = []
+    report = prepare_response(video=movie, pack=preparation_pack, output_dir=output,
+                              white_rate_hz=30000., transfer='srgb', duration_ms=150,
+                              receptor_ids=['13'], release_curve=CURVE, progress=progress.append,
+                              pre_exposure_ms=100, pre_exposure_rate_hz=30000.)
+    pre = report['pre_exposure']
+    assert pre['duration_ms'] == 100 and not pre['feeds_brain'] and not pre['equilibrium_assumed']
+    assert [p['elapsed_ms'] for p in progress if p['phase'] == 'pre_exposure'] == [50, 100]
+    work = [p['work_done'] for p in progress if 'work_done' in p]
+    assert work == sorted(work) and work[-1] == 250
+    with np.load(output/'response.npz') as data:
+        channels, voltage, photons = [data[key].copy() for key in ('open_channels', 'voltage_mv', 'absorbed_photons')]
+    assert voltage.shape == (1500, 1) and not photons[:100].any()
+    assert channels[0, 0] > 0  # Ongoing response into the initially dark clip.
+
+    # Independently advance one receptor through the same pre-interval and clip,
+    # using different call sizes. No reset, curve fit or hand-set voltage.
+    exposure = PhotonExposure(pre['photon_seeds'], white_rate_hz=pre['absorbed_rate_hz'])
+    pre_photons = exposure.advance(np.ones((100, 1)))
+    model = ParallelPhototransduction(seed=report['cascade_seeds'][0])
+    model.advance(pre_photons[:, 0])
+    np.testing.assert_array_equal(model.membrane.state[:, 0], report['initial_voltage_mv'])
+    assert model.events == pre['molecular_events'][0]
+    assert int(pre_photons.sum()) == pre['absorbed_photons'][0]
+    expected = model.advance(photons[:, 0])
+    np.testing.assert_array_equal(channels[:, 0], expected['open_channels'])
+    np.testing.assert_array_equal(voltage[:, 0], expected['voltage_mv'])
+    assert report['receptors'][0]['molecular_events'] == model.events-pre['molecular_events'][0]
+
+    registry = json.loads((preparation_pack/'circuits.json').read_text())
+    source = VideoPhotonInput(movie, registry, ['13'], report['photon_seeds'],
+                             white_rate_hz=30000., transfer='srgb')
+    try:
+        np.testing.assert_array_equal(photons, source.read(150)['absorbed_photons'])
+    finally:
+        source.close()
+    brain = replay_model()
+    brain.graph.registry_sha256 = report['registry_sha256']
+    prepared = ReceptorPlayback(output/'report.json', output/'release-curve.json', brain, movie)
+    try:
+        brain.configure_receptor_replay(prepared.ids, reference_mv=prepared.curve.reference_mv,
+                                        initial_voltage_mv=prepared.initial_voltage_mv)
+        assert brain.step == 0
+        np.testing.assert_array_equal(brain.v[brain.receptor_indices], report['initial_voltage_mv'])
+        brain.advance(.15, **prepared.input(0, 1500))
+        prepared.after_step(brain)
+        assert prepared.ended and not brain.counts[brain.receptor_indices].any()
+    finally:
+        prepared.close()
+
+
 def test_cancel_between_normal_batches_does_not_publish_a_ready_response(preparation_pack, movie, tmp_path):
     output = tmp_path/'cancelled'
     cancel = False

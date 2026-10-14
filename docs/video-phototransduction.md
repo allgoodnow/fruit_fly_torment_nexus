@@ -56,6 +56,56 @@ is held for 50 ms; photon counts are generated in 1 ms bins and delivered at
 their boundaries. Sub-bin arrival times and video detail above this sampling
 rate are not recovered. Channels and voltage use the existing 0.1 ms schedule.
 
+## Exposure history before a clip
+
+Receptor responses depend on prior light exposure: molecular recovery and
+feedback contribute to adaptation in the source model
+([Juusola et al., 2017, Figure 1](https://elifesciences.org/articles/26117/figures)).
+Preparation can now run a chosen interval of constant absorbed-photon flux
+before the video, using the same molecular and membrane models continuously.
+No artificial gain adjustment or preset adapted voltage is inserted.
+
+`--pre-exposure-ms` defaults to zero, preserving the previous initial-state
+recordings. Set a positive duration with `--pre-exposure-rate-hz` to condition
+the selected receptors. A zero rate gives a dark interval. These settings are
+assumptions for an exposure experiment, not measured ambient illumination or
+a guarantee that the model reaches equilibrium. For example, adding
+`--pre-exposure-ms 100 --pre-exposure-rate-hz 30000` runs 100 ms at an assumed
+30,000 absorbed photons/s per cell before recording the clip.
+
+The pre-interval retains all molecular pools, pending reactions, random streams
+and membrane state into the video. Its photon generator uses a separate seed
+branch, so changing pre-exposure leaves the clip's intensity and absorbed
+photon counts identical for the same video settings and root seed. Responses
+can differ because the receptor starts with a different history; this includes
+the membrane's evolution as well as the cascade and its random-state evolution.
+
+Video time still starts at zero. Only video-era traces are saved in
+`response.npz`. The report records pre-exposure duration, rate, photon seeds,
+realized photon totals, molecular event totals and the actual initial receptor
+voltages. Per-receptor `molecular_events` continues to count video-era events;
+pre-exposure events are recorded separately. Playback starts the selected
+sources at their saved initial voltages. Older reports retain their declared
+reference-voltage start.
+
+Pre-exposure conditions **receptors only**. It neither advances the brain/body
+clock nor supplies prior release to downstream neurons. Those neurons still
+start at the existing model state, so this does not remove network startup
+transients or establish a physiological whole-brain baseline. The offline
+video/dark comparison requires matching conditioning and initial voltages.
+Compute time grows with pre-exposure duration, including at a zero photon rate.
+
+The [focused pre-exposure result](../experiments/receptor-pre-exposure-v1-results.json)
+uses the existing eight-cell 500 ms clip with a 100 ms, 30,000-photons/s
+pre-interval. Video intensities and photon counts stay identical, while the
+receptors enter the clip at −62.00 to −59.69 mV with ongoing channel activity.
+The largest voltage difference from the unconditioned recording is 10.55 mV
+in this model. Disabling pre-exposure reproduces all five previous response
+arrays exactly. A CPU check matches uninterrupted receptor continuation;
+native CUDA preparation matches the offline conditioned recording, and native
+playback matches the independent full-brain endpoint. These checks establish
+state continuity and reproducibility, not physiological accuracy.
+
 ## Running a clip
 
 The source app now offers **Prepare receptor response…** in the Brain tab.
@@ -111,8 +161,8 @@ traces, labeled with the displayed/total count; and `report.json` with IDs,
 coordinates, coverage, resident-group size, rates, seeds, source hashes and limits.
 Video exposure stops at EOF rather than extending the last frame. Closing
 light input does not reset molecular or membrane state; ongoing reactions
-decay through the model. The original published membrane initial condition
-is used, not an assumed equilibrated dark state.
+decay through the model. Without pre-exposure, the original published membrane
+initial condition is used, not an assumed equilibrated dark state.
 
 The shared implementation is `src/nexus/receptor_preparation.py`. GUI and
 terminal paths keep the same seeds, 50 ms input batches, 0.1 ms membrane samples
