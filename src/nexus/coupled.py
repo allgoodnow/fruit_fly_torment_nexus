@@ -321,6 +321,18 @@ class CoupledSession:
         motor['retreat'] = retreat
         return motor
 
+    def motor_readouts(self):
+        """Observe the cells actually used by the controller, without driving them."""
+        groups = {'forward': self.walking_decoder.indices, 'steering': self.decoder.indices,
+                  'retreat': self.motor_effects.mdn, 'escape': self.motor_effects.gf}
+        return {name: {'ids': [str(root) for root in self.brain.graph.ids[indices]],
+                       'voltage_mv': self.brain.v[indices].tolist(),
+                       'spike_counts': self.brain.counts[indices].tolist(),
+                       'output_gain': self.brain.output_gain[indices].tolist(),
+                       'excitatory_conductance': self.brain.excitation_g[indices].tolist(),
+                       'inhibitory_conductance': self.brain.histamine_g[indices].tolist()}
+                for name, indices in groups.items()}
+
     def snapshot(self):
         neural = self.monitor.snapshot(self.brain, self.running, self.generation, self.protocol,
                                        coupled=self.decoder.enabled or self.motor_effects.enabled
@@ -336,6 +348,7 @@ class CoupledSession:
         neural['ground_behavior'] = self.ground_output()
         neural['neural_walking'] = self.neural_walking
         neural['walking_decoder'] = self.walking_decoder.output(self.baseline)
+        neural['motor_readouts'] = self.motor_readouts()
         neural['resume_after_protocol'] = self.resume_after_protocol
         neural['recovery'] = self.recovery.snapshot()
         neural['reposition_count'] = self.reposition_count
@@ -350,6 +363,7 @@ class CoupledSession:
         body['ground_behavior'] = neural['ground_behavior']
         body['neural_walking'] = self.neural_walking
         body['walking_decoder'] = neural['walking_decoder']
+        body['motor_readouts'] = neural['motor_readouts']
         body['eye_feedback'] = neural['eye_feedback']
         if self.neural_walking:
             body['mode'] = 'BDN2 forward / DNa02 steering / MDN retreat; engineered gait'

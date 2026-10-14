@@ -378,6 +378,15 @@ class BrainPanel(QWidget):
             self.bridge.blockSignals(False)
             self.metrics.setText(self.metrics.text()+f"\nDNa02 output L/R: {m['left_hz']:.1f} / {m['right_hz']:.1f} Hz\n"
                                  f"Motor drive L/R: {m['left_drive']:.2f} / {m['right_drive']:.2f}")
+            forward = t.get('walking_decoder', {})
+            sources = t.get('motor_readouts', {}).get('forward', {})
+            details = [f"BDN2 forward output: {forward.get('rate_hz', 0.):.2f} Hz",
+                       f"Forward drive: {forward.get('drive', 0.):.3f}"]
+            details.extend(f"{root}: {voltage:.2f} mV, {count} spikes since reset"
+                           for root, voltage, count in zip(sources.get('ids', []),
+                               sources.get('voltage_mv', []), sources.get('spike_counts', [])))
+            details.append('These readouts sample the motor pathway; brain-wide activity alone does not imply movement.')
+            self.metrics.setToolTip('\n'.join(details))
         self.snapshot.emit(t)
 
     def fail(self, message):

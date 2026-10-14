@@ -1,0 +1,506 @@
+{
+  "format": "nexus-visual-motor-results-1",
+  "success": true,
+  "baseline_commit": "9c7cfa0f8e67c18c6ad9d877765b85c65884bbaa",
+  "scope": {
+    "receptors": 8,
+    "pre_exposure_ms": 100,
+    "video_ms": 500,
+    "shared_duration_ms": 600,
+    "neural_walking": true,
+    "graded_relays": true,
+    "body": "FlyGym / MuJoCo articulated physics",
+    "voltage_sample_interval_ms": 10
+  },
+  "conditions": {
+    "recording": {
+      "maximum_forward_drive": 0.0,
+      "maximum_absolute_turn": 0.0,
+      "maximum_retreat": 0.0,
+      "maximum_escape": 0.0,
+      "maximum_disruption": 0.0,
+      "resting_intervals": 60,
+      "intervals": 60,
+      "final_displacement_mm": 0.0007583522533312541,
+      "minimum_upright": 0.9998432844579263,
+      "voltage_sha256": "6d487bea62e74c62f5cd01406cfc667758afead686408ff115a1ee09ae6dd029",
+      "spike_counts_sha256": "b1c98d48a8b596affbba4db89cd222eb518a6230b135a34a5e7340b76698810c",
+      "walking_input": null,
+      "readouts": {
+        "forward": {
+          "ids": [
+            "10045",
+            "10056"
+          ],
+          "spike_counts": [
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -67.27442216626685,
+            -67.15016904921852
+          ],
+          "sampled_max_voltage_mv": [
+            -52.0,
+            -52.0
+          ]
+        },
+        "steering": {
+          "ids": [
+            "523769",
+            "10360"
+          ],
+          "spike_counts": [
+            2,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -66.65839968754993,
+            -67.48178382904918
+          ],
+          "sampled_max_voltage_mv": [
+            -50.1817691508238,
+            -51.985638361731176
+          ]
+        },
+        "retreat": {
+          "ids": [
+            "10763",
+            "11288",
+            "11332",
+            "12348"
+          ],
+          "spike_counts": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -58.72126496906646,
+            -57.576592255347336,
+            -57.88591893789291,
+            -58.203107904993544
+          ],
+          "sampled_max_voltage_mv": [
+            -47.54237478932878,
+            -47.081887762912274,
+            -47.60105228898373,
+            -48.966209257889616
+          ]
+        },
+        "escape": {
+          "ids": [
+            "10001",
+            "10010"
+          ],
+          "spike_counts": [
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -53.054259110862155,
+            -61.85093666712138
+          ],
+          "sampled_max_voltage_mv": [
+            -51.988942150513346,
+            -52.0
+          ]
+        }
+      }
+    },
+    "receptor_output_blocked": {
+      "maximum_forward_drive": 0.0,
+      "maximum_absolute_turn": 0.0,
+      "maximum_retreat": 0.009636007694815938,
+      "maximum_escape": 0.0,
+      "maximum_disruption": 0.0,
+      "resting_intervals": 60,
+      "intervals": 60,
+      "final_displacement_mm": 0.0007583522533312541,
+      "minimum_upright": 0.9998432844579263,
+      "voltage_sha256": "ef9eda1c47dd5db9ff546ccffbfafda107ceffc0ded5141ec41a8dd6d81aabd6",
+      "spike_counts_sha256": "0f4daf1381c5ec844924468f01b43e126d3b68e48507c256bc6bc1efa826921d",
+      "walking_input": null,
+      "readouts": {
+        "forward": {
+          "ids": [
+            "10045",
+            "10056"
+          ],
+          "spike_counts": [
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -67.44189497619821,
+            -67.42836432756042
+          ],
+          "sampled_max_voltage_mv": [
+            -52.0,
+            -52.0
+          ]
+        },
+        "steering": {
+          "ids": [
+            "523769",
+            "10360"
+          ],
+          "spike_counts": [
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -66.28744900895428,
+            -67.48178382904918
+          ],
+          "sampled_max_voltage_mv": [
+            -47.206659238014446,
+            -50.59050937725609
+          ]
+        },
+        "retreat": {
+          "ids": [
+            "10763",
+            "11288",
+            "11332",
+            "12348"
+          ],
+          "spike_counts": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -56.34563626305769,
+            -55.2881463526469,
+            -55.78386630206242,
+            -57.429721469450264
+          ],
+          "sampled_max_voltage_mv": [
+            -47.265213837798825,
+            -46.14828404355679,
+            -46.5038709027223,
+            -48.214635933904596
+          ]
+        },
+        "escape": {
+          "ids": [
+            "10001",
+            "10010"
+          ],
+          "spike_counts": [
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -53.28115621541293,
+            -61.06240375616014
+          ],
+          "sampled_max_voltage_mv": [
+            -48.39561381368568,
+            -51.891294497232415
+          ]
+        }
+      }
+    },
+    "walking_input": {
+      "maximum_forward_drive": 1.3,
+      "maximum_absolute_turn": 0.014181669037578781,
+      "maximum_retreat": 0.12273290439164464,
+      "maximum_escape": 0.0,
+      "maximum_disruption": 0.0,
+      "resting_intervals": 10,
+      "intervals": 60,
+      "final_displacement_mm": 4.080043513410692,
+      "minimum_upright": 0.9934004809816543,
+      "voltage_sha256": "f8a4b6b313b0d4f698927d47427477e529927b05ab6980639f4069cdecd367bd",
+      "spike_counts_sha256": "2bcc048af5755753c7af644feb229de5887430bf46c83f932b29d5fa64ae3d12",
+      "walking_input": {
+        "rate_hz": 100.0,
+        "start_ms": 100,
+        "end_ms": 400
+      },
+      "readouts": {
+        "forward": {
+          "ids": [
+            "10045",
+            "10056"
+          ],
+          "spike_counts": [
+            29,
+            43
+          ],
+          "sampled_min_voltage_mv": [
+            -67.74867088157748,
+            -67.20186371148766
+          ],
+          "sampled_max_voltage_mv": [
+            -47.9826586584154,
+            -47.51559184877631
+          ]
+        },
+        "steering": {
+          "ids": [
+            "523769",
+            "10360"
+          ],
+          "spike_counts": [
+            1,
+            1
+          ],
+          "sampled_min_voltage_mv": [
+            -66.26367977181738,
+            -67.51207021376602
+          ],
+          "sampled_max_voltage_mv": [
+            -52.00137151588071,
+            -47.84085256104874
+          ]
+        },
+        "retreat": {
+          "ids": [
+            "10763",
+            "11288",
+            "11332",
+            "12348"
+          ],
+          "spike_counts": [
+            3,
+            2,
+            2,
+            1
+          ],
+          "sampled_min_voltage_mv": [
+            -56.553965314665156,
+            -56.04467341503128,
+            -58.15857261508061,
+            -57.77548982046921
+          ],
+          "sampled_max_voltage_mv": [
+            -45.497168622325276,
+            -45.689286065447966,
+            -46.67535186082398,
+            -47.31413588021215
+          ]
+        },
+        "escape": {
+          "ids": [
+            "10001",
+            "10010"
+          ],
+          "spike_counts": [
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -61.953492623094405,
+            -65.74255854785609
+          ],
+          "sampled_max_voltage_mv": [
+            -48.3429971807768,
+            -52.0
+          ]
+        }
+      }
+    },
+    "walking_input_motor_blocked": {
+      "maximum_forward_drive": 0.0,
+      "maximum_absolute_turn": 0.0,
+      "maximum_retreat": 0.0,
+      "maximum_escape": 0.0,
+      "maximum_disruption": 0.0,
+      "resting_intervals": 60,
+      "intervals": 60,
+      "final_displacement_mm": 0.0007583522533312541,
+      "minimum_upright": 0.9998432844579263,
+      "voltage_sha256": "f8a4b6b313b0d4f698927d47427477e529927b05ab6980639f4069cdecd367bd",
+      "spike_counts_sha256": "2bcc048af5755753c7af644feb229de5887430bf46c83f932b29d5fa64ae3d12",
+      "walking_input": {
+        "rate_hz": 100.0,
+        "start_ms": 100,
+        "end_ms": 400
+      },
+      "readouts": {
+        "forward": {
+          "ids": [
+            "10045",
+            "10056"
+          ],
+          "spike_counts": [
+            29,
+            43
+          ],
+          "sampled_min_voltage_mv": [
+            -67.74867088157748,
+            -67.20186371148766
+          ],
+          "sampled_max_voltage_mv": [
+            -47.9826586584154,
+            -47.51559184877631
+          ]
+        },
+        "steering": {
+          "ids": [
+            "523769",
+            "10360"
+          ],
+          "spike_counts": [
+            1,
+            1
+          ],
+          "sampled_min_voltage_mv": [
+            -66.26367977181738,
+            -67.51207021376602
+          ],
+          "sampled_max_voltage_mv": [
+            -52.00137151588071,
+            -47.84085256104874
+          ]
+        },
+        "retreat": {
+          "ids": [
+            "10763",
+            "11288",
+            "11332",
+            "12348"
+          ],
+          "spike_counts": [
+            3,
+            2,
+            2,
+            1
+          ],
+          "sampled_min_voltage_mv": [
+            -56.553965314665156,
+            -56.04467341503128,
+            -58.15857261508061,
+            -57.77548982046921
+          ],
+          "sampled_max_voltage_mv": [
+            -45.497168622325276,
+            -45.689286065447966,
+            -46.67535186082398,
+            -47.31413588021215
+          ]
+        },
+        "escape": {
+          "ids": [
+            "10001",
+            "10010"
+          ],
+          "spike_counts": [
+            0,
+            0
+          ],
+          "sampled_min_voltage_mv": [
+            -61.953492623094405,
+            -65.74255854785609
+          ],
+          "sampled_max_voltage_mv": [
+            -48.3429971807768,
+            -52.0
+          ]
+        }
+      }
+    }
+  },
+  "receptor_output_comparison": {
+    "forward": {
+      "ids": [
+        "10045",
+        "10056"
+      ],
+      "sampled_maximum_absolute_voltage_difference_mv": [
+        8.225804424114614,
+        8.54058238854477
+      ]
+    },
+    "steering": {
+      "ids": [
+        "523769",
+        "10360"
+      ],
+      "sampled_maximum_absolute_voltage_difference_mv": [
+        19.451740449535485,
+        14.782241920576901
+      ]
+    },
+    "retreat": {
+      "ids": [
+        "10763",
+        "11288",
+        "11332",
+        "12348"
+      ],
+      "sampled_maximum_absolute_voltage_difference_mv": [
+        8.659228010640504,
+        10.35658327971084,
+        9.14676565624648,
+        8.442412560911883
+      ]
+    },
+    "escape": {
+      "ids": [
+        "10001",
+        "10010"
+      ],
+      "sampled_maximum_absolute_voltage_difference_mv": [
+        4.522304821136856,
+        9.583034623216335
+      ]
+    }
+  },
+  "visual_and_blocked_body_samples_identical": true,
+  "positive_control_maximum_body_difference_mm": 4.079315859989364,
+  "checks": {
+    "shared_clock": true,
+    "walking_input_generates_drive": true,
+    "motor_blockade_removes_drive": true,
+    "motor_blockade_preserves_neural_state": true,
+    "walking_input_moves_body_through_controller": true
+  },
+  "focused_tests_passed": 2,
+  "native_workflow": {
+    "success": true,
+    "checks": [
+      "native loader selects prepared sources at time zero with the correct visual phase and real OpenGL brain",
+      "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+      "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+      "native full-brain final voltages and counts match the offline replay exactly",
+      "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+    ],
+    "full_brain_endpoint_matches_prior_replay": true,
+    "end_state": {
+      "voltage_sha256": "6d487bea62e74c62f5cd01406cfc667758afead686408ff115a1ee09ae6dd029",
+      "spike_counts_sha256": "b1c98d48a8b596affbba4db89cd222eb518a6230b135a34a5e7340b76698810c"
+    },
+    "visually_checked": "Existing body status shows Movement: waiting for neural drive; approved layout preserved."
+  },
+  "input_sha256": {
+    "report": "107bf2e04f4f2936c5feef8fbe68e96e7829b19e11748cd3d7965eaf2a4aedec",
+    "response": "f3464906162ab8a714c242ae4a49f3ee1c8d99cf48272e22f3ab88f764395a71",
+    "video": "bb046b88cb5a44b827322ee3b9d0d02ca0513dad58cf2d1c970df90c95fc8875",
+    "release_curve": "7ecdd76c0c79ea30f7026016ae089c0fddff4f58f522e74a62202cc56b79efcf",
+    "pack_manifest": "46de501c748c86315e36f759b4b6130f06613c60a80aa8ce68b3dd200a31b5e9"
+  },
+  "implementation_sha256": {
+    "src/nexus/coupled.py": "42f2c4c70f9b948120240a7fd5df719aea9a314a14226e22ceb91deb069ecdea",
+    "src/nexus/app.py": "0b60bafddfeb21c9adb9c04a28dea01c95ee36ff171974eaab7ffec94af42933",
+    "src/nexus/brain/panel.py": "d02543839c7e5a71e07127e747a5d0137fdf54a014834edf1ae779e91fd7dc22",
+    "scripts/probe_visual_motor.py": "02108eba043271647058c1a6f565d94736abadaf7447c8076dd834115ebe0476"
+  },
+  "limits": [
+    "Movement is not a required pass condition for visual input.",
+    "Walking input is a separate positive control, not evidence of visual locomotion.",
+    "Receptor-output blockade includes tonic output; it does not isolate light from darkness.",
+    "Readout voltages and conductances are sampled every 10 ms, not continuously.",
+    "Neural parameters and controller gains remain unfitted; no natural behavior is established.",
+    "This establishes the current recording does not drive walking; it does not fix or validate visually guided locomotion.",
+    "The sampled body movement in the positive control includes all existing motor readouts, not an isolated BDN2-to-muscle pathway.",
+    "No connectome weights, stimulation settings, dynamics, release curves or motor gains changed.",
+    "The final script renames the saved qpos field to physics_qpos; values in the measured run are unchanged.",
+    "Linux source app checked; packaged builds and other operating systems were not rechecked."
+  ]
+}

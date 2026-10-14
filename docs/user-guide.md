@@ -302,6 +302,48 @@ quiet, BDN2 stimulation, BDN2 output blockade, and motor-bridge blockade with th
 seeds. This assay supplies neural input explicitly; successful walking in it does
 not establish autonomous exploration.
 
+### Visual activity without movement
+
+The brain display includes voltage changes throughout the network. Walking
+requires output from the selected descending readouts: BDN2 for forward drive,
+DNa02 for steering, MDN for retreat and giant-fiber cells for the escape proxy.
+Voltage changes below a cell's spike threshold do not generate a motor command.
+The current DNa02 controller scales an existing forward drive, so it cannot
+produce a turn from zero forward drive. These are limited controller mappings;
+they do not cover every biological motor pathway.
+
+In neural walking mode, **Movement: waiting for neural drive** identifies a
+resting motor command. Hover over that label to see forward output and drive.
+The Brain tab's metrics tooltip includes BDN2 voltages and spike counts. Exported
+diagnostics also include the exact IDs, voltages, cumulative counts, output gains
+and excitatory/inhibitory conductances for all four readout groups. Conductance
+fields apply to the extended conductance model; zero values in older current-based
+modes do not mean that those cells receive no synaptic input.
+
+The [focused visual-to-motor check](../experiments/visual-motor-v1-results.json)
+replays the existing eight-receptor recording with 100 ms pre-exposure and a
+500 ms clip through the real brain/body session. Its forward cells receive
+different input when receptor output is blocked, but neither fires in either
+condition. Both bodies remain in the resting pose, with identical tiny physical
+settling. Thus, this recording does **not** demonstrate vision-driven walking.
+
+A separate positive control supplies 100 Hz input to BDN2 from 100–400 ms.
+That run moves the body about 4.08 mm. Disabling the motor bridge preserves the
+exact final neural state while removing the movement. This checks the physical
+connection from neural output to the controller; the supplied input is never
+added automatically to video playback. The release laws, network state and
+motor gains still require calibration. Eight receptors and one short clip do
+not characterize the full eye or all visual stimuli.
+
+To repeat that scoped check with an existing recording of at least 500 ms:
+
+```sh
+python scripts/probe_visual_motor.py \
+  --response receptor-response-folder --video source.mp4 \
+  --release-curve experiments/receptor-release-assay-curve.json \
+  --output-dir new-motor-check-folder
+```
+
 The default neural dataset is **MaleCNS v1.0**, containing **166,700 classified
 neurons** and **25,582,938 directed connections** in the prepared model. The live
 view includes brain and ventral nerve cord (VNC) cell anchors. It displays 140,638

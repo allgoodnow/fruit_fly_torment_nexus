@@ -472,8 +472,16 @@ def main():
                 self.status.setText("Running" if t["running"] else "Paused")
                 behavior = t.get('ground_behavior')
                 if behavior:
+                    label = ('Movement: waiting for neural drive' if behavior['state'] == 'neural idle'
+                             else f"Behavior: {behavior['state']}")
                     self.behavior_status.setText('Body overturned — reposition available in controls'
-                                                if t.get('upright', 1.) < .2 else f"Behavior: {behavior['state']}")
+                                                if t.get('upright', 1.) < .2 else label)
+                    walking = t.get('walking_decoder', {})
+                    self.behavior_status.setToolTip(
+                        f"Forward walking output: {walking.get('rate_hz', 0.):.2f} Hz; drive {walking.get('drive', 0.):.3f}.\n"
+                        'In neural walking mode, only the selected motor readouts command movement. '
+                        'Subthreshold voltage changes do not generate stepping. See Guide.'
+                        if t.get('neural_walking') else '')
                     old_behavior = previous.get('ground_behavior', {})
                     if behavior['state'] != old_behavior.get('state') or t['generation'] != previous.get('generation'):
                         self.log.append(f"BODY {t['sim_time']:.3f}s · {behavior['state']}")
