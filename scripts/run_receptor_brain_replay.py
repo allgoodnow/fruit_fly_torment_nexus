@@ -18,6 +18,7 @@ os.environ.setdefault('MPLCONFIGDIR', str(ROOT/'.runtime/matplotlib'))
 import numpy as np
 from nexus.brain.receptor_release import ReleaseCurve
 from nexus.brain.runtime import Brain, Connectome, DT_MS
+from nexus.receptor_playback import RESPONSE_FORMATS, recording_durations
 
 
 def file_hash(path):
@@ -27,17 +28,23 @@ def file_hash(path):
 
 def load_response(directory, registry_hash):
     report = json.loads((directory/'report.json').read_text())
-    if (report.get('format') != 'nexus-video-phototransduction-1'
+    if (report.get('format') not in RESPONSE_FORMATS
             or report.get('membrane_dt_ms') != DT_MS
             or report.get('registry_sha256') != registry_hash):
         raise ValueError('Replay needs a matching, 0.1 ms video-phototransduction response')
+    duration, prefix = recording_durations(report)
     with np.load(directory/'response.npz', allow_pickle=False) as data:
         ids = data['ids'].tolist()
         voltage = data['voltage_mv'].copy()
+        pre_voltage = data['pre_exposure_voltage_mv'].copy() if prefix else None
     if (ids != [r['id'] for r in report['receptors']]
-            or voltage.shape != (report['exposure_ms'] * 10, len(ids))
+            or voltage.shape != (duration * 10, len(ids))
             or not np.isfinite(voltage).all()):
         raise ValueError('Response IDs or voltage dimensions disagree with their report')
+    if prefix:
+        if pre_voltage.shape != (prefix*10, len(ids)) or not np.isfinite(pre_voltage).all():
+            raise ValueError('Invalid recorded pre-exposure voltage')
+        voltage = np.concatenate((pre_voltage, voltage))
     return ids, voltage, report
 
 
@@ -166,9 +173,12 @@ def main():
         pre = report.get('pre_exposure', {})
         duration = pre.get('duration_ms', 0)
         conditioning.append((duration, pre.get('absorbed_rate_hz', 0.) if duration else 0.,
-                             pre.get('photon_seeds', []) if duration else []))
+                             pre.get('photon_seeds', []) if duration else [], recording_durations(report)[1]))
     if conditioning[0] != conditioning[1] or not np.array_equal(*initial):
         raise ValueError('Video and darkness controls must share the same receptor pre-exposure and initial voltages')
+    prefix_ms = recording_durations(video_report)[1]
+    if prefix_ms and not np.array_equal(voltage[:prefix_ms*10], dark_voltage[:prefix_ms*10]):
+        raise ValueError('Video and darkness controls must replay identical pre-exposure traces')
     preview = Brain(graph)
     preview.set_graded_relays(True)
     preview.configure_receptor_replay(ids, reference_mv=curve.reference_mv, initial_voltage_mv=initial[0])
@@ -213,6 +223,7 @@ def main():
     report = {'format': 'nexus-receptor-brain-replay-1', 'success': all(checks.values()),
               'dataset': graph.snapshot, 'neurons': len(graph.ids), 'edges': len(graph.posts),
               'duration_ms': len(voltage)*DT_MS, 'receptor_ids': ids, 'receptor_count': len(ids),
+              'video_start_ms': prefix_ms, 'video_duration_ms': video_report['exposure_ms'],
               'registry_sha256': registry_hash, 'manifest_sha256': file_hash(args.pack/'manifest.json'),
               'input_hashes': {kind: {name: file_hash(directory/name) for name in ('response.npz', 'report.json')}
                                for kind, directory in [('video', args.video_response), ('dark', args.dark_response)]},

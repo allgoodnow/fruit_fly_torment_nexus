@@ -79,6 +79,8 @@ def main():
                         help='Condition the same receptors before the clip; zero disables it')
     parser.add_argument('--pre-exposure-rate-hz', type=float, default=0.,
                         help='Constant assumed absorbed photons/s during pre-exposure; zero is darkness')
+    parser.add_argument('--replay-pre-exposure', action='store_true',
+                        help='Save the pre-interval for continuous brain/body playback before the clip')
     parser.add_argument('--seed', type=int, default=88300)
     parser.add_argument('--backend', choices=('cpu', 'cuda'), default='cpu')
     parser.add_argument('--batch-cells', type=int, choices=range(1, 9), default=8,

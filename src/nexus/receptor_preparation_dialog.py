@@ -7,7 +7,7 @@ import time
 from uuid import uuid4
 
 from PySide6.QtCore import QTimer
-from PySide6.QtWidgets import (QComboBox, QDialog, QDoubleSpinBox, QFileDialog,
+from PySide6.QtWidgets import (QCheckBox, QComboBox, QDialog, QDoubleSpinBox, QFileDialog,
                                QFormLayout, QHBoxLayout, QLabel, QLineEdit,
                                QProgressBar, QPushButton, QSpinBox, QVBoxLayout, QWidget)
 
@@ -58,13 +58,13 @@ class ReceptorPreparationDialog(QDialog):
         self.duration.setRange(1, 60000)
         self.duration.setValue(500)
         self.duration.setSuffix(' ms')
-        form.addRow('Recording duration', self.duration)
+        form.addRow('Video duration', self.duration)
         self.pre_duration = QSpinBox()
         self.pre_duration.setRange(0, 60000)
         self.pre_duration.setSuffix(' ms')
         self.pre_duration.setSpecialValueText('None')
         self.pre_duration.setToolTip('Run the same receptors before the clip, retaining their state. '
-                                     'This adds preparation time; it does not advance the brain or body.')
+                                     'Preparation keeps brain and body paused; the saved history can be replayed below.')
         form.addRow('Pre-exposure duration', self.pre_duration)
         self.pre_rate = QDoubleSpinBox()
         self.pre_rate.setRange(0., 1000000.)
@@ -74,6 +74,12 @@ class ReceptorPreparationDialog(QDialog):
                                  'Zero gives a dark interval; no equilibrium is assumed.')
         self.pre_duration.valueChanged.connect(lambda value: self.pre_rate.setEnabled(value > 0))
         form.addRow('Pre-exposure (photons/s)', self.pre_rate)
+        self.replay_pre = QCheckBox('Replay pre-exposure through the brain')
+        self.replay_pre.setEnabled(False)
+        self.replay_pre.setToolTip('Play the recorded pre-interval before the video on the shared brain/body clock. '
+                                   'Keep neural and synaptic state at the transition. See Guide.')
+        self.pre_duration.valueChanged.connect(lambda value: self.replay_pre.setEnabled(value > 0))
+        form.addRow(self.replay_pre)
         self.white = QDoubleSpinBox()
         self.white.setRange(0., 1000000.)
         self.white.setDecimals(2)
@@ -110,6 +116,8 @@ class ReceptorPreparationDialog(QDialog):
                         'Exposure and release are uncalibrated assumptions. See Guide.')
         layout.addWidget(note)
         self.coverage.currentIndexChanged.connect(self.update_duration_limit)
+        self.pre_duration.valueChanged.connect(self.update_duration_limit)
+        self.replay_pre.toggled.connect(self.update_duration_limit)
         self.update_duration_limit()
         self.progress = QProgressBar()
         self.progress.setRange(0, self.duration.value())
@@ -135,10 +143,11 @@ class ReceptorPreparationDialog(QDialog):
 
     def update_duration_limit(self):
         cells = {'sample8': 8, 'sample64': 64, 'mapped': self.mapped_cells}[self.coverage.currentData()]
-        # Retain the existing duration budget: playback now uses a temporary
-        # voltage file and short windows rather than two full resident arrays.
-        self.duration.setMaximum(min(60000, (512*1024**2)//(cells*10*8)))
-        self.duration.setToolTip('Duration limits the temporary playback voltage file to 512 MiB. '
+        budget = (512*1024**2)//(cells*10*8)
+        self.pre_duration.setMaximum(min(60000, budget-1) if self.replay_pre.isChecked() else 60000)
+        prefix = self.pre_duration.value() if self.replay_pre.isChecked() else 0
+        self.duration.setMaximum(min(60000, budget-prefix))
+        self.duration.setToolTip('Video plus any replayed pre-exposure limits temporary playback voltage to 512 MiB. '
                                  'More receptors require more preparation time. See Guide.')
 
     def choose_curve(self):
@@ -164,6 +173,7 @@ class ReceptorPreparationDialog(QDialog):
                     'white_rate_hz': self.white.value(), 'black_rate_hz': self.black.value(),
                     'transfer': self.transfer.currentData(), 'duration_ms': self.duration.value(),
                     'pre_exposure_ms': self.pre_duration.value(), 'pre_exposure_rate_hz': self.pre_rate.value(),
+                    'replay_pre_exposure': self.replay_pre.isChecked(),
                     'coverage': self.coverage.currentData(),
                     'backend': self.backend.currentData(), 'seed': self.seed.value(),
                     'release_curve': self.curve.text()}
@@ -232,9 +242,13 @@ class ReceptorPreparationDialog(QDialog):
                 self._terminal = True
                 if not self.cancel_requested:
                     self.result_files = {k: event[k] for k in ('report_path', 'curve_path')}
-                    self.progress.setRange(0, event['exposure_ms'])
-                    self.progress.setValue(event['exposure_ms'])
-                    self._ready_status = f"Ready · {event['exposure_ms']} ms · {event['cells']} receptors"
+                    total_ms = event.get('playback_duration_ms', event['exposure_ms'])
+                    prefix_ms = total_ms-event['exposure_ms']
+                    self.progress.setRange(0, total_ms)
+                    self.progress.setValue(total_ms)
+                    duration = (f"{prefix_ms} ms pre + {event['exposure_ms']} ms video" if prefix_ms
+                                else f"{event['exposure_ms']} ms")
+                    self._ready_status = f"Ready · {duration} · {event['cells']} receptors"
                     self.status.setText('Response saved · waiting for the worker to finish…')
             elif kind == 'cancelled':
                 self._terminal = True

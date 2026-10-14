@@ -146,3 +146,63 @@ def test_native_loader_and_vision_controls_follow_prepared_state(prepared_sessio
     assert vision_panel.mapping.currentData() == 'pooled' and brain_panel.graded.isEnabled()
     brain_panel.close()
     vision_panel.close()
+
+
+def test_connected_pre_exposure_preserves_brain_state_and_delays_the_video(prepared_session):
+    app = QApplication.instance() or QApplication([])
+    session, files, voltage = prepared_session
+    path = Path(files['report_path'])
+    report = json.loads(path.read_text())
+    prefix = np.full((750, 2), -60.)  # 75 ms: transition between video sampling boundaries.
+    report.update(format='nexus-video-phototransduction-2', playback_duration_ms=275,
+                  pre_exposure={'duration_ms': 75, 'feeds_brain': True}, initial_voltage_mv=[-70., -70.])
+    path.write_text(json.dumps(report))
+    np.savez_compressed(path.parent/'response.npz', ids=np.asarray(['13', '14']),
+                        voltage_mv=voltage, pre_exposure_voltage_mv=np.asfortranarray(prefix))
+    session.command('vision_receptors', files)
+    playback = session.eyes.receptors
+    handles = playback._recording.file, playback._pre_recording.file
+    assert playback.end == 2750 and playback.in_pre_exposure
+    panel = VisionPanel()
+    panel.resize(500, 240)
+    packet = session.snapshot()
+    panel.update_snapshot(packet['brain']['eye_feedback'], packet['vision_pixels'], False)
+    assert 'Pre-exposure' in panel.status.text() and panel.preview.image is None
+    assert panel.preview.placeholder == 'Pre-exposure'
+    session.command('eye_feedback', True)
+    session.advance(350)
+    assert session.brain.step == 350 and session.eyes.preview is None
+    held = session.brain.v.copy()
+    session.command('neural_release')
+    session.advance(200)
+    assert session.brain.step == 350
+    np.testing.assert_array_equal(session.brain.v, held)
+    session.command('eye_feedback', True)
+    session.advance(400)
+
+    reference = replay_model()
+    reference.configure_receptor_replay(playback.ids, reference_mv=playback.curve.reference_mv)
+    reference.advance(.075, receptor_voltage_mv=prefix, receptor_release_hz=playback.curve.evaluate(prefix))
+    state_fields = ('v', 'g', 'histamine_g', 'excitation_g', 'counts', 'refractory', 'last_spike',
+                    'queue', 'queue_size', 'graded_queue', 'receptor_queue')
+    for key in state_fields:
+        np.testing.assert_array_equal(getattr(session.brain, key), getattr(reference, key))
+    assert session.body.time == pytest.approx(.075)
+    assert playback.snapshot()['phase'] == 'video' and playback.snapshot()['video_position_ms'] == 0
+
+    blocked = replay_model()
+    blocked.configure_receptor_replay(playback.ids, reference_mv=playback.curve.reference_mv)
+    blocked.silence(playback.ids)
+    blocked.advance(.075, receptor_voltage_mv=prefix, receptor_release_hz=playback.curve.evaluate(prefix))
+    assert np.max(np.abs(reference.v[~reference.receptor_mask]-blocked.v[~blocked.receptor_mask])) > .01
+
+    session.advance(2000)
+    reference.advance(.2, receptor_voltage_mv=voltage, receptor_release_hz=playback.curve.evaluate(voltage))
+    for key in state_fields:
+        np.testing.assert_array_equal(getattr(session.brain, key), getattr(reference, key))
+    assert playback.ended and session.body.time == pytest.approx(.275)
+    assert playback.snapshot()['video_position_ms'] == 200 and session.eyes.video.index == 3
+    assert not session.brain.counts[session.brain.receptor_indices].any()
+    session.command('reset')
+    assert all(handle.closed for handle in handles)
+    panel.close()

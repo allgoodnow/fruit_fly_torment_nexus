@@ -59,7 +59,8 @@ def test_cpu_preparation_publishes_a_loadable_molecular_recording(preparation_pa
     prepared.close()
 
 
-def test_pre_exposure_continues_the_same_molecular_state_into_the_video(preparation_pack, movie, tmp_path):
+@pytest.mark.parametrize('replay_pre', [False, True])
+def test_pre_exposure_continues_the_same_molecular_state_into_the_video(preparation_pack, movie, tmp_path, replay_pre):
     from nexus.brain.phototransduction_parallel import ParallelPhototransduction
     from nexus.photon_input import PhotonExposure, VideoPhotonInput
 
@@ -68,14 +69,15 @@ def test_pre_exposure_continues_the_same_molecular_state_into_the_video(preparat
     report = prepare_response(video=movie, pack=preparation_pack, output_dir=output,
                               white_rate_hz=30000., transfer='srgb', duration_ms=150,
                               receptor_ids=['13'], release_curve=CURVE, progress=progress.append,
-                              pre_exposure_ms=100, pre_exposure_rate_hz=30000.)
+                              pre_exposure_ms=100, pre_exposure_rate_hz=30000., replay_pre_exposure=replay_pre)
     pre = report['pre_exposure']
-    assert pre['duration_ms'] == 100 and not pre['feeds_brain'] and not pre['equilibrium_assumed']
+    assert pre['duration_ms'] == 100 and pre['feeds_brain'] == replay_pre and not pre['equilibrium_assumed']
     assert [p['elapsed_ms'] for p in progress if p['phase'] == 'pre_exposure'] == [50, 100]
     work = [p['work_done'] for p in progress if 'work_done' in p]
     assert work == sorted(work) and work[-1] == 250
     with np.load(output/'response.npz') as data:
         channels, voltage, photons = [data[key].copy() for key in ('open_channels', 'voltage_mv', 'absorbed_photons')]
+        pre_voltage = data['pre_exposure_voltage_mv'].copy() if replay_pre else None
     assert voltage.shape == (1500, 1) and not photons[:100].any()
     assert channels[0, 0] > 0  # Ongoing response into the initially dark clip.
 
@@ -84,8 +86,13 @@ def test_pre_exposure_continues_the_same_molecular_state_into_the_video(preparat
     exposure = PhotonExposure(pre['photon_seeds'], white_rate_hz=pre['absorbed_rate_hz'])
     pre_photons = exposure.advance(np.ones((100, 1)))
     model = ParallelPhototransduction(seed=report['cascade_seeds'][0])
-    model.advance(pre_photons[:, 0])
-    np.testing.assert_array_equal(model.membrane.state[:, 0], report['initial_voltage_mv'])
+    before = model.advance(pre_photons[:, 0])
+    np.testing.assert_array_equal(model.membrane.state[:, 0], report['video_initial_voltage_mv'])
+    if replay_pre:
+        np.testing.assert_array_equal(pre_voltage[:, 0], before['voltage_mv'])
+        np.testing.assert_array_equal(report['initial_voltage_mv'], [-70.])
+    else:
+        np.testing.assert_array_equal(model.membrane.state[:, 0], report['initial_voltage_mv'])
     assert model.events == pre['molecular_events'][0]
     assert int(pre_photons.sum()) == pre['absorbed_photons'][0]
     expected = model.advance(photons[:, 0])
@@ -108,7 +115,11 @@ def test_pre_exposure_continues_the_same_molecular_state_into_the_video(preparat
                                         initial_voltage_mv=prepared.initial_voltage_mv)
         assert brain.step == 0
         np.testing.assert_array_equal(brain.v[brain.receptor_indices], report['initial_voltage_mv'])
-        brain.advance(.15, **prepared.input(0, 1500))
+        assert prepared.video_start == (1000 if replay_pre else 0)
+        supplied = prepared.input(0, prepared.end)
+        np.testing.assert_array_equal(supplied['receptor_voltage_mv'],
+                                      np.concatenate((pre_voltage, voltage)) if replay_pre else voltage)
+        brain.advance(prepared.end*.0001, **supplied)
         prepared.after_step(brain)
         assert prepared.ended and not brain.counts[brain.receptor_indices].any()
     finally:

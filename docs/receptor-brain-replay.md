@@ -51,10 +51,13 @@ explicit display reference, not a claim that the published membrane initial
 condition is an equilibrated dark state. Telemetry uses that reference for
 these cells so that an initial −70 mV receptor is not falsely shown as
 hyperpolarized relative to the rest of the LIF network's −52 mV baseline.
-For recordings prepared with prior exposure, sources start at the saved
-pre-exposure endpoint voltage; the declared display reference is unchanged.
-The rest of the network has no pre-exposure history. Its delayed synaptic
-queues start empty, as before.
+With receptor-only prior exposure, sources start at its saved endpoint voltage
+and the rest of the network has no prior history. With
+[connected pre-exposure playback](video-phototransduction.md#connected-pre-exposure-playback),
+the saved pre-interval drives the same network before the clip, preserving
+conductances, spikes and delayed queues into video onset. The declared display
+reference is unchanged. Network queues start empty only at the beginning of
+the complete recording; the video transition does not clear them.
 
 Release is sampled at the end of each complete millisecond. A packet is
 `release_equivalent_hz × 0.001`, follows the existing outgoing edges and uses
@@ -74,8 +77,10 @@ First generate a video response and a matched darkness response with the
 [video runner](video-phototransduction.md), using the same clip, duration,
 receptor IDs and seed. For darkness set both absorbed-photon rates to zero.
 If using [pre-exposure](video-phototransduction.md#exposure-history-before-a-clip),
-use identical pre-exposure duration and rate in both conditions. The runner
-checks matching histories and initial voltages before replay.
+use identical pre-exposure duration, rate and replay option in both conditions.
+The runner checks matching histories, initial voltages and any saved prefix
+traces before replay. Its time axis includes a replayed prefix, and the report
+identifies video onset separately.
 Then run:
 
 ```sh
@@ -139,8 +144,8 @@ all 3,155 R1–R6 cells with image coordinates using sequential independent grou
 and disk traces. It excludes the 222 cells without those coordinates and does
 not add complete optics or physiological calibration.
 
-Native playback now extracts the voltage trace into an automatically removed
-temporary file, validates the full recording against the release curve, and
+Native playback now extracts video and any saved pre-exposure voltage traces
+into automatically removed temporary files, validates the full recording against the release curve, and
 keeps only the current 50 ms voltage/release window in ordinary app use.
 Earlier row-ordered and newer column-ordered archives use the same values.
 No sampling, precision, curve or neural timing changes accompany this storage

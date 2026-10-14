@@ -1355,6 +1355,7 @@ def main():
                     pre = settings.get('pre_exposure', {})
                     dialog.pre_duration.setValue(pre.get('duration_ms', 0))
                     dialog.pre_rate.setValue(pre.get('absorbed_rate_hz', 0.))
+                    dialog.replay_pre.setChecked(pre.get('feeds_brain', False))
                     dialog.white.setValue(settings['white_rate_hz'])
                     dialog.black.setValue(settings['black_rate_hz'])
                     dialog.transfer.setCurrentIndex(dialog.transfer.findData(settings['transfer']))
@@ -1385,7 +1386,7 @@ def main():
                 with np.load(args.receptor_test_report.parent/'response.npz', allow_pickle=False) as reference:
                     with np.load(generated_path.parent/'response.npz', allow_pickle=False) as generated:
                         exact = {key: bool(np.array_equal(reference[key], generated[key]))
-                                 for key in ('ids', 'intensity', 'absorbed_photons', 'open_channels', 'voltage_mv')}
+                                 for key in reference.files}
                 if (not all(exact.values()) or t['sim_time'] != 0 or self.telemetry['sim_time'] != 0
                         or t['running'] or dialog.poll_count < 2 or not dialog.load_button.isEnabled()):
                     self.smoke_finish(False)
@@ -1413,14 +1414,15 @@ def main():
                 active_context = bool(GetCurrentContext())
                 self.brain_view.gl.doneCurrent()
                 if (t['running'] or t['sim_time'] != 0 or self.vision_panel.mapping.currentData() != 'receptor_replay'
-                        or not self.brain_view.gl.isValid() or not active_context or self.vision_panel.preview.image is None):
+                        or not self.brain_view.gl.isValid() or not active_context
+                        or (self.vision_panel.preview.image is None) != (replay.get('phase') == 'pre_exposure')):
                     self.smoke_finish(False)
                     return
-                self.smoke_checks.append('native loader selects prepared sources at time zero with a video preview and real OpenGL brain')
+                self.smoke_checks.append('native loader selects prepared sources at time zero with the correct visual phase and real OpenGL brain')
                 self.vision_panel.feed.setChecked(True)
                 self.send('running', True)
                 self.smoke_stage = 3
-            elif self.smoke_stage == 3 and t['sim_time'] >= min(.15, replay['duration_ms']/3000):
+            elif self.smoke_stage == 3 and t['sim_time'] >= min(.15, (replay.get('video_start_ms') or replay['duration_ms'])/3000):
                 if 'VISION' not in self.stimulation_banner.labels or not self.brain_view.voltage_count:
                     self.smoke_finish(False)
                     return

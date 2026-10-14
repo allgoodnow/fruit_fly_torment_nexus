@@ -144,13 +144,15 @@ class EyeFeedback:
             raise
         self.configure(False)
         self.receptors = candidate
+        if candidate.video_start:
+            self.preview = None
         self.mapping_mode = 'receptor_replay'
         self.adaptive = False
         self.adaptation.reset()
         self.sample_step = None
         self.samples = 0
         self.brightness = None
-        self.video_origin = 0
+        self.video_origin = candidate.video_start
 
     def brain_input(self, ticks):
         return self.receptors.input(self.brain.step, ticks) if self.receptors is not None else {}
@@ -174,8 +176,17 @@ class EyeFeedback:
             if not self.enabled or self.receptors.ended:
                 return 0
             if self.brain.step >= self.next_sample:
+                if self.brain.step < self.receptors.video_start:
+                    self.preview = None
+                    self.brightness = None
+                    self.sample_step = self.brain.step
+                    self.next_sample = min((self.brain.step // SAMPLE_TICKS + 1) * SAMPLE_TICKS,
+                                           self.receptors.video_start)
+                    self.samples += 1
+                    return min(step, self.next_sample-self.brain.step)
+                video_step = self.brain.step-self.receptors.video_start
                 try:
-                    frame = self.video.frame_at(self.brain.step // SAMPLE_TICKS)
+                    frame = self.video.frame_at(video_step // SAMPLE_TICKS)
                 except ValueError as error:
                     self.configure(False)
                     self.error = str(error)
@@ -187,7 +198,7 @@ class EyeFeedback:
                 self.preview = frame
                 self.brightness = [float(frame.mean()/255.)] * 2
                 self.sample_step = self.brain.step
-                self.next_sample = (self.brain.step // SAMPLE_TICKS + 1) * SAMPLE_TICKS
+                self.next_sample = self.receptors.video_start + (video_step // SAMPLE_TICKS + 1) * SAMPLE_TICKS
                 self.samples += 1
             return min(step, self.next_sample - self.brain.step, self.receptors.end - self.brain.step)
         if not self.enabled:

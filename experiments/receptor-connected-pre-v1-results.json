@@ -1,0 +1,155 @@
+{
+  "format": "nexus-receptor-connected-pre-1",
+  "success": true,
+  "baseline_commit": "e5a03e2a6fac1359d9c394c4462b54c6994f248d",
+  "exposure": {
+    "video_ms": 500,
+    "pre_exposure_ms": 100,
+    "pre_exposure_absorbed_rate_hz": 30000.0,
+    "replay_pre_exposure": true,
+    "cells": 8,
+    "microvilli_per_receptor": 30000,
+    "video_white_rate_hz": 30000.0,
+    "video_black_rate_hz": 0.0,
+    "transfer": "srgb",
+    "root_seed": 88300
+  },
+  "gpu_preparation": {
+    "success": true,
+    "matches_previous_video_arrays": {
+      "ids": true,
+      "intensity": true,
+      "absorbed_photons": true,
+      "open_channels": true,
+      "voltage_mv": true
+    },
+    "pre_shape": [
+      1000,
+      8
+    ],
+    "initial_voltage_mv": [
+      -70.0,
+      -70.0,
+      -70.0,
+      -70.0,
+      -70.0,
+      -70.0,
+      -70.0,
+      -70.0
+    ],
+    "video_initial_voltage_mv": [
+      -60.26034039214537,
+      -59.6925922020809,
+      -59.903014921080505,
+      -60.73363646946383,
+      -61.073067030380734,
+      -62.00330412833966,
+      -61.01605923782934,
+      -59.86597746257012
+    ],
+    "playback_duration_ms": 600,
+    "pre_voltage_range_mv": [
+      -70.08358836255175,
+      -58.9043432036644
+    ]
+  },
+  "continuous_connectome_replay": {
+    "success": true,
+    "duration_ms": 600,
+    "video_start_ms": 100,
+    "wall_seconds": 7.094890442000178,
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "total_spikes": 23793,
+    "release_equivalent_hz_range": [
+      4.9582058187241245,
+      21.095656796335597
+    ],
+    "pre_exposure_output_blockade_comparison_at_video_start": {
+      "non_source_cells_changed_at_least_0_01_mv": 31361,
+      "maximum_voltage_difference_mv": 6.9963154345598895,
+      "non_source_cells_with_different_spike_counts": 37
+    },
+    "end_state": {
+      "voltage_sha256": "6d487bea62e74c62f5cd01406cfc667758afead686408ff115a1ee09ae6dd029",
+      "spike_counts_sha256": "b1c98d48a8b596affbba4db89cd222eb518a6230b135a34a5e7340b76698810c"
+    }
+  },
+  "focused_tests": {
+    "unique_cases_passed": 6,
+    "initial_run_passed": 5,
+    "after_label_edits_passed": 2,
+    "note": "The connected 75 ms playback case was repeated after its preview-label assertion changed.",
+    "cases": [
+      "CPU molecular state and clip continuity with receptor-only pre-exposure.",
+      "CPU molecular state, saved prefix, initial voltages and combined replay with connected pre-exposure.",
+      "75 ms prefix, pause/release/resume, exact neural state at video onset and endpoint, output dependence, frame timing and reset.",
+      "Existing shared-clock playback with row-ordered voltage archives.",
+      "Existing shared-clock playback with column-ordered voltage archives.",
+      "Spawned CPU preparation completes without a progress reader and leaves a loadable persistent outcome."
+    ]
+  },
+  "native_workflow": {
+    "success": true,
+    "checks": [
+      "native preparation runs separately with progress while body and brain stay at time zero",
+      "prepared IDs, intensities, photons, channels and voltage match the previous offline recording exactly",
+      "native loader selects prepared sources at time zero with the correct visual phase and real OpenGL brain",
+      "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+      "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+      "native full-brain final voltages and counts match the offline replay exactly",
+      "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+    ],
+    "generated_response_arrays_match_offline": {
+      "ids": true,
+      "intensity": true,
+      "absorbed_photons": true,
+      "open_channels": true,
+      "voltage_mv": true,
+      "pre_exposure_voltage_mv": true
+    },
+    "pre_exposure_and_initial_metadata_match_offline": true,
+    "preparation_kept_both_clocks_at_zero": true,
+    "pause_and_release_time_s": 0.05,
+    "brain_time_s": 0.6,
+    "body_time_s": 0.6,
+    "video_position_ms": 500.0,
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "total_spikes": 23793,
+    "end_state": {
+      "voltage_sha256": "6d487bea62e74c62f5cd01406cfc667758afead686408ff115a1ee09ae6dd029",
+      "spike_counts_sha256": "b1c98d48a8b596affbba4db89cd222eb518a6230b135a34a5e7340b76698810c"
+    },
+    "note": "Native model workflow ran before final duration and preview placeholder wording changes; those labels were checked separately."
+  },
+  "final_dialog_label_check": {
+    "success": true,
+    "method": "offscreen dialog with a completed-worker stand-in and durations from the measured recording",
+    "status": "Ready \u00b7 100 ms pre + 500 ms video \u00b7 8 receptors",
+    "progress_total_ms": 600,
+    "load_enabled": true
+  },
+  "implementation_sha256": {
+    "src/nexus/receptor_preparation.py": "0a9b2299f79c3ee6cbe4102b411a1d98da21e80a85ecc4ca9608f5d326e6f75c",
+    "src/nexus/receptor_preparation_dialog.py": "d430437bf2a698250a1ee4b4f60a04e3158a8a590fa6dacd489725bb2185bbac",
+    "src/nexus/receptor_playback.py": "873870dfc78936623755f984713c6331637bf8386e24236a692f43a4b632ec45",
+    "src/nexus/vision.py": "736a502b02bfa951b765db2d9c3505f53ac442e1bf57dd5a53350238304e1e6f",
+    "src/nexus/vision_panel.py": "b414b01900c9b6ff2c2397f560e637d953a10992223df1490e0c89ad33c69e57",
+    "src/nexus/brain/runtime.py": "01a1d7e23a3b55a7578b818628b20903737e037324eec251c89c30aec99663af",
+    "scripts/run_receptor_brain_replay.py": "e66e211cdbef7db995b135405a307a29a50a832d193ce086beba939b415d242a",
+    "scripts/run_video_phototransduction.py": "9c8beadefd6ee310a610a1fa821e8326c957f3b5c8c2e6f9867669cbaac64ba4",
+    "src/nexus/app.py": "2d7276ed202178ce275e04ea5eb9cd4da7eff147e42b67a346d57e63b9671389",
+    "tests/test_receptor_preparation.py": "9b06edbb6bd7e2f52b212d72fdd04c2728ef7c927c6a8253a4ed43cf8d5a8d41",
+    "tests/test_receptor_playback.py": "6f9998a05090d82fa30180a25183936b26949da98dd33fff5b7423effccc2086"
+  },
+  "limits": [
+    "A single short exposure history; no equilibrium or physiological baseline calibration.",
+    "Molecular equations, release curve, relay laws, connectome weights and neural integration are unchanged.",
+    "The prefix is replayed through actual modeled outgoing connections. Its blockade comparison includes tonic output and initial transients; it does not isolate a light-specific response.",
+    "Downstream differences may include recurrent amplification, spike threshold crossings and resets; their extent is not a validated biological response map.",
+    "Only eight selected receptors in the full-connectome native demonstration; no new all-mapped coverage performance claim.",
+    "No live molecular integration or feedback into clamped receptors. Motor-to-body coupling remains engineered.",
+    "Linux source application checked; no new packaged-build, macOS or Windows verification."
+  ]
+}

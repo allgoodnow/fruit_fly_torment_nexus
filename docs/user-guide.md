@@ -161,8 +161,9 @@ uses every receptor with image coordinates. Each cell has its own full
 keep molecular memory bounded. The 222 eye-cohort cells without coordinates
 remain outside this video mapping; all mapped coverage is not a complete eye.
 More cells take longer to prepare, even on CUDA. The existing duration limits
-remain: up to 2,127 ms for all mapped cells in this pack. They now bound the
-temporary playback voltage file to 512 MiB; playback keeps a short window of
+remain: up to 2,127 ms of video plus any replayed pre-exposure for all mapped
+cells in this pack. They bound combined
+temporary playback voltage storage to 512 MiB; playback keeps a short window of
 voltage and release in memory. White defaults to the existing assay's 30,000
 absorbed photons/s and black to zero; sRGB is a visible assumed transfer. These
 editable values are experimental settings, not illumination measured from the
@@ -173,10 +174,18 @@ it remains an explicit choice. Its exact bytes are saved with the response.
 Leave it at **None** for the previous starting state. With a positive duration,
 choose the assumed pre-exposure photons/s: zero gives darkness, a positive
 rate gives constant illumination. Molecular reactions and membrane state carry
-through to the video, which still starts at time zero. This adds preparation
-time. It conditions only receptors, does not warm up the rest of the brain,
-and does not assert that the cells have reached equilibrium. Settings and
-starting voltages are saved with the recording. See
+through to the video. This adds preparation time. By default it conditions
+only receptors, while the brain starts fresh when playback begins.
+
+Enable **Replay pre-exposure through the brain** to include that recorded
+interval in playback. It drives the existing synapses before the first video
+frame, with brain and body advancing together. Voltage, conductance, spike
+counts and pending synaptic events carry into the video without reset. For a
+100 ms pre-exposure and 500 ms clip, the app runs for 600 ms; the video begins
+at brain time 100 ms. The vision panel labels the pre-exposure phase and leaves
+its image empty until the video starts. Pause and release work in both phases.
+Neither mode asserts that the network has reached equilibrium or a calibrated
+natural baseline. Settings and starting voltages are saved with the recording. See
 [exposure history](video-phototransduction.md#exposure-history-before-a-clip).
 
 Jobs save new subfolders under `receptor-responses` in the app's local data
@@ -186,12 +195,12 @@ runner below remains available for explicit receptor IDs and plotting. The
 released 1.1.1 archive does not yet include the preparation dialog.
 
 Loading validates every voltage against the chosen release curve before the
-simulation can start. It extracts only the voltage trace into a temporary file
+simulation can start. It extracts video and any replayed pre-exposure voltages into temporary files
 and calculates release as each 50 ms playback window is read. With 3,155 cells,
 the two window arrays together use about 24.1 MiB, excluding the brain, other
 working memory and operating-system file caching. The complete recording is
 not duplicated in memory. Reset, normal shutdown and rejected loads close the
-temporary file; the saved response remains available. Temporary storage uses
+temporary files; the saved response remains available. Temporary storage uses
 the system's temporary directory (configurable with `TMPDIR` before launch);
 it needs room for the uncompressed voltage trace. On systems with a memory-backed
 temporary directory, that storage also consumes system memory.

@@ -8,6 +8,7 @@ class VisionPreview(QWidget):
     def __init__(self):
         super().__init__()
         self.image = None
+        self.placeholder = 'No visual input'
         self.setMinimumSize(240, 135)
 
     def paintEvent(self, event):
@@ -15,7 +16,7 @@ class VisionPreview(QWidget):
         painter.fillRect(self.rect(), Qt.GlobalColor.white)
         if self.image is None:
             painter.setPen(Qt.GlobalColor.black)
-            painter.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, 'No visual input')
+            painter.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, self.placeholder)
         else:
             size = self.image.size().scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio)
             x, y = (self.width() - size.width()) // 2, (self.height() - size.height()) // 2
@@ -108,6 +109,8 @@ class VisionPanel(QWidget):
                                         QImage.Format.Format_RGB888).copy()
         else:
             self.preview.image = None
+        self.preview.placeholder = ('Pre-exposure' if prepared and replay.get('phase') == 'pre_exposure'
+                                    else 'No visual input')
         self.preview.update()
         name = state.get('video_name') if video else 'Left / right eyes'
         status = 'Ended' if state.get('video_ended') or replay.get('ended') else 'Playing' if state.get('enabled') and running else 'Paused'
@@ -117,6 +120,10 @@ class VisionPanel(QWidget):
         text = status + position + (' · ' + name if video and name else '')
         if prepared:
             text = f"{status} · {replay['position_ms']/1000:.2f} / {replay['duration_ms']/1000:.2f} s · {replay['cells']} receptors"
+            if replay.get('phase') == 'pre_exposure':
+                text = f"{status} · Pre-exposure {replay['position_ms']/1000:.2f} / {replay['video_start_ms']/1000:.2f} s"
+            elif replay.get('video_start_ms', 0):
+                text = f"{status} · Video {replay['video_position_ms']/1000:.2f} / {replay['video_duration_ms']/1000:.2f} s"
         self.status.setText(self.status.fontMetrics().elidedText(text, Qt.TextElideMode.ElideMiddle,
                                                                max(180, self.width() - 16)))
         self.status.setToolTip(state.get('error') or ('Prepared receptor recording · ' + (name or '') +

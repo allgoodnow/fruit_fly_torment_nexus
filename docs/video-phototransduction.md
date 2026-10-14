@@ -80,7 +80,7 @@ photon counts identical for the same video settings and root seed. Responses
 can differ because the receptor starts with a different history; this includes
 the membrane's evolution as well as the cascade and its random-state evolution.
 
-Video time still starts at zero. Only video-era traces are saved in
+Video time still starts at zero. By default, only video-era traces are saved in
 `response.npz`. The report records pre-exposure duration, rate, photon seeds,
 realized photon totals, molecular event totals and the actual initial receptor
 voltages. Per-receptor `molecular_events` continues to count video-era events;
@@ -88,12 +88,58 @@ pre-exposure events are recorded separately. Playback starts the selected
 sources at their saved initial voltages. Older reports retain their declared
 reference-voltage start.
 
-Pre-exposure conditions **receptors only**. It neither advances the brain/body
-clock nor supplies prior release to downstream neurons. Those neurons still
-start at the existing model state, so this does not remove network startup
-transients or establish a physiological whole-brain baseline. The offline
-video/dark comparison requires matching conditioning and initial voltages.
-Compute time grows with pre-exposure duration, including at a zero photon rate.
+Without the additional replay option, pre-exposure conditions **receptors only**.
+Downstream cells start fresh when the clip is played. Compute time grows with
+pre-exposure duration, including at a zero photon rate.
+
+### Connected pre-exposure playback
+
+Add `--replay-pre-exposure`, or enable **Replay pre-exposure through the brain**
+in the preparation dialog, to save the actual pre-interval voltage trace and
+play it through the existing release curve and connectome before the clip.
+The same brain and body continue across the transition. There is no reset,
+clock rewind, synthetic downstream activation or replacement of pending
+synaptic events. Preparation itself still leaves the brain/body clock at zero;
+the recorded history is applied only during playback.
+
+With 100 ms of replayed pre-exposure and a 500 ms clip, shared simulation time
+runs from 0 to 600 ms, and video frame zero begins at 100 ms. The preview stays
+empty during the labeled pre-exposure phase: a specified absorbed-photon rate
+is not a calibrated RGB image. Pause, release, timed interventions and recording
+end use the continuous shared clock. Frame sampling is anchored to video onset,
+including when pre-exposure duration is not a multiple of 50 ms.
+
+These recordings use `nexus-video-phototransduction-2` so older loaders reject
+them rather than silently discard their history. `pre_exposure_voltage_mv`
+contains the 0.1 ms prefix; the five original archive arrays retain video-era
+values. `exposure_ms` is video duration and `playback_duration_ms` includes the
+prefix. `initial_voltage_mv` is the start of playback, while
+`video_initial_voltage_mv` records the receptor voltage just before the clip.
+The loader validates both traces before enabling playback and streams both
+through the same short memory windows. The GUI's voltage storage budget covers
+their combined duration. Version 1 recordings keep their previous behavior.
+
+The offline video/dark comparison requires the same conditioning, replay mode,
+initial voltages and identical recorded pre-exposure traces. This supports
+controlled history comparisons within the model. Release and relay parameters
+remain unfitted, the rest of the network still starts from its existing initial
+state at the beginning of the pre-interval, and no equilibrium or physiological
+whole-brain baseline is established.
+
+The [connected pre-exposure check](../experiments/receptor-connected-pre-v1-results.json)
+uses eight receptors with 100 ms of prior illumination followed by the existing
+500 ms clip. Saving the prefix leaves all five video-era arrays exactly
+unchanged. Native CUDA preparation and continuous brain/body playback match
+the independent replay's full-brain final voltages and spike counts at 600 ms.
+Pause/release within the pre-interval and reset also pass. A focused 75 ms
+prefix check verifies video timing between the usual 50 ms sampling boundaries.
+
+Blocking receptor output during the 100 ms prefix changes 31,361 non-source
+voltages by at least 0.01 mV at video onset, with a maximum difference of
+7.00 mV; 37 cells have different spike counts. This demonstrates dependence
+on outgoing connections, including tonic release and startup transients. It
+does not isolate light from baseline or validate the breadth of a biological
+response. No additional downstream stimulation is introduced.
 
 The [focused pre-exposure result](../experiments/receptor-pre-exposure-v1-results.json)
 uses the existing eight-cell 500 ms clip with a 100 ms, 30,000-photons/s
