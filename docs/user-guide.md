@@ -133,12 +133,26 @@ Select **Prepare**, then **Load response** when ready. Continue with step 4 belo
 Preparation runs separately and leaves both simulation clocks at zero. Progress
 shows video decoding first, then the current receptor group and the fraction
 of total molecular work completed. It does not estimate time remaining. **Cancel**
-stops after the current molecular batch. Cancellation during preparation
-publishes no ready report and never loads input. A completed recording stays
-saved if you close its dialog without loading it. Closing the app also stops its preparation worker.
+requests a stop at the next preparation boundary. If the worker has not exited
+within two seconds, the app requests its termination and cleans that job's
+temporary arrays after it exits. Cancellation never loads input. A recording
+that completed just before cancellation remains on disk, as does a completed
+recording whose dialog you close without loading it. Closing the app also stops
+its preparation worker.
 A failed GPU run reports its error without substituting a CPU run or changing
 the model. CUDA requires an accessible NVIDIA device and a compatible runtime;
 CPU preparation does not require it.
+
+The worker publishes its latest progress or outcome into a small local status
+file beside the recording folder, replacing the file atomically. The dialog
+reads the latest snapshot rather than accumulating messages in a queue.
+**Load response** becomes available only after a complete outcome and a
+successful worker exit. Unexpected exit or an unreadable outcome produces an
+error instead of a ready recording. Error details remain in the status file
+and the status label's tooltip. If no update arrives for 30 seconds, the label
+shows how long it has been quiet; slow computation is not automatically treated
+as failure. A forcibly stopped worker can leave its last progress snapshot in
+that file, identifying where it stopped.
 
 Coverage defaults to eight named receptors near quadrant centers. **64 receptors**
 adds a spatially spread sample of 32 per eye; **All mapped receptors (3,155)**

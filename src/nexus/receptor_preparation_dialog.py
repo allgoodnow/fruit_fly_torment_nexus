@@ -2,7 +2,8 @@
 import json
 import multiprocessing as mp
 from pathlib import Path
-from queue import Empty
+import shutil
+import time
 from uuid import uuid4
 
 from PySide6.QtCore import QTimer
@@ -23,6 +24,7 @@ class ReceptorPreparationDialog(QDialog):
         self.video, self.pack = Path(video), Path(pack)
         self.example_curve = self.pack.parent.parent/'experiments/receptor-release-assay-curve.json'
         self.output_dir = Path(data_dir)/'receptor-responses'/uuid4().hex
+        self.status_path = self.output_dir.with_suffix('.status.json')
         self.process = None
         self.result_files = None
         self.progress_messages = []
@@ -30,7 +32,12 @@ class ReceptorPreparationDialog(QDialog):
         self.cancel_requested = False
         self.failure = None
         self._terminal = False
-        self._queue_closed = False
+        self._ready_status = None
+        self._status_sequence = 0
+        self._last_progress_text = ''
+        self._last_status_at = None
+        self._cancel_at = None
+        self._terminate_requested = False
         layout = QVBoxLayout(self)
         title = QLabel(self.video.name)
         title.setWordWrap(True)
@@ -145,16 +152,15 @@ class ReceptorPreparationDialog(QDialog):
                     'backend': self.backend.currentData(), 'seed': self.seed.value(),
                     'release_curve': self.curve.text()}
         ctx = mp.get_context('spawn')
-        self.events, self.cancel = ctx.Queue(maxsize=64), ctx.Event()
-        self.process = ctx.Process(target=preparation_worker, args=(settings, self.events, self.cancel),
+        self.failure = None
+        self.cancel = ctx.Event()
+        self.process = ctx.Process(target=preparation_worker, args=(settings, str(self.status_path), self.cancel),
                                    name='Fruit Fly Torment Nexus receptor preparation')
         try:
             self.process.start()
         except Exception as error:
             self.failure = str(error)
             self.process = None
-            self.events.close()
-            self._queue_closed = True
             self.status.setText(self.failure)
             self.status.setStyleSheet('color: #c00000')
             return
@@ -162,7 +168,10 @@ class ReceptorPreparationDialog(QDialog):
         self.start_button.setEnabled(False)
         self.progress.setRange(0, 0)
         self.status.setStyleSheet('')
-        self.status.setText('Reading the video…')
+        self._last_progress_text = 'Starting preparation…'
+        self._last_status_at = time.monotonic()
+        self.status.setText(self._last_progress_text)
+        self.status.setToolTip(f'Job status: {self.status_path}')
         self.timer.start()
 
     def poll(self):
@@ -170,16 +179,27 @@ class ReceptorPreparationDialog(QDialog):
         finished = not self.process.is_alive()
         if finished:
             self.process.join(timeout=0)
-        for _ in range(64):
-            try:
-                event = self.events.get_nowait()
-            except Empty:
-                break
+        try:
+            event = json.loads(self.status_path.read_text())
+            if (not isinstance(event, dict) or event.get('format') != 'nexus-receptor-preparation-status-1'
+                    or not isinstance(event.get('sequence'), int)
+                    or event.get('kind') not in ('progress', 'complete', 'cancelled', 'failed')):
+                raise ValueError('Invalid preparation status')
+        except (OSError, ValueError) as error:
+            event = None
+            if finished:
+                self.failure = f'Cannot read preparation outcome: {error}'
+        if event is not None and event['sequence'] > self._status_sequence:
+            self._status_sequence = event['sequence']
+            self._last_status_at = time.monotonic()
             kind = event['kind']
             if kind == 'progress':
                 self.progress_messages.append(event)
                 if not self.cancel_requested:
-                    if event['phase'] == 'decoding':
+                    if event['phase'] == 'starting':
+                        self.progress.setRange(0, 0)
+                        self.status.setText('Starting preparation…')
+                    elif event['phase'] == 'decoding':
                         self.progress.setRange(0, 0)
                         self.status.setText(f"Reading video · {event['elapsed_ms']} / {event['duration_ms']} ms")
                     else:
@@ -191,13 +211,15 @@ class ReceptorPreparationDialog(QDialog):
                             action = 'Initializing' if event['phase'] == 'initializing' else 'Computing'
                             self.status.setText(f"{action} receptors {event['first_cell']+1}–{event['last_cell']} "
                                                 f"/ {event['cells']} · {event['elapsed_ms']} / {event['duration_ms']} ms")
+                    self._last_progress_text = self.status.text()
             elif kind == 'complete':
                 self._terminal = True
                 if not self.cancel_requested:
                     self.result_files = {k: event[k] for k in ('report_path', 'curve_path')}
                     self.progress.setRange(0, event['exposure_ms'])
                     self.progress.setValue(event['exposure_ms'])
-                    self.status.setText(f"Ready · {event['exposure_ms']} ms · {event['cells']} receptors")
+                    self._ready_status = f"Ready · {event['exposure_ms']} ms · {event['cells']} receptors"
+                    self.status.setText('Response saved · waiting for the worker to finish…')
             elif kind == 'cancelled':
                 self._terminal = True
                 self.status.setText('Cancelled. No response loaded.')
@@ -207,17 +229,34 @@ class ReceptorPreparationDialog(QDialog):
                 self.status.setText(self.failure)
                 self.status.setToolTip(event.get('detail', ''))
                 self.status.setStyleSheet('color: #c00000')
+        if (not finished and self.cancel_requested and not self._terminate_requested
+                and time.monotonic()-self._cancel_at >= 2.):
+            self._terminate_requested = True
+            self.process.terminate()
+            self.status.setText('Stopping preparation…')
+        elif (not finished and not self.cancel_requested and not self._terminal
+              and self._last_status_at is not None and time.monotonic()-self._last_status_at >= 30.):
+            quiet_seconds = int(time.monotonic()-self._last_status_at)
+            self.status.setText(f'{self._last_progress_text} · no update for {quiet_seconds} s (Cancel is available)')
         if finished:
             self.timer.stop()
-            self.events.close()
-            self.events.join_thread()
-            self._queue_closed = True
-            if not self._terminal:
-                self.failure = f'Preparation worker exited (code {self.process.exitcode})'
+            if self.cancel_requested:
+                self.result_files = None
+                self.status.setText('Cancelled. No response loaded.')
+                self.cleanup_interrupted_work()
+            elif self.failure is not None or not self._terminal or self.process.exitcode != 0:
+                self.result_files = None
+                self.failure = self.failure or f'Preparation worker exited without a ready outcome (code {self.process.exitcode})'
                 self.status.setText(self.failure)
                 self.status.setStyleSheet('color: #c00000')
+                if not self.status.toolTip():
+                    self.status.setToolTip(f'Job status: {self.status_path}')
+            elif self.result_files is not None:
+                self.status.setText(self._ready_status)
             self.cancel_button.setText('Close')
             self.load_button.setEnabled(self.result_files is not None and not self.cancel_requested)
+            if self.failure is not None:
+                self.cleanup_interrupted_work()
             if self.cancel_requested:
                 super().reject()
 
@@ -228,8 +267,11 @@ class ReceptorPreparationDialog(QDialog):
     def reject(self):
         if self.process is not None and self.process.is_alive():
             self.cancel_requested = True
+            if self._cancel_at is None:
+                self._cancel_at = time.monotonic()
             self.cancel.set()
             self.load_button.setEnabled(False)
+            self.cancel_button.setEnabled(False)
             self.status.setText('Cancelling after the current batch…')
         else:
             super().reject()
@@ -251,7 +293,14 @@ class ReceptorPreparationDialog(QDialog):
             if self.process.is_alive():
                 self.process.terminate()
                 self.process.join(timeout=2)
-        if not self._queue_closed:
-            self.events.cancel_join_thread()
-            self.events.close()
-            self._queue_closed = True
+        if not self.process.is_alive() and (self.cancel_requested or self.process.exitcode != 0):
+            self.cleanup_interrupted_work()
+
+    def cleanup_interrupted_work(self):
+        # Only this dialog's unique job directory, after its worker has exited.
+        for path in self.output_dir.glob('.receptor-work-*'):
+            if path.is_dir() and not path.is_symlink():
+                try:
+                    shutil.rmtree(path)
+                except OSError:
+                    pass  # Preserve an inaccessible scratch directory; never affect readiness.

@@ -1,0 +1,87 @@
+{
+  "format": "nexus-receptor-worker-status-1",
+  "success": true,
+  "baseline_commit": "628d2bb9e2d6b8500067e2184790d95bcae3ed8e",
+  "supervision": {
+    "transport": "Atomic latest-state JSON file beside the unique recording folder; no preparation progress queue.",
+    "readiness": "Complete outcome plus successful worker exit required before Load response.",
+    "quiet_progress_notice_seconds": 30,
+    "cooperative_cancel_grace_seconds": 2,
+    "unexpected_exit": "An error; no incomplete response is loaded."
+  },
+  "focused_tests": {
+    "passed": 2,
+    "cases": [
+      "A real 30,000-microvillus CPU worker finishes a 150 ms recording with no progress reader; the dialog reads the outcome after exit and enables loading.",
+      "The selected test clip is moved before preparation; the worker saves FileNotFoundError details, the dialog shows the error, and loading remains disabled."
+    ]
+  },
+  "native_cancel": {
+    "cancel_to_exit_seconds": 2.115880644999379,
+    "terminate_requested": true,
+    "worker_exitcode": -15,
+    "scratch_directories_remaining": [],
+    "completed_report_exists": false,
+    "status": "Cancelled. No response loaded."
+  },
+  "native_cancel_last_worker_snapshot": {
+    "kind": "progress",
+    "phase": "initializing",
+    "elapsed_ms": 0,
+    "cells": 8
+  },
+  "native_preparation": {
+    "backend": "cuda",
+    "cells": 8,
+    "exposure_ms": 500,
+    "source_hashes_complete": true,
+    "matches_previous_offline_response": {
+      "ids": true,
+      "intensity": true,
+      "absorbed_photons": true,
+      "open_channels": true,
+      "voltage_mv": true
+    },
+    "preparation_kept_both_clocks_at_zero": true,
+    "dialog_poll_count": 164,
+    "wall_seconds": 7.493253434000508
+  },
+  "native_completion_status": {
+    "kind": "complete",
+    "sequence": 25,
+    "exposure_ms": 500,
+    "cells": 8
+  },
+  "native_playback": {
+    "checks": [
+      "native preparation runs separately with progress while body and brain stay at time zero",
+      "prepared IDs, intensities, photons, channels and voltage match the previous offline recording exactly",
+      "native loader selects prepared sources at time zero with a video preview and real OpenGL brain",
+      "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+      "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+      "native full-brain final voltages and counts match the offline replay exactly",
+      "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+    ],
+    "brain_time_s": 0.5,
+    "body_time_s": 0.5,
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "end_state": {
+      "voltage_sha256": "a8797ee5713c38b3ae4d409c2491d92e77d5f0e41ffca00a33cdc969902c7001",
+      "spike_counts_sha256": "e3959cad9d5aae85ab90b2b9fbf7ef2f5e4bc9b5cce2a46a95aba6e73bf1cfe8"
+    }
+  },
+  "implementation_sha256": {
+    "src/nexus/receptor_preparation.py": "6bd8636fa2e57edeb339e823bfb4366f306d1488b41c2b42a7e498064830e4f2",
+    "src/nexus/receptor_preparation_dialog.py": "9d4521082c9a671b1c38d06a1667c0a6bb0e34de4c58aa8c87ad68b9a373566d",
+    "tests/test_receptor_preparation_dialog.py": "6e8439d9df80b30876e1a217f3cc5379b4227ed2677deecfb8717b529fc4fb0b"
+  },
+  "limits": [
+    "The previously stalled native attempt was not reproduced. Removing queue dependency and adding cancel/error supervision do not establish its original cause.",
+    "Two focused ordinary worker cases, one cancel during GPU startup, and one full Linux source-app preparation/playback workflow; no stress matrix.",
+    "Measured cancellation is one observation, not a universal stop-time guarantee. Termination still depends on OS/driver process handling.",
+    "A forcibly stopped worker can leave its last progress snapshot; its status file is not a live process monitor after the dialog closes.",
+    "Preparation equations, input rates, random streams, time steps and release assumptions are unchanged; physiological calibration remains unfinished.",
+    "No packaged-build or macOS/Windows supervision check."
+  ]
+}

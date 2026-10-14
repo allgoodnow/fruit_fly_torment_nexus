@@ -5,8 +5,8 @@ advanced here. A successful report is published only after the response is ready
 """
 import hashlib
 import json
+import os
 from pathlib import Path
-from queue import Full
 from tempfile import TemporaryDirectory
 import traceback
 import sys
@@ -271,20 +271,34 @@ def prepare_response(*, video, output_dir, pack, white_rate_hz, transfer,
             workspace.close()
 
 
-def preparation_worker(settings, events, cancel):
-    """Spawned worker; only small progress messages cross the GUI boundary."""
-    def progress(value):
-        try:
-            events.put_nowait(value)
-        except Full:
-            pass
+def write_preparation_status(path, value):
+    """Publish one complete local status snapshot, never a partial JSON file."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix+'.tmp')
+    temporary.write_text(json.dumps(value)+'\n')
+    temporary.replace(path)
+
+
+def preparation_worker(settings, status_path, cancel):
+    """Spawned worker; latest progress and terminal outcome survive its exit."""
+    sequence = 0
+
+    def publish(value):
+        nonlocal sequence
+        sequence += 1
+        write_preparation_status(status_path, {'format': 'nexus-receptor-preparation-status-1',
+                                             'sequence': sequence, 'updated_at': time.time(),
+                                             'worker_pid': os.getpid(), **value})
 
     try:
-        report = prepare_response(**settings, progress=progress, cancelled=cancel.is_set)
-        events.put({'kind': 'complete', 'report_path': str(Path(settings['output_dir'])/'report.json'),
-                    'curve_path': str(Path(settings['output_dir'])/'release-curve.json'),
-                    'exposure_ms': report['exposure_ms'], 'cells': len(report['receptors'])})
+        publish({'kind': 'progress', 'phase': 'starting', 'elapsed_ms': 0,
+                 'duration_ms': settings.get('duration_ms', 300)})
+        report = prepare_response(**settings, progress=publish, cancelled=cancel.is_set)
+        publish({'kind': 'complete', 'report_path': str(Path(settings['output_dir'])/'report.json'),
+                 'curve_path': str(Path(settings['output_dir'])/'release-curve.json'),
+                 'exposure_ms': report['exposure_ms'], 'cells': len(report['receptors'])})
     except PreparationCancelled:
-        events.put({'kind': 'cancelled'})
+        publish({'kind': 'cancelled'})
     except Exception as error:
-        events.put({'kind': 'failed', 'message': str(error), 'detail': traceback.format_exc()})
+        publish({'kind': 'failed', 'message': str(error), 'detail': traceback.format_exc()})

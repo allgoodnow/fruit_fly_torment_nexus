@@ -116,6 +116,15 @@ terminal paths keep the same seeds, 50 ms input batches, 0.1 ms membrane samples
 and per-cell molecular populations. Reports identify the source implementation;
 the packaging configuration supplies a source-hash manifest for frozen builds.
 The updated packaged application and macOS preparation have not been checked.
+Native workers now publish their latest progress and terminal outcome to an
+atomic local JSON status file, removing the dependency on a progress message
+queue. The dialog requires both a complete outcome and successful worker exit
+before loading. Cancellation requests termination if cooperative stopping has
+not completed within two seconds. This changes worker supervision, not the
+input, molecular dynamics or playback. See
+[`receptor-worker-status-v1-results.json`](../experiments/receptor-worker-status-v1-results.json)
+for the focused workflow checks. The earlier stalled native attempt was not
+reproduced, so these changes do not establish its original cause.
 The focused result is
 [`receptor-preparation-gui-v1-results.json`](../experiments/receptor-preparation-gui-v1-results.json):
 the native CUDA preparation reproduces the previous eight-receptor recording
