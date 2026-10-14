@@ -46,6 +46,14 @@ cell's membrane integration remain on CPU. All persistent states commit only
 after a successful complete advance. A molecular, device or membrane failure
 leaves the previous state available for retry.
 
+CUDA scratch arrays are reused between internal chunks. Per-unit event counts
+and error flags are reduced to exact integer totals and maximum error codes on
+the device before host transfer. For eight full receptors, that bookkeeping
+payload falls from 2,880,000 bytes to 96 bytes per chunk. This excludes photon
+input, channel traces and final molecular-state transfers, and is not a claim
+of equivalent overall acceleration. The molecular equations and scheduling
+remain unchanged.
+
 ## Measurements
 
 The RTX 4060 Laptop GPU was compared with both the matching per-unit-stream

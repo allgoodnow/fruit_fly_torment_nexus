@@ -22,6 +22,14 @@ assignment remains on CPU. Public calls retain all molecular states on the
 host; an advance additionally copies those states for its candidate update.
 State and time commit after membrane integration completes.
 
+The CUDA worker reuses its photon, per-unit channel and reduction scratch arrays
+between internal chunks. Event counts and molecular error flags are reduced on
+the device with integer sum and maximum operations. Only one count and error
+code per receptor return to the host, rather than one per microvillus. Channel
+samples, float64 molecular updates, reaction order and random streams are
+unchanged. The final candidate molecular state still returns to the host for
+the same atomic commit.
+
 The membrane backend is explicit: `"cpu"` by default, or `"cuda"` for the
 [existing GPU membrane](photoreceptor-cuda.md). Small membrane populations can
 be faster on CPU even when molecular reactions benefit from CUDA. Both choices
@@ -66,6 +74,23 @@ This is valid for the current offline model without receptor feedback. It
 reduces resident state, not total molecular computation or trace storage.
 
 ## Focused verification
+
+The scratch/summary update is recorded in
+[`phototransduction-transfer-v1-results.json`](../experiments/phototransduction-transfer-v1-results.json).
+Two paired warm runs of the same eight-receptor, 500 ms quadrant recording,
+with execution order reversed, took a median 4.85 s before and 4.73 s after the
+update. This is approximately 2.4% less time in that workload, not a large
+speedup or a whole-eye benchmark. Timings include the ten 50 ms advance calls
+and exclude construction, stream initialization, warmup and response export.
+GPU power and scheduling can affect this small difference; more timing trials
+were deliberately not added.
+
+Both pairs preserve channel and voltage traces, all molecular arrays, event
+and photon totals, allocation RNG states and membrane state exactly. They also
+match the established recording. Two existing ordinary GPU checks cover
+independent cell responses, continuation, reset and partial chunks. The native
+preparation/playback check reproduces the same recording and final full-brain
+state. The CPU path and model equations are unchanged.
 
 The normal-use check gives three receptors darkness, a pulse and steady input.
 It compares separate CPU reference receptors with two shard sizes and split
