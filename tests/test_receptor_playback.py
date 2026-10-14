@@ -26,13 +26,15 @@ class PlaybackBody(EyeBody):
 
 
 @pytest.fixture
-def prepared_session(tmp_path, movie):
+def prepared_session(tmp_path, movie, request):
     brain = replay_model()
     brain.graph.registry_sha256 = 'synthetic-playback-fixture'
     brain.graph.circuits['readouts'] = {'steering_left': ['15'], 'steering_right': ['3'], 'mn9': ['15']}
     brain.graph.circuits['circuits']['giant_fiber'] = {'ids': ['3', '4']}
     voltage = np.full((2000, 2), -70.)
     voltage[1000:] = -60.
+    if getattr(request, 'param', 'C') == 'F':
+        voltage = np.asfortranarray(voltage)
     np.savez_compressed(tmp_path/'response.npz', ids=np.asarray(['13', '14']), voltage_mv=voltage)
     report = {'format': 'nexus-video-phototransduction-1', 'success': True,
               'membrane_dt_ms': .1, 'video_input_fps': 20, 'exposure_ms': 200,
@@ -47,9 +49,28 @@ def prepared_session(tmp_path, movie):
     session.eyes.close()
 
 
-def test_prepared_input_follows_pause_release_protocol_and_recording_endpoint(prepared_session):
+@pytest.mark.parametrize('prepared_session', ['C', 'F'], indirect=True)
+def test_prepared_input_follows_pause_release_protocol_and_recording_endpoint(prepared_session, monkeypatch):
     session, files, voltage = prepared_session
     session.command('vision_receptors', files)
+    playback = session.eyes.receptors
+    recording_file = playback._recording.file
+    original_input = playback.input
+    expected_release = playback.curve.evaluate(voltage)
+    checked_ticks = 0
+
+    def checked_input(step, ticks):
+        nonlocal checked_ticks
+        result = original_input(step, ticks)
+        np.testing.assert_array_equal(result['receptor_voltage_mv'], voltage[step:step+ticks])
+        np.testing.assert_array_equal(result['receptor_release_hz'], expected_release[step:step+ticks])
+        assert not result['receptor_voltage_mv'].flags.writeable
+        assert not result['receptor_release_hz'].flags.writeable
+        assert len(playback._window_voltage) <= 500
+        checked_ticks += ticks
+        return result
+
+    monkeypatch.setattr(playback, 'input', checked_input)
     assert session.brain.step == 0 and not session.running and not session.eyes.enabled
     session.command('eye_feedback', True)
     session.command('running', True)
@@ -81,9 +102,11 @@ def test_prepared_input_follows_pause_release_protocol_and_recording_endpoint(pr
     np.testing.assert_array_equal(session.brain.v[session.brain.receptor_indices], voltage[-1])
     assert not session.brain.counts[session.brain.receptor_indices].any()
     assert not session.brain.counts[session.brain.graded_indices].any()
+    assert checked_ticks == 2000 and not recording_file.closed
     session.command('reset')
     assert session.brain.time == session.body.time == 0 and session.eyes.receptors is None
     assert not session.brain.receptor_mask.any()
+    assert recording_file.closed and playback._window_voltage is None
 
 
 def test_native_loader_and_vision_controls_follow_prepared_state(prepared_session, monkeypatch, tmp_path):

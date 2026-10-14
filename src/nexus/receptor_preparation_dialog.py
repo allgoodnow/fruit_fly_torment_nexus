@@ -120,11 +120,11 @@ class ReceptorPreparationDialog(QDialog):
 
     def update_duration_limit(self):
         cells = {'sample8': 8, 'sample64': 64, 'mapped': self.mapped_cells}[self.coverage.currentData()]
-        # Playback retains both voltage and release arrays, each float64 at 0.1 ms.
-        # Keep their combined payload below 1 GiB; preparation uses disk arrays.
-        self.duration.setMaximum(min(60000, (1024**3)//(cells*10*8*2)))
-        self.duration.setToolTip('Duration is limited to keep playback voltage and release arrays '
-                                 'within 1 GiB. More receptors require more preparation time. See Guide.')
+        # Retain the existing duration budget: playback now uses a temporary
+        # voltage file and short windows rather than two full resident arrays.
+        self.duration.setMaximum(min(60000, (512*1024**2)//(cells*10*8)))
+        self.duration.setToolTip('Duration limits the temporary playback voltage file to 512 MiB. '
+                                 'More receptors require more preparation time. See Guide.')
 
     def choose_curve(self):
         initial = str(self.example_curve) if self.example_curve.is_file() else ''

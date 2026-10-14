@@ -56,6 +56,7 @@ def test_cpu_preparation_publishes_a_loadable_molecular_recording(preparation_pa
     prepared.after_step(brain)
     assert prepared.ended and not brain.counts[brain.receptor_indices].any()
     np.testing.assert_array_equal(brain.v[brain.receptor_indices], voltage[-1])
+    prepared.close()
 
 
 def test_cancel_between_normal_batches_does_not_publish_a_ready_response(preparation_pack, movie, tmp_path):

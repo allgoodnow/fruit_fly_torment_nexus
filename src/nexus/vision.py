@@ -38,6 +38,8 @@ class EyeFeedback:
             self.video = None
         self.preview = None
         self.mapping_mode = 'pooled'
+        if self.receptors is not None:
+            self.receptors.close()
         self.receptors = None
         self.adaptive = False
         self.adaptation.reset()
@@ -134,7 +136,11 @@ class EyeFeedback:
         candidate = ReceptorPlayback(report_path, curve_path, self.brain, self.video.path)
         # Model selection and overlap checks precede playback changes. Loading
         # the source video has already disabled its generic pulse eye input.
-        self.brain.configure_receptor_replay(candidate.ids, reference_mv=candidate.curve.reference_mv)
+        try:
+            self.brain.configure_receptor_replay(candidate.ids, reference_mv=candidate.curve.reference_mv)
+        except Exception:
+            candidate.close()
+            raise
         self.configure(False)
         self.receptors = candidate
         self.mapping_mode = 'receptor_replay'
@@ -243,3 +249,5 @@ class EyeFeedback:
     def close(self):
         if self.video is not None:
             self.video.close()
+        if self.receptors is not None:
+            self.receptors.close()

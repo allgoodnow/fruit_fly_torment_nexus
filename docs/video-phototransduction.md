@@ -97,10 +97,13 @@ The default eight-cell group retains 24.96 MB of molecular state, plus a similar
 candidate copy during advancement and other working storage. Trace storage and
 total computation still grow with coverage and duration. Temporary disk arrays
 are deleted when the operation finishes or is cancelled. GUI duration limits
-keep the two resident playback arrays (voltage and release) within 1 GiB of
-combined payload; this excludes other process memory. All mapped coverage is
-therefore limited to 2,127 ms per GUI recording in this pack. Longer recordings
-can be prepared from the terminal but require enough disk and playback memory.
+retain the existing 2,127 ms cap for all mapped cells in this pack, now bounding
+the temporary playback voltage file to 512 MiB. Playback validates that file
+in bounded blocks and reads 50 ms windows, calculating release on demand.
+The complete voltage and release arrays no longer stay resident. Longer
+recordings can be prepared from the terminal but require enough storage for
+the saved archive and an uncompressed temporary voltage trace; system file
+caching and memory-backed temporary directories can still consume memory.
 
 The output contains `response.npz` with input intensities, absorbed counts,
 channel counts and voltage; `response.png` showing up to the first eight model

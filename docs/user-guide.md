@@ -160,9 +160,10 @@ uses every receptor with image coordinates. Each cell has its own full
 30,000-microvillus model. Small groups finish sequentially into disk arrays to
 keep molecular memory bounded. The 222 eye-cohort cells without coordinates
 remain outside this video mapping; all mapped coverage is not a complete eye.
-More cells take longer to prepare, even on CUDA. Duration limits keep the
-combined voltage and release playback arrays within 1 GiB (2,127 ms for all
-mapped cells in this pack), excluding other memory. White defaults to the existing assay's 30,000
+More cells take longer to prepare, even on CUDA. The existing duration limits
+remain: up to 2,127 ms for all mapped cells in this pack. They now bound the
+temporary playback voltage file to 512 MiB; playback keeps a short window of
+voltage and release in memory. White defaults to the existing assay's 30,000
 absorbed photons/s and black to zero; sRGB is a visible assumed transfer. These
 editable values are experimental settings, not illumination measured from the
 video. The file picker offers the **unfitted example release curve**; selecting
@@ -173,6 +174,17 @@ folder, containing `response.npz`, `report.json` and `release-curve.json`.
 **Load receptor response…** can load a completed recording again. The terminal
 runner below remains available for explicit receptor IDs and plotting. The
 released 1.1.1 archive does not yet include the preparation dialog.
+
+Loading validates every voltage against the chosen release curve before the
+simulation can start. It extracts only the voltage trace into a temporary file
+and calculates release as each 50 ms playback window is read. With 3,155 cells,
+the two window arrays together use about 24.1 MiB, excluding the brain, other
+working memory and operating-system file caching. The complete recording is
+not duplicated in memory. Reset, normal shutdown and rejected loads close the
+temporary file; the saved response remains available. Temporary storage uses
+the system's temporary directory (configurable with `TMPDIR` before launch);
+it needs room for the uncompressed voltage trace. On systems with a memory-backed
+temporary directory, that storage also consumes system memory.
 
 To prepare or reuse a recording outside this dialog:
 

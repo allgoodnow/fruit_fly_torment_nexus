@@ -132,6 +132,20 @@ all 3,155 R1–R6 cells with image coordinates using sequential independent grou
 and disk traces. It excludes the 222 cells without those coordinates and does
 not add complete optics or physiological calibration.
 
+Native playback now extracts the voltage trace into an automatically removed
+temporary file, validates the full recording against the release curve, and
+keeps only the current 50 ms voltage/release window in ordinary app use.
+Earlier row-ordered and newer column-ordered archives use the same values.
+No sampling, precision, curve or neural timing changes accompany this storage
+change. A direct caller requesting more than 50 ms at once allocates that
+requested interval; the native shared-clock loop uses shorter intervals.
+The [windowed playback check](../experiments/receptor-windowed-playback-v1-results.json)
+compares both existing archive layouts against the preceding implementation.
+Voltage and release values match exactly. For the 500 ms eight-cell recording,
+retained array payload falls from 640,000 to 64,000 bytes; this is not a
+measurement of total app memory. Native playback also retains the established
+full-brain endpoint and pause/reset behavior.
+
 The focused native check uses that same 500 ms recording in the real app, with
 rendered articulated physics and OpenGL anatomy. It pauses and releases input
 mid-recording, resumes, stops exactly at 500 ms, compares full-brain final

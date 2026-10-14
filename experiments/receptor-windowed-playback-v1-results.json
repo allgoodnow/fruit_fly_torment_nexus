@@ -1,0 +1,80 @@
+{
+  "format": "nexus-receptor-windowed-playback-1",
+  "success": true,
+  "baseline_commit": "03b1855361bf320b2081cd5e8d33ac8d73942320",
+  "storage": {
+    "default_window_ms": 50,
+    "validation_copy_block_bytes": 1048576,
+    "temporary_file": "Uncompressed voltage only, in the system temporary directory; closes on reset, normal shutdown or rejected load.",
+    "native_duration_limits_unchanged": true
+  },
+  "recording_comparisons": [
+    {
+      "name": "earlier_row_ordered_8_cell_500_ms",
+      "cells": 8,
+      "duration_ms": 500.0,
+      "source_array_order": "C",
+      "voltage_and_release_bitwise_equal": true,
+      "chunks_compared": 33,
+      "previous_retained_array_bytes": 640000,
+      "largest_retained_window_bytes": 64000,
+      "temporary_voltage_bytes": 320000,
+      "response_sha256": "f0f3b0bebf8442decb686aa1dc8086108a84043b52fad6c43eb5c9ad6b8dc75d",
+      "archive_unchanged": true,
+      "temporary_file_closed": true
+    },
+    {
+      "name": "column_ordered_3155_cell_50_ms",
+      "cells": 3155,
+      "duration_ms": 50.0,
+      "source_array_order": "F",
+      "voltage_and_release_bitwise_equal": true,
+      "chunks_compared": 4,
+      "previous_retained_array_bytes": 25240000,
+      "largest_retained_window_bytes": 25240000,
+      "temporary_voltage_bytes": 12620000,
+      "response_sha256": "6316242b01d5d1faed781718740364aa78e1f19e31050842278f05189a473f36",
+      "archive_unchanged": true,
+      "temporary_file_closed": true
+    }
+  ],
+  "focused_tests": {
+    "passed": 3,
+    "cases": [
+      "Ordinary pause, release, protocol, endpoint and reset with row-ordered voltage; every input compared to eager evaluation and the temporary file closed on reset.",
+      "The same shared-clock workflow with column-ordered voltage.",
+      "Native loader and vision controls follow the prepared state."
+    ]
+  },
+  "native_playback": {
+    "checks": [
+      "native loader selects prepared sources at time zero with a video preview and real OpenGL brain",
+      "pause and release freeze brain, body, receptor clock and frame without resetting neural voltage",
+      "recording endpoint pauses exactly, with zero source/relay spikes and synchronized body and brain clocks",
+      "native full-brain final voltages and counts match the offline replay exactly",
+      "Reset clears the recording, source clamps and graded mode and restores normal video controls"
+    ],
+    "duration_ms": 500.0,
+    "body_time_s": 0.5,
+    "source_spikes": 0,
+    "graded_relay_spikes": 0,
+    "end_state": {
+      "voltage_sha256": "a8797ee5713c38b3ae4d409c2491d92e77d5f0e41ffca00a33cdc969902c7001",
+      "spike_counts_sha256": "e3959cad9d5aae85ab90b2b9fbf7ef2f5e4bc9b5cce2a46a95aba6e73bf1cfe8"
+    }
+  },
+  "implementation_sha256": {
+    "src/nexus/receptor_playback.py": "9a69808e4691010fd57b40d178cfaf6a165744d9dbb0d364bd0be83ca13736b9",
+    "src/nexus/vision.py": "dd8243d4b647a5bb481db87f7b28d6d78a9526cfda7413b487d9e62f28ead6c0",
+    "src/nexus/receptor_preparation_dialog.py": "720c1e75c111b12bb681723a7d041841e56c5990b60cb109f41945cd5f707127",
+    "tests/test_receptor_playback.py": "4e46d85e81223a1475f1afed4ae993a94b9fc98c2c6ae31f6dc6dd8b156ea6a7"
+  },
+  "limits": [
+    "Retained array bytes are not peak RSS or total application memory. Loading, replacing windows, file mappings and operating-system caching add working memory.",
+    "The system temporary directory can be memory-backed. Longer traces require storage for the uncompressed voltage file as well as the original archive.",
+    "The mapped 50 ms recording occupies exactly one window; its retained array payload is unchanged. Savings grow with recording duration.",
+    "Direct callers requesting more than 50 ms in one call allocate the requested interval. Native playback requests shorter intervals.",
+    "Existing recordings were reused; molecular preparation and biological parameter fitting were not rerun or changed.",
+    "Linux source application checked; no new packaged build or macOS/Windows playback check."
+  ]
+}
